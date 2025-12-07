@@ -82,130 +82,162 @@
         }
     },
     "tones": {
-        "sfx_beep": "/assets/media/audio/eas_sfx/beep-sfx.mp3",
-        "sfx_siren": "/assets/media/audio/eas_sfx/siren-eas.mp3",
-        "sfx_wail": "/assets/media/audio/eas_sfx/basic-eas.mp3",
-        "sfx_uniden": "/assets/media/audio/eas_sfx/uniden-eas.mp3"
+        "sfx_beep": "/__assets/__events/eas_sfx/beep-sfx.mp3",
+        "sfx_siren": "/__assets/__events/eas_sfx/siren-eas.mp3",
+        "sfx_iphone": "/__assets/__events/eas_sfx/iphone-eas.mp3",
+        "sfx_wail": "/__assets/__events/eas_sfx/basic-eas.mp3",
+        "sfx_urgent": "/__assets/__events/eas_sfx/urgent-eas.mp3",
+        "sfx_uniden": "/__assets/__events/eas_sfx/uniden-eas.mp3"
     },
     "alert_dictionary": {
         "Tornado Emergency": {
-            "sfx_issued": "/assets/media/audio/tornado_sfx/tornado-upgraded.mp3",
-            "sfx_update": "/assets/media/audio/tor/tornado-updated.mp3",
-            "sfx_cancel": "/assets/media/audio/eas_sfx/beep-sfx.mp3",
+            "sfx_issued": "/__assets/__events/tornado_sfx/tornado-upgraded.mp3",
+            "sfx_update": "/__assets/__events/tor/tornado-updated.mp3",
+            "sfx_cancel": "/__assets/__events/eas_sfx/beep-sfx.mp3",
             "metadata": { "siren": true, "wail": false, "caution": false}
         },
         "PDS Tornado Warning": {
-            "sfx_issued": "/assets/media/audio/tornado_sfx/pds-tornado-issued.mp3",
-            "sfx_update": "/assets/media/audio/tor/pds-tornado-updated.mp3",
-            "sfx_cancel": "/assets/media/audio/eas_sfx/beep-sfx.mp3",
+            "sfx_issued": "/__assets/__events/tornado_sfx/pds-tornado-issued.mp3",
+            "sfx_update": "/__assets/__events/tor/pds-tornado-updated.mp3",
+            "sfx_cancel": "/__assets/__events/eas_sfx/beep-sfx.mp3",
             "metadata": { "siren": false, "wail": true, "caution": false}
         },
         "Confirmed Tornado Warning": {
-            "sfx_issued": "/assets/media/audio/tornado_sfx/confirmed-tornado-issued.mp3",
-            "sfx_update": "/assets/media/audio/tornado_sfx/tornado-updated.mp3",
-            "sfx_cancel": "/assets/media/audio/eas_sfx/beep-sfx.mp3",
+            "sfx_issued": "/__assets/__events/tornado_sfx/confirmed-tornado-issued.mp3",
+            "sfx_update": "/__assets/__events/tornado_sfx/tornado-updated.mp3",
+            "sfx_cancel": "/__assets/__events/eas_sfx/beep-sfx.mp3",
             "metadata": { "siren": true, "wail": false, "caution": false}
         },
         "Radar Indicated Tornado Warning": {
-            "sfx_issued": "/assets/media/audio/tornado_sfx/radar-tornado-issued.mp3",
-            "sfx_update": "/assets/media/audio/tornado_sfx/tornado-updated.mp3",
-            "sfx_cancel": "/assets/media/audio/eas_sfx/beep-sfx.mp3",
+            "sfx_issued": "/__assets/__events/tornado_sfx/radar-tornado-issued.mp3",
+            "sfx_update": "/__assets/__events/tornado_sfx/tornado-updated.mp3",
+            "sfx_cancel": "/__assets/__events/eas_sfx/beep-sfx.mp3",
             "metadata": { "siren": false, "wail": false, "caution": false}
         },
         "PDS Tornado Watch": {
-            "sfx_issued": "/assets/media/audio/tornado_sfx/watch-tornado-pds.mp3",
-            "sfx_update": "/assets/media/audio/eas_sfx/beep-sfx.mp3",
-            "sfx_cancel": "/assets/media/audio/eas_sfx/beep-sfx.mp3",
+            "sfx_issued": "/__assets/__events/tornado_sfx/watch-tornado-pds.mp3",
+            "sfx_update": "/__assets/__events/eas_sfx/beep-sfx.mp3",
+            "sfx_cancel": "/__assets/__events/eas_sfx/beep-sfx.mp3",
             "metadata": { "siren": false, "wail": false, "caution": true}
         },
         "EDS Severe Thunderstorm Warning (TPROB)": {
-            "sfx_issued": "/assets/media/audio/severe_sfx/severe-eds-issued.mp3",
-            "sfx_update": "/assets/media/audio/severe_sfx/severe-updated.mp3",
-            "sfx_cancel": "/assets/media/audio/eas_sfx/beep-sfx.mp3",
+            "sfx_issued": "/__assets/__events/severe_sfx/severe-eds-issued.mp3",
+            "sfx_update": "/__assets/__events/severe_sfx/severe-updated.mp3",
+            "sfx_cancel": "/__assets/__events/eas_sfx/beep-sfx.mp3",
             "metadata": { "siren": true, "wail": false, "caution": false}
         },
         "EDS Severe Thunderstorm Warning": {
-            "sfx_issued": "/assets/media/audio/severe_sfx/severe-eds-issued.mp3",
-            "sfx_update": "/assets/media/audio/severe_sfx/severe-updated.mp3",
-            "sfx_cancel": "/assets/media/audio/eas_sfx/beep-sfx.mp3",
+            "sfx_issued": "/__assets/__events/severe_sfx/severe-eds-issued.mp3",
+            "sfx_update": "/__assets/__events/severe_sfx/severe-updated.mp3",
+            "sfx_cancel": "/__assets/__events/eas_sfx/beep-sfx.mp3",
             "metadata": { "siren": true, "wail": false, "caution": false}
         },
         "Destructive Severe Thunderstorm Warning (TPROB)": {
-            "sfx_issued": "/assets/media/audio/severe_sfx/severe-tor-destructive-issued.mp3",
-            "sfx_update": "/assets/media/audio/severe_sfx/severe-updated.mp3",
-            "sfx_cancel": "/assets/media/audio/eas_sfx/beep-sfx.mp3",
+            "sfx_issued": "/__assets/__events/severe_sfx/severe-tor-destructive-issued.mp3",
+            "sfx_update": "/__assets/__events/severe_sfx/severe-updated.mp3",
+            "sfx_cancel": "/__assets/__events/eas_sfx/beep-sfx.mp3",
             "metadata": { "siren": false, "wail": true, "caution": false}
         },
         "Destructive Severe Thunderstorm Warning": {
-            "sfx_issued": "/assets/media/audio/severe_sfx/severe-destructive-issued.mp3",
-            "sfx_update": "/assets/media/audio/severe_sfx/severe-updated.mp3",
-            "sfx_cancel": "/assets/media/audio/eas_sfx/beep-sfx.mp3",
+            "sfx_issued": "/__assets/__events/severe_sfx/severe-destructive-issued.mp3",
+            "sfx_update": "/__assets/__events/severe_sfx/severe-updated.mp3",
+            "sfx_cancel": "/__assets/__events/eas_sfx/beep-sfx.mp3",
             "metadata": { "siren": false, "wail": true, "caution": false}
         },
         "Considerable Severe Thunderstorm Warning (TPROB)": {
-            "sfx_issued": "/assets/media/audio/severe_sfx/severe-tor-considerable-issued.mp3",
-            "sfx_update": "/assets/media/audio/severe_sfx/severe-updated.mp3",
-            "sfx_cancel": "/assets/media/audio/eas_sfx/beep-sfx.mp3",
+            "sfx_issued": "/__assets/__events/severe_sfx/severe-tor-considerable-issued.mp3",
+            "sfx_update": "/__assets/__events/severe_sfx/severe-updated.mp3",
+            "sfx_cancel": "/__assets/__events/eas_sfx/beep-sfx.mp3",
             "metadata": { "siren": false, "wail": false, "caution": false}
         },
         "Considerable Severe Thunderstorm Warning": {
-            "sfx_issued": "/assets/media/audio/severe_sfx/severe-considerable-issued.mp3",
-            "sfx_update": "/assets/media/audio/severe_sfx/severe-updated.mp3",
-            "sfx_cancel": "/assets/media/audio/eas_sfx/beep-sfx.mp3",
+            "sfx_issued": "/__assets/__events/severe_sfx/severe-considerable-issued.mp3",
+            "sfx_update": "/__assets/__events/severe_sfx/severe-updated.mp3",
+            "sfx_cancel": "/__assets/__events/eas_sfx/beep-sfx.mp3",
             "metadata": { "siren": false, "wail": false, "caution": false}
         },
         "Severe Thunderstorm Warning": {
-            "sfx_issued": "/assets/media/audio/severe_sfx/severe-issued.mp3",
-            "sfx_update": "/assets/media/audio/severe_sfx/severe-updated.mp3",
-            "sfx_cancel": "/assets/media/audio/eas_sfx/beep-sfx.mp3",
+            "sfx_issued": "/__assets/__events/severe_sfx/severe-issued.mp3",
+            "sfx_update": "/__assets/__events/severe_sfx/severe-updated.mp3",
+            "sfx_cancel": "/__assets/__events/eas_sfx/beep-sfx.mp3",
             "metadata": { "siren": false, "wail": false, "caution": false}
         },
         "Severe Thunderstorm Watch": {
-            "sfx_issued": "/assets/media/audio/watch_sfx/watch-svr.mp3",
-            "sfx_update": "/assets/media/audio/eas_sfx/beep-sfx.mp3",
-            "sfx_cancel": "/assets/media/audio/eas_sfx/beep-sfx.mp3",
+            "sfx_issued": "/__assets/__events/watch_sfx/watch-svr.mp3",
+            "sfx_update": "/__assets/__events/eas_sfx/beep-sfx.mp3",
+            "sfx_cancel": "/__assets/__events/eas_sfx/beep-sfx.mp3",
             "metadata": { "siren": false, "wail": false, "caution": false}
         },
         "Flash Flood Emergency": {
-            "sfx_issued": "/assets/media/audio/flood_sfx/flash-flood-upgraded.mp3",
-            "sfx_update": "/assets/media/audio/flood_sfx/flash-flood-updated.mp3",
-            "sfx_cancel": "/assets/media/audio/eas_sfx/beep-sfx.mp3",
+            "sfx_issued": "/__assets/__events/flood_sfx/flash-flood-upgraded.mp3",
+            "sfx_update": "/__assets/__events/flood_sfx/flash-flood-updated.mp3",
+            "sfx_cancel": "/__assets/__events/eas_sfx/beep-sfx.mp3",
             "metadata": { "siren": false, "wail": true, "caution": false}
         },
         "Considerable Flash Flood Warning": {
-            "sfx_issued": "/assets/media/audio/flood_sfx/flash-flood-considerable-issued.mp3",
-            "sfx_update": "/assets/media/audio/flood_sfx/flash-flood-updated.mp3",
-            "sfx_cancel": "/assets/media/audio/eas_sfx/beep-sfx.mp3",
+            "sfx_issued": "/__assets/__events/flood_sfx/flash-flood-considerable-issued.mp3",
+            "sfx_update": "/__assets/__events/flood_sfx/flash-flood-updated.mp3",
+            "sfx_cancel": "/__assets/__events/eas_sfx/beep-sfx.mp3",
             "metadata": { "siren": false, "wail": false, "caution": false}
         },
         "Flash Flood Warning": {
-            "sfx_issued": "/assets/media/audio/flood_sfx/flash-flood-issued.mp3",
-            "sfx_update": "/assets/media/audio/flood_sfx/flash-flood-updated.mp3",
-            "sfx_cancel": "/assets/media/audio/eas_sfx/beep-sfx.mp3",
+            "sfx_issued": "/__assets/__events/flood_sfx/flash-flood-issued.mp3",
+            "sfx_update": "/__assets/__events/flood_sfx/flash-flood-updated.mp3",
+            "sfx_cancel": "/__assets/__events/eas_sfx/beep-sfx.mp3",
             "metadata": { "siren": false, "wail": false, "caution": false}
         },
         "Flash Flood Watch": {
-            "sfx_issued": "/assets/media/audio/watch_sfx/watch-flash-flood.mp3",
-            "sfx_update": "/assets/media/audio/eas_sfx/beep-sfx.mp3",
-            "sfx_cancel": "/assets/media/audio/eas_sfx/beep-sfx.mp3",
+            "sfx_issued": "/__assets/__events/watch_sfx/watch-flash-flood.mp3",
+            "sfx_update": "/__assets/__events/eas_sfx/beep-sfx.mp3",
+            "sfx_cancel": "/__assets/__events/eas_sfx/beep-sfx.mp3",
             "metadata": { "siren": false, "wail": false, "caution": false}
         },
         "Special Marine Warning": {
-            "sfx_issued": "/assets/media/audio/severe_sfx/special-marine-issued.mp3",
-            "sfx_update": "/assets/media/audio/severe_sfx/special-marine-updated.mp3",
-            "sfx_cancel": "/assets/media/audio/eas_sfx/beep-sfx.mp3",
+            "sfx_issued": "/__assets/__events/severe_sfx/special-marine-issued.mp3",
+            "sfx_update": "/__assets/__events/severe_sfx/special-marine-updated.mp3",
+            "sfx_cancel": "/__assets/__events/eas_sfx/beep-sfx.mp3",
             "metadata": { "siren": false, "wail": false, "caution": false}
         },
         "Tsunami Warning": {
-            "sfx_issued": "/assets/media/audio/tsunami_sfx/tsunami-issued.mp3",
-            "sfx_update": "/assets/media/audio/tsunami_sfx/tsunami-updated.mp3",
-            "sfx_cancel": "/assets/media/audio/eas_sfx/beep-sfx.mp3",
+            "sfx_issued": "/__assets/__events/tsunami_sfx/tsunami-issued.mp3",
+            "sfx_update": "/__assets/__events/tsunami_sfx/tsunami-updated.mp3",
+            "sfx_cancel": "/__assets/__events/eas_sfx/beep-sfx.mp3",
+            "metadata": { "siren": false, "wail": false, "caution": false}
+        },
+        "Blizzard Warning": {
+            "sfx_issued": "/__assets/__events/winter_sfx/blizzard-warning-issued.mp3",
+            "sfx_update": "/__assets/__events/winter_sfx/blizzard-warning-updated.mp3",
+            "sfx_cancel": "/__assets/__events/eas_sfx/beep-sfx.mp3",
+            "metadata": { "siren": false, "wail": true, "caution": false}
+        },
+        "Ice Storm Warning": {
+            "sfx_issued": "/__assets/__events/winter_sfx/ice-storm-warning-issued.mp3",
+            "sfx_update": "/__assets/__events/winter_sfx/ice-storm-warning-updated.mp3",
+            "sfx_cancel": "/__assets/__events/eas_sfx/beep-sfx.mp3",
+            "metadata": { "siren": false, "wail": true, "caution": false}
+        },
+        "Lake Effect Snow Warning": {
+            "sfx_issued": "/__assets/__events/winter_sfx/lake-effect-snow-warning-issued.mp3",
+            "sfx_update": "/__assets/__events/winter_sfx/lake-effect-snow-warning-updated.mp3",
+            "sfx_cancel": "/__assets/__events/eas_sfx/beep-sfx.mp3",
+            "metadata": { "siren": false, "wail": false, "caution": false}
+        },
+        "Winter Storm Warning": {
+            "sfx_issued": "/__assets/__events/winter_sfx/winter-storm-warning-issued.mp3",
+            "sfx_update": "/__assets/__events/winter_sfx/winter-storm-warning-updated.mp3",
+            "sfx_cancel": "/__assets/__events/eas_sfx/beep-sfx.mp3",
+            "metadata": { "siren": false, "wail": false, "caution": false}
+        },
+        "Winter Weather Advisory": {
+            "sfx_issued": "/__assets/__events/winter_sfx/winter-weather-advisory-issued.mp3",
+            "sfx_update": "/__assets/__events/winter_sfx/winter-weather-advisory-updated.mp3",
+            "sfx_cancel": "/__assets/__events/eas_sfx/beep-sfx.mp3",
             "metadata": { "siren": false, "wail": false, "caution": false}
         },
         "Special Event": {
-            "sfx_issued": "/assets/media/audio/misc_sfx/special-event-issued.mp3",
-            "sfx_update": "/assets/media/audio/misc_sfx/special-event-updated.mp3",
-            "sfx_cancel": "/assets/media/audio/eas_sfx/beep-sfx.mp3",
+            "sfx_issued": "/__assets/__events/misc_sfx/special-event-issued.mp3",
+            "sfx_update": "/__assets/__events/misc_sfx/special-event-updated.mp3",
+            "sfx_cancel": "/__assets/__events/eas_sfx/beep-sfx.mp3",
             "metadata": { "siren": false, "wail": false, "caution": false}
         }
     },
@@ -227,6 +259,11 @@
         "Flash Flood Warning": {"primary": "rgb(102,209,60)", "secondary": "rgb(73,155,40)"},
         "Special Marine Warning": {"primary": "rgb(42,81,224)", "secondary": "rgb(28,61,181)"},
         "Tsunami Warning": {"primary": "rgb(209,38,215)", "secondary": "rgb(159,37,163)"},
+        "Blizzard Warning": {"primary": "rgb(42,81,224)", "secondary": "rgb(28,61,181)"},
+        "Ice Storm Warning": {"primary": "rgb(42,81,224)", "secondary": "rgb(28,61,181)"},
+        "Lake Effect Snow Warning": {"primary": "rgb(42,81,224)", "secondary": "rgb(28,61,181)"},
+        "Winter Storm Warning": {"primary": "rgb(42,81,224)", "secondary": "rgb(28,61,181)"},
+        "Winter Weather Advisory": {"primary": "rgb(42,81,224)", "secondary": "rgb(28,61,181)"},
         "Default": {"primary": "rgb(42,81,224)", "secondary": "rgb(28,61,181)"}
     }
 }

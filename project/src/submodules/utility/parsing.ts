@@ -285,18 +285,22 @@ export class Parsing {
      * @returns {Record<string, any>}
      */
     public getWeatherNexradRadars(body): Record<string, any> {
-        const structure: Record<string, any> = { features: [] };
+        const structure: types.GeoJSONFeatureCollection = { type: 'FeatureCollection', features: [] };
         if (!body || !Array.isArray(body.features)) return structure;
         for (const f of body.features) {
             const coords = f?.geometry?.coordinates;
             if (!Array.isArray(coords) || coords.length < 2) continue;
-            const id = f?.properties?.id ?? f?.id ?? f?.properties?.['@id'];
-            if (!id) continue;
+            const icao = f?.properties?.id ?? f?.id ?? f?.properties?.['@id'];
+            if (!icao) continue;
             const lon = parseFloat(String(coords[0]));
             const lat = parseFloat(String(coords[1]));
             if (isNaN(lon) || isNaN(lat)) continue;
-            if (!id.startsWith('K') && !id.startsWith('P') && !id.startsWith('C')) continue;
-            structure.features.push({ id, lon, lat });
+            if (!icao.startsWith('K') && !icao.startsWith('P') && !icao.startsWith('C')) continue;
+            structure.features.push({
+                type: 'Feature',
+                geometry: { type: 'Point', coordinates: [lon, lat] },
+                properties: { id: icao }
+            });
         }
         return structure;
     }

@@ -22142,18 +22142,22 @@ var init_parsing = __esm({
        */
       getWeatherNexradRadars(body) {
         var _a, _b, _c, _d, _e;
-        const structure = { features: [] };
+        const structure = { type: "FeatureCollection", features: [] };
         if (!body || !Array.isArray(body.features)) return structure;
         for (const f of body.features) {
           const coords = (_a = f == null ? void 0 : f.geometry) == null ? void 0 : _a.coordinates;
           if (!Array.isArray(coords) || coords.length < 2) continue;
-          const id = (_e = (_c = (_b = f == null ? void 0 : f.properties) == null ? void 0 : _b.id) != null ? _c : f == null ? void 0 : f.id) != null ? _e : (_d = f == null ? void 0 : f.properties) == null ? void 0 : _d["@id"];
-          if (!id) continue;
+          const icao = (_e = (_c = (_b = f == null ? void 0 : f.properties) == null ? void 0 : _b.id) != null ? _c : f == null ? void 0 : f.id) != null ? _e : (_d = f == null ? void 0 : f.properties) == null ? void 0 : _d["@id"];
+          if (!icao) continue;
           const lon = parseFloat(String(coords[0]));
           const lat = parseFloat(String(coords[1]));
           if (isNaN(lon) || isNaN(lat)) continue;
-          if (!id.startsWith("K") && !id.startsWith("P") && !id.startsWith("C")) continue;
-          structure.features.push({ id, lon, lat });
+          if (!icao.startsWith("K") && !icao.startsWith("P") && !icao.startsWith("C")) continue;
+          structure.features.push({
+            type: "Feature",
+            geometry: { type: "Point", coordinates: [lon, lat] },
+            properties: { id: icao }
+          });
         }
         return structure;
       }
@@ -22223,12 +22227,11 @@ var init_tracking = __esm({
         const distances = radars.features.map((radar) => {
           const miles = submodules.calculations.calculateDistance(
             { lat, lon },
-            { lat: radar.lat, lon: radar.lon },
+            { lat: radar.geometry.coordinates[1], lon: radar.geometry.coordinates[0] },
             "miles"
           );
-          return { icao: radar.id, distance: miles };
+          return { icao: radar.properties.id, distance: miles };
         });
-        console.log(distances);
         distances.sort((a, b) => a.distance - b.distance);
         return distances.length > 0 ? distances[0].icao : null;
       }

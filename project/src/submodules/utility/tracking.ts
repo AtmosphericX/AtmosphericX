@@ -49,12 +49,11 @@ export class GlobalPositioningSystem {
         const distances = radars.features.map((radar: any) => {
             const miles = loader.submodules.calculations.calculateDistance(
                 {lat, lon},
-                {lat: radar.lat, lon: radar.lon},
+                {lat: radar.geometry.coordinates[1], lon: radar.geometry.coordinates[0]},
                 'miles'
             );
-            return { icao: radar.id, distance: miles };
+            return { icao: radar.properties.id, distance: miles };
         });
-        console.log(distances)
         distances.sort((a, b) => a.distance - b.distance);
         return distances.length > 0 ? distances[0].icao : null;
     }   
