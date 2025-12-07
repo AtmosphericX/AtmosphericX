@@ -20360,43 +20360,52 @@ var init_login = __esm({
         this.SESSION_SUCCESS_MESSAGE = `Login successful.`;
         submodules.utils.log(`${this.NAME_SPACE} initialized.`);
         cache.handlers.express.post(`/api/login`, (request, response) => __async(this, null, function* () {
-          const ConfigType = cache.internal.configurations;
-          const body = JSON.parse(yield new Promise((resolve, reject) => {
-            let data = ``;
-            request.on(`data`, (chunk) => data += chunk);
-            request.on(`end`, () => resolve(data));
-            request.on(`error`, (error) => reject(error));
-          }));
-          const username = body.username;
-          const password = body.password ? packages.crypto.createHash(`sha256`).update(body.password).digest(`base64`) : "";
-          const account = submodules.database.query(`SELECT * FROM accounts WHERE username = ? AND hash = ? LIMIT 1`, [username, password]);
-          if (account.length == 0) {
-            submodules.utils.log(`${this.NAME_SPACE} - Failed login attempt for username: ${username} @ ${request.headers["cf-connecting-ip"] || request.connection.remoteAddress}`);
-            return response.status(401).json({ message: this.SESSION_INVALID_MESSAGE });
+          var _a;
+          try {
+            const ConfigType = cache.internal.configurations;
+            const body = JSON.parse(yield new Promise((resolve, reject) => {
+              let data = ``;
+              request.on(`data`, (chunk) => data += chunk);
+              request.on(`end`, () => resolve(data));
+              request.on(`error`, (error) => reject(error));
+            }));
+            const username = (_a = body.username) != null ? _a : null;
+            const password = body.password ? packages.crypto.createHash(`sha256`).update(body.password).digest(`base64`) : null;
+            if (!username || !password) {
+              return response.status(400).json({ message: this.SESSION_INVALID_MESSAGE });
+            }
+            const account = submodules.database.query(`SELECT * FROM accounts WHERE username = ? AND hash = ? LIMIT 1`, [username, password]);
+            if (account.length == 0) {
+              submodules.utils.log(`${this.NAME_SPACE} - Failed login attempt for username: ${username} @ ${request.headers["cf-connecting-ip"] || request.connection.remoteAddress}`);
+              return response.status(401).json({ message: this.SESSION_INVALID_MESSAGE });
+            }
+            if (account[0].activated == 0) {
+              submodules.utils.log(`${this.NAME_SPACE} - Inactive account login attempt for username: ${username} @ ${request.headers["cf-connecting-ip"] || request.connection.remoteAddress}`);
+              return response.status(403).json({ message: this.SESSION_ACCOUNT_INACTIVE_MESSAGE });
+            }
+            if (cache.internal.accounts.find((a) => a.username == username)) {
+              submodules.utils.log(`${this.NAME_SPACE} - Duplicate login attempt for username: ${username} @ ${request.headers["cf-connecting-ip"] || request.connection.remoteAddress}`);
+              return response.status(409).json({ message: this.SESSION_ACCOUNT_DUPLICATE_MESSAGE });
+            }
+            const session = packages.crypto.randomBytes(32).toString("hex");
+            response.cookie(`session`, session, {
+              httpOnly: true,
+              secure: ConfigType.web_hosting_settings.settings.is_https,
+              sameSite: "lax",
+              maxAge: 7 * 24 * 60 * 60 * 1e3
+            });
+            cache.internal.accounts.push({
+              username,
+              session,
+              address: request.headers["cf-connecting-ip"] || request.connection.remoteAddress,
+              agent: request.headers["user-agent"] || "unknown"
+            });
+            submodules.utils.log(`${this.NAME_SPACE} - Successful login for username: ${username} @ ${request.headers["cf-connecting-ip"] || request.connection.remoteAddress}`);
+            return response.status(200).json({ message: this.SESSION_SUCCESS_MESSAGE });
+          } catch (error) {
+            submodules.utils.log(`${this.NAME_SPACE} ERROR: ${error.message}`);
+            return response.status(500).json({ message: `Internal server error.` });
           }
-          if (account[0].activated == 0) {
-            submodules.utils.log(`${this.NAME_SPACE} - Inactive account login attempt for username: ${username} @ ${request.headers["cf-connecting-ip"] || request.connection.remoteAddress}`);
-            return response.status(403).json({ message: this.SESSION_ACCOUNT_INACTIVE_MESSAGE });
-          }
-          if (cache.internal.accounts.find((a) => a.username == username)) {
-            submodules.utils.log(`${this.NAME_SPACE} - Duplicate login attempt for username: ${username} @ ${request.headers["cf-connecting-ip"] || request.connection.remoteAddress}`);
-            return response.status(409).json({ message: this.SESSION_ACCOUNT_DUPLICATE_MESSAGE });
-          }
-          const session = packages.crypto.randomBytes(32).toString("hex");
-          response.cookie(`session`, session, {
-            httpOnly: true,
-            secure: ConfigType.web_hosting_settings.settings.is_https,
-            sameSite: "lax",
-            maxAge: 7 * 24 * 60 * 60 * 1e3
-          });
-          cache.internal.accounts.push({
-            username,
-            session,
-            address: request.headers["cf-connecting-ip"] || request.connection.remoteAddress,
-            agent: request.headers["user-agent"] || "unknown"
-          });
-          submodules.utils.log(`${this.NAME_SPACE} - Successful login for username: ${username} @ ${request.headers["cf-connecting-ip"] || request.connection.remoteAddress}`);
-          return response.status(200).json({ message: this.SESSION_SUCCESS_MESSAGE });
         }));
       }
     };
@@ -20422,15 +20431,20 @@ var init_logout = __esm({
         this.SESSION_LOGOUT_NO_ACTIVE_MESSAGE = `No active session found.`;
         submodules.utils.log(`${this.NAME_SPACE} initialized.`);
         cache.handlers.express.post(`/api/logout`, (request, response) => {
-          const session = cache.internal.accounts.find((a) => {
-            var _a;
-            return a.session == ((_a = request.headers.cookie) == null ? void 0 : _a.split(`=`)[1]);
-          });
-          if (!session) {
-            return response.status(401).json({ message: this.SESSION_LOGOUT_NO_ACTIVE_MESSAGE });
+          try {
+            const session = cache.internal.accounts.find((a) => {
+              var _a;
+              return a.session == ((_a = request.headers.cookie) == null ? void 0 : _a.split(`=`)[1]);
+            });
+            if (!session) {
+              return response.status(401).json({ message: this.SESSION_LOGOUT_NO_ACTIVE_MESSAGE });
+            }
+            submodules.utils.log(`${this.NAME_SPACE} - Successful logout for username: ${session.username} @ ${request.headers["cf-connecting-ip"] || request.connection.remoteAddress}`);
+            return this.invalidateSession(response, session);
+          } catch (error) {
+            submodules.utils.log(`${this.NAME_SPACE} ERROR: ${error.message}`);
+            return response.status(500).json({ message: `Internal server error.` });
           }
-          submodules.utils.log(`${this.NAME_SPACE} - Successful logout for username: ${session.username} @ ${request.headers["cf-connecting-ip"] || request.connection.remoteAddress}`);
-          return this.invalidateSession(response, session);
         });
       }
       /**
@@ -20472,24 +20486,33 @@ var init_signup = __esm({
         this.ALLOWED_CHARS = /^[a-zA-Z0-9_\-\.]{3,20}$/;
         submodules.utils.log(`${this.NAME_SPACE} initialized.`);
         cache.handlers.express.post(`/api/signup`, (request, response) => __async(this, null, function* () {
-          const body = JSON.parse(yield new Promise((resolve, reject) => {
-            let data = ``;
-            request.on(`data`, (chunk) => data += chunk);
-            request.on(`end`, () => resolve(data));
-            request.on(`error`, (error) => reject(error));
-          }));
-          const username = body.username;
-          const password = body.password ? packages.crypto.createHash(`sha256`).update(body.password).digest(`base64`) : "";
-          const account = submodules.database.query(`SELECT * FROM accounts WHERE username = ? LIMIT 1`, [username]);
-          if (account.length != 0) {
-            return response.status(409).json({ message: this.SESSION_ACCOUNT_EXISTS_MESSAGE });
+          var _a;
+          try {
+            const body = JSON.parse(yield new Promise((resolve, reject) => {
+              let data = ``;
+              request.on(`data`, (chunk) => data += chunk);
+              request.on(`end`, () => resolve(data));
+              request.on(`error`, (error) => reject(error));
+            }));
+            const username = (_a = body.username) != null ? _a : null;
+            const password = body.password ? packages.crypto.createHash(`sha256`).update(body.password).digest(`base64`) : null;
+            if (!username || !password) {
+              return response.status(400).json({ message: this.SESSION_INVALID_USERNAME_MESSAGE });
+            }
+            const account = submodules.database.query(`SELECT * FROM accounts WHERE username = ? LIMIT 1`, [username]);
+            if (account.length != 0) {
+              return response.status(409).json({ message: this.SESSION_ACCOUNT_EXISTS_MESSAGE });
+            }
+            if (!this.ALLOWED_CHARS.test(username)) {
+              return response.status(400).json({ message: this.SESSION_INVALID_USERNAME_MESSAGE });
+            }
+            submodules.database.query(`INSERT INTO accounts (username, hash, activated) VALUES (?, ?, ?)`, [username, password, 0]);
+            submodules.utils.log(`${this.NAME_SPACE} - New account created for username: ${username} @ ${request.headers["cf-connecting-ip"] || request.connection.remoteAddress}`);
+            return response.status(201).json({ message: this.SESSION_SUCCESS_MESSAGE });
+          } catch (error) {
+            submodules.utils.log(`${this.NAME_SPACE} ERROR: ${error.message}`);
+            return response.status(500).json({ message: `Internal server error.` });
           }
-          if (!this.ALLOWED_CHARS.test(username)) {
-            return response.status(400).json({ message: this.SESSION_INVALID_USERNAME_MESSAGE });
-          }
-          submodules.database.query(`INSERT INTO accounts (username, hash, activated) VALUES (?, ?, ?)`, [username, password, 0]);
-          submodules.utils.log(`${this.NAME_SPACE} - New account created for username: ${username} @ ${request.headers["cf-connecting-ip"] || request.connection.remoteAddress}`);
-          return response.status(201).json({ message: this.SESSION_SUCCESS_MESSAGE });
         }));
       }
     };
@@ -20515,16 +20538,21 @@ var init_core = __esm({
         submodules.utils.log(`${this.NAME_SPACE} initialized.`);
         const parentDirectory = packages.path.resolve(`..`, `storage`);
         cache.handlers.express.get(`/`, (request, response) => {
-          const ConfigType = cache.internal.configurations;
-          const isPortal = ConfigType.web_hosting_settings.is_login_required;
-          const isLogon = cache.internal.accounts.find((a) => {
-            var _a;
-            return a.session == ((_a = request.headers.cookie) == null ? void 0 : _a.split(`=`)[1]);
-          });
-          if (isPortal && !isLogon) {
-            return response.sendFile(`${parentDirectory}${this.PORTAL_DIRECT}`);
+          try {
+            const ConfigType = cache.internal.configurations;
+            const isPortal = ConfigType.web_hosting_settings.is_login_required;
+            const isLogon = cache.internal.accounts.find((a) => {
+              var _a;
+              return a.session == ((_a = request.headers.cookie) == null ? void 0 : _a.split(`=`)[1]);
+            });
+            if (isPortal && !isLogon) {
+              return response.sendFile(`${parentDirectory}${this.PORTAL_DIRECT}`);
+            }
+            return response.sendFile(`${parentDirectory}${this.DASHBOARD_DIRECT}`);
+          } catch (error) {
+            submodules.utils.log(`${this.NAME_SPACE} ERROR: ${error.message}`);
+            return response.status(500).json({ message: `Internal server error.` });
           }
-          return response.sendFile(`${parentDirectory}${this.DASHBOARD_DIRECT}`);
         });
       }
     };
@@ -20549,13 +20577,18 @@ var init_data = __esm({
         submodules.utils.log(`${this.NAME_SPACE} initialized.`);
         const parentDirectory = packages.path.resolve(`..`, `storage`);
         cache.handlers.express.get(`/data/:endpoint/:source?`, (request, response) => {
-          const endpoint = request.params.endpoint;
-          const source = request.params.source || null;
-          const isValid = Object.keys(cache.external).includes(endpoint);
-          if (!isValid) {
-            return response.sendFile(`${parentDirectory}${this.UNKNOWN_DIRECTORY}`);
+          try {
+            const endpoint = request.params.endpoint;
+            const source = request.params.source || null;
+            const isValid = Object.keys(cache.external).includes(endpoint);
+            if (!isValid) {
+              return response.sendFile(`${parentDirectory}${this.UNKNOWN_DIRECTORY}`);
+            }
+            return response.json(cache.external[endpoint][source] || cache.external[endpoint]);
+          } catch (error) {
+            submodules.utils.log(`${this.NAME_SPACE} ERROR: ${error.message}`);
+            return response.status(500).json({ message: `Internal server error.` });
           }
-          return response.json(cache.external[endpoint][source] || cache.external[endpoint]);
         });
       }
     };

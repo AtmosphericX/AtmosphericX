@@ -60,23 +60,18 @@
         "maximum_connections_per_ip": 15,
         "priority_sockets": {
             "timeout": 2,
-            "sockets": ["events", "placefiles", "manual", "locations", "mesonet", "rng"]
+            "sockets": [
+                "events", "placefiles", "manual", 
+                "locations", "mesonet", "rng"
+            ]
         },
         "secondary_sockets": {
             "timeout": 30,
             "sockets": [
-                "changelogs", 
-                "version", 
-                "configurations", 
-                "spotter_network_feed", 
-                "storm_reports", 
-                "storm_prediction_center_mesoscale",
-                "tropical_storm_tracks",
-                "wx_radio",
-                "sonde_project_weather_eye",
-                "tornado",
-                "severe",
-                "nexrad_radars"
+                "changelogs", "version", "configurations", 
+                "spotter_network_feed", "storm_reports", "storm_prediction_center_mesoscale",
+                "tropical_storm_tracks","wx_radio","sonde_project_weather_eye",
+                "tornado","severe","nexrad_radars"
             ]
         }
     },
@@ -103,7 +98,7 @@
             "webhook_cooldown": 10
         }
     },
-    "streamer_bot_settings": {
+    "streamer_bot_settings": { // TODO: Add streamer bot support :3
         "enabled": false,
         "address": "127.0.0.1",
         "port": 8080,

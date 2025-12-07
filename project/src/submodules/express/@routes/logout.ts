@@ -23,13 +23,18 @@ export class Init {
     SESSION_LOGOUT_NO_ACTIVE_MESSAGE: string = `No active session found.`
     constructor() {
         loader.submodules.utils.log(`${this.NAME_SPACE} initialized.`)
-        loader.cache.handlers.express.post(`/api/logout`, (request: Record<string, any>, response: Record<string, any>) => { 
-            const session = loader.cache.internal.accounts.find(a => a.session == request.headers.cookie?.split(`=`)[1]);
-            if (!session) { 
-                return response.status(401).json({ message: this.SESSION_LOGOUT_NO_ACTIVE_MESSAGE});
+        loader.cache.handlers.express.post(`/api/logout`, (request: Record<string, any>, response: Record<string, any>) => {
+            try {
+                const session = loader.cache.internal.accounts.find(a => a.session == request.headers.cookie?.split(`=`)[1]);
+                if (!session) { 
+                    return response.status(401).json({ message: this.SESSION_LOGOUT_NO_ACTIVE_MESSAGE});
+                }
+                loader.submodules.utils.log(`${this.NAME_SPACE} - Successful logout for username: ${session.username} @ ${request.headers['cf-connecting-ip'] || request.connection.remoteAddress}`);
+                return this.invalidateSession(response, session);
+            } catch (error) {
+                loader.submodules.utils.log(`${this.NAME_SPACE} ERROR: ${error.message}`);
+                return response.status(500).json({ message: `Internal server error.` });
             }
-            loader.submodules.utils.log(`${this.NAME_SPACE} - Successful logout for username: ${session.username} @ ${request.headers['cf-connecting-ip'] || request.connection.remoteAddress}`);
-            return this.invalidateSession(response, session);
         });
     }
 

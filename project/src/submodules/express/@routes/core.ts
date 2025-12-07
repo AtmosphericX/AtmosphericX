@@ -24,11 +24,16 @@ export class Init {
         loader.submodules.utils.log(`${this.NAME_SPACE} initialized.`)
         const parentDirectory = loader.packages.path.resolve(`..`, `storage`);
         loader.cache.handlers.express.get(`/`, (request: Record<string, any>, response: Record<string, any>) => { 
-            const ConfigType = loader.cache.internal.configurations as types.ConfigurationsType;
-            const isPortal = ConfigType.web_hosting_settings.is_login_required;
-            const isLogon = loader.cache.internal.accounts.find(a => a.session == request.headers.cookie?.split(`=`)[1]);
-            if (isPortal && !isLogon) { return response.sendFile(`${parentDirectory}${this.PORTAL_DIRECT}`); } 
-            return response.sendFile(`${parentDirectory}${this.DASHBOARD_DIRECT}`);
+            try {
+                const ConfigType = loader.cache.internal.configurations as types.ConfigurationsType;
+                const isPortal = ConfigType.web_hosting_settings.is_login_required;
+                const isLogon = loader.cache.internal.accounts.find(a => a.session == request.headers.cookie?.split(`=`)[1]);
+                if (isPortal && !isLogon) { return response.sendFile(`${parentDirectory}${this.PORTAL_DIRECT}`); } 
+                return response.sendFile(`${parentDirectory}${this.DASHBOARD_DIRECT}`);
+            } catch (error) {
+                loader.submodules.utils.log(`${this.NAME_SPACE} ERROR: ${error.message}`);
+                return response.status(500).json({ message: `Internal server error.` });
+            }
         })
     }
 }
