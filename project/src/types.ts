@@ -43,7 +43,7 @@ interface LocalEventProperties {
 
 // --- Exports --- //
 export interface HTTPOptions  { timeout?: number | 5000; headers?: Record<string, string> | {}; method?: LocalHttpMethod; body?: string }
-export interface GeoJSONFeatureCollection  { type: string; features?: LocalGeoJSON[] }
+export interface GeoJSONFeatureCollection  { type?: string; features?: LocalGeoJSON[] }
 export interface CacheStructure  { name: string;  url: string;  enabled: boolean;  cache: number;  contradictions: string[]; }
 export interface LatitudeAndLongitude { coords: {lat?: number; lon?: number}; coords2?: {lat?: number; lon?: number}}
 export interface LogOptions { title?: string; echoFile?: boolean; rawConsole?: boolean}

@@ -12,8 +12,8 @@
 
 */
 
-import * as loader from '../bootstrap';
-import * as types from '../types';
+import * as loader from '../../bootstrap';
+import * as types from '../../types';
 
 export class Display {
     NAME_SPACE: string = `submodule:display`;
@@ -23,6 +23,13 @@ export class Display {
     constructor() {
         (async () => {
             loader.submodules.utils.log(`${this.NAME_SPACE} initialized.`);
+            const term = loader.packages.process.env.TERM || '';
+            const isGitBash = loader.packages.process.env.MSYSTEM && loader.packages.process.env.MSYSTEM.startsWith('MINGW');
+            const unsupportedTerms = ['dumb', 'cons25', 'emacs', 'cygwin'];
+            if (isGitBash || unsupportedTerms.includes(term)) {
+                console.log(`Fancy display is not supported in your terminal environment.\nRevert to legacy display mode within configurations.`);
+                return;
+            }
             if (!loader.submodules.utils.isFancyDisplay()) { return; }
             this.PACKAGE = loader.packages.gui;
             this.MANAGER = this.PACKAGE.screen({ 
@@ -58,6 +65,7 @@ export class Display {
                 label: ` Preparing AtmosphericX v${loader.submodules.utils.version()} `,
                 content: loader.cache.internal.logs.__console__.map(log => {return `${log.title} [${log.timestamp}] ${log.message}`}).join('\n'),
             })
+            
             this.MANAGER.append(tempLogo);
             this.MANAGER.append(tempConsole);
             this.MANAGER.render();
@@ -103,7 +111,7 @@ export class Display {
         if (!loader.submodules.utils.isFancyDisplay()) { return; }
         const ConfigType = loader.cache.internal.configurations as types.ConfigurationsType;
         this.modifyElement(`events`, 
-            !ConfigType.internal_settings.fancy_interface_feed ? 
+            !ConfigType.display_settings.fancy_interface_feed ? 
                 loader.cache.internal.logs.__events__.map(log => {return `[${log.timestamp}] ${log.message}`}).join('\n') : 
                 loader.submodules.alerts.returnAlertText({}, true),
             ` Active Events (X${loader.cache.external.events.features.length}) - ${loader.cache.internal.getSource} `

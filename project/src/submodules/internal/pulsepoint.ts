@@ -13,8 +13,8 @@
 */
 
 
-import * as loader from '../bootstrap';
-import * as types from '../types';
+import * as loader from '../../bootstrap';
+import * as types from '../../types';
 
 export class Alerts { 
     NAME_SPACE: string = `submodule:pulsepoint`;
@@ -23,10 +23,6 @@ export class Alerts {
     constructor() {
         this.PACKAGE = loader.packages.PulsePoint;
         loader.submodules.utils.log(`${this.NAME_SPACE} initialized.`)
-        this.instance();
-    }
-
-    public instance(): void {
         const ConfigType = loader.cache.internal.configurations as types.ConfigurationsType;
         if (!ConfigType.sources.miscellaneous_settings.pulse_point.enabled) { return }
         const pulse = new this.PACKAGE({
@@ -49,6 +45,7 @@ export class Alerts {
         });
         pulse.on(`log`, (message: string) => { loader.submodules.utils.log(message, { title: `\x1b[33m[ATMOSX-PULSEPOINT]\x1b[0m` }); });
     }
+
 }
 
 export default Alerts;

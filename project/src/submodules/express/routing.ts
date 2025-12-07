@@ -34,9 +34,13 @@ export class Routes {
         const getCertificates = isHttps ? this.getCertificates() : null;
         this.PACKAGE = loader.cache.handlers.express = loader.packages.express();
         if (isHttps) {
-            loader.cache.handlers.websocket = loader.packages.https.createServer(getCertificates, this.PACKAGE).listen(getPort, () => {})
+            loader.cache.handlers.websocket = loader.packages.https.createServer(getCertificates, this.PACKAGE).listen(getPort, () => {}).on('error', (error) => {
+                loader.submodules.utils.log(`${this.NAME_SPACE} ERROR: Failed to start HTTPS server on port ${getPort}: ${error.message}`);
+            });
         } else {
-            loader.cache.handlers.websocket = loader.packages.http.createServer(this.PACKAGE).listen(getPort, () => {})
+            loader.cache.handlers.websocket = loader.packages.http.createServer(this.PACKAGE).listen(getPort, () => {}).on('error', (error) => {
+                loader.submodules.utils.log(`${this.NAME_SPACE} ERROR: Failed to start HTTP server on port ${getPort}: ${error.message}`);
+            });
         }
         if (!isPortal) {
             loader.submodules.utils.log(`${loader.strings.portal_disabled_warning}`, { echoFile: true });
@@ -81,9 +85,7 @@ export class Routes {
      *  @returns {void}
      */
     public onUpdateRequest(): void {
-        for (const clientData of this.CLIENTS) {
-            loader.submodules.websockets.onWebsocketClientUpdate(clientData.client, clientData, Object.keys(clientData.requests));
-        }
+        loader.submodules.websockets.updateClients();
     }
 }
 export default Routes;

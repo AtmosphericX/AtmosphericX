@@ -13,8 +13,8 @@
 */
 
 
-import * as loader from '../bootstrap';
-import * as types from '../types';
+import * as loader from '../../bootstrap';
+import * as types from '../../types';
 
 export class Calculations { 
     NAME_SPACE: string = `submodule:calculations`;
@@ -57,6 +57,17 @@ export class Calculations {
         const h = Math.sin(dA / 2) ** 2 + Math.cos(a * d) * Math.cos(x * d) * Math.sin(dB / 2) ** 2;
         return +(r * 2 * Math.atan2(Math.sqrt(h), Math.sqrt(1 - h))).toFixed(2);
     }
+
+    public radarToEarthCoordinates(lon: number, lat: number, bearingDeg: number, distance: number): [number, number] {
+        const br = bearingDeg * Math.PI / 180;
+        const dr = distance / 6371000;
+        const lat1 = lat * Math.PI / 180;
+        const lon1 = lon * Math.PI / 180;
+        const lat2 = Math.asin(Math.sin(lat1) * Math.cos(dr) + Math.cos(lat1) * Math.sin(dr) * Math.cos(br));
+        const lon2 = lon1 + Math.atan2(Math.sin(br) * Math.sin(dr) * Math.cos(lat1), Math.cos(dr) - Math.sin(lat1) * Math.sin(lat2));
+        return [lon2 * 180 / Math.PI, lat2 * 180 / Math.PI];
+    }
+            
 
     /**
      * @function timeRemaining

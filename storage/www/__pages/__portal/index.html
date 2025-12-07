@@ -10,10 +10,12 @@
     <link rel="stylesheet" href="/src/__pages/__portal/index.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
     <script src="/src/__assets/__scripts/utils.js"></script>
+    <script src="/src/__assets/__scripts/wise.js"></script>
     <script src="/src/__pages/__portal/index.js"></script>
 </head>
 <body>
-    <div class="graph-bg" style="z-index: -1;"></div>
+    <div class="notification-container" id="notification-container"></div>
+    <div class="graph-bg" id='background' style="z-index: -1;"></div>
     <div class="login-container" style="display: block;" id="login-form">
         <img src="/src/__assets/__images/__logos/logo.png" alt="AtmosphericX Logo" class="login-logo" />
         <form>
@@ -56,3 +58,14 @@
     </div>
 </body>
 </html>
+
+
+<script>
+    const utils = new Utils();
+    const wise = new Wise(utils);
+    utils.websocket(["*"])
+    wise.fetchLatest('KLOT', 'VEL0').then(data => {
+        console.log(data)
+        console.log(wise.getWiseLevels(data))
+    });
+</script>

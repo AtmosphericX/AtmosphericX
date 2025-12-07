@@ -12,8 +12,8 @@
 
 */
 
-import * as loader from '../bootstrap';
-import * as types from '../types';
+import * as loader from '../../bootstrap';
+import * as types from '../../types';
 
 export class Utils { 
     NAME_SPACE: string = `submodule:utils`;
@@ -63,7 +63,7 @@ export class Utils {
      * @returns {boolean}
      */
     public isFancyDisplay(): boolean {
-        return (loader.cache.internal.configurations as types.ConfigurationsType).internal_settings.fancy_interface || false;
+        return (loader.cache.internal.configurations as types.ConfigurationsType).display_settings.fancy_interface || false;
     }
 
     /**
@@ -80,7 +80,7 @@ export class Utils {
         const logo = loader.packages.fs.existsSync(path) 
             ? loader.packages.fs.readFileSync(path, `utf-8`).replace(`{VERSION}`, this.version()) 
             : `AtmosphericX {VERSION}`;
-        if (ConfigType.internal_settings.fancy_interface) { return logo } 
+        if (ConfigType.display_settings.fancy_interface) { return logo } 
         console.clear();
         console.log(logo);
     }

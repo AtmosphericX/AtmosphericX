@@ -13,8 +13,8 @@
 */
 
 
-import * as loader from '../bootstrap';
-import * as types from '../types';
+import * as loader from '../../bootstrap';
+import * as types from '../../types';
 
 export class Alerts { 
     NAME_SPACE: string = `submodule:networking`;
@@ -109,6 +109,7 @@ export class Alerts {
                             "User-Agent": `AtmosphericX/${loader.submodules.utils.version()}`,
                             "Accept": "application/geo+json, text/plain, */*; q=0.",
                             "Accept-Language": "en-US,en;q=0.9",
+                            "Accept-Encoding": "gzip, deflate, br",
                         },
                         method: 'GET',
                         body: null,
@@ -255,7 +256,7 @@ export class Alerts {
         }
         data["events"] = loader.cache.external.events.features;
         if (stringText.length > 0) {
-            loader.submodules.utils.log(`Cache Updated: - Taken: ${Date.now() - setTime}ms - ${stringText.slice(0, -2)}`, { echoFile: true })
+            loader.submodules.utils.log(`Cache Updated: - Taken: ${Date.now() - setTime}ms - ${stringText.slice(0, -2)}`)
         }
         loader.submodules.structure.create(data);
     }

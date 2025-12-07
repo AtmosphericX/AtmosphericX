@@ -122,6 +122,19 @@ export class Init {
         if (isQueued) { socket.send(JSON.stringify({ type: 'eventUpdateFinished', message: this.SESSION_UPDATE_SUCCESS_MESSAGE })); }
     }
 
+    /**
+     * @function updateClients
+     * @description
+     *     Sends periodic update requests for all connected WebSocket clients.  
+     * 
+     * @returns {void}
+     */
+    public updateClients(): void {
+        for (const clientData of this.clients) {
+            loader.submodules.websockets.onWebsocketClientUpdate(clientData.client, clientData, Object.keys(clientData.requests));
+        }
+    }
+
 }
 
 export default Init;

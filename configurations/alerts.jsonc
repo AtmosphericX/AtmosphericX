@@ -5,7 +5,7 @@
            / /\ \| __| '_ ` _ \ / _ \/ __| '_ \| '_ \ / _ \ '__| |/ __| > <  
           / ____ \ |_| | | | | | (_) \__ \ |_) | | | |  __/ |  | | (__ / . \ 
          /_/    \_\__|_| |_| |_|\___/|___/ .__/|_| |_|\___|_|  |_|\___/_/ \_\
-                                         | |                                 
+                                         | |                           v8.0.0      
                                          |_|  
 
         Written by: KiyoWx (k3yomi) & StarflightWx      
@@ -66,10 +66,10 @@
         "show_updates": true,
         "ignore_tests": true,
         "ignored_events": ["Xx"],
-        "listening_icoa": [],
+        "listening_icao": [],
+        "ignored_icao": ["KWNS"],
         "listening_ugcs": [],
         "listening_state": [],
-        "ignored_icoa": ["KWNS"],
         "eas_settings": {
             "eas_directory": "../storage/scenarios",
             "eas_intro": "../storage/scenarios/intro.wav", // .WAV FILES ONLY

@@ -13,8 +13,8 @@
 */
 
 
-import * as loader from '../bootstrap';
-import * as types from '../types';
+import * as loader from '../../bootstrap';
+import * as types from '../../types';
 
 export class Alerts { 
     NAME_SPACE: string = `submodule:tempest`;
@@ -24,36 +24,37 @@ export class Alerts {
     constructor() {
         this.PACKAGE = loader.packages.TempestStation;
         loader.submodules.utils.log(`${this.NAME_SPACE} initialized.`)
-        this.instance();
-    }
-
-    public instance(): void {
-        const ConfigType = loader.cache.internal.configurations as types.ConfigurationsType;
-        if (!ConfigType.sources.miscellaneous_settings.tempest_station.enabled) { return }
+        const config = loader.cache.internal.configurations as types.ConfigurationsType;
+        const tempest = config.sources?.miscellaneous_settings?.tempest_station;
+        if (!tempest?.enabled || !tempest.api_key || !tempest.device || !tempest.station) { 
+            return;  
+        }
         this.MANAGER = new this.PACKAGE({
-            api: ConfigType.sources.miscellaneous_settings.tempest_station.api_key,
-            deviceId: ConfigType.sources.miscellaneous_settings.tempest_station.device,
-            stationId: ConfigType.sources.miscellaneous_settings.tempest_station.station,
-            journal: false,
+            api: tempest.api_key, deviceId: tempest.device,
+            stationId: tempest.station, journal: false,
         });
         this.MANAGER.on(`onObservation`, (data) => { 
-            this.DATA.observation = data; 
+            this.DATA.observation = data;
+            const forecast = this.DATA?.forecast?.features?.[0];
+            const rapid = this.DATA?.rapidWind?.features?.[0];
             loader.cache.external.mesonet = loader.submodules.parsing.getWeatherStationStructure({
-                longitude: this.DATA?.forecast?.features?.[0]?.geometry?.coordinates?.[1] ?? null,
-                latitude: this.DATA?.forecast?.features?.[0]?.geometry?.coordinates?.[0] ?? null,
-                temperature: this.DATA?.forecast?.features?.[0]?.properties?.temperature ?? null,
-                dewpoints: this.DATA?.forecast?.features?.[0]?.properties?.dew_point ?? null,
-                humidity: this.DATA?.forecast?.features?.[0]?.properties?.humidity ?? null,
-                wind_speed: this.DATA?.rapidWind?.features?.[0]?.properties?.speed ?? null,
-                wind_direction: this.DATA?.rapidWind?.features?.[0]?.properties?.direction ?? null,
-                conditions: this.DATA?.forecast?.features?.[0]?.properties?.conditions ?? null,
-                location: this.DATA?.forecast?.features?.[0]?.properties?.station_name ?? null,
+                longitude: forecast?.geometry?.coordinates?.[1] ?? null,
+                latitude: forecast?.geometry?.coordinates?.[0] ?? null,
+                temperature: forecast?.properties?.temperature ?? null,
+                dewpoints: forecast?.properties?.dew_point ?? null,
+                humidity: forecast?.properties?.humidity ?? null,
+                wind_speed: rapid?.properties?.speed ?? null,
+                wind_direction: rapid?.properties?.direction ?? null,
+                conditions: forecast?.properties?.conditions ?? null,
+                location: forecast?.properties?.station_name ?? null,
             });
         });
         this.MANAGER.on(`onForecast`, (data) => { this.DATA.forecast = data; });
         this.MANAGER.on(`onRapidWind`, (data) => { this.DATA.rapidWind = data; });
         this.MANAGER.on(`onLightning`, (data) => { this.DATA.lightning = data; });
-        this.MANAGER.on(`log`, (message: string) => { loader.submodules.utils.log(message, { title: `\x1b[33m[ATMOSX-TEMPEST]\x1b[0m` }); });
+        this.MANAGER.on(`log`, (message: string) => { 
+            loader.submodules.utils.log(message, { title: `\x1b[33m[ATMOSX-TEMPEST]\x1b[0m` }); 
+        });
         loader.cache.handlers.tempestStation = this.MANAGER;
     }
 }

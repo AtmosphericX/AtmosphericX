@@ -13,15 +13,18 @@
 */
 
 
-import * as loader from '../bootstrap';
-import * as types from '../types';
+import * as loader from '../../bootstrap';
 
 export class Database { 
     NAME_SPACE: string = `submodule:database`;
     DATABASE: any;
     constructor() {
         loader.submodules.utils.log(`${this.NAME_SPACE} initialized.`)
-        const dbPath = loader.packages.path.resolve(`..`, `storage`, `Accounts.db`);
+        if (!loader.packages.fs.existsSync(loader.packages.path.resolve(`..`, `storage/databases`))) {
+            loader.submodules.utils.log(`Creating databases directory...`);
+            loader.packages.fs.mkdirSync(loader.packages.path.resolve(`..`, `storage/databases`), { recursive: true });
+        }
+        const dbPath = loader.packages.path.resolve(`..`, `storage/databases`, `accounts.db`);
         if (loader.packages.fs.existsSync(dbPath)) { 
             this.DATABASE = new loader.packages.sqlite3(dbPath);
             loader.submodules.utils.log(`Account Database Loaded @ ${dbPath}`);
@@ -31,7 +34,7 @@ export class Database {
     }
 
     private create() {
-        const dbPath = loader.packages.path.resolve(`..`, `storage`, `Accounts.db`);
+        const dbPath = loader.packages.path.resolve(`..`, `storage/databases`, `accounts.db`);
         this.DATABASE = new loader.packages.sqlite3(dbPath);
         try { 
             this.DATABASE.prepare(`CREATE TABLE IF NOT EXISTS accounts (id INTEGER PRIMARY KEY AUTOINCREMENT, username TEXT NOT NULL, hash TEXT NOT NULL, activated INTEGER NOT NULL DEFAULT 0, role INTEGER NOT NULL DEFAULT 0, created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP, updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP)`).run();

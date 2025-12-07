@@ -13,8 +13,8 @@
 */
 
 
-import * as loader from '../bootstrap';
-import * as types from '../types';
+import * as loader from '../../bootstrap';
+import * as types from '../../types';
 
 export class Alerts { 
     NAME_SPACE: string = `submodule:events`;
@@ -175,7 +175,7 @@ export class Alerts {
      * @param {boolean} [isRefreshing=false]
      * @returns {void}
      */
-    public instance(isRefreshing: boolean = false): void {
+    private instance(isRefreshing: boolean = false): void {
         if (isRefreshing && !this.MANAGER) return;
         const configurations = loader.cache.internal.configurations as types.ConfigurationsType;
         const alerts = configurations.sources.atmosx_parser_settings;
@@ -205,8 +205,8 @@ export class Alerts {
                     ignore_text_products: filter.ignore_tests,
                     events: filter.all_events ? [] : filter.listening_events,
                     ignored_events: filter.ignored_events,
-                    filtered_icoa: filter.listening_icoa,
-                    ignored_icoa: filter.ignored_icoa,
+                    filtered_icao: filter.listening_icao,
+                    ignored_icao: filter.ignored_icao,
                     ugc_filter: filter.listening_ugcs,
                     state_filter: filter.listening_states,
                     check_expired: false

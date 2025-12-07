@@ -1,4 +1,20 @@
 {
+    "8.0.005": {
+        "version": "8.0.005",
+        "updated": "Sunday, December 7th",
+        "headline": "<span style='color:green'>[FEED]</span>__BETA_BRANCH_DEVELOPER_USE_ONLY__ DO NOT USE",
+        "changelogs": [
+            "note: DO_NOT_USE_DEV_BUILD",
+            "feat(parsing): add Wise class for processing WISE binary format data",
+            "add: Implemented methods for initializing the Wise class, setting buffer, and checking binary format.",
+            "add: Read and parse header information from WISE binary files.",
+            "add: Unpacked data handling and conversion, including payload bit-depth support.",
+            "add: Method to fetch latest WISE data files by ICAO and product codes.",
+            "add: Utility functions for converting radar data into geographical coordinates",
+            "add: Implement login background to \"live\" weather.cod satellite view."
+        ],
+        "rewrite": true
+    },
     "8.0.004": {
         "version": "8.0.004",
         "updated": "Thursday, November 20th",

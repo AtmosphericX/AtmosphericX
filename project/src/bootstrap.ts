@@ -35,6 +35,7 @@ import * as fs from 'fs';
 import * as crypto from 'crypto';
 import * as http from 'http';
 import * as https from 'https';
+import * as process from 'process';
 import * as xmpp from '@xmpp/client';
 import * as os from 'os';
 import * as xml2js from 'xml2js';
@@ -45,22 +46,23 @@ import * as firebaseDatabase from 'firebase/database';
 import * as streamerBot from '@streamerbot/client';
 import * as jobs from 'croner';
 import * as jsonc from 'jsonc-parser';
+import * as stream from 'stream';
+import * as buffer from 'buffer';
+
 
 /* [ Submodule Exports ] */
-import utils from './submodules/utils';
-import alerts from './submodules/events';
-import pulsepoint from './submodules/pulsepoint';
-import tempest from './submodules/tempest';
-import calculations from './submodules/calculations';
-import networking from './submodules/networking';
-import structure from './submodules/structure';
-import display from './submodules/display';
-import parsing from './submodules/parsing';
 import routes from './submodules/express/routing';
-import gps from './submodules/locationtracking';
-import database from './submodules/database';
-
-
+import alerts from './submodules/internal/events';
+import pulsepoint from './submodules/internal/pulsepoint';
+import tempest from './submodules/internal/tempest';
+import utils from './submodules/utility/utils';
+import calculations from './submodules/utility/calculations';
+import networking from './submodules/utility/networking';
+import structure from './submodules/utility/structure';
+import display from './submodules/utility/display';
+import parsing from './submodules/utility/parsing';
+import gps from './submodules/utility/tracking';
+import database from './submodules/utility/database';
 
 /* [ Global Cache ] */
 export const cache = {
@@ -75,6 +77,7 @@ export const cache = {
         sonde_project_weather_eye: [],
         wx_radio: [],
         tornado: [],
+        nexrad_radars: [],
         severe: [],
         manual: {features: []},
         events: {features: []},
@@ -131,10 +134,10 @@ export const strings = {
 
 /* [ Package Exports ] */
 export const packages = {
-    events, path, fs, crypto, http, https, os,
+    events, path, fs, crypto, http, https, os, process,
     sqlite3, firebaseApp, firebaseDatabase, express, 
-    rateLimit, cookieParser, axios, ws, xml2js, shapefile, jsonc,
-    gui, xmpp, streamerBot, jobs,
+    cookieParser, axios, ws, xml2js, shapefile, jsonc,
+    gui, xmpp, streamerBot, jobs, rateLimit, stream, buffer,
     AlertManager, TextParser, PulsePoint, PlacefileManager, TempestStation,
 };
 

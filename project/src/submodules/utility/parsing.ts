@@ -12,8 +12,8 @@
 
 */
 
-import * as loader from '../bootstrap';
-import * as types from '../types';
+import * as loader from '../../bootstrap';
+import * as types from '../../types';
 
 export class Parsing { 
     NAME_SPACE: string = `submodule:parsing`;
@@ -276,7 +276,40 @@ export class Parsing {
         return body.map(feature => feature as Record<string, string>);
     }
 
-    public getWeatherStationStructure(body) {
+    /**
+     * @function getWeatherNexradRadars
+     * @description
+     *    Converts data from NWS API into a GeoJSON FeatureCollection for WSR-88D radar locations.
+     * 
+     * @param {any} body
+     * @returns {Record<string, any>}
+     */
+    public getWeatherNexradRadars(body): Record<string, any> {
+        const structure: Record<string, any> = { features: [] };
+        if (!body || !Array.isArray(body.features)) return structure;
+        for (const f of body.features) {
+            const coords = f?.geometry?.coordinates;
+            if (!Array.isArray(coords) || coords.length < 2) continue;
+            const id = f?.properties?.id ?? f?.id ?? f?.properties?.['@id'];
+            if (!id) continue;
+            const lon = parseFloat(String(coords[0]));
+            const lat = parseFloat(String(coords[1]));
+            if (isNaN(lon) || isNaN(lat)) continue;
+            if (!id.startsWith('K') && !id.startsWith('P') && !id.startsWith('C')) continue;
+            structure.features.push({ id, lon, lat });
+        }
+        return structure;
+    }
+
+    /**
+     * @function getWeatherStationStructure
+     * @description
+     *     Converts raw weather station data into a GeoJSON FeatureCollection.
+     * 
+     * @param {any} body
+     * @returns {unknown}
+     */
+    public getWeatherStationStructure(body): unknown {
         return {
             features: [{
                 geometry: { type: "Point", coordinates: [body.latitude, body.longitude] },

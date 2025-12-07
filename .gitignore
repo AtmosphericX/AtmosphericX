@@ -1,5 +1,5 @@
-/storage/NoaaWeatherWireService.db
-/storage/Accounts.db
+/storage/databases/shapefiles.db
+/storage/databases/accounts.db
 /storage/nwws
 /storage/logs.txt
 /project/old-src

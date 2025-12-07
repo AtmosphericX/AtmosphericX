@@ -55,9 +55,12 @@
     background-size: 80px 80px;
     pointer-events: none; 
     overflow: hidden; 
-    animation:
-        anim_grid_drift 5s linear infinite;
     filter: drop-shadow(0 0 3px var(--clr-surface-a10));
+}
+
+/* opt‑in animation with a separate class */
+.graph-animated {
+    animation: anim_grid_drift 5s linear infinite;
 }
 
 @keyframes anim_grid_drift {

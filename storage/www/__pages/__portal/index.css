@@ -7,6 +7,12 @@ body {
     padding: 20px; position: relative;
 }
 
+#background {
+    background-image: url('https://weather.cod.edu/data/satellite/background/background.truecolor.jpg');
+    background-size: cover; background-position: center;
+    position: fixed; inset: 0; z-index: -1;
+}
+
 .login-logo {
     width: 150px;
 }

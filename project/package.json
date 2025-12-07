@@ -27,15 +27,11 @@
 	},
 	"homepage": "https://github.com/K3YOMI/AtmosphericX#readme",
 	"dependencies": {
-		"@msgpack/msgpack": "^3.1.1",
-		"@streamerbot/client": "^1.12.2",
-		"@xmpp/client": "^0.7.3",
-		"@xmpp/component": "^0.7.1",
-		"@xmpp/debug": "^0.7.0",
 		"atmosx-nwws-parser": "beta",
 		"atmosx-placefile-parser": "beta",
 		"atmosx-pulse-point": "latest",
 		"atmosx-tempest-station": "latest",
+		"@streamerbot/client": "^1.12.2",
 		"axios": "^1.8.2",
 		"better-sqlite3": "^11.10.0",
 		"blessed": "^0.1.81",
@@ -47,9 +43,9 @@
 		"express-ws": "^5.0.2",
 		"firebase": "^11.10.0",
 		"jsonc-parser": "^3.3.1",
-		"shapefile": "^0.6.6",
+		"nexrad-level-2-data": "^2.4.3",
 		"typescript": "^5.9.3",
-		"xml2js": "^0.6.2"
+		"unbzip2-stream": "^1.4.3"
 	},
 	"scripts": {
 		"start": "node ./dist/cjs/index.cjs",

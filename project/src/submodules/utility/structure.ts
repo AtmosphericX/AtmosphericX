@@ -12,8 +12,8 @@
 
 */
 
-import * as loader from '../bootstrap';
-import * as types from '../types';
+import * as loader from '../../bootstrap';
+import * as types from '../../types';
 
 export class Structure { 
     NAME_SPACE: string = `submodule:structure`;
@@ -40,6 +40,7 @@ export class Structure {
             case 'tornado': return loader.submodules.parsing.getProbabilityStructure(body, 'tornado');
             case 'severe': return loader.submodules.parsing.getProbabilityStructure(body, 'severe');
             case 'sonde_project_weather_eye': return loader.submodules.parsing.getWxEyeSondeStructure(body);
+			case 'nexrad_radars': return loader.submodules.parsing.getWeatherNexradRadars(body);
             case 'wx_radio': return loader.submodules.parsing.getWxRadioStructure(body);
             default: return [];
         }
@@ -140,10 +141,9 @@ export class Structure {
 	 *     and triggers webhooks for new alerts.
 	 * 
 	 * @param {unknown} data
-	 * @param {boolean} [isAlertupdate]
 	 * @returns {Promise<void>}
 	 */
-	public async create(data: unknown, isAlertupdate?: boolean): Promise<void> {
+	public async create(data: unknown): Promise<void> {
 		const clean = loader.submodules.utils.filterWebContent(data);
 		const ConfigType = loader.cache.internal.configurations as types.ConfigurationsType;
 		const dataTypes = [
@@ -155,6 +155,7 @@ export class Structure {
 			{ key: 'tornado', cache: 'tornado' },
 			{ key: 'severe', cache: 'severe' },
 			{ key: 'sonde_project_weather_eye', cache: 'sonde_project_weather_eye' },
+			{ key: 'nexrad_radars', cache: 'nexrad_radars' },
 			{ key: 'wx_radio', cache: 'wx_radio' },
 		];
 		for (const { key, cache } of dataTypes) {

@@ -13,8 +13,8 @@
 */
 
 
-import * as loader from '../bootstrap';
-import * as types from '../types';
+import * as loader from '../../bootstrap';
+import * as types from '../../types';
 
 export class GlobalPositioningSystem { 
     NAME_SPACE: string = `submodule:locationtracking`;
@@ -33,14 +33,40 @@ export class GlobalPositioningSystem {
      * @param {types.CoordinatesDefined} coords - The new coordinates to set.
      * @returns {void}
      */
-    public setCurrentCoordinates(name: string, coords: types.CoordinatesDefined) {
+    public setCurrentCoordinates(name: string, coords: types.CoordinatesDefined): void {
         if (loader.cache.handlers.eventManager == null) return;
-        loader.cache.external.locations[name] = coords;
+        loader.cache.external.locations[name] = {
+            lat: coords.lat,
+            lon: coords.lon,
+            icao: null
+        }
         loader.cache.handlers.eventManager.setCurrentLocation(name, coords);
         loader.submodules.utils.log(`Updated current coordinates for ${name} [LAT: ${coords.lat}, LON: ${coords.lon}]`);
     }
 
-    public async getTrackingInformation() {
+    public getNearestICAO(lat: number, lon: number): Promise<string | null> {
+        const radars = loader.cache.external.nexrad_radars as types.GeoJSONFeatureCollection;
+        const distances = radars.features.map((radar: any) => {
+            const miles = loader.submodules.calculations.calculateDistance(
+                {lat, lon},
+                {lat: radar.lat, lon: radar.lon},
+                'miles'
+            );
+            return { icao: radar.id, distance: miles };
+        });
+        console.log(distances)
+        distances.sort((a, b) => a.distance - b.distance);
+        return distances.length > 0 ? distances[0].icao : null;
+    }   
+
+    /**
+     * @function getTrackingInformation
+     * @description
+     *    Fetches tracking information based on the primary target's coordinates and updates the external cache.
+     * 
+     * @returns {Promise<void>}
+     */
+    public async getTrackingInformation(): Promise<void> {
         const ConfigType = loader.cache.internal.configurations as types.ConfigurationsType;
         const time = Date.now();
         loader.cache.internal.limiters = loader.cache.internal.limiters.filter(ts => ts.timestamp > time - 15 * 1000);
@@ -55,17 +81,20 @@ export class GlobalPositioningSystem {
             const getWeatherConditions = loader.apis.temperature_coordinates.replace("${X}", targetCoords.lat).replace("${Y}", targetCoords.lon)
             const getLocationData = await loader.submodules.networking.httpRequest(getLocationNames)
             const getWeatherData = await loader.submodules.networking.httpRequest(getWeatherConditions)
+            targetCoords.icao = this.getNearestICAO(targetCoords.lat, targetCoords.lon);
             if (!ConfigType.sources.miscellaneous_settings.tempest_station.enabled) {
                 loader.cache.external.mesonet = loader.submodules.parsing.getWeatherStationStructure({
                     longitude: targetCoords.lon,
                     latitude: targetCoords.lat,
+                    dbz: targetCoords.dbz,
+                    icao: targetCoords.icao,
                     temperature: getWeatherData.message.main ? Math.round(((getWeatherData.message.main.temp - 273.15) * 9/5 + 32)) : null,
                     dewpoints: getWeatherData.message.main ? Math.round(((getWeatherData.message.main.temp - ((100 - getWeatherData.message.main.humidity) / 5)) - 273.15) * 9/5 + 32) : null,
                     humidity: getWeatherData.message.main ? Math.round(getWeatherData.message.main.humidity) : null,
                     wind_speed: getWeatherData.message.wind ? Math.round(getWeatherData.message.wind.speed) : null,
                     wind_direction: getWeatherData.message.wind ? loader.submodules.calculations.convertDegreesToCardinal(getWeatherData.message.wind.deg) : null,
                     conditions: getWeatherData.message.weather ? getWeatherData.message.weather[0].description : null,
-                    location: `${getLocationData.message.address.county}, ${getLocationData.message.address.state} (${getLocationData.message.address.city ? getLocationData.message.address.city : `${getLocationData.message.address.house_number} ${getLocationData.message.address.road}`})`
+                    location: `${getLocationData.message.address.county}, ${getLocationData.message.address.state} (${getLocationData.message.address.city ? getLocationData.message.address.city : `${getLocationData.message.address.house_number} ${getLocationData.message.address.road}`})`,
                 })
             } else { 
                 loader.cache.handlers.tempestStation.getClosestStation({lat: targetCoords.lat, lon: targetCoords.lon}).then((station) => {
@@ -83,18 +112,25 @@ export class GlobalPositioningSystem {
      * 
      * @returns {void}
      */
-    private rtListener() {
+    private rtListener(): void {
         const ConfigType = loader.cache.internal.configurations as types.ConfigurationsType;
         const cfg = ConfigType.sources.location_settings.realtime_irl;
         const db = loader.packages.firebaseDatabase.getDatabase(loader.cache.handlers.rtSocket);
-        const ref = loader.packages.firebaseDatabase.child(loader.packages.firebaseDatabase.ref(db, `pullables`), cfg.pull_key);
+        const ref = loader.packages.firebaseDatabase.child(
+            loader.packages.firebaseDatabase.ref(db, `pullables`),
+            cfg.pull_key
+        );
         const listener = (snapshot) => {
-            let snap = snapshot.val();
-            if (snap == null) { return; }
-            if (snap.updatedAt != this.LAST_RT_UPDATE) {
+            const snap = snapshot.val();
+            if (snap == null) return;
+            if (snap.updatedAt !== this.LAST_RT_UPDATE) {
                 this.LAST_RT_UPDATE = snap.updatedAt;
-                loader.cache.external.locations[cfg.pull_key] = { lat: snap.location.latitude, lon: snap.location.longitude };
-                this.setCurrentCoordinates(cfg.pull_key, { lat: snap.location.latitude, lon: snap.location.longitude });
+                const coords = { 
+                    lat: snap.location.latitude, 
+                    lon: snap.location.longitude
+                };
+                loader.cache.external.locations[cfg.pull_key] = coords;
+                this.setCurrentCoordinates(cfg.pull_key, coords);
             }
         };
         loader.packages.firebaseDatabase.onValue(ref, listener);
@@ -107,16 +143,16 @@ export class GlobalPositioningSystem {
      *
      * @returns {string}
      */
-    private rtSocket() {
+    private rtSocket(): void {
         const ConfigType = loader.cache.internal.configurations as types.ConfigurationsType;
         const cfg = ConfigType.sources.location_settings.realtime_irl;
         if (!cfg.enabled) return;
         loader.cache.handlers.rtSocket = loader.packages.firebaseApp.initializeApp({
-            apiKey: cfg.api_key,
-            databaseURL: cfg.database_url,
-            projectId: "rtirl-a1d7f",
-            appId: cfg.app_id,
-            measurementId: cfg.measurement_id,
+            apiKey: `AIzaSyC4L8ICZbJDufxe8bimRdB5cAulPCaYVQQ`,
+            databaseURL: `https://rtirl-a1d7f-default-rtdb.firebaseio.com`,
+            projectId: `rtirl-a1d7f`,
+            appId: `1:684852107701:web:d77a8ed0ee5095279a61fc`,
+            measurementId: `G-TR97D81LT3`,
         }, `rtlirl-api`);
         this.rtListener();
     }

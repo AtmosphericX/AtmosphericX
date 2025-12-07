@@ -5,7 +5,7 @@
            / /\ \| __| '_ ` _ \ / _ \/ __| '_ \| '_ \ / _ \ '__| |/ __| > <  
           / ____ \ |_| | | | | | (_) \__ \ |_) | | | |  __/ |  | | (__ / . \ 
          /_/    \_\__|_| |_| |_|\___/|___/ .__/|_| |_|\___|_|  |_|\___/_/ \_\
-                                         | |                                 
+                                         | |                           v8.0.0      
                                          |_|  
 
         Written by: KiyoWx (k3yomi) & StarflightWx      
@@ -51,8 +51,6 @@
         }
     },
     "internal_settings": {
-        "fancy_interface": true,
-        "fancy_interface_feed": true,
         "global_update": "*/1 * * * * *", 
         "random_update": "*/30 * * * * *", 
         "update_check": "0 */6 * * *",
@@ -62,7 +60,7 @@
         "maximum_connections_per_ip": 15,
         "priority_sockets": {
             "timeout": 2,
-            "sockets": ["events", "placefiles", "manual", "locations"]
+            "sockets": ["events", "placefiles", "manual", "locations", "mesonet", "rng"]
         },
         "secondary_sockets": {
             "timeout": 30,
@@ -77,7 +75,8 @@
                 "wx_radio",
                 "sonde_project_weather_eye",
                 "tornado",
-                "severe"
+                "severe",
+                "nexrad_radars"
             ]
         }
     },

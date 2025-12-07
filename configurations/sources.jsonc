@@ -5,7 +5,7 @@
            / /\ \| __| '_ ` _ \ / _ \/ __| '_ \| '_ \ / _ \ '__| |/ __| > <  
           / ____ \ |_| | | | | | (_) \__ \ |_) | | | |  __/ |  | | (__ / . \ 
          /_/    \_\__|_| |_| |_|\___/|___/ .__/|_| |_|\___|_|  |_|\___/_/ \_\
-                                         | |                                 
+                                         | |                           v8.0.0   
                                          |_|  
 
         Written by: KiyoWx (k3yomi) & StarflightWx      
@@ -42,7 +42,7 @@
                 "endpoint": "https://api.weather.gov/alerts/active"
             },
             "weather_wire_settings": {
-                "database": "../storage/NoaaWeatherWireService.db",
+                "database": "../storage/databases/shapefiles.db",
                 "client_credentials": {
                     "username": "username_here",
                     "password": "password_here",
@@ -71,11 +71,6 @@
         "location_settings": {
             "realtime_irl": {
                 "enabled": false,
-                "api_key": "AIzaSyC4L8ICZbJDufxe8bimRdB5cAulPCaYVQQ",
-                "database_url": "https://rtirl-a1d7f-default-rtdb.firebaseio.com",
-                "project_id": "rtirl-a1d7f",
-                "measurement_id": "G-TR97D81LT3",
-                "app_id": "1:684852107701:web:d77a8ed0ee5095279a61fc",
                 "pull_key": "pull_key_here",
                 "contradictions": []
             },
@@ -98,13 +93,13 @@
                 "enabled": true,
                 "cache_time": 119,
                 "endpoint": "https://www.spotternetwork.org/feeds/reports.txt",
-                "contradictions": ["grlevelx"]
+                "contradictions": ["grlevelx_reports"]
             },
             "grlevelx_reports": {
-                "enabled": true,
+                "enabled": false,
                 "cache_time": 119,
                 "endpoint": "https://www.grlevelx.com/lsr/lsr_latest.txt",
-                "contradictions": ["spotter_network"]
+                "contradictions": ["spotter_reports"]
             }
         },
         "dicussion_settings": {
@@ -144,6 +139,12 @@
                 "endpoint": "https://sonde.projectweathereye.org/data",
                 "contradictions": []
             },
+            "nexrad_radars": {
+                "enabled": true,
+                "cache_time": 1440,
+                "endpoint": "https://api.weather.gov/radar/stations",
+                "contradictions": []
+            },
             "wx_radio": {
                 "enabled": true,
                 "cache_time": 3600,
@@ -152,13 +153,13 @@
             },
             "tempest_station": {
                 "enabled": false,
-                "api_key": "api_key_here",
+                "api_key": "6bff2f89-84ab-463c-886e-fc0f443da4cf",
                 "station": 0,
                 "device": 0
             },
             "pulse_point": {
-                "enabled": true,
-                "key": "api_key_here",
+                "enabled": false,
+                "key": "passkey_here",
                 "interval": 30,
                 "events": [],
                 "agencies": []
