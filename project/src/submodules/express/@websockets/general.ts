@@ -43,7 +43,7 @@ export class Init {
                 try { if (client.readyState === loader.packages.ws.OPEN) client.send(JSON.stringify({ type: 'eventConnection', message: `${this.SESSION_CONNECTION_CLOSED_MESSAGE} (${max}).` })); } catch {}
                 return client.close(4001, this.SESSION_CONNECTION_CLOSED_MESSAGE);
             }
-            this.clients.push({ client, unix: Date.now() - 1000, address: ip, requests: {}, hasSentInitialData: false });
+            this.clients.push({ client, unix: Date.now() - 1_000, address: ip, requests: {}, hasSentInitialData: false });
             try { if (client.readyState === loader.packages.ws.OPEN) client.send(JSON.stringify({ type: 'eventConnection', message: this.SESSION_CONNECTION_ESTABLISHED_MESSAGE })); } catch {}
             client.on('message', (msg: any) => this.onWebsocketClientMessage(client, msg));
             client.on('close', () => { this.clients = this.clients.filter(c => c.client !== client); });
@@ -112,7 +112,7 @@ export class Init {
                 : isSecondary
                 ? InternalConfig.websocket_settings.secondary_sockets.timeout
                 : 0;
-            const timeoutMs = timeout < 1000 ? timeout * 1000 : timeout;
+            const timeoutMs = timeout < 1_000 ? timeout * 1_000 : timeout;
             if (now - clientData.requests[request].unix < timeoutMs) { return; }
             clientData.requests[request].unix = now;
             const cache = loader.cache.external[request as keyof typeof loader.cache.external] || null;

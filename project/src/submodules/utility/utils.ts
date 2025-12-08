@@ -22,6 +22,7 @@ export class Utils {
     LOGO_LEGACY_PATH: string = `../storage/logo-legacy.txt`
     LOGS_PATH: string = `../storage/logs.txt`
     CONFIGURATIONS_PATH: string = `../configurations`
+    CONFIG_HASH: string = null;
     constructor() {
         this.configurations();
         this.logo();
@@ -114,6 +115,7 @@ export class Utils {
      * @function log
      * @description
      *     Logs a message to the internal cache, console, and optionally to a log file.
+     *     This will also check a hash to see if the configurations have changed and notify.
      * 
      * @param {string} [message]
      * @param {types.LogOptions} [options]
@@ -144,6 +146,12 @@ export class Utils {
             third_party_services: configurations.third_party_services,
             forecasting_services: configurations.forecasting_services,
         };
+        const configString = JSON.stringify(configurations);
+        const configHash = loader.packages.crypto.createHash('md5').update(configString).digest('hex');
+        if (this.CONFIG_HASH && this.CONFIG_HASH !== configHash) {
+            this.log(`Configuration change detected. Please restart AtmosphericX to apply changes as some configurations will not change during runtime.`, { title: `\x1b[31m[ATMOSX-UTILS]\x1b[0m`, echoFile: true });
+        }
+        this.CONFIG_HASH = configHash;
     }
     
     /**

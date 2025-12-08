@@ -23,4 +23,8 @@ new Promise(() => {
     new loader.packages.jobs.Cron(ConfigType.internal_settings.random_update, () => { loader.submodules.alerts.randomize(); });
 })
 
+process.on('uncaughtException', (error: Error) => { // Hackfix: Some external modules may cause uncaught exceptions
+    loader.submodules.utils.log(`Exception Caught: ${error.message}\n${error.stack}`,  { title: `\x1b[31m[ATMOSX-ERR]\x1b[0m` });
+});
+
  

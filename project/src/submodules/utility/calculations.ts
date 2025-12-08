@@ -82,7 +82,7 @@ export class Calculations {
     public timeRemaining(future: string): string | Date {
         const t = Date.parse(future);
         if (isNaN(t)) return future;
-        let s = Math.floor((t - Date.now()) / 1000);
+        let s = Math.floor((t - Date.now()) / 1_000);
         if (s <= 0) return "Expired";
         const d = Math.floor(s / 86400); s %= 86400;
         const h = Math.floor(s / 3600); s %= 3600;
@@ -101,7 +101,7 @@ export class Calculations {
      */
     public formatDuration(ms: number): string {
         if (!Number.isFinite(ms) || ms < 0) return "0s";
-        let s = Math.floor(ms / 1000);
+        let s = Math.floor(ms / 1_000);
         const d = Math.floor(s / 86400); s %= 86400;
         const h = Math.floor(s / 3600); s %= 3600;
         const m = Math.floor(s / 60); s %= 60;

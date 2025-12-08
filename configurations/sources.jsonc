@@ -10,7 +10,7 @@
 
         Written by: KiyoWx (k3yomi) & StarflightWx      
         
-        Copyright (c) 2025 k3yomi
+        Copyright (c) 2026 k3yomi
         Permission is hereby granted, free of charge, to any person obtaining a copy
         of this software and associated documentation files (the "Software"), to use,
         copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software,
@@ -134,7 +134,7 @@
         },
         "miscellaneous_settings": {
             "sonde_project_weather_eye": {
-                "enabled": true,
+                "enabled": false,
                 "cache_time": 119,
                 "endpoint": "https://sonde.projectweathereye.org/data",
                 "contradictions": []
@@ -153,7 +153,7 @@
             },
             "tempest_station": {
                 "enabled": false,
-                "api_key": "6bff2f89-84ab-463c-886e-fc0f443da4cf",
+                "location_based": false,
                 "station": 0,
                 "device": 0
             },

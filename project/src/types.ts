@@ -42,7 +42,7 @@ interface LocalEventProperties {
 }
 
 // --- Exports --- //
-export interface HTTPOptions  { timeout?: number | 5000; headers?: Record<string, string> | {}; method?: LocalHttpMethod; body?: string }
+export interface HTTPOptions  { timeout?: number | 5_000; headers?: Record<string, string> | {}; method?: LocalHttpMethod; body?: string }
 export interface GeoJSONFeatureCollection  { type?: string; features?: LocalGeoJSON[] }
 export interface CacheStructure  { name: string;  url: string;  enabled: boolean;  cache: number;  contradictions: string[]; }
 export interface LatitudeAndLongitude { coords: {lat?: number; lon?: number}; coords2?: {lat?: number; lon?: number}}
@@ -85,6 +85,7 @@ export interface ConfigurationsType {
     project_settings?: any; 
     display_settings?: any;
     internal_settings?: any;
+    streamer_bot_settings?: any;
     websocket_settings?: any;
     webhook_settings?: any;
     sources?: any; 

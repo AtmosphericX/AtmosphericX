@@ -11,7 +11,8 @@
             "add: Unpacked data handling and conversion, including payload bit-depth support.",
             "add: Method to fetch latest WISE data files by ICAO and product codes.",
             "add: Utility functions for converting radar data into geographical coordinates",
-            "add: Implement login background to \"live\" weather.cod satellite view."
+            "add: Implement login background to \"live\" weather.cod satellite view.",
+            "add: Implement streamer.bot/client package for Streamer.bot integration."
         ],
         "rewrite": true
     },

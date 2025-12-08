@@ -20927,6 +20927,7 @@ var init_pulsepoint = __esm({
             `PulsePoint Incident Update: ${(_a = event.properties.type) != null ? _a : "Unknown Type"}`,
             { title: `\x1B[33m[ATMOSX-PULSEPOINT]\x1B[0m` }
           );
+          submodules.streaming.sendChatMessage(`${event.properties.agency} - ${event.properties.type} reported at ${event.properties.address || "Unknown Location"} (x${event.properties.units.length})`, `pulse_point`);
         });
         pulse.on(`log`, (message) => {
           submodules.utils.log(message, { title: `\x1B[33m[ATMOSX-PULSEPOINT]\x1B[0m` });
@@ -20934,6 +20935,72 @@ var init_pulsepoint = __esm({
       }
     };
     pulsepoint_default = Alerts2;
+  }
+});
+
+// src/submodules/internal/streaming.ts
+var Streaming, streaming_default;
+var init_streaming = __esm({
+  "src/submodules/internal/streaming.ts"() {
+    init_bootstrap();
+    Streaming = class {
+      constructor() {
+        this.NAME_SPACE = `submodule:streaming`;
+        this.SERVICE = null;
+        this.IS_BOT_ACCOUNT = false;
+        this.MAX_THRESHOLD = 1;
+        this.MAX_THRESHOLD_TIME = 5e3;
+        this.EVENTS = [];
+        (() => __async(this, null, function* () {
+          var _a, _b, _c, _d;
+          submodules.utils.log(`${this.NAME_SPACE} initialized.`);
+          const config = cache.internal.configurations;
+          if (!((_a = config.streamer_bot_settings) == null ? void 0 : _a.enabled)) {
+            return;
+          }
+          cache.handlers.streamingBotClient = yield new packages.StreamerbotClient({
+            onConnect: () => __async(this, null, function* () {
+              var _a2, _b2, _c2, _d2, _e, _f;
+              const broadcaster = yield cache.handlers.streamingBotClient.getBroadcaster();
+              this.SERVICE = broadcaster == null ? void 0 : broadcaster.connected[0];
+              this.IS_BOT_ACCOUNT = (_b2 = (_a2 = config.streamer_bot_settings) == null ? void 0 : _a2.use_bot_account) != null ? _b2 : false;
+              this.EVENTS = (_d2 = (_c2 = config.streamer_bot_settings) == null ? void 0 : _c2.events) != null ? _d2 : [];
+              if (this.SERVICE) {
+                yield this.sendChatMessage(`AtmosphericX has connected to Streamer Bot successfully!`, `welcome`);
+                submodules.utils.log(`${this.NAME_SPACE} connected to Streamer Bot @ ${(_e = config.streamer_bot_settings) == null ? void 0 : _e.address}:${(_f = config.streamer_bot_settings) == null ? void 0 : _f.port}`);
+              }
+            }),
+            address: (_b = config.streamer_bot_settings) == null ? void 0 : _b.address,
+            port: (_c = config.streamer_bot_settings) == null ? void 0 : _c.port,
+            password: (_d = config.streamer_bot_settings) == null ? void 0 : _d.password
+          });
+        }))();
+      }
+      /**
+       * @function sendChatMessage
+       * @description
+       *    Sends a chat message via Streamer Bot if the service is connected and the event type is enabled.
+       * 
+       * @param {string} [message='']
+       * @param {string} [type='events']
+       * @returns {Promise<void>}
+       */
+      sendChatMessage(message = "", type = "events") {
+        return __async(this, null, function* () {
+          if (this.SERVICE && this.EVENTS[type] == true) {
+            const time = Date.now();
+            cache.internal.limiters = cache.internal.limiters.filter((ts) => ts.timestamp > time - this.MAX_THRESHOLD_TIME);
+            if (cache.internal.limiters.filter((ts) => ts.type == `streaming.chat.limit`).length >= this.MAX_THRESHOLD) {
+              return;
+            }
+            cache.internal.limiters.push({ type: `streaming.chat.limit`, timestamp: time });
+            submodules.utils.log(`Sending message to Streamer Bot: ${message.substring(0, 200)}`);
+            yield cache.handlers.streamingBotClient.sendMessage(this.SERVICE, message.substring(0, 200), { bot: this.IS_BOT_ACCOUNT });
+          }
+        });
+      }
+    };
+    streaming_default = Streaming;
   }
 });
 
@@ -20945,23 +21012,24 @@ var init_tempest = __esm({
     Alerts3 = class {
       constructor() {
         this.NAME_SPACE = `submodule:tempest`;
+        this.DEF_KEY = `6bff2f89-84ab-463c-886e-fc0f443da4cf`;
         this.DATA = { forecast: null, observation: null, rapidWind: null, lightning: null };
         var _a, _b;
         this.PACKAGE = packages.TempestStation;
         submodules.utils.log(`${this.NAME_SPACE} initialized.`);
         const config = cache.internal.configurations;
         const tempest = (_b = (_a = config.sources) == null ? void 0 : _a.miscellaneous_settings) == null ? void 0 : _b.tempest_station;
-        if (!(tempest == null ? void 0 : tempest.enabled) || !tempest.api_key || !tempest.device || !tempest.station) {
+        if (!(tempest == null ? void 0 : tempest.enabled)) {
           return;
         }
         this.MANAGER = new this.PACKAGE({
-          api: tempest.api_key,
+          api: this.DEF_KEY,
           deviceId: tempest.device,
           stationId: tempest.station,
           journal: false
         });
-        this.MANAGER.on(`onObservation`, (data) => {
-          var _a2, _b2, _c, _d, _e, _f, _g, _h, _i, _j, _k, _l, _m, _n, _o, _p, _q, _r, _s, _t, _u, _v, _w, _x, _y, _z;
+        this.MANAGER.on(`onObservation`, (data) => __async(this, null, function* () {
+          var _a2, _b2, _c, _d, _e, _f, _g, _h, _i, _j, _k, _l, _m, _n, _o, _p, _q, _r, _s, _t, _u, _v, _w, _x, _y, _z, _A, _B, _C, _D, _E, _F, _G, _H, _I, _J;
           this.DATA.observation = data;
           const forecast = (_c = (_b2 = (_a2 = this.DATA) == null ? void 0 : _a2.forecast) == null ? void 0 : _b2.features) == null ? void 0 : _c[0];
           const rapid = (_f = (_e = (_d = this.DATA) == null ? void 0 : _d.rapidWind) == null ? void 0 : _e.features) == null ? void 0 : _f[0];
@@ -20976,7 +21044,8 @@ var init_tempest = __esm({
             conditions: (_x = (_w = forecast == null ? void 0 : forecast.properties) == null ? void 0 : _w.conditions) != null ? _x : null,
             location: (_z = (_y = forecast == null ? void 0 : forecast.properties) == null ? void 0 : _y.station_name) != null ? _z : null
           });
-        });
+          yield submodules.streaming.sendChatMessage(`Current Conditions: ${(_B = (_A = forecast == null ? void 0 : forecast.properties) == null ? void 0 : _A.conditions) != null ? _B : "N/A"}, Temp: ${(_D = (_C = forecast == null ? void 0 : forecast.properties) == null ? void 0 : _C.temperature) != null ? _D : "N/A"}\xB0F, Dew Point: ${(_F = (_E = forecast == null ? void 0 : forecast.properties) == null ? void 0 : _E.dew_point) != null ? _F : "N/A"}\xB0F, Humidity: ${(_H = (_G = forecast == null ? void 0 : forecast.properties) == null ? void 0 : _G.humidity) != null ? _H : "N/A"}%, Wind: ${(_J = (_I = rapid == null ? void 0 : rapid.properties) == null ? void 0 : _I.speed) != null ? _J : "N/A"} mph`, `mesonet`);
+        }));
         this.MANAGER.on(`onForecast`, (data) => {
           this.DATA.forecast = data;
         });
@@ -21009,6 +21078,7 @@ var init_utils = __esm({
         this.LOGO_LEGACY_PATH = `../storage/logo-legacy.txt`;
         this.LOGS_PATH = `../storage/logs.txt`;
         this.CONFIGURATIONS_PATH = `../configurations`;
+        this.CONFIG_HASH = null;
         this.configurations();
         this.logo();
         this.log(`${this.NAME_SPACE} initialized.`);
@@ -21097,6 +21167,7 @@ var init_utils = __esm({
        * @function log
        * @description
        *     Logs a message to the internal cache, console, and optionally to a log file.
+       *     This will also check a hash to see if the configurations have changed and notify.
        * 
        * @param {string} [message]
        * @param {types.LogOptions} [options]
@@ -21128,6 +21199,12 @@ var init_utils = __esm({
           third_party_services: configurations.third_party_services,
           forecasting_services: configurations.forecasting_services
         };
+        const configString = JSON.stringify(configurations);
+        const configHash = packages.crypto.createHash("md5").update(configString).digest("hex");
+        if (this.CONFIG_HASH && this.CONFIG_HASH !== configHash) {
+          this.log(`Configuration change detected. Please restart AtmosphericX to apply changes as some configurations will not change during runtime.`, { title: `\x1B[31m[ATMOSX-UTILS]\x1B[0m`, echoFile: true });
+        }
+        this.CONFIG_HASH = configHash;
       }
       /**
        * @function filterWebContent
@@ -21704,6 +21781,7 @@ var init_structure = __esm({
               const webhooks = ConfigType.webhook_settings;
               const pSet = new Set((ConfigType.filters.priority_events || []).map((p) => String(p).toLowerCase()));
               const title = `${ev.event.properties.event} (${ev.event.properties.action_type})`;
+              const locations = ev.event.properties.locations;
               const body = [
                 `**Locations:** ${ev.event.properties.locations.slice(0, 259)}`,
                 `**Issued:** ${ev.event.properties.issued}`,
@@ -21720,6 +21798,7 @@ var init_structure = __esm({
                 ev.event.properties.description.split("\n").map((line) => line.trim()).filter((line) => line.length > 0).join("\n"),
                 "```"
               ].join("\n");
+              yield submodules.streaming.sendChatMessage(`${title} for ${locations}`, `events`);
               yield submodules.networking.sendWebhook(title, body, webhooks.general_alerts);
               if (pSet.has(ev.event.properties.event.toLowerCase())) {
                 yield submodules.networking.sendWebhook(title, body, webhooks.critical_alerts);
@@ -22233,6 +22312,7 @@ var init_tracking = __esm({
       constructor() {
         this.NAME_SPACE = `submodule:locationtracking`;
         this.LAST_RT_UPDATE = 0;
+        this.MAX_THRESHOLD_TIME = 3e4;
         submodules.utils.log(`${this.NAME_SPACE} initialized.`);
         this.rtSocket();
       }
@@ -22255,6 +22335,15 @@ var init_tracking = __esm({
         cache.handlers.eventManager.setCurrentLocation(name, coords);
         submodules.utils.log(`Updated current coordinates for ${name} [LAT: ${coords.lat}, LON: ${coords.lon}]`);
       }
+      /**
+       * @function getNearestICAO
+       * @description
+       *    Finds the nearest NEXRAD radar ICAO code based on provided latitude and longitude.
+       * 
+       * @param {number} lat - The latitude of the location.
+       * @param {number} lon - The longitude of the location.
+       * @returns {Promise<string | null>} - The ICAO code of the nearest radar or null if none found.
+       */
       getNearestICAO(lat, lon) {
         const radars = cache.external.nexrad_radars;
         const distances = radars.features.map((radar) => {
@@ -22279,7 +22368,7 @@ var init_tracking = __esm({
         return __async(this, null, function* () {
           const ConfigType = cache.internal.configurations;
           const time = Date.now();
-          cache.internal.limiters = cache.internal.limiters.filter((ts) => ts.timestamp > time - 15 * 1e3);
+          cache.internal.limiters = cache.internal.limiters.filter((ts) => ts.timestamp > time - this.MAX_THRESHOLD_TIME);
           if (cache.internal.limiters.filter((ts) => ts.type == `gps.tracking.limit`).length >= 1) {
             return;
           }
@@ -22307,10 +22396,12 @@ var init_tracking = __esm({
                 location: `${getLocationData.message.address.county}, ${getLocationData.message.address.state} (${getLocationData.message.address.city ? getLocationData.message.address.city : `${getLocationData.message.address.house_number} ${getLocationData.message.address.road}`})`
               });
             } else {
-              cache.handlers.tempestStation.getClosestStation({ lat: targetCoords.lat, lon: targetCoords.lon }).then((station) => {
-                submodules.utils.log(`Closest Tempest Station to [LAT: ${targetCoords.lat}, LON: ${targetCoords.lon}] is ${station.properties.name}`);
-                cache.handlers.tempestStation.setSettings({ stationId: station.id, deviceId: station.properties.devices[0] });
-              });
+              if (ConfigType.sources.miscellaneous_settings.tempest_station.location_based) {
+                cache.handlers.tempestStation.getClosestStation({ lat: targetCoords.lat, lon: targetCoords.lon }).then((station) => {
+                  submodules.utils.log(`Closest Tempest Station to [LAT: ${targetCoords.lat}, LON: ${targetCoords.lon}] is ${station.properties.name}`);
+                  cache.handlers.tempestStation.setSettings({ stationId: station.id, deviceId: station.properties.devices[0] });
+                });
+              }
             }
           }
         });
@@ -22430,13 +22521,14 @@ __export(bootstrap_exports, {
   strings: () => strings,
   submodules: () => submodules
 });
-var import_atmosx_nwws_parser, import_atmosx_pulse_point, import_atmosx_placefile_parser, import_atmosx_tempest_station, import_better_sqlite3, import_express, import_express_rate_limit, import_cookie_parser, import_axios, gui, events, path2, fs, crypto, http2, https2, process2, xmpp, os, xml2js, firebaseApp, firebaseDatabase, streamerBot, jobs, jsonc, stream2, buffer, cache, apis, strings, packages, submoduleClasses, submodules;
+var import_atmosx_nwws_parser, import_atmosx_pulse_point, import_atmosx_placefile_parser, import_atmosx_tempest_station, import_client, import_better_sqlite3, import_express, import_express_rate_limit, import_cookie_parser, import_axios, gui, events, path2, fs, crypto, http2, https2, process2, xmpp, os, xml2js, firebaseApp, firebaseDatabase, jobs, jsonc, stream2, buffer, cache, apis, strings, packages, submoduleClasses, submodules;
 var init_bootstrap = __esm({
   "src/bootstrap.ts"() {
     import_atmosx_nwws_parser = require("atmosx-nwws-parser");
     import_atmosx_pulse_point = require("atmosx-pulse-point");
     import_atmosx_placefile_parser = require("atmosx-placefile-parser");
     import_atmosx_tempest_station = require("atmosx-tempest-station");
+    import_client = require("@streamerbot/client");
     import_better_sqlite3 = __toESM(require("better-sqlite3"));
     import_express = __toESM(require("express"));
     import_express_rate_limit = __toESM(require("express-rate-limit"));
@@ -22457,7 +22549,6 @@ var init_bootstrap = __esm({
     init_wrapper();
     firebaseApp = __toESM(require("firebase/app"));
     firebaseDatabase = __toESM(require("firebase/database"));
-    streamerBot = __toESM(require("@streamerbot/client"));
     jobs = __toESM(require("croner"));
     jsonc = __toESM(require("jsonc-parser"));
     stream2 = __toESM(require("stream"));
@@ -22465,6 +22556,7 @@ var init_bootstrap = __esm({
     init_routing();
     init_events();
     init_pulsepoint();
+    init_streaming();
     init_tempest();
     init_utils();
     init_calculations();
@@ -22519,6 +22611,7 @@ var init_bootstrap = __esm({
       handlers: {
         express: null,
         eventManager: null,
+        streamingBotClient: null,
         tempestStation: null,
         rtSocket: null,
         socket: null,
@@ -22580,7 +22673,7 @@ ${"	".repeat(5)} {ONLINE_CHANGELOGS}
       jsonc,
       gui,
       xmpp,
-      streamerBot,
+      StreamerbotClient: import_client.StreamerbotClient,
       jobs,
       rateLimit: import_express_rate_limit.default,
       stream: stream2,
@@ -22603,7 +22696,8 @@ ${"	".repeat(5)} {ONLINE_CHANGELOGS}
       gps: tracking_default,
       database: database_default,
       pulsepoint: pulsepoint_default,
-      tempest: tempest_default
+      tempest: tempest_default,
+      streaming: streaming_default
     };
     submodules = {};
     Object.entries(submoduleClasses).forEach(([key, Class]) => {
@@ -22626,6 +22720,10 @@ new Promise(() => {
   new packages.jobs.Cron(ConfigType.internal_settings.random_update, () => {
     submodules.alerts.randomize();
   });
+});
+process.on("uncaughtException", (error) => {
+  submodules.utils.log(`Exception Caught: ${error.message}
+${error.stack}`, { title: `\x1B[31m[ATMOSX-ERR]\x1B[0m` });
 });
 /*! Bundled license information:
 

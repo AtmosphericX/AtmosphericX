@@ -104,7 +104,7 @@ export class Alerts {
                 const isOptionsProvided = options !== undefined;
                 if (!isOptionsProvided) {
                     options = {
-                        timeout: config.internal_settings.request_timeout * 1000,
+                        timeout: config.internal_settings.request_timeout * 1_000,
                         headers: {
                             "User-Agent": `AtmosphericX/${loader.submodules.utils.version()}`,
                             "Accept": "application/geo+json, text/plain, */*; q=0.",
@@ -175,7 +175,7 @@ export class Alerts {
     public async sendWebhook(title: string, body: string, settings: types.WebhookSettings): Promise<void> {
         if (!settings.enabled) { return }
         const time = Date.now();
-        loader.cache.internal.limiters = loader.cache.internal.limiters.filter(ts => ts.timestamp > time - settings.webhook_cooldown * 1000);
+        loader.cache.internal.limiters = loader.cache.internal.limiters.filter(ts => ts.timestamp > time - settings.webhook_cooldown * 1_000);
         if (loader.cache.internal.limiters.filter(ts => ts.type == title).length >= 3) {
             return;
         }
@@ -228,7 +228,7 @@ export class Alerts {
             const activeSources = structure.filter(s => s.enabled && s.url != null);
             await Promise.all(activeSources.map(async source => {
                 const lastFetched = loader.cache.internal.http_timers[source.name] ?? 0;
-                if (setTime - lastFetched <= source.cache * 1000) return;
+                if (setTime - lastFetched <= source.cache * 1_000) return;
                 loader.cache.internal.http_timers[source.name] = setTime;
                 for (let attempt = 0; attempt < 3; attempt++) {
                     const response = await this.getDataFromSource(source.url);
@@ -249,7 +249,7 @@ export class Alerts {
         if (isAlertUpdate) {
             if (!atmosx_parser_settings.noaa_weather_wire_service) {
                 const lastFetched = loader.cache.internal.http_timers[`NWS`] ?? 0;
-                if (setTime - lastFetched <= atmosx_parser_settings.national_weather_service_settings.interval * 1000) return;
+                if (setTime - lastFetched <= atmosx_parser_settings.national_weather_service_settings.interval * 1_000) return;
                 loader.cache.internal.http_timers[`NWS`] = setTime;
                 stringText += `(OK) NWS, `
             }   

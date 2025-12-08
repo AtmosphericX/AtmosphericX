@@ -14,18 +14,20 @@
 
 
 /* [ AtmosphericX Custom Modules ] */
-import {AlertManager, TextParser} from 'atmosx-nwws-parser';
+import { AlertManager, TextParser } from 'atmosx-nwws-parser';
 import { PulsePoint } from 'atmosx-pulse-point';
-import { PlacefileManager  } from 'atmosx-placefile-parser';
+import { PlacefileManager } from 'atmosx-placefile-parser';
 import { TempestStation } from 'atmosx-tempest-station';
 
 
 /* [ Variable Exports ] */
+import { StreamerbotClient } from '@streamerbot/client';
 import sqlite3 from 'better-sqlite3';
 import express from 'express';
 import rateLimit from 'express-rate-limit';
 import cookieParser from 'cookie-parser';
 import axios from 'axios';
+
 
 /* [ All Modules Export ] */
 import * as gui from 'blessed';
@@ -43,7 +45,6 @@ import * as shapefile from 'shapefile';
 import * as ws from 'ws';
 import * as firebaseApp from 'firebase/app';
 import * as firebaseDatabase from 'firebase/database';
-import * as streamerBot from '@streamerbot/client';
 import * as jobs from 'croner';
 import * as jsonc from 'jsonc-parser';
 import * as stream from 'stream';
@@ -54,6 +55,7 @@ import * as buffer from 'buffer';
 import routes from './submodules/express/routing';
 import alerts from './submodules/internal/events';
 import pulsepoint from './submodules/internal/pulsepoint';
+import streaming from './submodules/internal/streaming';
 import tempest from './submodules/internal/tempest';
 import utils from './submodules/utility/utils';
 import calculations from './submodules/utility/calculations';
@@ -110,6 +112,7 @@ export const cache = {
     handlers: {
         express: null,
         eventManager: null,
+        streamingBotClient: null,
         tempestStation: null,
         rtSocket: null,
         socket: null,
@@ -135,9 +138,9 @@ export const strings = {
 /* [ Package Exports ] */
 export const packages = {
     events, path, fs, crypto, http, https, os, process,
-    sqlite3, firebaseApp, firebaseDatabase, express, 
+    sqlite3, firebaseApp, firebaseDatabase, express,
     cookieParser, axios, ws, xml2js, shapefile, jsonc,
-    gui, xmpp, streamerBot, jobs, rateLimit, stream, buffer,
+    gui, xmpp, StreamerbotClient, jobs, rateLimit, stream, buffer,
     AlertManager, TextParser, PulsePoint, PlacefileManager, TempestStation,
 };
 
@@ -146,7 +149,7 @@ export const packages = {
 const submoduleClasses = {
     utils, alerts, calculations, networking,
     structure, display, parsing, routes, gps,
-    database, pulsepoint, tempest
+    database, pulsepoint, tempest, streaming
 };
 
 export const submodules: any = {};

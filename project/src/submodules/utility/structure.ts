@@ -179,6 +179,7 @@ export class Structure {
 				const webhooks = ConfigType.webhook_settings;
 				const pSet = new Set((ConfigType.filters.priority_events || []).map(p => String(p).toLowerCase()));
 				const title = `${ev.event.properties.event} (${ev.event.properties.action_type})`;
+				const locations = ev.event.properties.locations;
 				const body = [
 					`**Locations:** ${ev.event.properties.locations.slice(0, 259)}`,
 					`**Issued:** ${ev.event.properties.issued}`,
@@ -195,6 +196,7 @@ export class Structure {
 					ev.event.properties.description.split('\n').map(line => line.trim()).filter(line => line.length > 0).join('\n'),
 					'```'
 				].join('\n');
+				await loader.submodules.streaming.sendChatMessage(`${title} for ${locations}`, `events`);
 				await loader.submodules.networking.sendWebhook(title,body, webhooks.general_alerts);
 				if (pSet.has(ev.event.properties.event.toLowerCase())) {
 					await loader.submodules.networking.sendWebhook(title, body, webhooks.critical_alerts);

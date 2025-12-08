@@ -31,7 +31,7 @@ export class Init {
         const parentDirectory = loader.packages.path.resolve(`..`, `storage`);
         const ConfigType = loader.cache.internal.configurations as types.ConfigurationsType;
         const limiter = loader.packages.rateLimit({
-            windowMs: ConfigType.web_hosting_settings.settings.ratelimiting?.window_ms || 30000,
+            windowMs: ConfigType.web_hosting_settings.settings.ratelimiting?.window_ms || 30_000,
             max: ConfigType.web_hosting_settings.settings.ratelimiting?.max_requests || 125,
             handler: (__, response) => {
                 return response.status(429).json({ message: this.RATELIMIT_INVALID_MESSAGE});

@@ -19,6 +19,7 @@ import * as types from '../../types';
 export class GlobalPositioningSystem { 
     NAME_SPACE: string = `submodule:locationtracking`;
     LAST_RT_UPDATE: number = 0;
+    MAX_THRESHOLD_TIME: number = 30_000;
     constructor() {
         loader.submodules.utils.log(`${this.NAME_SPACE} initialized.`)
         this.rtSocket()
@@ -44,6 +45,15 @@ export class GlobalPositioningSystem {
         loader.submodules.utils.log(`Updated current coordinates for ${name} [LAT: ${coords.lat}, LON: ${coords.lon}]`);
     }
 
+    /**
+     * @function getNearestICAO
+     * @description
+     *    Finds the nearest NEXRAD radar ICAO code based on provided latitude and longitude.
+     * 
+     * @param {number} lat - The latitude of the location.
+     * @param {number} lon - The longitude of the location.
+     * @returns {Promise<string | null>} - The ICAO code of the nearest radar or null if none found.
+     */
     public getNearestICAO(lat: number, lon: number): Promise<string | null> {
         const radars = loader.cache.external.nexrad_radars as types.GeoJSONFeatureCollection;
         const distances = radars.features.map((radar: any) => {
@@ -68,7 +78,7 @@ export class GlobalPositioningSystem {
     public async getTrackingInformation(): Promise<void> {
         const ConfigType = loader.cache.internal.configurations as types.ConfigurationsType;
         const time = Date.now();
-        loader.cache.internal.limiters = loader.cache.internal.limiters.filter(ts => ts.timestamp > time - 15 * 1000);
+        loader.cache.internal.limiters = loader.cache.internal.limiters.filter(ts => ts.timestamp > time - this.MAX_THRESHOLD_TIME);
         if (loader.cache.internal.limiters.filter(ts => ts.type == `gps.tracking.limit`).length >= 1) {
             return;
         }
@@ -96,10 +106,12 @@ export class GlobalPositioningSystem {
                     location: `${getLocationData.message.address.county}, ${getLocationData.message.address.state} (${getLocationData.message.address.city ? getLocationData.message.address.city : `${getLocationData.message.address.house_number} ${getLocationData.message.address.road}`})`,
                 })
             } else { 
-                loader.cache.handlers.tempestStation.getClosestStation({lat: targetCoords.lat, lon: targetCoords.lon}).then((station) => {
-                    loader.submodules.utils.log(`Closest Tempest Station to [LAT: ${targetCoords.lat}, LON: ${targetCoords.lon}] is ${station.properties.name}`);
-                    loader.cache.handlers.tempestStation.setSettings({stationId: station.id, deviceId: station.properties.devices[0]})
-                })
+                if (ConfigType.sources.miscellaneous_settings.tempest_station.location_based) {
+                    loader.cache.handlers.tempestStation.getClosestStation({lat: targetCoords.lat, lon: targetCoords.lon}).then((station) => {
+                        loader.submodules.utils.log(`Closest Tempest Station to [LAT: ${targetCoords.lat}, LON: ${targetCoords.lon}] is ${station.properties.name}`);
+                        loader.cache.handlers.tempestStation.setSettings({stationId: station.id, deviceId: station.properties.devices[0]})
+                    })
+                }
             }
         }    
     }
