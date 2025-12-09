@@ -170,8 +170,7 @@ export class Structure {
 				ev.event.properties.distance = eventDistance.range; 
 				if (!ev.ignored) { ev.ignored = this.distance(ev.event).inRange === false; }
 				if (isAlreadyLogged) { continue; }
-				if (ev.ignored) { continue; }
-				loader.submodules.utils.log(`${this.NAME_SPACE} New Event: ${ev.event.properties.event} (${ev.event.properties.action_type}) at ${ev.ignored}`);
+				if (ev.ignored) { continue; }				
 				loader.cache.external.hashes.push({ id: ev.event.hash, expires: ev.event.properties.expires });
 				if (!loader.submodules.utils.isFancyDisplay()) {
 					loader.submodules.utils.log(loader.submodules.alerts.returnAlertText(ev));
