@@ -80,12 +80,12 @@ export class Structure {
 	public register(event: types.EventType) {
 		const ConfigType = loader.cache.internal.configurations as types.ConfigurationsType;
 		const eventName = event.properties.event;
-		const isPriorityEvent = ConfigType.filters.priority_events.includes(eventName);
+		const isPriorityEvent = ConfigType.filters.priority_events.some(e => e.toLowerCase() === eventName.toLowerCase());
 		const isBeepAuthorizedOnly = ConfigType.filters.sfx_beep_only;
 		const isShowingUpdatesAllowed = ConfigType.filters.show_updates;
 		const eventMetadata = this.metadata(event);
-		const isBeepOnly = isBeepAuthorizedOnly && isPriorityEvent;
-		const isIgnored = !isShowingUpdatesAllowed && !isPriorityEvent 
+		const isBeepOnly = isBeepAuthorizedOnly && !isPriorityEvent;
+		const isIgnored = !isShowingUpdatesAllowed && !isPriorityEvent && !event.properties.is_issued;
 		return {
 			event,
 			metadata: eventMetadata.metadata,
@@ -167,9 +167,11 @@ export class Structure {
 			for (const ev of clean.events) {
 				const isAlreadyLogged = loader.cache.external.hashes.some(log => log.id === ev.event.hash);
 				const eventDistance = this.distance(ev.event)
-				ev.event.properties.distance = eventDistance.range; ev.ignored = this.distance(ev.event).inRange === false;
-				if (isAlreadyLogged) continue;
-				if (ev.ignored) continue;
+				ev.event.properties.distance = eventDistance.range; 
+				if (!ev.ignored) { ev.ignored = this.distance(ev.event).inRange === false; }
+				if (isAlreadyLogged) { continue; }
+				if (ev.ignored) { continue; }
+				loader.submodules.utils.log(`${this.NAME_SPACE} New Event: ${ev.event.properties.event} (${ev.event.properties.action_type}) at ${ev.ignored}`);
 				loader.cache.external.hashes.push({ id: ev.event.hash, expires: ev.event.properties.expires });
 				if (!loader.submodules.utils.isFancyDisplay()) {
 					loader.submodules.utils.log(loader.submodules.alerts.returnAlertText(ev));

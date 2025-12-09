@@ -34,37 +34,39 @@
     */
 {
     "web_hosting_settings": {
-        "is_login_required": true, // TODO (Semi)
-        "is_guest_access_allowed": false, // TODO
+        "is_login_required": true, // No account creation required for ATMOSX (Not secure)
+        "is_guest_access_allowed": false, // TODO: If you want to allow guest access to your dashboard. (Not Secure)
         "settings" : {
-            "is_https": false,
-            "port_number": 80,
-            "ratelimiting": {
-                "enabled": true,
-                "window_ms": 30000,
-                "max_requests": 125
+            "is_https": false, // If you want to enable HTTPS (See documentation for CF Tunnel Integration)
+            "port_number": 80, // What port you would like to host ATMOSX.
+            "ratelimiting": { 
+                "enabled": true, // If you want to enable ratelimiting to prevent spamming of requests.
+                "window_ms": 30000, // When to reset ratelimit requests per address.
+                "max_requests": 125 // Max requests (Default: 125 per address in a 30_000 window)
             },
-            "certification_paths": {
-                "private_key_path": ".../storage/policy/certificates/key.pem",
+            "certification_paths": { // HTTPS Certs will be located here. If you are using CF Tunnels, ignore this.
+                "private_key_path": ".../storage/policy/certificates/key.pem", 
                 "certificate_path": ".../storage/policy/certificates/cert.pem"
             }
         }
     },
+    // Schedules are handled with cron scheduling. (See https://crontab.guru/) for a guide.
     "internal_settings": {
-        "global_update": "*/1 * * * * *", 
-        "random_update": "*/30 * * * * *", 
-        "update_check": "0 */6 * * *",
+        "global_update": "*/5 * * * * *",  // Default 5 seconds (This updates the global cache but websocket settings will be primary guide)
+        "random_update": "*/30 * * * * *",  // Default is 30 seconds 
+        "update_check": "0 */6 * * *", // Default: 6 hours (Checks for AtmosphericX updates and logs to console if outdated)
         "request_timeout": 10
     },
     "websocket_settings": {
-        "maximum_connections_per_ip": 15,
+        "maximum_connections_per_ip": 25, // Max connections to a websocket address. (Default: 25 connections)
         "priority_sockets": {
-            "timeout": 2,
-            "sockets": [
+            "timeout": 2, // How often websocket cache shouldn't be sent to the clients. (Default: 2 seconds)
+            "sockets": [ // Type(s) of websocket subscriptions to put in the priority sockets.
                 "events", "placefiles", "manual", 
-                "locations", "mesonet", "rng"
+                "locations", "mesonet", "rng", "emergencies"
             ]
         },
+        // Below is the same as above.
         "secondary_sockets": {
             "timeout": 30,
             "sockets": [
@@ -75,22 +77,24 @@
             ]
         }
     },
-    "webhook_settings": {
-        "general_alerts": {
+    // Discord webhook integration settings.
+    "webhook_settings": { 
+        "general_alerts": { // Generic events that you are actively listening to.
+            "enabled": false,
+            "discord_webhook": "DISCORD_WEBHOOK_HERE", // Webhook goes here.
+            "webhook_display": "AtmosphericX (Webhook Integration)", // Name of the webhook.
+            "content": "<@&ROLE_ID_HERE>", // RoleID here, if you dont want a role, leave this empty.
+            "webhook_cooldown": 1 // Cooldown limit.
+        },
+        // Same as below
+        "critical_alerts": { // Handles critical only events specified in "priority_events" in alerts.jsonc
             "enabled": false,
             "discord_webhook": "DISCORD_WEBHOOK_HERE",
             "webhook_display": "AtmosphericX (Webhook Integration)",
             "content": "<@&ROLE_ID_HERE>",
             "webhook_cooldown": 1
         },
-        "critical_alerts": {
-            "enabled": false,
-            "discord_webhook": "DISCORD_WEBHOOK_HERE",
-            "webhook_display": "AtmosphericX (Webhook Integration)",
-            "content": "<@&ROLE_ID_HERE>",
-            "webhook_cooldown": 1
-        },
-        "misc_alerts": {
+        "misc_alerts": { // Handles all misc events such as forecasts, discussions, etc. 
             "enabled": false,
             "discord_webhook": "DISCORD_WEBHOOK_HERE",
             "webhook_display": "AtmosphericX (Webhook Integration)",
@@ -98,20 +102,20 @@
             "webhook_cooldown": 10
         }
     },
-    "streamer_bot_settings": { // TODO: Add streamer bot support :3
+    "streamer_bot_settings": {
         "enabled": false,
-        "address": "127.0.0.1",
-        "use_bot_account": false,
-        "port": 8080,
-        "password": "password_here",
+        "address": "127.0.0.1", // Streamerbot WEBSOCKET address.
+        "use_bot_account": false, // If you want to use a bot account (Must be setup in the StreamerBotClient)
+        "port": 8080, // Port of the websocket
+        "password": "password_here", // Optional but I would recommened setting up a password.
         "events": {
-            "mesonet": false,
-            "events": false,
-            "pulse_point": false,
-            "welcome": false
+            "mesonet": false, // Mesonet Updates
+            "events": false,  // Alert Updates
+            "pulse_point": false, // PulsePoint Updates
+            "welcome": false // Welcome message when starting ATMOSX
         }
     },
-    "forecasting_services": [
+    "forecasting_services": [ // Handles all the third party forecasting services in the dashboard, feel free to add your own.
         {"title": "Composite Reflectivity (HRRR)","url": "https://www.pivotalweather.com/model.php?m=hrrr&p=refcmp_uh001h&fh=loop&r=conus&dpdt=&mc=","image": "/assets/media/dashboard/forecasting/composite-reflectivity.png"},
         {"title": "Bulk Shear (0-1km) (HRRR)","url": "https://www.pivotalweather.com/model.php?m=hrrr&p=bs01&fh=loop&r=conus&dpdt=&mc=","image": "/assets/media/dashboard/forecasting/bulk-shear.png"},
         {"title": "Surface Based Cape (HRRR)","url": "https://www.pivotalweather.com/model.php?m=hrrr&p=sbcape&fh=loop&r=conus&dpdt=&mc=","image": "/assets/media/dashboard/forecasting/surface-based-cape.png"},
@@ -122,27 +126,10 @@
         {"title": "Tropical Tidbits (GFS)","url": "https://www.tropicaltidbits.com/analysis/models/","image": "/assets/media/dashboard/forecasting/tropical-logo.png"},
         {"title": "Tropical Tidbits (RGEM)","url": "https://www.tropicaltidbits.com/analysis/models/?model=rgem&region=us","image": "/assets/media/dashboard/forecasting/tropical-logo.png"}
     ],
-    "third_party_services": [
+    "third_party_services": [ // Third party services commonly used for communication / streaming / radar.
         {"title": "Live Storm Chasing","url": "https://livestormchasing.com/","image": "/assets/media/dashboard/services/storm-live-logo.png"},
         {"title": "WeatherWise","url": "https://web.weatherwise.app/","image": "/assets/media/dashboard/services/weather-wise.png"},
         {"title": "OpenMhz","url": "https://openmhz.com/systems","image": "/assets/media/dashboard/services/open-mhz.png"},
         {"title": "Global EAS","url": "https://alerts.globaleas.org/","image": "/assets/media/dashboard/services/global-eas.png"}
-    ],
-    "spc_outlooks": [
-        { "day": 1, "title": "Severe Weather Outlook (Day 1)", "source": "https://www.spc.noaa.gov/partners/outlooks/state/swody1.png"},
-        { "day": 2, "title": "Severe Weather Outlook (Day 2)", "source": "https://www.spc.noaa.gov/partners/outlooks/state/swody2.png"},
-        { "day": 3, "title": "Severe Weather Outlook (Day 3)", "source": "https://www.spc.noaa.gov/partners/outlooks/state/swody3.png"},
-        { "day": 1, "title": "Severe Wind Outlook (Day 1)", "source": "https://www.spc.noaa.gov/partners/outlooks/national/swody1_WIND.png?" }, 
-        { "day": 1, "title": "Severe Hail Outlook (Day 1)", "source": "https://www.spc.noaa.gov/partners/outlooks/national/swody1_HAIL.png?" }, 
-        { "day": 1, "title": "Tornado Outlook (Day 1)", "source": "https://www.spc.noaa.gov/partners/outlooks/national/swody1_TORN.png?" }, 
-        { "day": 2, "title": "Severe Wind Outlook (Day 2)", "source": "https://www.spc.noaa.gov/partners/outlooks/national/swody2_WIND.png?" }, 
-        { "day": 2, "title": "Severe Hail Outlook (Day 2)", "source": "https://www.spc.noaa.gov/partners/outlooks/national/swody2_HAIL.png?" }, 
-        { "day": 2, "title": "Tornado Outlook (Day 2)", "source": "https://www.spc.noaa.gov/partners/outlooks/national/swody2_TORN.png?" }, 
-        { "day": 4, "title": "Severe Weather Outlook (Day 4)", "source": "https://www.spc.noaa.gov/partners/outlooks/national/swody4_PROB.png" }, 
-        { "day": 5, "title": "Severe Weather Outlook (Day 5)", "source": "https://www.spc.noaa.gov/partners/outlooks/national/swody5_PROB.png" }, 
-        { "day": 6, "title": "Severe Weather Outlook (Day 6)", "source": "https://www.spc.noaa.gov/partners/outlooks/national/swody6_PROB.png" },
-        { "day": 7, "title": "Severe Weather Outlook (Day 7)", "source": "https://www.spc.noaa.gov/partners/outlooks/national/swody7_PROB.png" }, 
-        { "day": 8, "title": "Severe Weather Outlook (Day 8)", "source": "https://www.spc.noaa.gov/partners/outlooks/national/swody8_PROB.png" } 
-    ],
-    "widget_settings": {}
+    ]
 }

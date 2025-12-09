@@ -1733,8 +1733,8 @@ var require_constants = __commonJS({
     module2.exports = {
       BINARY_TYPES: ["nodebuffer", "arraybuffer", "fragments"],
       GUID: "258EAFA5-E914-47DA-95CA-C5AB0DC85B11",
-      kStatusCode: Symbol("status-code"),
-      kWebSocket: Symbol("websocket"),
+      kStatusCode: /* @__PURE__ */ Symbol("status-code"),
+      kWebSocket: /* @__PURE__ */ Symbol("websocket"),
       EMPTY_BUFFER: Buffer.alloc(0),
       NOOP: () => {
       }
@@ -2035,8 +2035,8 @@ var require_buffer_util = __commonJS({
 var require_limiter = __commonJS({
   "node_modules/@xmpp/websocket/node_modules/ws/lib/limiter.js"(exports2, module2) {
     "use strict";
-    var kDone = Symbol("kDone");
-    var kRun = Symbol("kRun");
+    var kDone = /* @__PURE__ */ Symbol("kDone");
+    var kRun = /* @__PURE__ */ Symbol("kRun");
     var Limiter = class {
       /**
        * Creates a new `Limiter`.
@@ -2090,11 +2090,11 @@ var require_permessage_deflate = __commonJS({
     var Limiter = require_limiter();
     var { kStatusCode, NOOP } = require_constants();
     var TRAILER = Buffer.from([0, 0, 255, 255]);
-    var kPerMessageDeflate = Symbol("permessage-deflate");
-    var kTotalLength = Symbol("total-length");
-    var kCallback = Symbol("callback");
-    var kBuffers = Symbol("buffers");
-    var kError = Symbol("error");
+    var kPerMessageDeflate = /* @__PURE__ */ Symbol("permessage-deflate");
+    var kTotalLength = /* @__PURE__ */ Symbol("total-length");
+    var kCallback = /* @__PURE__ */ Symbol("callback");
+    var kBuffers = /* @__PURE__ */ Symbol("buffers");
+    var kError = /* @__PURE__ */ Symbol("error");
     var zlibLimiter;
     var PerMessageDeflate = class {
       /**
@@ -6007,8 +6007,8 @@ var require_utils = __commonJS({
         Object.defineProperty(target, keys[i], Object.getOwnPropertyDescriptor(source, keys[i]));
       }
     };
-    module2.exports.wrapperSymbol = Symbol("wrapper");
-    module2.exports.implSymbol = Symbol("impl");
+    module2.exports.wrapperSymbol = /* @__PURE__ */ Symbol("wrapper");
+    module2.exports.implSymbol = /* @__PURE__ */ Symbol("impl");
     module2.exports.wrapperForImpl = function(impl) {
       return impl[module2.exports.wrapperSymbol];
     };
@@ -6201,7 +6201,7 @@ var require_url_state_machine = __commonJS({
       ws: 80,
       wss: 443
     };
-    var failure = Symbol("failure");
+    var failure = /* @__PURE__ */ Symbol("failure");
     function countSymbols(str) {
       return punycode.ucs2.decode(str).length;
     }
@@ -8223,8 +8223,8 @@ var init_lib = __esm({
     import_https = __toESM(require("https"), 1);
     import_zlib = __toESM(require("zlib"), 1);
     Readable = import_stream.default.Readable;
-    BUFFER = Symbol("buffer");
-    TYPE = Symbol("type");
+    BUFFER = /* @__PURE__ */ Symbol("buffer");
+    TYPE = /* @__PURE__ */ Symbol("type");
     Blob2 = class _Blob {
       constructor() {
         this[TYPE] = "";
@@ -8329,7 +8329,7 @@ var init_lib = __esm({
       convert = require("encoding").convert;
     } catch (e) {
     }
-    INTERNALS = Symbol("Body internals");
+    INTERNALS = /* @__PURE__ */ Symbol("Body internals");
     PassThrough = import_stream.default.PassThrough;
     Body.prototype = {
       get body() {
@@ -8432,7 +8432,7 @@ var init_lib = __esm({
     Body.Promise = global.Promise;
     invalidTokenRegex = /[^\^_`a-zA-Z\-0-9!#$%&'*+.|~]/;
     invalidHeaderCharRegex = /[^\t\x20-\x7e\x80-\xff]/;
-    MAP = Symbol("map");
+    MAP = /* @__PURE__ */ Symbol("map");
     Headers = class _Headers {
       /**
        * Headers class
@@ -8629,7 +8629,7 @@ var init_lib = __esm({
       values: { enumerable: true },
       entries: { enumerable: true }
     });
-    INTERNAL = Symbol("internal");
+    INTERNAL = /* @__PURE__ */ Symbol("internal");
     HeadersIteratorPrototype = Object.setPrototypeOf({
       next() {
         if (!this || Object.getPrototypeOf(this) !== HeadersIteratorPrototype) {
@@ -8658,7 +8658,7 @@ var init_lib = __esm({
       enumerable: false,
       configurable: true
     });
-    INTERNALS$1 = Symbol("Response internals");
+    INTERNALS$1 = /* @__PURE__ */ Symbol("Response internals");
     STATUS_CODES = import_http.default.STATUS_CODES;
     Response = class _Response {
       constructor() {
@@ -8734,7 +8734,7 @@ var init_lib = __esm({
       enumerable: false,
       configurable: true
     });
-    INTERNALS$2 = Symbol("Request internals");
+    INTERNALS$2 = /* @__PURE__ */ Symbol("Request internals");
     URL = import_url.default.URL || import_whatwg_url.default.URL;
     parse_url = import_url.default.parse;
     format_url = import_url.default.format;
@@ -16489,10 +16489,10 @@ var require_constants2 = __commonJS({
       EMPTY_BUFFER: Buffer.alloc(0),
       GUID: "258EAFA5-E914-47DA-95CA-C5AB0DC85B11",
       hasBlob,
-      kForOnEventAttribute: Symbol("kIsForOnEventAttribute"),
-      kListener: Symbol("kListener"),
-      kStatusCode: Symbol("status-code"),
-      kWebSocket: Symbol("websocket"),
+      kForOnEventAttribute: /* @__PURE__ */ Symbol("kIsForOnEventAttribute"),
+      kListener: /* @__PURE__ */ Symbol("kListener"),
+      kStatusCode: /* @__PURE__ */ Symbol("status-code"),
+      kWebSocket: /* @__PURE__ */ Symbol("websocket"),
       NOOP: () => {
       }
     };
@@ -16578,8 +16578,8 @@ var require_buffer_util2 = __commonJS({
 var require_limiter2 = __commonJS({
   "node_modules/ws/lib/limiter.js"(exports2, module2) {
     "use strict";
-    var kDone = Symbol("kDone");
-    var kRun = Symbol("kRun");
+    var kDone = /* @__PURE__ */ Symbol("kDone");
+    var kRun = /* @__PURE__ */ Symbol("kRun");
     var Limiter = class {
       /**
        * Creates a new `Limiter`.
@@ -16634,11 +16634,11 @@ var require_permessage_deflate2 = __commonJS({
     var { kStatusCode } = require_constants2();
     var FastBuffer = Buffer[Symbol.species];
     var TRAILER = Buffer.from([0, 0, 255, 255]);
-    var kPerMessageDeflate = Symbol("permessage-deflate");
-    var kTotalLength = Symbol("total-length");
-    var kCallback = Symbol("callback");
-    var kBuffers = Symbol("buffers");
-    var kError = Symbol("error");
+    var kPerMessageDeflate = /* @__PURE__ */ Symbol("permessage-deflate");
+    var kTotalLength = /* @__PURE__ */ Symbol("total-length");
+    var kCallback = /* @__PURE__ */ Symbol("callback");
+    var kBuffers = /* @__PURE__ */ Symbol("buffers");
+    var kError = /* @__PURE__ */ Symbol("error");
     var zlibLimiter;
     var PerMessageDeflate = class {
       /**
@@ -17808,7 +17808,7 @@ var require_sender2 = __commonJS({
     var { EMPTY_BUFFER, kWebSocket, NOOP } = require_constants2();
     var { isBlob: isBlob2, isValidStatusCode } = require_validation2();
     var { mask: applyMask, toBuffer } = require_buffer_util2();
-    var kByteLength = Symbol("kByteLength");
+    var kByteLength = /* @__PURE__ */ Symbol("kByteLength");
     var maskBuffer = Buffer.alloc(4);
     var RANDOM_POOL_SIZE = 8 * 1024;
     var randomPool;
@@ -18291,14 +18291,14 @@ var require_event_target2 = __commonJS({
   "node_modules/ws/lib/event-target.js"(exports2, module2) {
     "use strict";
     var { kForOnEventAttribute, kListener } = require_constants2();
-    var kCode = Symbol("kCode");
-    var kData = Symbol("kData");
-    var kError = Symbol("kError");
-    var kMessage = Symbol("kMessage");
-    var kReason = Symbol("kReason");
-    var kTarget = Symbol("kTarget");
-    var kType = Symbol("kType");
-    var kWasClean = Symbol("kWasClean");
+    var kCode = /* @__PURE__ */ Symbol("kCode");
+    var kData = /* @__PURE__ */ Symbol("kData");
+    var kError = /* @__PURE__ */ Symbol("kError");
+    var kMessage = /* @__PURE__ */ Symbol("kMessage");
+    var kReason = /* @__PURE__ */ Symbol("kReason");
+    var kTarget = /* @__PURE__ */ Symbol("kTarget");
+    var kType = /* @__PURE__ */ Symbol("kType");
+    var kWasClean = /* @__PURE__ */ Symbol("kWasClean");
     var Event = class {
       /**
        * Create a new `Event`.
@@ -18700,7 +18700,7 @@ var require_websocket3 = __commonJS({
     var { format, parse } = require_extension2();
     var { toBuffer } = require_buffer_util2();
     var closeTimeout = 30 * 1e3;
-    var kAborted = Symbol("kAborted");
+    var kAborted = /* @__PURE__ */ Symbol("kAborted");
     var protocolVersions = [8, 13];
     var readyStates = ["CONNECTING", "OPEN", "CLOSING", "CLOSED"];
     var subprotocolRegex = /^[!#$%&'*+\-.0-9A-Z^_`|a-z~]+$/;
@@ -20156,7 +20156,6 @@ var init_authority = __esm({
         });
         cache.handlers.express.use(packages.cookieParser());
         cache.handlers.express.use(`/src`, packages.express.static(`${parentDirectory}/www`));
-        cache.handlers.express.use(`/widgets`, packages.express.static(`${parentDirectory}/www/__pages/__widgets`));
         cache.handlers.express.set(`trust proxy`, 1);
       }
       /**
@@ -20192,7 +20191,7 @@ var init_general = __esm({
     Init2 = class {
       constructor() {
         this.NAME_SPACE = `submodule:@websockets:general`;
-        this.clients = [];
+        this.CLIENTS = [];
         this.SESSION_CONNECTION_ESTABLISHED_MESSAGE = `WebSocket connection established.`;
         this.SESSION_CONNECTION_CLOSED_MESSAGE = `Connection limited reached - Closing connection.`;
         this.SESSION_INITIAL_DATA_SENT_MESSAGE = `Initial data already sent - Closing connection.`;
@@ -20201,6 +20200,7 @@ var init_general = __esm({
         this.SESSION_MALFORMED_MESSAGE = `Malformed data - Closing connection.`;
         this.SESSION_UNKNOWN_TYPE_MESSAGE = `Unknown data type - Closing connection.`;
         this.SESSION_UPDATE_SUCCESS_MESSAGE = `Requested data update successful.`;
+        this.DEFAULT_TIMEOUT_MS = 5e3;
         var _a;
         submodules.utils.log(`${this.NAME_SPACE} initialized.`);
         const cfg = cache.internal.configurations;
@@ -20213,7 +20213,7 @@ var init_general = __esm({
           var _a2, _b;
           const ip = (_b = (_a2 = req == null ? void 0 : req.socket) == null ? void 0 : _a2.remoteAddress) != null ? _b : "unknown";
           if (ip === "unknown") return client.close(4e3, this.SESSION_INVALID_IP_MESSAGE);
-          const count = this.clients.filter((c) => c.address === ip).length;
+          const count = this.CLIENTS.filter((c) => c.address === ip).length;
           if (count >= max) {
             try {
               if (client.readyState === packages.ws.OPEN) client.send(JSON.stringify({ type: "eventConnection", message: `${this.SESSION_CONNECTION_CLOSED_MESSAGE} (${max}).` }));
@@ -20221,14 +20221,14 @@ var init_general = __esm({
             }
             return client.close(4001, this.SESSION_CONNECTION_CLOSED_MESSAGE);
           }
-          this.clients.push({ client, unix: Date.now() - 1e3, address: ip, requests: {}, hasSentInitialData: false });
+          this.CLIENTS.push({ client, unix: Date.now() - 1e3, address: ip, requests: {}, hasSentInitialData: false });
           try {
             if (client.readyState === packages.ws.OPEN) client.send(JSON.stringify({ type: "eventConnection", message: this.SESSION_CONNECTION_ESTABLISHED_MESSAGE }));
           } catch (e) {
           }
           client.on("message", (msg) => this.onWebsocketClientMessage(client, msg));
           client.on("close", () => {
-            this.clients = this.clients.filter((c) => c.client !== client);
+            this.CLIENTS = this.CLIENTS.filter((c) => c.client !== client);
           });
         });
         submodules.utils.log(`WebSocket server listening on /stream`);
@@ -20244,9 +20244,9 @@ var init_general = __esm({
        * @returns {void}
        */
       onWebsocketClientMessage(socket, message) {
-        const index = this.clients.findIndex((c) => c.client === socket);
+        const index = this.CLIENTS.findIndex((c) => c.client === socket);
         if (index === -1) return;
-        const clientData = this.clients[index];
+        const clientData = this.CLIENTS[index];
         if (!clientData) return;
         if (clientData.hasSentInitialData) {
           socket.send(JSON.stringify({ type: "eventMessage", message: this.SESSION_INITIAL_DATA_SENT_MESSAGE }));
@@ -20307,8 +20307,8 @@ var init_general = __esm({
           if (!clientData.requests[request]) clientData.requests[request] = { unix: 0 };
           const isPriority = InternalConfig.websocket_settings.priority_sockets.sockets.includes(request);
           const isSecondary = InternalConfig.websocket_settings.secondary_sockets.sockets.includes(request);
-          const timeout = isPriority ? InternalConfig.websocket_settings.priority_sockets.timeout : isSecondary ? InternalConfig.websocket_settings.secondary_sockets.timeout : 0;
-          const timeoutMs = timeout < 1e3 ? timeout * 1e3 : timeout;
+          const timeout = isPriority ? InternalConfig.websocket_settings.priority_sockets.timeout : isSecondary ? InternalConfig.websocket_settings.secondary_sockets.timeout : this.DEFAULT_TIMEOUT_MS / 1e3;
+          const timeoutMs = timeout * 1e3;
           if (now - clientData.requests[request].unix < timeoutMs) {
             return;
           }
@@ -20332,7 +20332,7 @@ var init_general = __esm({
        * @returns {void}
        */
       updateClients() {
-        for (const clientData of this.clients) {
+        for (const clientData of this.CLIENTS) {
           submodules.websockets.onWebsocketClientUpdate(clientData.client, clientData, Object.keys(clientData.requests));
         }
       }
@@ -20535,6 +20535,8 @@ var init_core = __esm({
         this.NAME_SPACE = `submodule:@routes:core`;
         this.PORTAL_DIRECT = `/www/__pages/__portal/index.html`;
         this.DASHBOARD_DIRECT = `/www/__pages/__dashboard/index.html`;
+        this.WIDGETS_DIRECT = `/www/__pages/__widgets/`;
+        this.UNKNOWN_DIRECTORY = `/www/__pages/__404/index.html`;
         submodules.utils.log(`${this.NAME_SPACE} initialized.`);
         const parentDirectory = packages.path.resolve(`..`, `storage`);
         cache.handlers.express.get(`/`, (request, response) => {
@@ -20549,6 +20551,20 @@ var init_core = __esm({
               return response.sendFile(`${parentDirectory}${this.PORTAL_DIRECT}`);
             }
             return response.sendFile(`${parentDirectory}${this.DASHBOARD_DIRECT}`);
+          } catch (error) {
+            submodules.utils.log(`${this.NAME_SPACE} ERROR: ${error.message}`);
+            return response.status(500).json({ message: `Internal server error.` });
+          }
+        });
+        cache.handlers.express.get(`/widgets/:endpoint?`, (request, response) => {
+          try {
+            if (!request.params.endpoint) {
+              return response.sendFile(`${parentDirectory}${this.UNKNOWN_DIRECTORY}`);
+            }
+            if (!packages.fs.existsSync(`${parentDirectory}${this.WIDGETS_DIRECT}${request.params.endpoint}.html`)) {
+              return response.sendFile(`${parentDirectory}${this.UNKNOWN_DIRECTORY}`);
+            }
+            return response.sendFile(`${parentDirectory}${this.WIDGETS_DIRECT}${request.params.endpoint}.html`);
           } catch (error) {
             submodules.utils.log(`${this.NAME_SPACE} ERROR: ${error.message}`);
             return response.status(500).json({ message: `Internal server error.` });
@@ -20774,6 +20790,7 @@ var init_events = __esm({
         const features = cache.external.events.features;
         for (const event of events2) {
           const registeredEvent = submodules.structure.register(event);
+          if (registeredEvent.ignored) continue;
           const { tracking, properties, history = [] } = registeredEvent.event;
           const index = features.findIndex((feature) => feature && feature.event.tracking === tracking);
           if (properties.is_cancelled && index !== -1) {
@@ -21195,7 +21212,7 @@ var init_utils = __esm({
           tones: configurations.tones,
           dictionary: configurations.alert_dictionary,
           schemes: configurations.alert_schemes,
-          spc_outlooks: configurations.spc_outlooks,
+          slidehow: configurations.slidehow,
           third_party_services: configurations.third_party_services,
           forecasting_services: configurations.forecasting_services
         };
@@ -21680,12 +21697,12 @@ var init_structure = __esm({
       register(event) {
         const ConfigType = cache.internal.configurations;
         const eventName = event.properties.event;
-        const isPriorityEvent = ConfigType.filters.priority_events.includes(eventName);
+        const isPriorityEvent = ConfigType.filters.priority_events.some((e) => e.toLowerCase() === eventName.toLowerCase());
         const isBeepAuthorizedOnly = ConfigType.filters.sfx_beep_only;
         const isShowingUpdatesAllowed = ConfigType.filters.show_updates;
         const eventMetadata = this.metadata(event);
-        const isBeepOnly = isBeepAuthorizedOnly && isPriorityEvent;
-        const isIgnored = !isShowingUpdatesAllowed && !isPriorityEvent;
+        const isBeepOnly = isBeepAuthorizedOnly && !isPriorityEvent;
+        const isIgnored = !isShowingUpdatesAllowed && !isPriorityEvent && !event.properties.is_issued;
         return {
           event,
           metadata: eventMetadata.metadata,
@@ -21769,9 +21786,16 @@ var init_structure = __esm({
               const isAlreadyLogged = cache.external.hashes.some((log) => log.id === ev.event.hash);
               const eventDistance = this.distance(ev.event);
               ev.event.properties.distance = eventDistance.range;
-              ev.ignored = this.distance(ev.event).inRange === false;
-              if (isAlreadyLogged) continue;
-              if (ev.ignored) continue;
+              if (!ev.ignored) {
+                ev.ignored = this.distance(ev.event).inRange === false;
+              }
+              if (isAlreadyLogged) {
+                continue;
+              }
+              if (ev.ignored) {
+                continue;
+              }
+              submodules.utils.log(`${this.NAME_SPACE} New Event: ${ev.event.properties.event} (${ev.event.properties.action_type}) at ${ev.ignored}`);
               cache.external.hashes.push({ id: ev.event.hash, expires: ev.event.properties.expires });
               if (!submodules.utils.isFancyDisplay()) {
                 submodules.utils.log(submodules.alerts.returnAlertText(ev));

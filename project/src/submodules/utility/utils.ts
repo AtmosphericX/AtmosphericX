@@ -142,7 +142,7 @@ export class Utils {
             tones: configurations.tones,
             dictionary: configurations.alert_dictionary,
             schemes: configurations.alert_schemes,
-            spc_outlooks: configurations.spc_outlooks, 
+            slidehow: configurations.slidehow, 
             third_party_services: configurations.third_party_services,
             forecasting_services: configurations.forecasting_services,
         };

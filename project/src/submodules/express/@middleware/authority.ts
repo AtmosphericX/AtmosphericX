@@ -50,7 +50,6 @@ export class Init {
         })
         loader.cache.handlers.express.use(loader.packages.cookieParser());
         loader.cache.handlers.express.use(`/src`, loader.packages.express.static(`${parentDirectory}/www`));
-        loader.cache.handlers.express.use(`/widgets`, loader.packages.express.static(`${parentDirectory}/www/__pages/__widgets`));
         loader.cache.handlers.express.set(`trust proxy`, 1); 
     }
 

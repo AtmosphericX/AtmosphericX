@@ -13,10 +13,12 @@
 */
 
 class Utils { 
-    constructor() {
+    constructor(streaming = false) {
         this.NAME_SPACE = `webmodule:utils`;
         this.log(`${this.NAME_SPACE} initialized.`);
         this.storage = [];
+        this.streaming = streaming;
+        this.isMobileDevice();
     }
 
     /**
@@ -26,8 +28,50 @@ class Utils {
      * @param {string} message - The message to log.
      */
     log = function(message) { 
-        console.log(`[${new Date().toISOString()}] [${this.NAME_SPACE}] ${message}`);
+        console.log(`[${new Date().toISOString()}] ${message}`);
     }
+
+    /**
+     * @function setStreaming
+     * @description Sets the streaming status.
+     * 
+     * @param {boolean} boolean - The streaming status to set.
+     */
+    setStreaming = function(boolean = false) {
+        this.streaming = boolean;
+    }
+
+    /**
+     * @function isMobileDevice
+     * @description Detects if the user is on a mobile device based on screen width and initializes audio channels if true.
+     */
+    isMobileDevice = function() {
+        if (window.innerWidth <= 1270) {
+            this.storage.mobile = true;
+            const forceInt = document.createElement('button');
+            forceInt.classList.add('mobile-confirm');
+            forceInt.innerText = 'Enable playback';
+            document.body.appendChild(forceInt);
+            forceInt.addEventListener('click', async () => {
+                this.storage.channels = [];
+                this.storage.playable = true;
+                for (let i = 0; i < 6; i++) {
+                    const audioChannel = new Audio();
+                    audioChannel.src = `data:audio/mpeg;base64,SUQzBAAAAAAAI1RTU0UAAAAPAAADTGF2ZjU4Ljc2LjEwMAAAAAAAAAAAAAAA/+M4wAAAAAAAAAAAAEluZm8AAAAPAAAAAwAAAbAAqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV////////////////////////////////////////////AAAAAExhdmM1OC4xMwAAAAAAAAAAAAAAACQDkAAAAAAAAAGw9wrNaQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/+MYxAAAAANIAAAAAExBTUUzLjEwMFVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV/+MYxDsAAANIAAAAAFVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV/+MYxHYAAANIAAAAAFVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV`; // silent audio
+                    audioChannel.volume = 0.5;
+                    try {
+                        audioChannel.play();
+                        this.storage.channels.push(audioChannel);
+                    } catch (e) {
+                        console.log('Audio play failed:', e);
+                    }
+                }
+                this.log(`Initialized ${this.storage.channels.length} audio channels for mobile`);
+                forceInt.remove();
+            });
+        }
+    }
+
 
     /**
      * @function websocket
@@ -37,12 +81,16 @@ class Utils {
      * @returns {Promise} A promise that resolves when the WebSocket connection is established.
      */
     websocket = async function(types = ['configurations']) {
-        return new Promise(() => {
+        return new Promise((resolve) => {
             const url = `${window.location.protocol == `https:` ? `wss:` : `ws:`}//${window.location.hostname}:${window.location.port}/stream`
             this.storage.socket = new WebSocket(url);
             this.storage.socket.addEventListener('open', () => {
                 this.log(`WebSocket connection established.`);
+                for (let type of types) {
+                    this.log(`Subscribed to event type: ${type}`);
+                }
                 this.storage.socket.send(JSON.stringify({ type: 'eventRequest', message: types }));
+                resolve();
             })
             this.storage.socket.addEventListener('close', () => {
                 this.storage.socket.close()
@@ -138,6 +186,138 @@ class Utils {
         const lat2 = toDegrees(lat2Rad);
         const lon2 = ((toDegrees(lon2Rad) + 540) % 360) - 180;
         return [lon2, lat2];
+    }
+
+    /**
+     * @function getCurrentTime
+     * @description Retrieves the current time formatted as a string, with options for timezone and 24-hour format.
+     * 
+     * @param {string|null} selectedTimezone - The timezone identifier (e.g., 'America/New_York'). If null, uses local timezone.
+     * @param {boolean} militaryTime - If true, returns time in 24-hour format; otherwise, in 12-hour format.
+     * @returns {string} The formatted current time string.
+     */
+    getCurrentTime = function(selectedTimezone = null, militaryTime = false) {
+        const options = { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: !militaryTime };
+        if (selectedTimezone) { options.timeZone = selectedTimezone; }
+        let formatted = new Intl.DateTimeFormat('en-US', options).format(new Date());
+        if (militaryTime) {
+            formatted = formatted.replace(/\s?(AM|PM)$/i, '');
+        }
+        return formatted;
+    }
+
+    /**
+     * @function getCurrentDate
+     * @description Retrieves the current date formatted as a string, with an option for timezone.
+     * 
+     * @param {string|null} selectedTimezone - The timezone identifier (e.g., 'America/New_York'). If null, uses local timezone.
+     * @returns {string} The formatted current date string.
+     */
+    getCurrentDate = function(selectedTimezone = null) {
+        const date = new Date();
+        if (selectedTimezone) {
+            const localeDate = new Date(date.toLocaleString('en-US', { timeZone: selectedTimezone }));
+            return localeDate.toLocaleString('en-US', {month: 'short', day: 'numeric'}).replace(/(\d+)$/, (d) => {
+                const n = parseInt(d, 10);
+                const s = ["th", "st", "nd", "rd"], v = n % 100;
+                return n + (s[(v - 20) % 10] || s[v] || s[0]);
+            });
+        } else {
+            return date.toLocaleString('en-US', { month: 'short', day: 'numeric'}).replace(/(\d+)$/, (d) => {
+                const n = parseInt(d, 10);
+                const s = ["th", "st", "nd", "rd"], v = n % 100;
+                return n + (s[(v - 20) % 10] || s[v] || s[0]);
+            });
+        }
+    }
+
+    /**
+     * @function getCountdown
+     * @description Calculates the countdown time from the current time to a target time.
+     * 
+     * @param {number} targetTime - The target time in milliseconds since the epoch.
+     * @returns {string} A string representing the countdown in hours, minutes, and seconds.
+     */
+    getCountdown = function(targetTime) {
+        const now = new Date().getTime();
+        const distance = targetTime - now;
+        if (isNaN(distance)) { return "No Date Found"}
+        const hours = Math.floor(distance / (1000 * 60 * 60));
+        const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+        if (hours === 0 && minutes === 0 && seconds === 0) { return "Now..." }
+        if (hours > 9999) { return "Until Further Notice" }
+        return `${hours} hours ${minutes} minutes ${seconds.toString().padStart(2, '0')} seconds`;
+    }
+
+    /**
+     * @function initializeStorage
+     * @description Initializes a storage key with a default value if it does not already exist.
+     * 
+     * @param {string|null} key - The storage key to initialize.
+     * @param {any} defaultValue - The default value to assign if the key does not exist.
+     */
+    initializeStorage = function(key = null, defaultValue = null) {
+        if (key == null) { return; }
+        if (this.storage[key] == null) { 
+            this.storage[key] = defaultValue; 
+            this.log(`Initialized storage key: ${key}`);
+        }
+    }
+
+    /**
+     * @function sleep
+     * @description Pauses execution for a specified duration.
+     * 
+     * @param {number} milliseconds - The duration to sleep in milliseconds.
+     * @returns {Promise} A promise that resolves after the specified duration.
+     */
+    sleep = async function(milliseconds) {
+        return new Promise(resolve => setTimeout(resolve, milliseconds));
+    }
+
+    /**
+     * @function play
+     * @description Plays an audio file from the specified URL.
+     * 
+     * @param {string} url - The URL of the audio file to play.
+     * @param {boolean} useChannels - If true, uses audio channels to manage playback.
+     */
+    play = function(url, useChannels = false) {
+        if (this.storage.mobile && !this.storage.channels?.length) return;
+        const audioUrl = `../src${url}`;
+        const registerAudio = (audioInstance) => {
+            this.storage.currentPlaying ||= [];
+            this.storage.currentPlaying.push(audioInstance);
+            audioInstance.onended = () => {
+                const index = this.storage.currentPlaying.indexOf(audioInstance);
+                if (index > -1) this.storage.currentPlaying.splice(index, 1);
+                if (useChannels) this.storage.playable = true;
+            };
+        };
+        const playAudio = (audioInstance) => {
+            audioInstance.src = audioUrl;
+            audioInstance.volume = 1.0;
+            audioInstance.autoplay = true;
+            audioInstance.play();
+            registerAudio(audioInstance);
+        };
+        if (!this.storage.mobile) {
+            if (useChannels && !this.storage.playable) return;
+            if (useChannels) this.storage.playable = false;
+            const audio = new Audio();
+            playAudio(audio);
+            return;
+        }
+        if (useChannels && !this.storage.playable) return;
+        const channelsToUse = useChannels ? [this.storage.channels[0]]
+            : this.storage.channels;
+        if (useChannels) this.storage.playable = false;
+        for (const channel of channelsToUse) {
+            if (!channel.paused && !channel.ended) continue;
+            playAudio(channel);
+            break;
+        }
     }
 }
 

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AtmosphericX - Clock Widget (By: KiyoWx)</title>
+    <link rel="icon" href="/src/__assets/__images/__logos/favicon.ico" type="image/x-icon" />
+    <link rel="stylesheet" href="/src/__assets/__styles/global.css">
+    <script src="/src/__assets/__scripts/utils.js"></script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; touch-action: manipulation; }
+        .field_input { overflow: hidden; text-align: center; padding: 0px 5px 0 5px; color: var(--time-widget-color); font-size: var(--time-widget-font-size); text-shadow: var(--time-widget-text-shadow) }
+    </style>
+</head>
+<body><div class="field_input" id="field_input"></div></body>
+<script>
+    /**
+     * @widget clock
+     * @description
+     *      A date/time widget that displays the current time or date based on user preferences.
+     * 
+     * @param {string} type - The type of display: "time" or "date". Default is "time".
+     * @param {boolean} military - Whether to use 24-hour format (true)
+     * @param {string} timezone - The timezone to display the time/date in (e.g., "America/New_York"). Default is local timezone.
+     */
+    const utils = new Utils();
+    utils.websocket([`configurations`]).then(() => {
+        const fieldInput = document.getElementById("field_input");
+        const parameters = new URLSearchParams(window.location.search);
+        const getType = parameters.get("type") ?? "time"; 
+        const getMilitaryTime = parameters.get("military") == "true" ? true : false;
+        const getTimeZone = parameters.get("timezone") ?? null;
+        const smallTextSettings = { fontSize: `30px`, margin: `10px` };
+        const largeTextSettings = { fontSize: `35px`, margin: '5px' };
+        setInterval(() => {
+            let text = ``;
+            switch (getType) {
+                case `time`: text = utils.getCurrentTime(getTimeZone, getMilitaryTime); break;
+                case `date`: text = utils.getCurrentDate(getTimeZone); break;
+            }
+            fieldInput.style.fontSize = smallTextSettings.fontSize;
+            fieldInput.style.margin = smallTextSettings.margin;
+            if (text.length > 9) {
+                fieldInput.style.fontSize = largeTextSettings.fontSize;
+                fieldInput.style.margin = largeTextSettings.margin;
+            }
+            fieldInput.innerText = text;
+        }, 500);
+    });
+</script>
+</html>

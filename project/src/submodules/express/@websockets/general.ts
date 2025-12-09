@@ -18,7 +18,7 @@ import * as types from '../../../types';
 
 export class Init { 
     NAME_SPACE: string = `submodule:@websockets:general`;
-    clients: types.WebSocketClient[] = [];
+    CLIENTS: types.WebSocketClient[] = [];
     SESSION_CONNECTION_ESTABLISHED_MESSAGE: string = `WebSocket connection established.`
     SESSION_CONNECTION_CLOSED_MESSAGE: string = `Connection limited reached - Closing connection.`
     SESSION_INITIAL_DATA_SENT_MESSAGE: string = `Initial data already sent - Closing connection.`
@@ -27,6 +27,7 @@ export class Init {
     SESSION_MALFORMED_MESSAGE: string = `Malformed data - Closing connection.`
     SESSION_UNKNOWN_TYPE_MESSAGE: string = `Unknown data type - Closing connection.`
     SESSION_UPDATE_SUCCESS_MESSAGE: string = `Requested data update successful.`
+    DEFAULT_TIMEOUT_MS: number = 5_000;
     constructor() {
         loader.submodules.utils.log(`${this.NAME_SPACE} initialized.`)
         const cfg = loader.cache.internal.configurations as types.ConfigurationsType;
@@ -38,15 +39,15 @@ export class Init {
         wss.on('connection', (client: any, req: any) => {
             const ip = req?.socket?.remoteAddress ?? 'unknown';
             if (ip === 'unknown') return client.close(4000, this.SESSION_INVALID_IP_MESSAGE);
-            const count = this.clients.filter(c => c.address === ip).length;
+            const count = this.CLIENTS.filter(c => c.address === ip).length;
             if (count >= max) {
                 try { if (client.readyState === loader.packages.ws.OPEN) client.send(JSON.stringify({ type: 'eventConnection', message: `${this.SESSION_CONNECTION_CLOSED_MESSAGE} (${max}).` })); } catch {}
                 return client.close(4001, this.SESSION_CONNECTION_CLOSED_MESSAGE);
             }
-            this.clients.push({ client, unix: Date.now() - 1_000, address: ip, requests: {}, hasSentInitialData: false });
+            this.CLIENTS.push({ client, unix: Date.now() - 1_000, address: ip, requests: {}, hasSentInitialData: false });
             try { if (client.readyState === loader.packages.ws.OPEN) client.send(JSON.stringify({ type: 'eventConnection', message: this.SESSION_CONNECTION_ESTABLISHED_MESSAGE })); } catch {}
             client.on('message', (msg: any) => this.onWebsocketClientMessage(client, msg));
-            client.on('close', () => { this.clients = this.clients.filter(c => c.client !== client); });
+            client.on('close', () => { this.CLIENTS = this.CLIENTS.filter(c => c.client !== client); });
         });
         loader.submodules.utils.log(`WebSocket server listening on /stream`);
     }
@@ -62,9 +63,9 @@ export class Init {
      * @returns {void}
      */
     private onWebsocketClientMessage(socket: any, message: string): void {
-        const index = this.clients.findIndex(c => c.client === socket);
+        const index = this.CLIENTS.findIndex(c => c.client === socket);
         if (index === -1) return;
-        const clientData = this.clients[index];
+        const clientData = this.CLIENTS[index];
         if (!clientData) return;
         if (clientData.hasSentInitialData) { 
             socket.send(JSON.stringify({ type: 'eventMessage', message: this.SESSION_INITIAL_DATA_SENT_MESSAGE }));
@@ -111,8 +112,8 @@ export class Init {
                 ? InternalConfig.websocket_settings.priority_sockets.timeout
                 : isSecondary
                 ? InternalConfig.websocket_settings.secondary_sockets.timeout
-                : 0;
-            const timeoutMs = timeout < 1_000 ? timeout * 1_000 : timeout;
+                : this.DEFAULT_TIMEOUT_MS / 1_000;
+            const timeoutMs = timeout * 1_000;
             if (now - clientData.requests[request].unix < timeoutMs) { return; }
             clientData.requests[request].unix = now;
             const cache = loader.cache.external[request as keyof typeof loader.cache.external] || null;
@@ -130,7 +131,7 @@ export class Init {
      * @returns {void}
      */
     public updateClients(): void {
-        for (const clientData of this.clients) {
+        for (const clientData of this.CLIENTS) {
             loader.submodules.websockets.onWebsocketClientUpdate(clientData.client, clientData, Object.keys(clientData.requests));
         }
     }

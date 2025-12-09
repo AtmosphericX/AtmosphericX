@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AtmosphericX - Random Event Paramters Widget (By: KiyoWx)</title>
+    <link rel="icon" href="/src/__assets/__images/__logos/favicon.ico" type="image/x-icon" />
+    <link rel="stylesheet" href="/src/__assets/__styles/global.css">
+    <script src="/src/__assets/__scripts/utils.js"></script>
+    <script src="/src/__assets/__scripts/handler.js"></script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; touch-action: manipulation; }
+        .field_input { text-align: center; padding: var(--random-widget-padding); color: var(--random-widget-color); font-size: var(--random-widget-font-size); text-shadow: var(--random-widget-text-shadow); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; height: 100%; display: flex; align-items: center; justify-content: center; }
+        @media (min-height: 80px) {
+            .field_input { white-space: normal; overflow: visible; text-overflow: unset; align-items: flex-start; }
+        }
+    </style>
+</head>
+<body>
+    <div class="field_input" id="field_input"></div>
+</body>
+<script>
+    /**
+     * @widget random
+     * @description
+     *      A widget that displays various parameters from a index rng event from the server.
+     * 
+     * @param {string} type - The type of parameter to display: "event", "description", "locations", or "expiry". Default is "event".
+     * @param {number} length - The maximum length of the displayed text. Default is 250.
+     * @param {boolean} animations - Whether to enable text change animations. Default is true.
+     * @param {boolean} countdown - Whether to show expiry as a countdown. Default is false.
+     * @param {string} placeholder - The text to display when there is no active event. Default is "...".
+     */
+    const utils = new Utils();
+    utils.websocket([`rng`]).then(() => {
+        const fieldInput = document.getElementById("field_input");
+        const parameters = new URLSearchParams(window.location.search);
+        const getType = parameters.get("type") ?? "event";
+        const getMaxTextLength = parseInt(parameters.get("length")) ?? 250;
+        const getAnimationToggle = parameters.get("animations") == "true" ? true : false;
+        const getExpireCountdownToggle = parameters.get("countdown") == "true" ? true : false;
+        const getNullText = parameters.get("placeholder") ?? `...`;
+        let pastText = ``;
+        let text = ``;
+        document.addEventListener("eventCacheUpdated", async () => {
+            const cEvent = utils.storage.rng.alert
+            if (cEvent == null) { return fieldInput.textContent = getNullText }
+            switch (getType) {
+            case 'locations': {
+                text = cEvent.event.properties.locations;
+                break;
+            }
+            case 'event': {
+                text = cEvent.event.properties.event;
+                break;
+            }
+            case 'description': {
+                text = cEvent.event.properties.description;
+                break;
+            }
+            case 'expiry': {
+                if (getExpireCountdownToggle) { text = `Expires in ${utils.getCountdown(new Date(cEvent.event.properties.expires))}`; }
+                if (!getExpireCountdownToggle) { text = `${new Date(cEvent.event.properties.expires).toLocaleString()}`; }
+            }
+            }
+            if (text.length > getMaxTextLength) { text = text.substring(0, getMaxTextLength) + '...'; }
+            if (getAnimationToggle) { 
+                if (pastText != text) {
+                    fieldInput.style.animation = "none";
+                    fieldInput.style.animation = "anim_slide_up_fade_in 0.3s linear forwards";
+                    await utils.sleep(500)
+                    fieldInput.style.animation = "anim_slide_down_fade_out 0.3s linear forwards"
+                }
+            }
+            fieldInput.textContent = text;
+            pastText = text
+        });
+    });
+</script>
+</html>

@@ -1,6 +1,5 @@
 @font-face { font-family: DefaultFont; src: url('/src/__assets/__fonts/GenericFont.ttf'); }
-* { font-family: "DefaultFont" }
-
+* { margin: 0; padding: 0; box-sizing: border-box; touch-action: manipulation; font-family: "DefaultFont"}
 :root, .global { 
     --global-font-family: 'DefaultFont';
     --clr-dark-a0: #000000;
@@ -44,6 +43,37 @@
     --clr-info-a20: #92b2e5;
 }
 
+:root, .clock-widget {
+    --time-widget-font-size: 48px;
+    --time-widget-color: var(--clr-light-a0);
+    --time-widget-text-shadow: 0 0 5px var(--clr-dark-a0);
+}
+
+:root, .watchdog-widget {
+    --watchdog-widget-font-size: 32px;
+    --watchdog-widget-color: var(--clr-light-a0);
+    --watchdog-widget-text-shadow: 0 0 5px var(--clr-dark-a0);
+}
+
+:root, .slideshow-widget { 
+    --slideshow-widget-font-size: 45px;
+    --slideshow-widget-font-weight: 400;
+    --slideshow-widget-color: var(--clr-light-a0);
+    --slideshow-widget-text-shadow: 0 0 5px var(--clr-dark-a0);
+    --slideshow-widget-background: var(--clr-surface-a10);
+    --slideshow-widget-padding: 8px 12px;
+    --slideshow-widget-top: 0px;
+    --slideshow-widget-right: 0px;
+}
+
+:root, .random-widget { 
+    --random-widget-font-size: 45px;
+    --random-widget-color: var(--clr-light-a0);
+    --random-widget-text-shadow: 0 0 5px var(--clr-dark-a0);
+    --random-widget-padding: 8px 12px;
+    --random-widget-top: 0px;
+    --random-widget-right: 0px;
+}
 
 .graph-bg { 
     position: fixed; 
@@ -63,8 +93,21 @@
     animation: anim_grid_drift 5s linear infinite;
 }
 
-@keyframes anim_grid_drift {
-    0% { background-position: 0px 0px, 0px 0px; }
-    100% { background-position: 80px 80px, 80px 80px; }
+.mobile-confirm { 
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 9999;
+    padding: 10px 20px;
+    background-color: #19191aff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 20px;
 }
-@keyframes anim_grid_pulse_brightness { 0% { opacity: 0.40; } 50% { opacity: 0.60; } 100% { opacity: 0.40; } }
+
+@keyframes anim_grid_drift { 0% { background-position: 0px 0px, 0px 0px; } 100% { background-position: 80px 80px, 80px 80px; }}
+@keyframes anim_slide_up_fade_in { 0% { transform: translateY(0); opacity: 1; } 100% { transform: translateY(-10px); opacity: 0; } }
+@keyframes anim_slide_down_fade_out { 0% { transform: translateY(30px); opacity: 0; } 100% { transform: translateY(0); opacity: 1; } }

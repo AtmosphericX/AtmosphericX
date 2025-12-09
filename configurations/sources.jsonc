@@ -34,135 +34,135 @@
     */
 {
     "sources": {
-        "atmosx_parser_settings": {
-            "noaa_weather_wire_service": false, 
-            "journal": false,
+        "atmosx_parser_settings": { // AtmosphericX event parser settings
+            "noaa_weather_wire_service": false, // If you want to use NOAA Weather Wire Service, set this to true.
+            "journal": false, // Not recommenedend to enable this as this may screw up the window on custom v2 displays.
             "national_weather_service_settings": {
-                "interval": 29,
-                "endpoint": "https://api.weather.gov/alerts/active"
+                "interval": 29, // How often to pull NWS alerts (in seconds, Default: 29 seconds)
+                "endpoint": "https://api.weather.gov/alerts/active" // Endpoint for NWS Alerts
             },
             "weather_wire_settings": {
-                "database": "../storage/databases/shapefiles.db",
-                "client_credentials": {
+                "database": "../storage/databases/shapefiles.db", // Path to the shapefile database.
+                "client_credentials": { // NWWS Client Credentials (See: https://www.weather.gov/nwws/) (RECOMMENDED)
                     "username": "username_here",
                     "password": "password_here",
-                    "nickname": "nickname_here"
+                    "nickname": "nickname_here" // Nickname for NWWS Client (Ex. KiyoWx - PC)
                 },
                 "client_reconnections": {
-                    "attempt_reconnections": true,
-                    "reconnection_attempt_interval": 60
+                    "attempt_reconnections": true, // If you want to enable reconnections on NWWS disconnects. (Network outages, server issues, etc.)
+                    "reconnection_attempt_interval": 60 // How often to attempt reconnections (in seconds)
                 },
                 "client_cache": {
-                    "read_cache": true,
-                    "max_size_mb": 15,
-                    "max_db_history": 15000,
-                    "directory": "../storage/nwws/cache"
+                    "read_cache": true, // If you want to read from cache on startup. (This may impact performance on initial load)
+                    "max_size_mb": 15, // Max cache size in MB.
+                    "max_db_history": 15000, // Max number of events to keep in cache database.
+                    "directory": "../storage/nwws/cache" // Directory to store cache files.
                 },
                 "alert_preferences": {
-                    "cap_only": false,
-                    "implement_db_ugc": true
+                    "cap_only": false, // If you want to only process CAP formatted events. (THIS IS NOT AS FAST AS TEXT PRODUCTS)
+                    "implement_db_ugc": true // If you want to implement UGC codes from the shapefile database for NWWS events.
                 }
             },
             "global_settings": {
-                "parent_events": false,
-                "better_parsing": true
+                "parent_events": false, // If you want to group child events under parent events.
+                "better_parsing": true // If you want to enable better parsing for events (Ex. Radar Indicated Tornado Warning instead of Tornado Warning)
             }
         },
         "location_settings": {
-            "realtime_irl": {
+            "realtime_irl": { // RealtimeIRL GPS tracking implementation (See: https://rtirl.com/)
                 "enabled": false,
-                "pull_key": "pull_key_here",
-                "contradictions": []
+                "pull_key": "pull_key_here", // Your RealtimeIRL Pull Key
+                "contradictions": [] // Ignore
             },
-            "spotter_network_feed": {
+            "spotter_network_feed": { // Spotter Network Feed settings (See: https://www.spotternetwork.org/)
                 "enabled": true,
-                "pin_by_name": [],
+                "pin_by_name": [], // You can pin spotter names, descriptions, etc and this will track their longitude/latitude. (Ex. ["KiyoWx", "StarflightWx"])
                 "pins": {
-                    "offline": true,
-                    "idle": true,
-                    "active": true,
-                    "streaming": true
+                    "offline": true, // If you want to see offline spotters. (If not seen for an extended period of time, they will be removed)
+                    "idle": true, // If you want to see idle spotters. (If not moving for an extended period of time, they will be marked as idle)
+                    "active": true, // If you want to see active spotters.
+                    "streaming": true // If you want to see spotters that are streaming.
                 },
-                "cache_time": 29,
+                "cache_time": 29, // How often to pull Spotter Network feed (in seconds, Default: 29 seconds)
                 "endpoint": "https://www.spotternetwork.org/feeds/gr.txt",
-                "contradictions": []
+                "contradictions": [] // Ignore
             }
         },
         "local_storm_report_settings": {
-            "spotter_reports": {
+            "spotter_reports": { // Spotter Network Local Storm Reports
                 "enabled": true,
-                "cache_time": 119,
+                "cache_time": 119, // How often to pull Spotter Network LSRs (in seconds, Default: 119 seconds)
                 "endpoint": "https://www.spotternetwork.org/feeds/reports.txt",
-                "contradictions": ["grlevelx_reports"]
+                "contradictions": ["grlevelx_reports"] // Ignore
             },
-            "grlevelx_reports": {
-                "enabled": false,
-                "cache_time": 119,
+            "grlevelx_reports": { // GRLevelX Local Storm Reports
+                "enabled": false, 
+                "cache_time": 119, // How often to pull GRLevelX LSRs (in seconds, Default: 119 seconds)
                 "endpoint": "https://www.grlevelx.com/lsr/lsr_latest.txt",
-                "contradictions": ["spotter_reports"]
+                "contradictions": ["spotter_reports"] // Ignore
             }
         },
         "dicussion_settings": {
-            "storm_prediction_center_mesoscale": {
+            "storm_prediction_center_mesoscale": { // Storm Prediction Center Mesoscale Discussions (WeatherWise Implementation for population/homes coverage)
                 "enabled": true,
-                "cache_time": 360,
-                "endpoint": "https://data2.weatherwise.app/mesoscale-discussions/USA.geojson",
-                "contradictions": []
+                "cache_time": 120, // How often to pull SPC Mesoscale Discussions (in seconds, Default: 2 minutes)
+                "endpoint": "https://data2.weatherwise.app/mesoscale-discussions/USA.geojson", // Will be replaced soon with shapefile database implementation.
+                "contradictions": [] // Ignore
             },
-            "tropical_storm_tracks": {
+            "tropical_storm_tracks": { // Tropical Storm Tracks (WeatherWise Implementation)
                 "enabled": true,
-                "cache_time": 360,
+                "cache_time": 1200, // How often to pull tropical storm tracks (in seconds, Default: 20 minutes)
                 "endpoint": "https://data2.weatherwise.app/tropical/USA/NHC/storms.json?",
-                "contradictions": []
+                "contradictions": [] // Ignore
             }
         },
         "probability_settings": {
-            "tornado": {
+            "tornado": { // Tornado Probability (CIMSS Implementation)
                 "enabled": true,
-                "cache_time": 119,
-                "percentage_threshold": 2,
+                "cache_time": 119, // How often to pull tornado probabilities (in seconds, Default: 119 seconds)
+                "percentage_threshold": 2, // Minimum percentage threshold to show (Default: 2%)
                 "endpoint": "https://cimss.ssec.wisc.edu/severe_conv/NOAACIMSS_PTv3_LOOP",
-                "contradictions": []
+                "contradictions": [] // Ignore
             },
-            "severe": {
+            "severe": { // Severe Thunderstorm Probability (CIMSS Implementation)
                 "enabled": true,
-                "cache_time": 119,
-                "percentage_threshold": 50,
+                "cache_time": 119, // How often to pull severe thunderstorm probabilities (in seconds, Default: 119 seconds)
+                "percentage_threshold": 50, // Minimum percentage threshold to show (Default: 50%)
                 "endpoint": "https://cimss.ssec.wisc.edu/severe_conv/NOAACIMSS_PSv3_LOOP",
-                "contradictions": []
+                "contradictions": [] // Ignore
             }
         },
         "miscellaneous_settings": {
-            "sonde_project_weather_eye": {
+            "sonde_project_weather_eye": { // Sonde Project Weather Eye implementation (See: https://www.wxeye.org/)
                 "enabled": false,
-                "cache_time": 119,
+                "cache_time": 2500, // How often to pull Sonde Project Weather Eye data (in seconds, Default: 2500 seconds)
                 "endpoint": "https://sonde.projectweathereye.org/data",
-                "contradictions": []
+                "contradictions": [] // Ignore
             },
-            "nexrad_radars": {
+            "nexrad_radars": { // NEXRAD Radar Stations (NWS API Implementation) (REQUIRED FOR dBZ information)
                 "enabled": true,
                 "cache_time": 1440,
                 "endpoint": "https://api.weather.gov/radar/stations",
-                "contradictions": []
+                "contradictions": [] // Ignore
             },
-            "wx_radio": {
+            "wx_radio": { // Weather Radio Stations (WeatherUSA Implementation) (See: https://weatherusa.net/)
                 "enabled": true,
                 "cache_time": 3600,
                 "endpoint": "https://api.weatherusa.net/v1/wxradio",
-                "contradictions": []
+                "contradictions": [] // Ignore
             },
-            "tempest_station": {
+            "tempest_station": { // Tempest Weather Station Integration (See: https://tempestwx.com/)
                 "enabled": false,
-                "location_based": false,
-                "station": 0,
-                "device": 0
+                "location_based": false, // If you want to use a chasers location by lon/lat instead of station/device ID.
+                "station": 0, // Your Tempest Station ID (MUST BE CONNECTED TO THE INTERNET)
+                "device": 0 // Your Tempest Device ID (MUST BE CONNECTED TO THE INTERNET)
             },
-            "pulse_point": {
+            "pulse_point": { // PulsePoint Integration (See: https://www.pulsepoint.org/)
                 "enabled": false,
-                "key": "passkey_here",
-                "interval": 30,
-                "events": [],
-                "agencies": []
+                "key": "passkey_here", // Private key - you will not be able to access data without this. (Developer permissions needed)
+                "interval": 30, // How often to pull PulsePoint data (in seconds, Default: 30 seconds)
+                "events": [], // Event types to pull (Ex. ["Resedential Structure Fire", "Flood", "Severe Weather"])
+                "agencies": [] // Agency IDs to pull data from (Ex. [1234, 5678])
             }
         }
     }

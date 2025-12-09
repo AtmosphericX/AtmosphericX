@@ -15,10 +15,11 @@
 */
 
 class Wise { 
-    constructor(library = null) {
+    constructor(utils = null) {
         this.NAME_SPACE = `webmodule:wise`;
-        this.library = library;
-        this.library.log(`${this.NAME_SPACE} initialized.`);
+        this.utils = utils;
+        this.storage = this.utils.storage;
+        this.utils.log(`${this.NAME_SPACE} initialized.`);
         this.directory = `https://data2.weatherwise.app/radar/processed/{X}/{Y}/dir.list?_={Z}`;
         this.file = `https://data2.weatherwise.app/radar/processed/{X}/{Y}/{Z}`;
     }
@@ -159,7 +160,7 @@ class Wise {
             const gate = writeIndex % gates;
             const distance = meters_to_center_of_first_gate + (gate + 0.5) * meters_between_gates;
             const bearing = (azimuth_start + (ray + 0.5) * degPerRay) % 360;
-            const [lon, lat] = this.library.earth2Coordinates(location[0], location[1], distance, bearing);
+            const [lon, lat] = this.utils.earth2Coordinates(location[0], location[1], distance, bearing);
             output.push({ lat, lon, dbz });
             writeIndex++;
         }
@@ -179,7 +180,7 @@ class Wise {
         const icaoCode    = icao.trim().toUpperCase();
         const productCode = product.trim().toUpperCase();
         const dirUrl = this.directory.replace('{X}', icaoCode).replace('{Y}', productCode).replace('{Z}', now);
-        const dirResponse = await this.library.makeRequest(dirUrl).catch(() => null);
+        const dirResponse = await this.utils.makeRequest(dirUrl).catch(() => null);
         const dirText = await dirResponse.text();
         const files = dirText
             .trim().split('\n').map(l => l.trim())
@@ -194,7 +195,7 @@ class Wise {
             .replace('{X}', icaoCode)
             .replace('{Y}', productCode)
             .replace('{Z}', latestFile);
-        const fileResponse = await this.library.makeRequest(fileUrl).catch(() => null);
+        const fileResponse = await this.utils.makeRequest(fileUrl).catch(() => null);
         const arrayBuffer = await fileResponse.arrayBuffer();
         this.setBuffer(arrayBuffer);
         const parsedData = this.unpack(true);

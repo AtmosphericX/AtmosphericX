@@ -125,6 +125,7 @@ export class Alerts {
         const features = loader.cache.external.events.features;
         for (const event of events) {
             const registeredEvent = loader.submodules.structure.register(event);
+            if (registeredEvent.ignored) continue;
             const { tracking, properties, history = [] } = registeredEvent.event;
             const index = features.findIndex(feature => feature && feature.event.tracking === tracking);
             if (properties.is_cancelled && index !== -1) {

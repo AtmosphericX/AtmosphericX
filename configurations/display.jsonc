@@ -33,9 +33,10 @@
 
     */
 {
+    // I will not comment on every display setting but basically this is used to configure and customize the new v2 display system.
     "display_settings": {
-        "fancy_interface": true,
-        "fancy_interface_feed": false,
+        "fancy_interface": false, // If you want to enable the fancy interface (true/false)
+        "fancy_interface_feed": false, // If you want to enable the fancy interface feed (true/false)
         "intro_screen": {
             "width": "shrink",
             "height": "shrink",
