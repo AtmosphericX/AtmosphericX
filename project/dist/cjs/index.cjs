@@ -21795,7 +21795,6 @@ var init_structure = __esm({
               if (ev.ignored) {
                 continue;
               }
-              submodules.utils.log(`${this.NAME_SPACE} New Event: ${ev.event.properties.event} (${ev.event.properties.action_type}) at ${ev.ignored}`);
               cache.external.hashes.push({ id: ev.event.hash, expires: ev.event.properties.expires });
               if (!submodules.utils.isFancyDisplay()) {
                 submodules.utils.log(submodules.alerts.returnAlertText(ev));
