@@ -24,10 +24,15 @@
     <div class="field_box" id='field_box'></div>
 </body>
 <script>
-    const parameters = new URLSearchParams(window.location.search);
-    const options = { type: parameters.get("type") ?? `primary` }
     const utils = new Utils();
     const widgets = new Widgets(utils, options);
+
+    /* URL Parameters */
+    const parameters = new URLSearchParams(window.location.search);
+    const options = { 
+        type: parameters.get("type") ?? `primary` 
+    }
+
     utils.websocket([`configurations`, `events`, `emergencies`]).then(() => {
         document.addEventListener("eventCacheUpdated", async () => {
             const box = document.getElementById('field_box');

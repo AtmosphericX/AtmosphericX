@@ -32,41 +32,9 @@
     <span class="field_input" id='input_text'></span>
 </body>
 <script>
-    /**
-     * @widget String Widgets
-     * @author KiyoWx
-     * @description A variety of string-based widgets for displaying dynamic information.
-     * 
-     * @param {string} type - The type of string widget to display. Options include:
-     * - locations
-     * - event
-     * - description
-     * - expires
-     * - time
-     * - date
-     * - watchdog
-     * - nearby_spotters
-     * - nearby_polygons
-     * - intensity
-     * - temperature
-     * - dewpoint
-     * - humidity
-     * - wind
-     * - conditions
-     * - tracking
-     * - text
-     * @param {number} radius - The radius (in miles) for nearby-based widgets. Default is 50.
-     * @param {number} maxcharacters - The maximum number of characters to display. Default is 2500.
-     * @param {boolean} center - Whether to center the text. Default is false.
-     * @param {string} placeholder - The placeholder text to display if no data is available. Default is "N/A".
-     * @param {string[]} events - A comma-separated list of event names for event-counting widgets. If you use "* Warning" it will count all events with "Warning" in the name.
-     * @param {boolean} military - Whether to use military time for time/date widgets. Default is false.
-     * @param {string} timezone - The timezone to use for time/date widgets. Default is the user's local timezone.
-     * @param {boolean} animated - Whether to animate text changes. Default is false.
-     * @param {boolean} countdown - Whether to show countdowns for time/date widgets. Default is false.
-     * @param {string} text - Custom text to display for the "text" type widget.
-     */
-
+    const utils = new Utils();
+    const wise = new Wise(utils);
+    const widgets = new Widgets(utils, options);
     const subscriptions = { 
         locations: [`rng`], event: [`rng`], description: [`rng`],
         expires: [`rng`], time: [`/`], date: [`/`],
@@ -92,15 +60,14 @@
         text: parameters.get("text") ?? null,
     }
 
-    const utils = new Utils();
-    const wise = new Wise(utils);
-    const widgets = new Widgets(utils, options);
+
     if (options.center) { 
         options.element.style.textAlign = "center"; 
         options.element.style.justifyContent = "center";
         options.element.style.alignItems = "center";
         options.element.style.height = "100%";
     }
+
     utils.websocket(subscriptions[options.type]).then(() => {
         document.addEventListener("eventCacheUpdated", async () => {
             console.log(options.text)

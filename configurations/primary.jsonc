@@ -41,8 +41,8 @@
             "port_number": 80, // What port you would like to host ATMOSX.
             "ratelimiting": { 
                 "enabled": true, // If you want to enable ratelimiting to prevent spamming of requests.
-                "window_ms": 30000, // When to reset ratelimit requests per address.
-                "max_requests": 125 // Max requests (Default: 125 per address in a 30_000 window)
+                "window_ms": 5, // When to reset ratelimit requests per address.
+                "max_requests": 125 // Max requests (Default: 500 per address in a 30_000 window)
             },
             "certification_paths": { // HTTPS Certs will be located here. If you are using CF Tunnels, ignore this.
                 "private_key_path": ".../storage/policy/certificates/key.pem", 

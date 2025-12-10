@@ -21848,6 +21848,9 @@ var init_structure = __esm({
             }
           }
           cache.external.events.features = clean.events.filter((ev) => !ev.ignored) || [];
+          if (cache.external.rng.alert == null) {
+            submodules.alerts.randomize();
+          }
           submodules.routes.onUpdateRequest();
         });
       }

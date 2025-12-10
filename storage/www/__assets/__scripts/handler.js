@@ -29,14 +29,14 @@ class Handler {
      * @param {boolean} options.includeEmergencies - Whether to include emergency events in the synchronization.
      * @returns {Promise<Array>} A promise that resolves to the updated list of queued events.
      */
-    syncEvents = async function(options={history: 120_000, includeEmergencies: false}) { 
+    syncEvents = async function(options={history: 120_000, includeEmergencies: false, wxEvents: true}) { 
         return new Promise((resolve) => {
             this.utils.initializeStorage(`queuedEvents`, []);
             const time = new Date().getTime();
             const events = this.storage.events;
             const manual = this.storage.manual;
             const emergencies = this.storage.emergencies;
-            if (manual.features.length > 0) {
+            if (manual.features.length > 0 && options.wxEvents) {
                 for (let feature of manual.features) {
                     const isDuplicate = this.storage.queuedEvents.findIndex(e => e.hash === JSON.stringify(feature.event)) !== -1;
                     const getIssuedDate = new Date(feature.event.properties.issued).getTime();
@@ -52,7 +52,7 @@ class Handler {
                     }
                 }
             }
-            if (events.features.length > 0) {
+            if (events.features.length > 0 && options.wxEvents) {
                 for (let feature of events.features) {
                     const isDuplicate = this.storage.queuedEvents.findIndex(e => e.hash === feature.event.hash) !== -1;
                     const isIgnored = feature.ignored;

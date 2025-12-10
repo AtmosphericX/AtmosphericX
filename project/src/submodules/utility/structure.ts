@@ -205,6 +205,7 @@ export class Structure {
 			}
 		}
 		loader.cache.external.events.features = clean.events.filter(ev => !ev.ignored) || [];
+		if (loader.cache.external.rng.alert == null) { loader.submodules.alerts.randomize(); }
 		loader.submodules.routes.onUpdateRequest();
 	}
 }

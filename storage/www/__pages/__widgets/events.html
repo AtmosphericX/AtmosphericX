@@ -28,14 +28,17 @@
 
     /* URL Parameters */
     const parameters = new URLSearchParams(window.location.search);
-    const wait = parameters.get("wait") ?? 8;
-    const emergencies = parameters.get("emergencies") === "true" ? true : false;
-    const cacheTime = parameters.get("history") ?? 120_000;
+    const options = { 
+        wait: parameters.get("wait") ?? 8,
+        emergencies: parameters.get("emergencies") === "true" ? true : false,
+        wxevents: parameters.get("wxevents") === "false" ? false : true,
+        history: parameters.get("history") ?? 120_000,
+    }
 
     utils.websocket([`configurations`, `events`, `manual`, `emergencies`]).then(() => {
         document.addEventListener("eventCacheUpdated", async () => {
             utils.setStreaming(true)
-            await handler.syncEvents({includeEmergencies: emergencies, history: cacheTime});
+            await handler.syncEvents({includeEmergencies: options.emergencies, history: options.history, wxEvents: options.wxevents});
             await handler.syncQueue(wait);
         });
     });

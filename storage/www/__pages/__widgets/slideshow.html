@@ -19,33 +19,27 @@
     <div class="field_input" id="field_input"></div>
 </body>
 <script>
-    /**
-     * @widget slideshow
-     * @description
-     *      Displays images from SPC outlooks and other sources based on day selection, cycling through them at set intervals.
-     * 
-     * @param {string} day - The day to display (e.g., "1", "2", ..., "8"). Default is "0" for all days. (looped)
-     * @param {number} wait - Time in seconds each image is displayed before switching to the next. Default is 10 seconds.
-     */
     const utils = new Utils();
-    utils.websocket([`configurations`]).then(() => {
-        const fieldInput = document.getElementById("field_input");
-        const fieldBody = document.getElementById("field_body");
+    const fieldInput = document.getElementById("field_input");
+    const fieldBody = document.getElementById("field_body");
 
-        /* URL Parameters */
-        const parameters = new URLSearchParams(window.location.search);
-        const waitTime = parameters.get("wait") ?? 10;
-        const dayTypes = parameters.get("day")?.split(",").map(d => {
+    /* URL Parameters */
+    const parameters = new URLSearchParams(window.location.search);
+    const options = { 
+        wait: parameters.get("wait") ?? 10,
+        day: parameters.get("day")?.split(",").map(d => {
             const n = parseInt(d, 10); return (n >= 0 && n <= 8) ? n : 0;
-        }) ?? [0];
+        }) ?? [0],
+    }
 
+    utils.websocket([`configurations`]).then(() => {
         document.addEventListener("eventCacheUpdated", async () => {
             utils.initializeStorage(`slideshow_index`, 0);
             utils.initializeStorage(`slideshow_slide_index`, 0);
-            utils.storage.slideshow_index = (utils.storage.slideshow_index + 1) % dayTypes.length;
+            utils.storage.slideshow_index = (utils.storage.slideshow_index + 1) % options.day.length;
             const cfg = utils.storage.configurations;
             const slideshow = [...cfg.slideshow].sort((a, b) => a.day - b.day || a.title.localeCompare(b.title));
-            const currentDay = parseInt(dayTypes[utils.storage.slideshow_index], 10);
+            const currentDay = parseInt(options.day[utils.storage.slideshow_index], 10);
             const filtered = currentDay === 0 ? slideshow 
                 : slideshow.filter(o => o.day === currentDay);
             if (filtered.length === 0) {
@@ -67,7 +61,7 @@
                     fieldBody.src = `${o.source}`;
                     fieldInput.textContent = `${o.title}`;
                 }
-            }, waitTime * 1_000);
+            }, options.wait * 1_000);
         });
     });
 </script>
