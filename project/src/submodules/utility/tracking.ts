@@ -36,10 +36,10 @@ export class GlobalPositioningSystem {
      */
     public setCurrentCoordinates(name: string, coords: types.CoordinatesDefined): void {
         if (loader.cache.handlers.eventManager == null) return;
-        loader.cache.external.locations[name] = {
+        loader.cache.external.tracking[name] = {
             lat: coords.lat,
             lon: coords.lon,
-            icao: null
+            icao: (loader.cache.external.tracking[name] ? loader.cache.external.tracking[name].icao : null),
         }
         loader.cache.handlers.eventManager.setCurrentLocation(name, coords);
         loader.submodules.utils.log(`Updated current coordinates for ${name} [LAT: ${coords.lat}, LON: ${coords.lon}]`);
@@ -82,33 +82,30 @@ export class GlobalPositioningSystem {
         if (loader.cache.internal.limiters.filter(ts => ts.type == `gps.tracking.limit`).length >= 1) {
             return;
         }
-        const primaryTarget = Object.keys(loader.cache.external.locations)[0]
-        const targetCoords = loader.cache.external.locations[primaryTarget];
+        const primaryTarget = Object.keys(loader.cache.external.tracking)[0]
+        const targetCoords = loader.cache.external.tracking[primaryTarget];
         if (primaryTarget) {
             loader.cache.internal.limiters.push({ type: `gps.tracking.limit`, timestamp: time });
-            const getLocationNames = loader.apis.open_street_map.replace("${X}", targetCoords.lat).replace("${Y}", targetCoords.lon);
-            const getWeatherConditions = loader.apis.temperature_coordinates.replace("${X}", targetCoords.lat).replace("${Y}", targetCoords.lon)
-            const getLocationData = await loader.submodules.networking.httpRequest(getLocationNames)
-            const getWeatherData = await loader.submodules.networking.httpRequest(getWeatherConditions)
             targetCoords.icao = this.getNearestICAO(targetCoords.lat, targetCoords.lon);
             if (!ConfigType.sources.miscellaneous_settings.tempest_station.enabled) {
+                const getLocationNames = loader.apis.open_street_map.replace("${X}", targetCoords.lat).replace("${Y}", targetCoords.lon);
+                const getWeatherConditions = loader.apis.temperature_coordinates.replace("${X}", targetCoords.lat).replace("${Y}", targetCoords.lon)
+                const getLocationData = await loader.submodules.networking.httpRequest(getLocationNames)
+                const getWeatherData = await loader.submodules.networking.httpRequest(getWeatherConditions)
                 loader.cache.external.mesonet = loader.submodules.parsing.getWeatherStationStructure({
                     longitude: targetCoords.lon,
                     latitude: targetCoords.lat,
-                    dbz: targetCoords.dbz,
-                    icao: targetCoords.icao,
                     temperature: getWeatherData.message.main ? Math.round(((getWeatherData.message.main.temp - 273.15) * 9/5 + 32)) : null,
-                    dewpoints: getWeatherData.message.main ? Math.round(((getWeatherData.message.main.temp - ((100 - getWeatherData.message.main.humidity) / 5)) - 273.15) * 9/5 + 32) : null,
+                    dewpoint: getWeatherData.message.main ? Math.round(((getWeatherData.message.main.temp - ((100 - getWeatherData.message.main.humidity) / 5)) - 273.15) * 9/5 + 32) : null,
                     humidity: getWeatherData.message.main ? Math.round(getWeatherData.message.main.humidity) : null,
                     wind_speed: getWeatherData.message.wind ? Math.round(getWeatherData.message.wind.speed) : null,
                     wind_direction: getWeatherData.message.wind ? loader.submodules.calculations.convertDegreesToCardinal(getWeatherData.message.wind.deg) : null,
                     conditions: getWeatherData.message.weather ? getWeatherData.message.weather[0].description : null,
-                    location: `${getLocationData.message.address.county}, ${getLocationData.message.address.state} (${getLocationData.message.address.city ? getLocationData.message.address.city : `${getLocationData.message.address.house_number} ${getLocationData.message.address.road}`})`,
+                    location: `${getLocationData.message.address.county}, ${getLocationData.message.address.state}`,
                 })
             } else { 
                 if (ConfigType.sources.miscellaneous_settings.tempest_station.location_based) {
                     loader.cache.handlers.tempestStation.getClosestStation({lat: targetCoords.lat, lon: targetCoords.lon}).then((station) => {
-                        loader.submodules.utils.log(`Closest Tempest Station to [LAT: ${targetCoords.lat}, LON: ${targetCoords.lon}] is ${station.properties.name}`);
                         loader.cache.handlers.tempestStation.setSettings({stationId: station.id, deviceId: station.properties.devices[0]})
                     })
                 }
@@ -140,7 +137,7 @@ export class GlobalPositioningSystem {
                     lat: snap.location.latitude, 
                     lon: snap.location.longitude
                 };
-                loader.cache.external.locations[cfg.pull_key] = coords;
+                loader.cache.external.tracking[cfg.pull_key] = coords;
                 this.setCurrentCoordinates(cfg.pull_key, coords);
             }
         };

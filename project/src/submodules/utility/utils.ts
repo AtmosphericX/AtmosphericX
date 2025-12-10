@@ -141,8 +141,9 @@ export class Utils {
             alerts: configurations.filters?.listening_events,
             tones: configurations.tones,
             dictionary: configurations.alert_dictionary,
-            schemes: configurations.alert_schemes,
-            slidehow: configurations.slidehow, 
+            themes: configurations.themes,
+            slideshow: configurations.slideshow, 
+            dbz_intensity: configurations.dbz_intensity,
             third_party_services: configurations.third_party_services,
             forecasting_services: configurations.forecasting_services,
         };

@@ -20,6 +20,7 @@ class Wise {
         this.utils = utils;
         this.storage = this.utils.storage;
         this.utils.log(`${this.NAME_SPACE} initialized.`);
+        this.lastFetch = 0;
         this.directory = `https://data2.weatherwise.app/radar/processed/{X}/{Y}/dir.list?_={Z}`;
         this.file = `https://data2.weatherwise.app/radar/processed/{X}/{Y}/{Z}`;
     }
@@ -177,6 +178,10 @@ class Wise {
      */
     fetchLatest = async function(icao = `KLOT`, product = `REF0`) {
         const now = Date.now();
+        if (now - this.lastFetch < 60000) {
+            return null;
+        }
+        this.lastFetch = now;
         const icaoCode    = icao.trim().toUpperCase();
         const productCode = product.trim().toUpperCase();
         const dirUrl = this.directory.replace('{X}', icaoCode).replace('{Y}', productCode).replace('{Z}', now);

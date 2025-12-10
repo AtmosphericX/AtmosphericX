@@ -21054,7 +21054,7 @@ var init_tempest = __esm({
             longitude: (_i = (_h = (_g = forecast == null ? void 0 : forecast.geometry) == null ? void 0 : _g.coordinates) == null ? void 0 : _h[1]) != null ? _i : null,
             latitude: (_l = (_k = (_j = forecast == null ? void 0 : forecast.geometry) == null ? void 0 : _j.coordinates) == null ? void 0 : _k[0]) != null ? _l : null,
             temperature: (_n = (_m = forecast == null ? void 0 : forecast.properties) == null ? void 0 : _m.temperature) != null ? _n : null,
-            dewpoints: (_p = (_o = forecast == null ? void 0 : forecast.properties) == null ? void 0 : _o.dew_point) != null ? _p : null,
+            dewpoint: (_p = (_o = forecast == null ? void 0 : forecast.properties) == null ? void 0 : _o.dew_point) != null ? _p : null,
             humidity: (_r = (_q = forecast == null ? void 0 : forecast.properties) == null ? void 0 : _q.humidity) != null ? _r : null,
             wind_speed: (_t = (_s = rapid == null ? void 0 : rapid.properties) == null ? void 0 : _s.speed) != null ? _t : null,
             wind_direction: (_v = (_u = rapid == null ? void 0 : rapid.properties) == null ? void 0 : _u.direction) != null ? _v : null,
@@ -21211,8 +21211,9 @@ var init_utils = __esm({
           alerts: (_a = configurations.filters) == null ? void 0 : _a.listening_events,
           tones: configurations.tones,
           dictionary: configurations.alert_dictionary,
-          schemes: configurations.alert_schemes,
-          slidehow: configurations.slidehow,
+          themes: configurations.themes,
+          slideshow: configurations.slideshow,
+          dbz_intensity: configurations.dbz_intensity,
           third_party_services: configurations.third_party_services,
           forecasting_services: configurations.forecasting_services
         };
@@ -21275,8 +21276,26 @@ var init_calculations = __esm({
        */
       convertDegreesToCardinal(degrees) {
         if (!Number.isFinite(degrees) || degrees < 0 || degrees > 360) return "Invalid";
-        const directions = ["N", "NE", "E", "SE", "S", "SW", "W", "NW"];
-        return directions[Math.round((degrees % 360 + 360) % 360 / 45) % 8];
+        const directions = [
+          "N",
+          "NNE",
+          "NE",
+          "ENE",
+          "E",
+          "ESE",
+          "SE",
+          "SSE",
+          "S",
+          "SSW",
+          "SW",
+          "WSW",
+          "W",
+          "WNW",
+          "NW",
+          "NNW"
+        ];
+        const idx = Math.floor((degrees % 360 + 360) % 360 / 22.5 + 0.5) % 16;
+        return directions[idx];
       }
       /**
        * @function calculateDistance
@@ -21678,7 +21697,7 @@ var init_structure = __esm({
        */
       metadata(event) {
         const ConfigType = cache.internal.configurations;
-        const schemes = ConfigType.alert_schemes[event.properties.event] || ConfigType.alert_schemes[event.properties.parent] || ConfigType.alert_schemes["Default"];
+        const schemes = ConfigType.themes[event.properties.event] || ConfigType.themes[event.properties.parent] || ConfigType.themes["Default"];
         const dictionary = ConfigType.alert_dictionary[event.properties.event] || ConfigType.alert_dictionary[event.properties.parent] || ConfigType.alert_dictionary["Special Event"];
         let sfx = dictionary.sfx_cancel;
         if (event.properties.is_issued) sfx = dictionary.sfx_issued;
@@ -21723,7 +21742,7 @@ var init_structure = __esm({
       distance(event) {
         var _a, _b;
         const ConfigType = cache.internal.configurations;
-        const cache2 = cache.external.locations;
+        const cache2 = cache.external.tracking;
         const coords = (_b = (_a = event.properties) == null ? void 0 : _a.geometry) == null ? void 0 : _b.coordinates;
         let range = [];
         let inRange = ConfigType.filters.location_settings.enabled == true && cache2 && Object.keys(cache2).length > 0 ? false : true;
@@ -22129,7 +22148,7 @@ var init_parsing = __esm({
           const feedConfig = (_b = (_a = ConfigType.sources) == null ? void 0 : _a.location_settings) == null ? void 0 : _b.spotter_network_feed;
           const structure = { type: "FeatureCollection", features: [] };
           const parsed = yield packages.PlacefileManager.parsePlacefile(body);
-          const locations = Object.keys(cache.external.locations);
+          const locations = Object.keys(cache.external.tracking);
           for (const feature of parsed) {
             const lon = parseFloat(feature.object.coordinates[1]);
             const lat = parseFloat(feature.object.coordinates[0]);
@@ -22150,7 +22169,7 @@ var init_parsing = __esm({
               const index = locations[0];
               distance = submodules.calculations.calculateDistance(
                 { lat, lon },
-                { lat: cache.external.locations[index].lat, lon: cache.external.locations[index].lon }
+                { lat: cache.external.tracking[index].lat, lon: cache.external.tracking[index].lon }
               );
             }
             structure.features.push({
@@ -22311,7 +22330,7 @@ var init_parsing = __esm({
             type: "Feature",
             properties: {
               temperature: body.temperature,
-              dewpoints: body.dewpoints,
+              dewpoint: body.dewpoint,
               humidity: body.humidity,
               wind_speed: body.wind_speed,
               wind_direction: body.wind_direction,
@@ -22350,10 +22369,10 @@ var init_tracking = __esm({
        */
       setCurrentCoordinates(name, coords) {
         if (cache.handlers.eventManager == null) return;
-        cache.external.locations[name] = {
+        cache.external.tracking[name] = {
           lat: coords.lat,
           lon: coords.lon,
-          icao: null
+          icao: cache.external.tracking[name] ? cache.external.tracking[name].icao : null
         };
         cache.handlers.eventManager.setCurrentLocation(name, coords);
         submodules.utils.log(`Updated current coordinates for ${name} [LAT: ${coords.lat}, LON: ${coords.lon}]`);
@@ -22395,33 +22414,30 @@ var init_tracking = __esm({
           if (cache.internal.limiters.filter((ts) => ts.type == `gps.tracking.limit`).length >= 1) {
             return;
           }
-          const primaryTarget = Object.keys(cache.external.locations)[0];
-          const targetCoords = cache.external.locations[primaryTarget];
+          const primaryTarget = Object.keys(cache.external.tracking)[0];
+          const targetCoords = cache.external.tracking[primaryTarget];
           if (primaryTarget) {
             cache.internal.limiters.push({ type: `gps.tracking.limit`, timestamp: time });
-            const getLocationNames = apis.open_street_map.replace("${X}", targetCoords.lat).replace("${Y}", targetCoords.lon);
-            const getWeatherConditions = apis.temperature_coordinates.replace("${X}", targetCoords.lat).replace("${Y}", targetCoords.lon);
-            const getLocationData = yield submodules.networking.httpRequest(getLocationNames);
-            const getWeatherData = yield submodules.networking.httpRequest(getWeatherConditions);
             targetCoords.icao = this.getNearestICAO(targetCoords.lat, targetCoords.lon);
             if (!ConfigType.sources.miscellaneous_settings.tempest_station.enabled) {
+              const getLocationNames = apis.open_street_map.replace("${X}", targetCoords.lat).replace("${Y}", targetCoords.lon);
+              const getWeatherConditions = apis.temperature_coordinates.replace("${X}", targetCoords.lat).replace("${Y}", targetCoords.lon);
+              const getLocationData = yield submodules.networking.httpRequest(getLocationNames);
+              const getWeatherData = yield submodules.networking.httpRequest(getWeatherConditions);
               cache.external.mesonet = submodules.parsing.getWeatherStationStructure({
                 longitude: targetCoords.lon,
                 latitude: targetCoords.lat,
-                dbz: targetCoords.dbz,
-                icao: targetCoords.icao,
                 temperature: getWeatherData.message.main ? Math.round((getWeatherData.message.main.temp - 273.15) * 9 / 5 + 32) : null,
-                dewpoints: getWeatherData.message.main ? Math.round((getWeatherData.message.main.temp - (100 - getWeatherData.message.main.humidity) / 5 - 273.15) * 9 / 5 + 32) : null,
+                dewpoint: getWeatherData.message.main ? Math.round((getWeatherData.message.main.temp - (100 - getWeatherData.message.main.humidity) / 5 - 273.15) * 9 / 5 + 32) : null,
                 humidity: getWeatherData.message.main ? Math.round(getWeatherData.message.main.humidity) : null,
                 wind_speed: getWeatherData.message.wind ? Math.round(getWeatherData.message.wind.speed) : null,
                 wind_direction: getWeatherData.message.wind ? submodules.calculations.convertDegreesToCardinal(getWeatherData.message.wind.deg) : null,
                 conditions: getWeatherData.message.weather ? getWeatherData.message.weather[0].description : null,
-                location: `${getLocationData.message.address.county}, ${getLocationData.message.address.state} (${getLocationData.message.address.city ? getLocationData.message.address.city : `${getLocationData.message.address.house_number} ${getLocationData.message.address.road}`})`
+                location: `${getLocationData.message.address.county}, ${getLocationData.message.address.state}`
               });
             } else {
               if (ConfigType.sources.miscellaneous_settings.tempest_station.location_based) {
                 cache.handlers.tempestStation.getClosestStation({ lat: targetCoords.lat, lon: targetCoords.lon }).then((station) => {
-                  submodules.utils.log(`Closest Tempest Station to [LAT: ${targetCoords.lat}, LON: ${targetCoords.lon}] is ${station.properties.name}`);
                   cache.handlers.tempestStation.setSettings({ stationId: station.id, deviceId: station.properties.devices[0] });
                 });
               }
@@ -22453,7 +22469,7 @@ var init_tracking = __esm({
               lat: snap.location.latitude,
               lon: snap.location.longitude
             };
-            cache.external.locations[cfg.pull_key] = coords;
+            cache.external.tracking[cfg.pull_key] = coords;
             this.setCurrentCoordinates(cfg.pull_key, coords);
           }
         };
@@ -22612,7 +22628,7 @@ var init_bootstrap = __esm({
         placefiles: {
           locations: null
         },
-        locations: {}
+        tracking: {}
       },
       internal: {
         getSource: `NWS`,

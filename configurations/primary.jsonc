@@ -53,12 +53,12 @@
     // Schedules are handled with cron scheduling. (See https://crontab.guru/) for a guide.
     "internal_settings": {
         "global_update": "*/5 * * * * *",  // Default 5 seconds (This updates the global cache but websocket settings will be primary guide)
-        "random_update": "*/30 * * * * *",  // Default is 30 seconds 
+        "random_update": "*/60 * * * * *",  // Default is 60 seconds (Updates rng event data)
         "update_check": "0 */6 * * *", // Default: 6 hours (Checks for AtmosphericX updates and logs to console if outdated)
         "request_timeout": 10
     },
     "websocket_settings": {
-        "maximum_connections_per_ip": 25, // Max connections to a websocket address. (Default: 25 connections)
+        "maximum_connections_per_ip": 50, // Max connections to a websocket address. (Default: 25 connections)
         "priority_sockets": {
             "timeout": 2, // How often websocket cache shouldn't be sent to the clients. (Default: 2 seconds)
             "sockets": [ // Type(s) of websocket subscriptions to put in the priority sockets.

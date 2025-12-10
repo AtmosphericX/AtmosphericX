@@ -40,7 +40,7 @@ export class Alerts {
                 longitude: forecast?.geometry?.coordinates?.[1] ?? null,
                 latitude: forecast?.geometry?.coordinates?.[0] ?? null,
                 temperature: forecast?.properties?.temperature ?? null,
-                dewpoints: forecast?.properties?.dew_point ?? null,
+                dewpoint: forecast?.properties?.dew_point ?? null,
                 humidity: forecast?.properties?.humidity ?? null,
                 wind_speed: rapid?.properties?.speed ?? null,
                 wind_direction: rapid?.properties?.direction ?? null,

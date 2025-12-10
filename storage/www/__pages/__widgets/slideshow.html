@@ -31,36 +31,42 @@
     utils.websocket([`configurations`]).then(() => {
         const fieldInput = document.getElementById("field_input");
         const fieldBody = document.getElementById("field_body");
+
+        /* URL Parameters */
         const parameters = new URLSearchParams(window.location.search);
-        const dayTypes = parameters.get("day").split(",").map(d => {
-            const n = parseInt(d, 10); return (n >= 0 && n <= 8) ? n : 0;}) ?? [0];
-        const waitTime = parseInt(parameters.get("wait")) ?? 10;
+        const waitTime = parameters.get("wait") ?? 10;
+        const dayTypes = parameters.get("day")?.split(",").map(d => {
+            const n = parseInt(d, 10); return (n >= 0 && n <= 8) ? n : 0;
+        }) ?? [0];
+
         document.addEventListener("eventCacheUpdated", async () => {
             utils.initializeStorage(`slideshow_index`, 0);
             utils.initializeStorage(`slideshow_slide_index`, 0);
             utils.storage.slideshow_index = (utils.storage.slideshow_index + 1) % dayTypes.length;
             const cfg = utils.storage.configurations;
-            const slideshow = [...cfg.slideshow].sort((a, b) => 
-                a.day - b.day || a.title.localeCompare(b.title)
-            );
+            const slideshow = [...cfg.slideshow].sort((a, b) => a.day - b.day || a.title.localeCompare(b.title));
             const currentDay = parseInt(dayTypes[utils.storage.slideshow_index], 10);
-            const filtered = currentDay === 0
-                ? slideshow : slideshow.filter(o => o.day === currentDay);
-            function showSlide(idx) {
-                if (filtered.length === 0) {
-                    fieldBody.innerHTML = "<div style='text-align:center;'>No images available.</div>";
-                    fieldInput.textContent = "";
-                    return;
-                }
-                const o = filtered[idx];
+            const filtered = currentDay === 0 ? slideshow 
+                : slideshow.filter(o => o.day === currentDay);
+            if (filtered.length === 0) {
+                fieldBody.innerHTML = "<div style='text-align:center;'>No images available.</div>";
+                fieldInput.textContent = "";
+            } else {
+                const o = filtered[utils.storage.slideshow_slide_index];
                 fieldBody.src = `${o.source}`;
                 fieldInput.textContent = `${o.title}`;
             }
-            showSlide(utils.storage.slideshow_slide_index);
             if (window.spcSlideshowInterval) clearInterval(window.spcSlideshowInterval);
             window.spcSlideshowInterval = setInterval(() => {
                 utils.storage.slideshow_slide_index = (utils.storage.slideshow_slide_index + 1) % filtered.length;
-                showSlide(utils.storage.slideshow_slide_index);
+                if (filtered.length === 0) {
+                    fieldBody.innerHTML = "<div style='text-align:center;'>No images available.</div>";
+                    fieldInput.textContent = "";
+                } else {
+                    const o = filtered[utils.storage.slideshow_slide_index];
+                    fieldBody.src = `${o.source}`;
+                    fieldInput.textContent = `${o.title}`;
+                }
             }, waitTime * 1_000);
         });
     });

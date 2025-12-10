@@ -241,7 +241,7 @@
             "metadata": { "siren": false, "wail": false, "urgent": false, "iphone": false, "uniden": false}
         }
     },
-    "alert_schemes": { // Color schemes for various alerts.
+    "themes": { // Color schemes for various alerts.
         "Tornado Emergency": {"primary": "rgb(209,38,215)", "secondary": "rgb(159,37,163)"},
         "PDS Tornado Warning": {"primary": "rgb(214,56,54)", "secondary": "rgb(163,25,25)"},
         "PDS Tornado Watch": {"primary": "rgb(214,56,54)", "secondary": "rgb(163,25,25)"},

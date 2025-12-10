@@ -141,7 +141,7 @@ export class Parsing {
         const feedConfig = ConfigType.sources?.location_settings?.spotter_network_feed;
         const structure: types.GeoJSONFeatureCollection = { type: 'FeatureCollection', features: [] };
         const parsed = await loader.packages.PlacefileManager.parsePlacefile(body) as types.DefaultPlacefileParsingTypes[];
-        const locations = Object.keys(loader.cache.external.locations);
+        const locations = Object.keys(loader.cache.external.tracking);
         for (const feature of parsed) {
             const lon = parseFloat(feature.object.coordinates[1]);
             const lat = parseFloat(feature.object.coordinates[0]);
@@ -162,7 +162,7 @@ export class Parsing {
                 const index = locations[0] as string;
                 distance = loader.submodules.calculations.calculateDistance(
                     { lat, lon },
-                    { lat: loader.cache.external.locations[index].lat, lon: loader.cache.external.locations[index].lon }
+                    { lat: loader.cache.external.tracking[index].lat, lon: loader.cache.external.tracking[index].lon }
                 );
             }
             structure.features.push({
@@ -320,7 +320,7 @@ export class Parsing {
                 type: "Feature",
                 properties: {
                     temperature: body.temperature,
-                    dewpoints: body.dewpoints,
+                    dewpoint: body.dewpoint,
                     humidity: body.humidity,
                     wind_speed: body.wind_speed,
                     wind_direction: body.wind_direction,  

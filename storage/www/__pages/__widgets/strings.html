@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width initial-scale=0.5, maximum-scale=0.5, user-scalable=no minimal-ui">
+    <title>AtmosphericX - Strings Widget (By: KiyoWx)</title>
+    <link rel="icon" href="/src/__assets/__images/__logos/favicon.ico" type="image/x-icon" />
+    <link rel="stylesheet" href="/src/__assets/__styles/global.css">
+    <script src="/src/__assets/__scripts/utils.js"></script>
+    <script src="/src/__assets/__scripts/wise.js"></script>
+    <script src="/src/__assets/__scripts/widgets.js"></script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; touch-action: manipulation; }
+        .field_input { 
+            text-align: left;
+            padding: var(--strings-widget-padding); 
+            color: var(--strings-widget-color); 
+            font-size: var(--strings-widget-font-size); 
+            text-shadow: var(--strings-widget-text-shadow); 
+            white-space: nowrap; 
+            overflow: hidden; 
+            text-overflow: ellipsis; 
+            height: 100%; 
+            display: flex; 
+        }
+        @media (min-height: 80px) {
+            .field_input { white-space: normal; overflow: visible; text-overflow: unset; align-items: flex-start; }
+        }
+    </style>
+</head>
+<body>
+    <span class="field_input" id='input_text'></span>
+</body>
+<script>
+    /**
+     * @widget String Widgets
+     * @author KiyoWx
+     * @description A variety of string-based widgets for displaying dynamic information.
+     * 
+     * @param {string} type - The type of string widget to display. Options include:
+     * - locations
+     * - event
+     * - description
+     * - expires
+     * - time
+     * - date
+     * - watchdog
+     * - nearby_spotters
+     * - nearby_polygons
+     * - intensity
+     * - temperature
+     * - dewpoint
+     * - humidity
+     * - wind
+     * - conditions
+     * - tracking
+     * - text
+     * @param {number} radius - The radius (in miles) for nearby-based widgets. Default is 50.
+     * @param {number} maxcharacters - The maximum number of characters to display. Default is 2500.
+     * @param {boolean} center - Whether to center the text. Default is false.
+     * @param {string} placeholder - The placeholder text to display if no data is available. Default is "N/A".
+     * @param {string[]} events - A comma-separated list of event names for event-counting widgets. If you use "* Warning" it will count all events with "Warning" in the name.
+     * @param {boolean} military - Whether to use military time for time/date widgets. Default is false.
+     * @param {string} timezone - The timezone to use for time/date widgets. Default is the user's local timezone.
+     * @param {boolean} animated - Whether to animate text changes. Default is false.
+     * @param {boolean} countdown - Whether to show countdowns for time/date widgets. Default is false.
+     * @param {string} text - Custom text to display for the "text" type widget.
+     */
+
+    const subscriptions = { 
+        locations: [`rng`], event: [`rng`], description: [`rng`],
+        expires: [`rng`], time: [`/`], date: [`/`],
+        watchdog: [`events`], nearby_spotters: [`tracking`, `spotter_network_feed`], 
+        nearby_polygons: [`tracking`, `events`], intensity: [`tracking`, `configurations`],
+        temperature: [`mesonet`], dewpoint: [`mesonet`], humidity: [`mesonet`],
+        wind: [`mesonet`], conditions: [`mesonet`], tracking: [`mesonet`],
+    }
+
+    const parameters = new URLSearchParams(window.location.search);
+    const options = { 
+        element: document.getElementById("input_text"),
+        type: parameters.get("type") ?? `time`,
+        radius: parameters.get("radius") ?? 50,
+        maxcharacters: parameters.get("maxcharacters") ?? 2500,
+        center: parameters.get("center") == "true" ? true : false,
+        placeholder: parameters.get("placeholder") ?? `N/A`,
+        events: parameters.get("events") ? parameters.get("events").split(",") : [],
+        military: parameters.get("military") == "true" ? true : false,
+        timezone: parameters.get("timezone") ?? null,
+        animated: parameters.get("animated") == "true" ? true : false,
+        countdown: parameters.get("countdown") == "true" ? true : false,
+        text: parameters.get("text") ?? null,
+    }
+
+    const utils = new Utils();
+    const wise = new Wise(utils);
+    const widgets = new Widgets(utils, options);
+    if (options.center) { 
+        options.element.style.textAlign = "center"; 
+        options.element.style.justifyContent = "center";
+        options.element.style.alignItems = "center";
+        options.element.style.height = "100%";
+    }
+    utils.websocket(subscriptions[options.type]).then(() => {
+        document.addEventListener("eventCacheUpdated", async () => {
+            console.log(options.text)
+            switch (options.type) {
+                case `text`: { widgets.stringHandler(`generic`, options.type); break; }
+                case `locations`: { widgets.stringHandler(`rng`, options.type); break; }
+                case `event`: { widgets.stringHandler(`rng`, options.type); break; }
+                case `description`: { widgets.stringHandler(`rng`, options.type); break; }
+                case `expires`: { widgets.stringHandler(`rng`, options.type); break; }
+                case `time`: { widgets.stringHandler(`clock`, options.type); break; }
+                case `date`: { widgets.stringHandler(`clock`, options.type); break; }
+                case `watchdog`: { widgets.stringHandler(`generic`, options.type); break; }
+                case `nearby_spotters`: { widgets.stringHandler(`generic`, options.type); break; }
+                case `nearby_polygons`: { widgets.stringHandler(`generic`, options.type); break; }
+                case `intensity`: { widgets.stringHandler(`generic`, options.type); break; }
+                case `temperature`: { widgets.stringHandler(`generic`, options.type); break; }
+                case `dewpoint`: { widgets.stringHandler(`generic`, options.type); break; }
+                case `humidity`: { widgets.stringHandler(`generic`, options.type); break; }
+                case `wind`: { widgets.stringHandler(`generic`, options.type); break; }
+                case `conditions`: { widgets.stringHandler(`generic`, options.type); break; }
+                case `tracking`: { widgets.stringHandler(`generic`, options.type); break; }
+                default: { console.warn(`Unknown string widget type: ${options.type}`); break; }
+            }
+        });
+    });
+</script>
+</html>

@@ -27,11 +27,11 @@
 	},
 	"homepage": "https://github.com/K3YOMI/AtmosphericX#readme",
 	"dependencies": {
+		"@streamerbot/client": "^1.12.2",
 		"atmosx-nwws-parser": "beta",
 		"atmosx-placefile-parser": "beta",
 		"atmosx-pulse-point": "latest",
-		"atmosx-tempest-station": "latest",
-		"@streamerbot/client": "^1.12.2",
+		"atmosx-tempest-station": "^1.1.141",
 		"axios": "^1.8.2",
 		"better-sqlite3": "^11.10.0",
 		"blessed": "^0.1.81",

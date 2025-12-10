@@ -33,7 +33,7 @@
 
     */
 {
-    "slidehow": [ // Slideshow widget configurations.
+    "slideshow": [ // Slideshow widget configurations.
         { "day": -1, "title": "GOES-19 TrueColor View", "source": "https://weather.cod.edu/data/satellite/background/background.truecolor.jpg"},
         { "day": 1, "title": "Severe Weather Outlook (Day 1)", "source": "https://www.spc.noaa.gov/partners/outlooks/state/swody1.png"},
         { "day": 1, "title": "Tornado Outlook (Day 1)", "source": "https://www.spc.noaa.gov/partners/outlooks/national/swody1_TORN.png?" }, 
@@ -52,5 +52,15 @@
         { "day": 6, "title": "Severe Weather Outlook (Day 6)", "source": "https://www.spc.noaa.gov/partners/outlooks/national/swody6_PROB.png" },
         { "day": 7, "title": "Severe Weather Outlook (Day 7)", "source": "https://www.spc.noaa.gov/partners/outlooks/national/swody7_PROB.png" }, 
         { "day": 8, "title": "Severe Weather Outlook (Day 8)", "source": "https://www.spc.noaa.gov/partners/outlooks/national/swody8_PROB.png" } 
-    ]   
+    ],
+    "dbz_intensity": { // DBZ Intensity Levels
+        "0": "CLEAR", 
+        "10": "MIST",
+        "20": "LIGHT", 
+        "25": "MODERATE", 
+        "30": "HEAVY", 
+        "40": "VHEAVY", 
+        "50": "SEVERE",
+        "60": "EXTREME"
+    }
 }

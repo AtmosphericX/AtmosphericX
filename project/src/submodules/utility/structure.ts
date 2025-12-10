@@ -56,9 +56,9 @@ export class Structure {
 	 */
 	private metadata(event: types.EventType) {
     	const ConfigType = loader.cache.internal.configurations as types.ConfigurationsType;
-		const schemes = ConfigType.alert_schemes[event.properties.event]
-			|| ConfigType.alert_schemes[event.properties.parent]
-			|| ConfigType.alert_schemes['Default'];
+		const schemes = ConfigType.themes[event.properties.event]
+			|| ConfigType.themes[event.properties.parent]
+			|| ConfigType.themes['Default'];
 		const dictionary = ConfigType.alert_dictionary[event.properties.event]
 			|| ConfigType.alert_dictionary[event.properties.parent]
 			|| ConfigType.alert_dictionary['Special Event'];
@@ -106,7 +106,7 @@ export class Structure {
 	 */
 	public distance(event: types.EventType): types.InRange {
 		const ConfigType = loader.cache.internal.configurations as types.ConfigurationsType;
-		const cache = loader.cache.external.locations;
+		const cache = loader.cache.external.tracking;
 		const coords = event.properties?.geometry?.coordinates;
 		let range = [] 
 		let inRange = ConfigType.filters.location_settings.enabled == true && cache && Object.keys(cache).length > 0 ? false : true;

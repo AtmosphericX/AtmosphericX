@@ -18,7 +18,6 @@ class Utils {
         this.log(`${this.NAME_SPACE} initialized.`);
         this.storage = [];
         this.streaming = streaming;
-        this.isMobileDevice();
     }
 
     /**
@@ -189,6 +188,32 @@ class Utils {
     }
 
     /**
+     * @function calculateDistance
+     * @description Calculates the distance in miles between two geographic coordinates using the Haversine formula.
+     * 
+     * 
+     * @param {Array<number>} coodinatesA - An array containing the longitude and latitude of the first point in degrees.
+     * @param {Array<number>} coordinatesB - An array containing the longitude and latitude of the second point in degrees.
+     * @returns {number} The distance between the two points in miles.
+     */
+    calculateDistance = function(coordinatesA, coordinatesB) {
+        const toRadians = deg => deg * (Math.PI / 180);
+        const earthRadiusMeters = 6371000;
+        const startLatRad = toRadians(coordinatesA.lat);
+        const endLatRad = toRadians(coordinatesB.lat);
+        const deltaLatRad = toRadians(coordinatesB.lat - coordinatesA.lat);
+        const deltaLonRad = toRadians(coordinatesB.lon - coordinatesA.lon);
+        const a =
+            Math.sin(deltaLatRad / 2) * Math.sin(deltaLatRad / 2) +
+            Math.cos(startLatRad) * Math.cos(endLatRad) *
+            Math.sin(deltaLonRad / 2) * Math.sin(deltaLonRad / 2);
+        const angularDistance = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+        const distanceMeters = earthRadiusMeters * angularDistance;
+        const distanceMiles = distanceMeters / 1609.344;
+        return distanceMiles;
+    }
+
+    /**
      * @function getCurrentTime
      * @description Retrieves the current time formatted as a string, with options for timezone and 24-hour format.
      * 
@@ -215,19 +240,20 @@ class Utils {
      */
     getCurrentDate = function(selectedTimezone = null) {
         const date = new Date();
+        const formatDate = (dateObj) => {
+            return dateObj.toLocaleString('en-US', { month: 'short', day: 'numeric' })
+                .replace(/^([A-Za-z]+)/, (m) => m.toUpperCase())
+                .replace(/(\d+)$/, (d) => {
+                    const n = parseInt(d, 10);
+                    const s = ["th", "st", "nd", "rd"], v = n % 100;
+                    return n + (s[(v - 20) % 10] || s[v] || s[0]);
+                });
+        };
         if (selectedTimezone) {
             const localeDate = new Date(date.toLocaleString('en-US', { timeZone: selectedTimezone }));
-            return localeDate.toLocaleString('en-US', {month: 'short', day: 'numeric'}).replace(/(\d+)$/, (d) => {
-                const n = parseInt(d, 10);
-                const s = ["th", "st", "nd", "rd"], v = n % 100;
-                return n + (s[(v - 20) % 10] || s[v] || s[0]);
-            });
+            return formatDate(localeDate);
         } else {
-            return date.toLocaleString('en-US', { month: 'short', day: 'numeric'}).replace(/(\d+)$/, (d) => {
-                const n = parseInt(d, 10);
-                const s = ["th", "st", "nd", "rd"], v = n % 100;
-                return n + (s[(v - 20) % 10] || s[v] || s[0]);
-            });
+            return formatDate(date);
         }
     }
 

@@ -33,8 +33,15 @@ export class Calculations {
      */
     public convertDegreesToCardinal(degrees: number): string {
         if (!Number.isFinite(degrees) || degrees < 0 || degrees > 360) return "Invalid";
-        const directions = ["N","NE","E","SE","S","SW","W","NW"];
-        return directions[Math.round(((degrees % 360 + 360) % 360) / 45) % 8];
+        const directions = [
+            "N", "NNE", "NE", "ENE",
+            "E", "ESE", "SE", "SSE",
+            "S", "SSW", "SW", "WSW",
+            "W", "WNW", "NW", "NNW"
+        ];
+        // Each direction covers 22.5 degrees
+        const idx = Math.floor(((degrees % 360 + 360) % 360) / 22.5 + 0.5) % 16;
+        return directions[idx];
     }
 
     /**

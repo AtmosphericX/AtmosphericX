@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width initial-scale=0.5, maximum-scale=0.5, user-scalable=no minimal-ui">
+    <title>AtmosphericX - Events Widget (By: KiyoWx)</title>
+    <link rel="icon" href="/src/__assets/__images/__logos/favicon.ico" type="image/x-icon" />
+    <link rel="stylesheet" href="/src/__assets/__styles/global.css">
+    <script src="/src/__assets/__scripts/utils.js"></script>
+    <script src="/src/__assets/__scripts/widgets.js"></script>
+    <script src="/src/__assets/__scripts/handler.js"></script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; touch-action: manipulation; }
+        .alert-box { background: var(--alertbar-widget-bg-gradient); border-radius: 8px; color: var(--alertbar-widget-text-color); max-width: 900px; margin: auto; overflow: hidden; box-shadow: 0 0 10px rgba(0, 0, 0, 0.973); position: absolute; width: 100%; top: 50%; left: 80%; margin-top: -50px; margin-left: -50%; }
+        .font-semibold { font-weight: 600; }
+        .alert-header { background: var(--alertbar-widget-header-bg); text-align: var(--alertbar-widget-header-align); font-size: var(--alertbar-widget-header-size); font-weight: var(--alertbar-widget-header-weight); padding: 16px; }
+        .alert-body { background: var(--alertbar-widget-body-bg); }
+        .alert-row-light { background: var(--alertbar-widget-row-light-bg); display: flex; align-items: center; justify-content: space-between; width: 100%; padding: 8px 16px; box-sizing: border-box; }
+        .alert-row-dark { background: var(--alertbar-widget-row-dark-bg); display: flex; align-items: center; justify-content: space-between; width: 100%; padding: 8px 16px; box-sizing: border-box; }
+        .alert-left, .alert-right {display: flex;align-items: center;gap: 6px;}
+    </style>
+</head>
+<body><div class="target"></div></body>
+<script>
+    const utils = new Utils();
+    const handler = new Handler(utils);
+    const widgets = new Widgets(utils);
+
+    /* URL Parameters */
+    const parameters = new URLSearchParams(window.location.search);
+    const wait = parameters.get("wait") ?? 8;
+    const emergencies = parameters.get("emergencies") === "true" ? true : false;
+    const cacheTime = parameters.get("history") ?? 120_000;
+
+    utils.websocket([`configurations`, `events`, `manual`, `emergencies`]).then(() => {
+        document.addEventListener("eventCacheUpdated", async () => {
+            utils.setStreaming(true)
+            await handler.syncEvents({includeEmergencies: emergencies, history: cacheTime});
+            await handler.syncQueue(wait);
+        });
+    });
+</script>
+</html>

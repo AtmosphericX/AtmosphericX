@@ -92,7 +92,7 @@ export interface ConfigurationsType {
     hosting?: any;
     tones?: any;
     alert_dictionary?: any;
-    alert_schemes?: any;
+    themes?: any;
     filters?: any;
     web_hosting_settings?: any;
 }
