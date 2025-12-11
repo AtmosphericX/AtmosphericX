@@ -48,7 +48,7 @@ export class Alerts {
             return strings.new_event_legacy
                 .replace('{EVENT}', e.properties.event ?? 'Unknown')
                 .replace('{STATUS}', e.properties.action_type ?? 'Unknown')
-                .replace('{TRACKING}', e.details.tracking.substring(0, 18))
+                .replace('{TRACKING}', e.properties.details.tracking.substring(0, 18))
                 .replace('{SOURCE}', cache.internal.getSource);
         }
         return cache.external.events.features
@@ -65,7 +65,7 @@ export class Alerts {
                 return strings.new_event_fancy
                     .replace('{EVENT}', p.event)
                     .replace('{ACTION_TYPE}', p.action_type)
-                    .replace('{TRACKING}', r.details.tracking.substring(0, 18))
+                    .replace('{TRACKING}', p.details.tracking.substring(0, 18))
                     .replace('{SENDER}', p.sender_name)
                     .replace('{ISSUED}', p.issued)
                     .replace('{EXPIRES}', calculations.timeRemaining(p.expires))
@@ -125,11 +125,10 @@ export class Alerts {
         const features = loader.cache.external.events.features;
         for (const event of events) {
             const registeredEvent = loader.submodules.structure.register(event);
-            if (registeredEvent.ignored) continue;
+            if (registeredEvent.properties.scene.ignored) continue;
             const { properties } = registeredEvent;
-            const { tracking, history = [] } = registeredEvent.details;
-
-            const index = features.findIndex(feature => feature && feature.details.tracking === tracking);
+            const { tracking, history = [] } = registeredEvent.properties.details;
+            const index = features.findIndex(feature => feature && feature.properties.details.tracking === tracking);
             if (properties.is_cancelled && index !== -1) {
                 features[index] = undefined;
                 continue;
@@ -143,14 +142,14 @@ export class Alerts {
                     const existing = features[index];
                     const existingLocations = existing.properties.locations ?? "";
                     const mergedHistory = [ 
-                        ...(existing.history ?? []), 
+                        ...(existing.properties.details.history ?? []), 
                         ...history 
                     ].sort((a, b) => new Date(b.issued).getTime() - new Date(a.issued).getTime());
                     const uniqueHistory = mergedHistory.filter((item, pos, arr) => 
                         arr.findIndex(i => i.issued === item.issued && i.description === item.description) === pos
                     );
                     existing.properties.event = properties.event;
-                    existing.history = uniqueHistory;
+                    existing.properties.details.history = uniqueHistory;
                     existing.properties = registeredEvent.properties;
                     const combinedLocations = [
                         ...new Set((existingLocations + "; " + registeredEvent.properties.locations)

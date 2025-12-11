@@ -54,7 +54,7 @@ class Handler {
             }
             if (events.features.length > 0 && options.wxEvents) {
                 for (let feature of events.features) {
-                    const isDuplicate = this.storage.queuedEvents.findIndex(e => e.hash === feature.hash) !== -1;
+                    const isDuplicate = this.storage.queuedEvents.findIndex(e => e.hash === feature.properties.hash) !== -1;
                     const isIgnored = feature.ignored;
                     const getIssuedDate = new Date(feature.properties.issued).getTime();
                     const getExpiresDate = new Date(feature.properties.expires).getTime();
@@ -62,7 +62,7 @@ class Handler {
                     if (!isDuplicate && !isIgnored) {
                         this.storage.queuedEvents.push({
                             type: `event`,
-                            hash: feature.hash,
+                            hash: feature.properties.hash,
                             issued: getIssuedDate,
                             expires: getExpiresDate,
                             feature: feature,
@@ -128,16 +128,15 @@ class Handler {
             }
         }
         if (next.type === `emergency`) { return this.utils.play(cfg.tones.sfx_beep); }
-        console.log(next)
-        if (next.feature.scene.beep) this.utils.play(cfg.tones.sfx_beep);
-        if (!next.feature.scene.beep) {
+        if (next.feature.properties.scene.beep) this.utils.play(cfg.tones.sfx_beep);
+        if (!next.feature.properties.scene.beep) {
             this.utils.play(cfg.tones.sfx_beep);
             await this.utils.sleep(1_300);
-            this.utils.play(next.feature.scene.sfx);
+            this.utils.play(next.feature.properties.scene.sfx);
             await this.utils.sleep(3_800);
-            if (next.feature.scene.metadata) {
+            if (next.feature.properties.scene.metadata) {
                 for (const key in next.metadata) {
-                    if (next.feature.scene.metadata[key] === true) {
+                    if (next.feature.properties.scene.metadata[key] === true) {
                         const tone = cfg.tones[`sfx_${key}`];
                         if (tone) this.utils.play(tone);
                     }

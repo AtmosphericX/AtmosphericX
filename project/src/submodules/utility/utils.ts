@@ -107,7 +107,7 @@ export class Utils {
         }
         if (rawConsole || !this.isFancyDisplay()) { console.log(`${title}\x1b[0m [${new Date().toLocaleString()}] ${msg}`); }
         if (echoFile) { 
-            loader.packages.fs.appendFileSync(this.LOGS_PATH, `[${title.replace(/\x1b\[[0-9;]*m/g, '')}] [${new Date().toLocaleString()}] ${msg}\n`);
+            loader.packages.fs.appendFileSync(this.LOGS_PATH, `${title.replace(/\x1b\[[0-9;]*m/g, '')} [${new Date().toLocaleString()}] ${msg}\n`);
         }
     }
 

@@ -96,8 +96,6 @@ class Widgets {
                     }
                     assign( name ? `${name} (${min.toFixed(1)} mi)` : options.placeholder);
                 },
-
-
                 intensity: () => {
                     const locs = storage?.tracking.features[0]
                     if (!locs) return;

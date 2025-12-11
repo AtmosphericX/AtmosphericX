@@ -20727,7 +20727,7 @@ var init_events = __esm({
         const { utils, calculations } = submodules, { strings: strings2, cache: cache2 } = bootstrap_exports;
         if (!utils.isFancyDisplay() || !isLive) {
           const e = reg;
-          return strings2.new_event_legacy.replace("{EVENT}", (_a = e.properties.event) != null ? _a : "Unknown").replace("{STATUS}", (_b = e.properties.action_type) != null ? _b : "Unknown").replace("{TRACKING}", e.details.tracking.substring(0, 18)).replace("{SOURCE}", cache2.internal.getSource);
+          return strings2.new_event_legacy.replace("{EVENT}", (_a = e.properties.event) != null ? _a : "Unknown").replace("{STATUS}", (_b = e.properties.action_type) != null ? _b : "Unknown").replace("{TRACKING}", e.properties.details.tracking.substring(0, 18)).replace("{SOURCE}", cache2.internal.getSource);
         }
         return cache2.external.events.features.sort((a, b) => new Date(a.event.properties.issued).getTime() - new Date(b.event.properties.issued).getTime()).map((r) => {
           var _a2, _b2, _c, _d;
@@ -20738,7 +20738,7 @@ var init_events = __esm({
             const unit = (_b3 = val == null ? void 0 : val.unit) != null ? _b3 : "";
             return `${name}: ${distance}${unit ? ` ${unit}` : ""}`;
           }).join(", ") : "Not Available";
-          return strings2.new_event_fancy.replace("{EVENT}", p.event).replace("{ACTION_TYPE}", p.action_type).replace("{TRACKING}", r.details.tracking.substring(0, 18)).replace("{SENDER}", p.sender_name).replace("{ISSUED}", p.issued).replace("{EXPIRES}", calculations.timeRemaining(p.expires)).replace("{TAGS}", (_b2 = (_a2 = p.tags) == null ? void 0 : _a2.join(", ")) != null ? _b2 : "N/A").replace("{LOCATIONS}", (_d = (_c = p.locations) == null ? void 0 : _c.substring(0, 100)) != null ? _d : "N/A").replace("{DISTANCE}", dist);
+          return strings2.new_event_fancy.replace("{EVENT}", p.event).replace("{ACTION_TYPE}", p.action_type).replace("{TRACKING}", p.details.tracking.substring(0, 18)).replace("{SENDER}", p.sender_name).replace("{ISSUED}", p.issued).replace("{EXPIRES}", calculations.timeRemaining(p.expires)).replace("{TAGS}", (_b2 = (_a2 = p.tags) == null ? void 0 : _a2.join(", ")) != null ? _b2 : "N/A").replace("{LOCATIONS}", (_d = (_c = p.locations) == null ? void 0 : _c.substring(0, 100)) != null ? _d : "N/A").replace("{DISTANCE}", dist);
         }).join("\n");
       }
       /**
@@ -20790,10 +20790,10 @@ var init_events = __esm({
         const features = cache.external.events.features;
         for (const event of events2) {
           const registeredEvent = submodules.structure.register(event);
-          if (registeredEvent.ignored) continue;
+          if (registeredEvent.properties.scene.ignored) continue;
           const { properties } = registeredEvent;
-          const { tracking, history = [] } = registeredEvent.details;
-          const index = features.findIndex((feature) => feature && feature.details.tracking === tracking);
+          const { tracking, history = [] } = registeredEvent.properties.details;
+          const index = features.findIndex((feature) => feature && feature.properties.details.tracking === tracking);
           if (properties.is_cancelled && index !== -1) {
             features[index] = void 0;
             continue;
@@ -20807,14 +20807,14 @@ var init_events = __esm({
               const existing = features[index];
               const existingLocations = (_a = existing.properties.locations) != null ? _a : "";
               const mergedHistory = [
-                ...(_b = existing.history) != null ? _b : [],
+                ...(_b = existing.properties.details.history) != null ? _b : [],
                 ...history
               ].sort((a, b) => new Date(b.issued).getTime() - new Date(a.issued).getTime());
               const uniqueHistory = mergedHistory.filter(
                 (item, pos, arr) => arr.findIndex((i) => i.issued === item.issued && i.description === item.description) === pos
               );
               existing.properties.event = properties.event;
-              existing.history = uniqueHistory;
+              existing.properties.details.history = uniqueHistory;
               existing.properties = registeredEvent.properties;
               const combinedLocations = [
                 ...new Set((existingLocations + "; " + registeredEvent.properties.locations).split(";").map((loc) => loc.trim()).filter(Boolean))
@@ -21178,7 +21178,7 @@ var init_utils = __esm({
           console.log(`${title}\x1B[0m [${(/* @__PURE__ */ new Date()).toLocaleString()}] ${msg}`);
         }
         if (echoFile) {
-          packages.fs.appendFileSync(this.LOGS_PATH, `[${title.replace(/\x1b\[[0-9;]*m/g, "")}] [${(/* @__PURE__ */ new Date()).toLocaleString()}] ${msg}
+          packages.fs.appendFileSync(this.LOGS_PATH, `${title.replace(/\x1b\[[0-9;]*m/g, "")} [${(/* @__PURE__ */ new Date()).toLocaleString()}] ${msg}
 `);
         }
       }
@@ -21767,7 +21767,7 @@ var init_structure = __esm({
         const eventMetadata = this.metadata(event);
         const isBeepOnly = isBeepAuthorizedOnly && !isPriorityEvent;
         const isIgnored = !isShowingUpdatesAllowed && !isPriorityEvent && !event.properties.is_issued;
-        event.scene = {
+        event.properties.scene = {
           metadata: eventMetadata.metadata,
           scheme: eventMetadata.scheme,
           sfx: isBeepOnly ? ConfigType.tones.sfx_beep : eventMetadata.sfx,
@@ -21859,19 +21859,19 @@ var init_structure = __esm({
           }
           if ((_a = clean.events) == null ? void 0 : _a.length) {
             for (const ev of clean.events) {
-              const isAlreadyLogged = cache.external.hashes.some((log) => log.id === ev.hash);
+              const isAlreadyLogged = cache.external.hashes.some((log) => log.id === ev.properties.hash);
               const eventDistance = this.distance(ev);
               ev.properties.distance = eventDistance.range;
-              if (!ev.scene.ignored) {
-                ev.scene.ignored = this.distance(ev).inRange === false;
+              if (!ev.properties.scene.ignored) {
+                ev.properties.scene.ignored = this.distance(ev).inRange === false;
               }
               if (isAlreadyLogged) {
                 continue;
               }
-              if (ev.scene.ignored) {
+              if (ev.properties.scene.ignored) {
                 continue;
               }
-              cache.external.hashes.push({ id: ev.hash, expires: ev.properties.expires });
+              cache.external.hashes.push({ id: ev.properties.hash, expires: ev.properties.expires });
               if (!submodules.utils.isFancyDisplay()) {
                 submodules.utils.log(submodules.alerts.returnAlertText(ev));
               } else {
@@ -21892,7 +21892,7 @@ var init_structure = __esm({
                 `**Flood Threat:** ${ev.properties.parameters.flood_detection}`,
                 `**Tags:** ${ev.properties.tags ? ev.properties.tags.join(", ") : "N/A"}`,
                 `**Sender:** ${ev.properties.sender_name}`,
-                `**Tracking ID:** ${ev.tracking}`,
+                `**Tracking ID:** ${ev.properties.details.tracking}`,
                 "```",
                 ev.properties.description.split("\n").map((line) => line.trim()).filter((line) => line.length > 0).join("\n"),
                 "```"
@@ -21904,7 +21904,7 @@ var init_structure = __esm({
               }
             }
           }
-          cache.external.events.features = clean.events.filter((ev) => !ev.scene.ignored) || [];
+          cache.external.events.features = clean.events.filter((ev) => !ev.properties.scene.ignored) || [];
           if (cache.external.rng.features.length == 0) {
             submodules.alerts.randomize();
           }

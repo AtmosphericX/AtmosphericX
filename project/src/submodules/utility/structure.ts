@@ -86,7 +86,7 @@ export class Structure {
 		const eventMetadata = this.metadata(event);
 		const isBeepOnly = isBeepAuthorizedOnly && !isPriorityEvent;
 		const isIgnored = !isShowingUpdatesAllowed && !isPriorityEvent && !event.properties.is_issued;
-		event.scene = {
+		event.properties.scene = {
 			metadata: eventMetadata.metadata,
 			scheme:  eventMetadata.scheme,
 			sfx: isBeepOnly ? ConfigType.tones.sfx_beep : eventMetadata.sfx,
@@ -177,13 +177,13 @@ export class Structure {
 		}
 		if (clean.events?.length) {
 			for (const ev of clean.events) {
-				const isAlreadyLogged = loader.cache.external.hashes.some(log => log.id === ev.hash);
+				const isAlreadyLogged = loader.cache.external.hashes.some(log => log.id === ev.properties.hash);
 				const eventDistance = this.distance(ev)
 				ev.properties.distance = eventDistance.range; 
-				if (!ev.scene.ignored) { ev.scene.ignored = this.distance(ev).inRange === false; }
+				if (!ev.properties.scene.ignored) { ev.properties.scene.ignored = this.distance(ev).inRange === false; }
 				if (isAlreadyLogged) { continue; }
-				if (ev.scene.ignored) { continue; }				
-				loader.cache.external.hashes.push({ id: ev.hash, expires: ev.properties.expires });
+				if (ev.properties.scene.ignored) { continue; }				
+				loader.cache.external.hashes.push({ id: ev.properties.hash, expires: ev.properties.expires });
 				if (!loader.submodules.utils.isFancyDisplay()) {
 					loader.submodules.utils.log(loader.submodules.alerts.returnAlertText(ev));
 				} else { 
@@ -205,7 +205,7 @@ export class Structure {
 					`**Flood Threat:** ${ev.properties.parameters.flood_detection}`,
 					`**Tags:** ${ev.properties.tags ? ev.properties.tags.join(', ') : 'N/A'}`,
 					`**Sender:** ${ev.properties.sender_name}`,
-					`**Tracking ID:** ${ev.tracking}`,
+					`**Tracking ID:** ${ev.properties.details.tracking}`,
 					'```',
 					ev.properties.description.split('\n').map(line => line.trim()).filter(line => line.length > 0).join('\n'),
 					'```'
@@ -217,7 +217,7 @@ export class Structure {
 				}
 			}
 		}
-		loader.cache.external.events.features = clean.events.filter(ev => !ev.scene.ignored) || [];
+		loader.cache.external.events.features = clean.events.filter(ev => !ev.properties.scene.ignored) || [];
 		if (loader.cache.external.rng.features.length == 0) { loader.submodules.alerts.randomize(); }
 		loader.submodules.routes.onUpdateRequest();
 	}
