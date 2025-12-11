@@ -20762,7 +20762,7 @@ var init_events = __esm({
         if (!alerts.length) return ext.rng = { type: "FeatureCollection", features: [], index: 0 }, null;
         const i = ((_d = (_c = ext.rng) == null ? void 0 : _c.index) != null ? _d : -1) + 1 >= alerts.length ? 0 : ((_f = (_e = ext.rng) == null ? void 0 : _e.index) != null ? _f : -1) + 1;
         const alert = alerts[i];
-        ext.rng = { type: "FeatureCollection", features: alerts, index: i };
+        ext.rng = { type: "FeatureCollection", features: [alert], index: i };
         return alert;
       }
       /**
@@ -22209,6 +22209,7 @@ var init_parsing = __esm({
           const structure = { type: "FeatureCollection", features: [] };
           const parsed = yield packages.PlacefileManager.parsePlacefile(body);
           const locations = cache.external.tracking.features;
+          let tagged = [];
           for (const feature of parsed) {
             const lon = parseFloat(feature.object.coordinates[1]);
             const lat = parseFloat(feature.object.coordinates[0]);
@@ -22221,7 +22222,7 @@ var init_parsing = __esm({
               const idx = feedConfig.pin_by_name.findIndex((name) => feature.icon.label.includes(name));
               if (idx !== -1) {
                 const name = feedConfig.pin_by_name[idx];
-                submodules.gps.setCurrentCoordinates(name, { lat, lon }, `spotter_network`);
+                tagged.push({ name, lon, lat });
               }
             }
             let distance = 0;
@@ -22241,6 +22242,12 @@ var init_parsing = __esm({
                 status: isActive ? "Active" : isStreaming ? "Streaming" : isIdle ? "Idle" : "Unknown"
               }
             });
+          }
+          tagged.sort((a, b) => {
+            return feedConfig.pin_by_name.indexOf(a.name) - feedConfig.pin_by_name.indexOf(b.name);
+          });
+          for (const tag of tagged) {
+            submodules.gps.setCurrentCoordinates(tag.name, { lon: tag.lon, lat: tag.lat }, `spotter_network`);
           }
           return structure;
         });

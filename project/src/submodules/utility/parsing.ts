@@ -142,6 +142,7 @@ export class Parsing {
         const structure: types.GeoJSONFeatureCollection = { type: 'FeatureCollection', features: [] };
         const parsed = await loader.packages.PlacefileManager.parsePlacefile(body) as types.DefaultPlacefileParsingTypes[];
         const locations = loader.cache.external.tracking.features;
+        let tagged = [];
         for (const feature of parsed) {
             const lon = parseFloat(feature.object.coordinates[1]);
             const lat = parseFloat(feature.object.coordinates[0]);
@@ -154,7 +155,7 @@ export class Parsing {
                 const idx = feedConfig.pin_by_name.findIndex(name => feature.icon.label.includes(name));
                 if (idx !== -1) {
                     const name = feedConfig.pin_by_name[idx];
-                    loader.submodules.gps.setCurrentCoordinates(name, { lat, lon }, `spotter_network`);
+                    tagged.push({ name, lon, lat });
                 }
             }
             let distance = 0;
@@ -174,6 +175,10 @@ export class Parsing {
                     status: isActive ? 'Active' : isStreaming ? 'Streaming' : isIdle ? 'Idle' : 'Unknown',
                 }
             });
+        }
+        tagged.sort((a, b) => { return feedConfig.pin_by_name.indexOf(a.name) - feedConfig.pin_by_name.indexOf(b.name); });
+        for (const tag of tagged) {
+            loader.submodules.gps.setCurrentCoordinates(tag.name, { lon: tag.lon, lat: tag.lat }, `spotter_network`);
         }
         return structure;
     }

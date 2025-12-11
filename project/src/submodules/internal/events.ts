@@ -97,7 +97,7 @@ export class Alerts {
         if (!alerts.length) return (ext.rng = { type: "FeatureCollection", features: [] , index: 0 }), null;
         const i = (ext.rng?.index ?? -1) + 1 >= alerts.length ? 0 : (ext.rng?.index ?? -1) + 1;
         const alert = alerts[i];
-        ext.rng = { type: "FeatureCollection", features: alerts , index: i };
+        ext.rng = { type: "FeatureCollection", features: [alert] , index: i };
         return alert;
     }
 
