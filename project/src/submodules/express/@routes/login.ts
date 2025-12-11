@@ -35,15 +35,15 @@ export class Init {
                 }
                 const account = loader.submodules.database.query(`SELECT * FROM accounts WHERE username = ? AND hash = ? LIMIT 1`, [username, password]);
                 if (account.length == 0) { 
-                    loader.submodules.utils.log(`${this.NAME_SPACE} - Failed login attempt for username: ${username} @ ${request.headers['cf-connecting-ip'] || request.connection.remoteAddress}`);
+                    loader.submodules.utils.log(`${this.NAME_SPACE} - Failed login attempt for username: ${username} @ ${request.headers['cf-connecting-ip'] ?? request.connection.remoteAddress}`);
                     return response.status(401).json({ message: this.SESSION_INVALID_MESSAGE });
                 }
                 if (account[0].activated == 0) {
-                    loader.submodules.utils.log(`${this.NAME_SPACE} - Inactive account login attempt for username: ${username} @ ${request.headers['cf-connecting-ip'] || request.connection.remoteAddress}`);
+                    loader.submodules.utils.log(`${this.NAME_SPACE} - Inactive account login attempt for username: ${username} @ ${request.headers['cf-connecting-ip'] ?? request.connection.remoteAddress}`);
                     return response.status(403).json({ message: this.SESSION_ACCOUNT_INACTIVE_MESSAGE });
                 }
                 if (loader.cache.internal.accounts.find(a => a.username == username)) {
-                    loader.submodules.utils.log(`${this.NAME_SPACE} - Duplicate login attempt for username: ${username} @ ${request.headers['cf-connecting-ip'] || request.connection.remoteAddress}`);
+                    loader.submodules.utils.log(`${this.NAME_SPACE} - Duplicate login attempt for username: ${username} @ ${request.headers['cf-connecting-ip'] ?? request.connection.remoteAddress}`);
                     return response.status(409).json({ message: this.SESSION_ACCOUNT_DUPLICATE_MESSAGE });
                 }
                 const session = loader.packages.crypto.randomBytes(32).toString('hex');
@@ -56,10 +56,10 @@ export class Init {
                 loader.cache.internal.accounts.push({
                     username, 
                     session, 
-                    address: request.headers['cf-connecting-ip'] || request.connection.remoteAddress,
-                    agent: request.headers['user-agent'] || 'unknown',
+                    address: request.headers['cf-connecting-ip'] ?? request.connection.remoteAddress,
+                    agent: request.headers['user-agent'] ?? 'unknown',
                 })
-                loader.submodules.utils.log(`${this.NAME_SPACE} - Successful login for username: ${username} @ ${request.headers['cf-connecting-ip'] || request.connection.remoteAddress}`);
+                loader.submodules.utils.log(`${this.NAME_SPACE} - Successful login for username: ${username} @ ${request.headers['cf-connecting-ip'] ?? request.connection.remoteAddress}`);
                 return response.status(200).json({ message: this.SESSION_SUCCESS_MESSAGE });
             } catch (error) {
                 loader.submodules.utils.log(`${this.NAME_SPACE} ERROR: ${error.message}`);

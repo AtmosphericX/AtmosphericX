@@ -39,7 +39,7 @@
             "journal": false, // Not recommenedend to enable this as this may screw up the window on custom v2 displays.
             "database": "../storage/databases/shapefiles.db", // Path to the shapefile database.
             "national_weather_service_settings": {
-                "interval": 29, // How often to pull NWS alerts (in seconds, Default: 29 seconds)
+                "interval": 60, // How often to pull NWS alerts (in seconds, Default: 29 seconds)
                 "endpoint": "https://api.weather.gov/alerts/active" // Endpoint for NWS Alerts
             },
             "weather_wire_settings": {
@@ -65,11 +65,13 @@
             "global_settings": {
                 "parent_events": false, // If you want to group child events under parent events.
                 "better_parsing": true, // If you want to enable better parsing for events (Ex. Radar Indicated Tornado Warning instead of Tornado Warning)
-                "implement_db_ugc": false, // If you want to implement UGC codes from the shapefile database if no polygons are provided. (THIS IS VERY SLOW - AT LEAST FOR NOW)
-                "ugc_db_skip": 25 // Number of skips per line to avoid performance issues when implementing UGC codes from the shapefile database.
+                "implement_db_ugc": true, // If you want to implement UGC codes from the shapefile database if no polygons are provided. (THIS IS VERY SLOW - AT LEAST FOR NOW)
+                "ugc_db_skip": 1, // Number of skips per line to avoid performance issues when implementing UGC codes from the shapefile database.
+                "ignore_geometry_parsing": true // Will not load geometry data in cache, instead it will fetch the function and use it for one time. This is recommended for low memory systems.
             }
         },
         "location_settings": {
+            "expiry_time": 500, // How long to keep location data before getting remove for no recent updates (in seconds, Default: 500 seconds)
             "realtime_irl": { // RealtimeIRL GPS tracking implementation (See: https://rtirl.com/)
                 "enabled": false,
                 "pull_key": "pull_key_here", // Your RealtimeIRL Pull Key

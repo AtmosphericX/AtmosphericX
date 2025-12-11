@@ -78,7 +78,7 @@
         "location_settings": {
             "enabled": false, // If you want to enable location-based filtering (true/false)
             "unit": "miles", // Unit for distance calculation (miles/kilometers)
-            "max_distance": 525 // Maximum distance from location to listen for alerts (in selected unit)
+            "max_distance": 25 // Maximum distance from location to listen for alerts (in selected unit)
         }
     },
     "tones": { // pre-sounded EAS tones to use for various events.
@@ -241,7 +241,7 @@
             "metadata": { "siren": false, "wail": false, "urgent": false, "iphone": false, "uniden": false}
         }
     },
-    "themes": { // Color schemes for various alerts.
+    "themes": { // Color schemes for various alerts. (In chronological order of severity)
         "Tornado Emergency": {"primary": "rgb(209,38,215)", "secondary": "rgb(159,37,163)"},
         "PDS Tornado Warning": {"primary": "rgb(214,56,54)", "secondary": "rgb(163,25,25)"},
         "PDS Tornado Watch": {"primary": "rgb(214,56,54)", "secondary": "rgb(163,25,25)"},
@@ -255,15 +255,11 @@
         "Tornado Warning": {"primary": "rgb(214,56,54)", "secondary": "rgb(163,25,25)"},
         "Flash Flood Emergency": {"primary": "rgb(249,56,54)", "secondary": "rgb(203,25,25)"},
         "Snow Squall Warning": {"primary": "rgb(249,56,54)", "secondary": "rgb(203,25,25)"},
+        "Blizzard Warning":  {"primary": "rgb(214,56,54)", "secondary": "rgb(163,25,25)"},
         "Severe Thunderstorm Warning": {"primary": "rgb(248,160,42)", "secondary": "rgb(248,106,42)"},
         "Flash Flood Warning": {"primary": "rgb(102,209,60)", "secondary": "rgb(73,155,40)"},
         "Special Marine Warning": {"primary": "rgb(42,81,224)", "secondary": "rgb(28,61,181)"},
         "Tsunami Warning": {"primary": "rgb(209,38,215)", "secondary": "rgb(159,37,163)"},
-        "Blizzard Warning": {"primary": "rgb(42,81,224)", "secondary": "rgb(28,61,181)"},
-        "Ice Storm Warning": {"primary": "rgb(42,81,224)", "secondary": "rgb(28,61,181)"},
-        "Lake Effect Snow Warning": {"primary": "rgb(42,81,224)", "secondary": "rgb(28,61,181)"},
-        "Winter Storm Warning": {"primary": "rgb(42,81,224)", "secondary": "rgb(28,61,181)"},
-        "Winter Weather Advisory": {"primary": "rgb(42,81,224)", "secondary": "rgb(28,61,181)"},
         "Default": {"primary": "rgb(42,81,224)", "secondary": "rgb(28,61,181)"}
     }
 }

@@ -35,16 +35,20 @@ export class GlobalPositioningSystem {
      * @returns {void}
      */
     public setCurrentCoordinates(name: string, coords: types.CoordinatesDefined): void {
-        if (loader.cache.handlers.eventManager == null) return;
-        if (!loader.cache.external.tracking.features[name]) {
+        const ConfigType = loader.cache.internal.configurations as types.ConfigurationsType;
+        if (!loader.cache.external.tracking.features.find((loc: any) => loc.properties.name === name)) {
             loader.cache.external.tracking.features.push({
                 type: 'Feature',
                 geometry: { type: 'Point', coordinates: [coords.lon, coords.lat] },
-                properties: { icao: null, name: name },
+                properties: { icao: null, name: name, last_updated: new Date()}
             });
         } else { 
-            loader.cache.external.tracking.features[name].geometry.coordinates = [coords.lon, coords.lat];
+            loader.cache.external.tracking.features = loader.cache.external.tracking.features.map((loc: any) => { 
+                if (loc.properties.name === name) { loc.geometry.coordinates = [coords.lon, coords.lat]; loc.properties.last_updated = new Date() }
+                return loc;
+            });
         }
+        loader.cache.external.tracking.features = loader.cache.external.tracking.features.filter((loc: any) => (Date.now() - loc.properties.last_updated) < ConfigType.sources.location_settings.expiry_time * 1_000);
         loader.submodules.utils.log(`Updated current coordinates for ${name} [LON: ${coords.lon}, LAT: ${coords.lat}]`);
     }
 
@@ -140,7 +144,6 @@ export class GlobalPositioningSystem {
                     lat: snap.location.latitude, 
                     lon: snap.location.longitude
                 };
-                loader.cache.external.tracking.features[cfg.pull_key] = coords;
                 this.setCurrentCoordinates(cfg.pull_key, coords);
             }
         };

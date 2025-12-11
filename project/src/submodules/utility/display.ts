@@ -23,7 +23,7 @@ export class Display {
     constructor() {
         (async () => {
             loader.submodules.utils.log(`${this.NAME_SPACE} initialized.`);
-            const term = loader.packages.process.env.TERM || '';
+            const term = loader.packages.process.env.TERM ?? '';
             const isGitBash = loader.packages.process.env.MSYSTEM && loader.packages.process.env.MSYSTEM.startsWith('MINGW');
             const unsupportedTerms = ['dumb', 'cons25', 'emacs', 'cygwin'];
             if (isGitBash || unsupportedTerms.includes(term)) {
@@ -115,7 +115,7 @@ export class Display {
                 loader.cache.internal.logs.__events__.map(log => {return `[${log.timestamp}] ${log.message}`}).join('\n') : 
                 loader.submodules.alerts.returnAlertText({}, true),
             ` Active Events (X${loader.cache.external.events.features.length}) - ${loader.cache.internal.getSource} `
-        )        
+        )       
         this.elements.system.setContent(loader.strings.system_info
             .replace(`{UPTIME}`, loader.submodules.calculations.formatDuration(Date.now() - loader.cache.internal.metrics.start_uptime))
             .replace(`{MEMORY}`, ((loader.packages.os.totalmem() - loader.packages.os.freemem()) / (1024 * 1024)).toFixed(2))
@@ -127,7 +127,7 @@ export class Display {
             ` AtmosphericX v${loader.submodules.utils.version()} `
         )
         this.modifyElement(`sessions`, 
-            loader.cache.internal.accounts.map(session => {return `${session.username} - ${session.address}`}).join('\n') || `No active sessions.`,
+            loader.cache.internal.accounts.map(session => {return `${session.username} - ${session.address}`}).join('\n') ?? `No active sessions.`,
             ` Active Sessions (X${loader.cache.internal.accounts.length}) `
         )
         this.MANAGER.render();

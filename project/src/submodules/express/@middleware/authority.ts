@@ -31,8 +31,8 @@ export class Init {
         const parentDirectory = loader.packages.path.resolve(`..`, `storage`);
         const ConfigType = loader.cache.internal.configurations as types.ConfigurationsType;
         const limiter = loader.packages.rateLimit({
-            windowMs: ConfigType.web_hosting_settings.settings.ratelimiting?.window_ms || 30_000,
-            max: ConfigType.web_hosting_settings.settings.ratelimiting?.max_requests || 125,
+            windowMs: ConfigType.web_hosting_settings.settings.ratelimiting?.window_ms ?? 30_000,
+            max: ConfigType.web_hosting_settings.settings.ratelimiting?.max_requests ?? 125,
             handler: (__, response) => {
                 return response.status(429).json({ message: this.RATELIMIT_INVALID_MESSAGE});
             }
@@ -40,8 +40,8 @@ export class Init {
         if (ConfigType.web_hosting_settings.settings.ratelimiting?.enabled) { loader.cache.handlers.express.use(limiter); }
         loader.cache.handlers.express.use((request, response, next) => {
             const session = loader.cache.internal.accounts.find(a => a.session == request.headers.cookie?.split(`=`)[1]);
-            const address = request.headers['cf-connecting-ip'] || request.connection.remoteAddress;
-            const useragent = request.headers['user-agent'] || 'Unknown';
+            const address = request.headers['cf-connecting-ip'] ?? request.connection.remoteAddress;
+            const useragent = request.headers['user-agent'] ?? 'Unknown';
             for (const key in this.RESPONSE_HEADERS) { response.setHeader(key, this.RESPONSE_HEADERS[key]); }
             if (session && session.address !== address || session && session.agent !== useragent) {
                 this.invalidateSession(response, session);
@@ -50,6 +50,7 @@ export class Init {
         })
         loader.cache.handlers.express.use(loader.packages.cookieParser());
         loader.cache.handlers.express.use(`/src`, loader.packages.express.static(`${parentDirectory}/www`));
+        loader.cache.handlers.express.use(`/eas`, loader.packages.express.static(`${parentDirectory}/scenarios/output`));
         loader.cache.handlers.express.set(`trust proxy`, 1); 
     }
 

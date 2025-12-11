@@ -185,9 +185,9 @@ export class Alerts {
         }
         const embed = { title, description: body, color: 16711680, timestamp: new Date().toISOString(), footer: { text: title } };
         try { 
-            await loader.packages.axios.post(settings.discord_webhook || ``, {
-                username: settings.webhook_display || `AtmosphericX Alerts`,
-                content: settings.content || ``,
+            await loader.packages.axios.post(settings.discord_webhook ?? ``, {
+                username: settings.webhook_display ?? `AtmosphericX Alerts`,
+                content: settings.content ?? ``,
                 embeds: [embed],
             });
             loader.cache.internal.limiters.push({ type: title, timestamp: time });
@@ -215,7 +215,6 @@ export class Alerts {
                 if (ConfigType.filters.all_events) return true;
                 return ConfigType.filters.listening_events.includes(f.properties.event);
             })
-        loader.submodules.alerts.instance(true);
         await loader.submodules.utils.sleep(200);
         let data = {}
         let stringText = ``

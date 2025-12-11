@@ -87,9 +87,12 @@ class Widgets {
                 nearby_polygons: () => {
                     let name = null, min = Infinity;
                     for (const f of storage?.events?.features ?? []) {
-                        for (const d of Object.values(f?.properties?.distance ?? {})) {
-                            if (d?.distance < min) {
-                                min = d.distance;
+                        const spotters = f.properties?.spotters;
+                        if (spotters && typeof spotters === "object") {
+                            const firstSpotterKey = Object.keys(spotters)[0];
+                            const spotter = spotters[firstSpotterKey];
+                            if (spotter?.distance < min) {
+                                min = spotter.distance;
                                 name = f.properties.event;
                             }
                         }
@@ -138,11 +141,16 @@ class Widgets {
             events2.some(feature => feature?.properties?.type && feature.properties.type.trim().toLowerCase() === themeName.trim().toLowerCase())
         );
         const result = matchedThemes.map(name => ({name, ...themes[name]}));
-        if (eventName !== null) {
+        if (eventName != null) {
             const specificTheme = themes[eventName];
             if (specificTheme) {
                 const primary = specificTheme?.primary;
                 const secondary = specificTheme?.secondary;
+                return { primary, secondary };
+            } else { 
+                const getDefault = themes['Default']
+                const primary = getDefault?.primary
+                const secondary = getDefault?.secondary
                 return { primary, secondary };
             }
         }

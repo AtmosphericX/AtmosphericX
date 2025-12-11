@@ -37,7 +37,7 @@ interface LocalEventProperties {
     sender_name: string; sender_icao: string; sent?: string; 
     attributes: LocalDefaultAttributes; parameters: LocalEventParameters; 
     geometry: { type?: string; coordinates?: [number, number][] } | null; 
-    distance?: Record<string, { distance: number; unit: string}>; 
+    spotters?: Record<string, { distance: number; unit: string}>; 
     geocode: { UGC: string[] };
     scene: Record<string, any>;
     details: {
@@ -105,7 +105,7 @@ export interface ConfigurationsType {
 type LocalHttpMethod = 'GET' | 'POST' | 'PUT' | 'DELETE'
 type LocalCoordinates = Record<number, number> | Record<number, number>[] | Record<number, number>[][]
 type LocalCoordinatesDefined = {lon: number; lat: number}
-type LocalInRange = { inRange: boolean; range: Record<string, { distance: number; unit: string}> }
+type LocalInRange = { inArea: boolean; distances: Record<string, { distance: number; unit: string}> }
 
 // --- Exports --- //
 export type Coordinates  = LocalLonLat

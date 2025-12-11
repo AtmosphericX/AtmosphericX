@@ -64,6 +64,16 @@ export class Calculations {
         return +(r * 2 * Math.atan2(Math.sqrt(h), Math.sqrt(1 - h))).toFixed(2);
     }
 
+    /**
+     * @function isPointInPolygon
+     * @description
+     *    Determines if a given point is inside a polygon using the ray-casting algorithm.
+     * 
+     * @param {types.Coordinates} point
+     * @param {Array<[number, number]>} polygon
+     * @returns {boolean}
+     */
+
     private isPointInPolygon(point: types.Coordinates, polygon: Array<[number, number]>): boolean {
         let inside = false;
         const x = point.lon, y = point.lat;
@@ -75,8 +85,7 @@ export class Calculations {
         }
         return inside;
     }
-
-
+    
     /**
      * @function distanceToSegment
      * @description
@@ -92,19 +101,15 @@ export class Calculations {
      * @returns {number}
      */
     public distanceToSegment(point: types.Coordinates, segStart: types.Coordinates, segEnd: types.Coordinates, unit: 'miles' | 'kilometers' = 'miles', polygon?: Array<[number, number]>): number {
-
         if (polygon && polygon.length > 2) {
             if (this.isPointInPolygon(point, polygon)) return 0;
         }
-
         const toRad = (d: number) => d * Math.PI / 180;
-
         const toXYZ = (lat: number, lon: number) => [
             Math.cos(lat) * Math.cos(lon),
             Math.cos(lat) * Math.sin(lon),
             Math.sin(lat)
         ];
-
         const p0 = toXYZ(toRad(point.lat), toRad(point.lon));
         const p1 = toXYZ(toRad(segStart.lat), toRad(segStart.lon));
         const p2 = toXYZ(toRad(segEnd.lat), toRad(segEnd.lon));
@@ -114,21 +119,71 @@ export class Calculations {
 
         const c1 = v[0]*w[0] + v[1]*w[1] + v[2]*w[2];
         const c2 = v[0]*v[0] + v[1]*v[1] + v[2]*v[2];
-
         let t = c2 === 0 ? 0 : c1 / c2;
         t = Math.max(0, Math.min(1, t));
-
         const proj = [
             p1[0] + t*v[0],
             p1[1] + t*v[1],
             p1[2] + t*v[2]
         ];
-
         const norm = Math.sqrt(proj[0]**2 + proj[1]**2 + proj[2]**2);
         const projLat = Math.asin(proj[2] / norm) * 180 / Math.PI;
         const projLon = Math.atan2(proj[1], proj[0]) * 180 / Math.PI;
-
         return this.calculateDistance(point, { lat: projLat, lon: projLon }, unit);
+    }
+
+
+    /**
+     * @function getPolygonDistance
+     * @description
+     *    Calculates the shortest distance from a point to the edges of a polygon.
+     *    If the point is inside the polygon, returns a distance of 0.
+     * 	
+     * @async
+     * @param {types.EventType} event
+     * @returns {object}
+     */
+    public async getPolygonDistance(event: types.EventType): Promise<types.InRange> {
+        const ConfigType = loader.cache.internal.configurations as types.ConfigurationsType;
+        const cache = loader.cache.external.tracking.features;
+        let coords = event?.geometry?.coordinates ?? null;
+        if (!coords) coords = (await loader.cache.handlers.eventManager.getEventPolygon(event))?.coordinates ?? null;
+        let polygons: number[][][] = [];
+        if (Array.isArray(coords)) {
+            if (Array.isArray(coords[0]?.[0]?.[0])) { polygons = (coords as unknown as number[][][][]).map(poly => poly[0]).filter(Array.isArray);
+            } else if (Array.isArray(coords[0]?.[0])) {
+                polygons = (coords as unknown as number[][][]).filter(Array.isArray);
+            } else if (Array.isArray(coords[0])) {
+                polygons = [coords as number[][]];
+            }
+        }
+        polygons = polygons.map(r => r.filter(p => Array.isArray(p) && p.length === 2 && p[0] != null && p[1] != null)).filter(r => r.length > 1);
+        const unit = ConfigType.filters.location_settings.unit ?? "miles";
+        const out: Record<string, { distance: number; unit: string }> = {};
+        let inArea = false;
+        for (const key in cache) {
+            const feature = cache[key];
+            const name = feature.properties?.name;
+            const [lon, lat] = feature.geometry?.coordinates ?? [];
+            if (name == null || lat == null || lon == null) continue;
+            let min = Infinity;
+            for (const ring of polygons) {
+                for (let i = 0, len = ring.length; i < len; i++) {
+                    const p1 = ring[i];
+                    const p2 = ring[(i + 1) % len];
+                    const d = loader.submodules.calculations.distanceToSegment( { lat, lon }, { lat: p1[1], lon: p1[0] }, { lat: p2[1], lon: p2[0] }, unit, ring );
+                    if (d < min) min = d;
+                }
+            }
+            if (!ConfigType.filters.location_settings.enabled || min < ConfigType.filters.location_settings.max_distance) {
+                inArea = true;
+            }
+            if (min === Infinity) continue;
+            out[name] = { distance: min, unit };
+        }
+        if (polygons.length === 0) {inArea = ConfigType.filters.location_settings.enabled ? false : true; }
+        if (cache.length == 0) { inArea = true; }
+        return { inArea, distances: out };
     }
 
     /**

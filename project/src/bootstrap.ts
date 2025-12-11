@@ -93,7 +93,8 @@ export const cache = {
         tracking: {type: 'FeatureCollection', features: []},
     }, 
     internal: {
-        getSource: `NWS`,
+        isListening: false,
+        getSource: `Awaiting Source`,
         configurations: {}, 
         logs: {
             __console__: [],

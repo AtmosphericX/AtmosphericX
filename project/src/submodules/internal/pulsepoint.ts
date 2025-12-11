@@ -42,7 +42,7 @@ export class Alerts {
                 `PulsePoint Incident Update: ${(event.properties.type) ?? 'Unknown Type'}`,
                 { title: `\x1b[33m[ATMOSX-PULSEPOINT]\x1b[0m` }
             );
-            loader.submodules.streaming.sendChatMessage(`${event.properties.agency} - ${event.properties.type} reported at ${event.properties.address || 'Unknown Location'} (x${event.properties.units.length})`, `pulse_point`);
+            loader.submodules.streaming.sendChatMessage(`${event.properties.agency} - ${event.properties.type} reported at ${event.properties.address ?? 'Unknown Location'} (x${event.properties.units.length})`, `pulse_point`);
         });
         pulse.on(`log`, (message: string) => { loader.submodules.utils.log(message, { title: `\x1b[33m[ATMOSX-PULSEPOINT]\x1b[0m` }); });
     }

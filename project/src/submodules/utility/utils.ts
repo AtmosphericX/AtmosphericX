@@ -64,7 +64,7 @@ export class Utils {
      * @returns {boolean}
      */
     public isFancyDisplay(): boolean {
-        return (loader.cache.internal.configurations as types.ConfigurationsType).display_settings.fancy_interface || false;
+        return (loader.cache.internal.configurations as types.ConfigurationsType).display_settings.fancy_interface ?? false;
     }
 
     /**
@@ -97,10 +97,10 @@ export class Utils {
      * @returns {void}
      */
     public log(message?: string, options?: types.LogOptions, logType: string = `__console__`): void {
-        const title = options?.title || `\x1b[32m[ATMOSX-UTILS]\x1b[0m`;
-        const msg = message || `No message provided.`;
-        const rawConsole = options?.rawConsole || false;
-        const echoFile = options?.echoFile || false;
+        const title = options?.title ?? `\x1b[32m[ATMOSX-UTILS]\x1b[0m`;
+        const msg = message ?? `No message provided.`;
+        const rawConsole = options?.rawConsole ?? false;
+        const echoFile = options?.echoFile ?? false;
         if (!rawConsole) {
             loader.cache.internal.logs[logType].push({title: title, message: msg, timestamp: new Date().toLocaleString()}); 
             if (loader.cache.internal.logs[logType].length > 25) { loader.cache.internal.logs[logType].shift(); }

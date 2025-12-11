@@ -50,6 +50,7 @@ export class Routes {
         new (await import('./@routes/login')).Init();
         new (await import('./@routes/logout')).Init();
         new (await import('./@routes/signup')).Init();
+        new (await import('./@routes/tracking')).Init();
         new (await import('./@routes/core')).Init();
         new (await import('./@routes/data')).Init();
     }

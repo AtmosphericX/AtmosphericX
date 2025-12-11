@@ -29,7 +29,8 @@ class Handler {
      * @param {boolean} options.includeEmergencies - Whether to include emergency events in the synchronization.
      * @returns {Promise<Array>} A promise that resolves to the updated list of queued events.
      */
-    syncEvents = async function(options={history: 120_000, includeEmergencies: false, wxEvents: true}) { 
+    syncEvents = async function(options={history: 1_20, includeEmergencies: false, wxEvents: true}) { 
+        console.log(options.history)
         return new Promise((resolve) => {
             this.utils.initializeStorage(`queuedEvents`, []);
             const time = new Date().getTime();
@@ -45,7 +46,7 @@ class Handler {
                             type: `event`,
                             hash: JSON.stringify(feature),
                             issued: new Date().getTime(),
-                            expires: getIssuedDate + 60_000_60,
+                            expires: getIssuedDate + history * 60,
                             feature: feature,
                             queued: true
                         })
@@ -99,7 +100,7 @@ class Handler {
      * 
      * @param {number} cooldown - The cooldown period in seconds between processing events.
      */
-    syncQueue = async function (cooldown = 8) {
+    syncQueue = async function (cooldown = 8_000) {
         this.utils.initializeStorage("isQueryRunning", false);
         if (this.storage.isQueryRunning) return;
         const cfg = this.storage.configurations
@@ -109,34 +110,33 @@ class Handler {
             return aTime - bTime;
         })[0];
         if (!next) { return; }
+        const event = next.feature;
         this.storage.isQueryRunning = true;
         next.queued = true;
         switch (next.type) { 
             case `event`: {
-                const event = next.feature;
                 const getTheme = widgets.getCurrentTheme(event.properties.event);
                 if (this.utils.streaming) {  this.returnEventCard(event, getTheme, cooldown); }
-                if (!this.utils.streaming) { await this.utils.sleep(cooldown * 1_000); this.storage.isQueryRunning = false; }
+                if (!this.utils.streaming) { await this.utils.sleep(cooldown); this.storage.isQueryRunning = false; }
                 break;
             }
             case `emergency`: {
-                const event = next.feature.properties;
                 const getTheme = widgets.getCurrentTheme(event.type);
                 if (this.utils.streaming) { this.returnEmergencyCard(event, getTheme, cooldown); }
-                if (!this.utils.streaming) { await this.utils.sleep(cooldown * 1_000); this.storage.isQueryRunning = false; }
+                if (!this.utils.streaming) { await this.utils.sleep(cooldown); this.storage.isQueryRunning = false;}
                 break;
             }
         }
         if (next.type === `emergency`) { return this.utils.play(cfg.tones.sfx_beep); }
-        if (next.feature.properties.scene.beep) this.utils.play(cfg.tones.sfx_beep);
-        if (!next.feature.properties.scene.beep) {
+        if (event.properties.scene.only_beep) this.utils.play(cfg.tones.sfx_beep);
+        if (!event.properties.scene.only_beep) {
             this.utils.play(cfg.tones.sfx_beep);
             await this.utils.sleep(1_300);
-            this.utils.play(next.feature.properties.scene.sfx);
+            if (cfg.tones.sfx_beep != event.properties.scene.sfx) { this.utils.play(event.properties.scene.sfx); }
             await this.utils.sleep(3_800);
-            if (next.feature.properties.scene.metadata) {
-                for (const key in next.metadata) {
-                    if (next.feature.properties.scene.metadata[key] === true) {
+            if (event.properties.scene.metadata) {
+                for (const key in event.properties.scene.metadata) {
+                    if (event.properties.scene.metadata[key] === true) {
                         const tone = cfg.tones[`sfx_${key}`];
                         if (tone) this.utils.play(tone);
                     }
@@ -226,12 +226,14 @@ class Handler {
             ],
             start_anim: "anim_slide_up_fade_in",
             end_anim: "anim_slide_down_fade_out",
-            timer: cooldown * 1_000,
+            timer: cooldown,
             theme: { primary: getTheme.primary, secondary: getTheme.secondary },
             target: document.querySelector('.target')
         }).then(async () => {
-            await this.utils.sleep(3 * 1_000);
+            await this.utils.sleep(1 * 1_000);
             this.storage.isQueryRunning = false;
+            await this.syncQueue(cooldown);
+            
         })
     }
 
@@ -246,33 +248,46 @@ class Handler {
         handler.eventCreator({
             eventName: `${event.properties.event} (${event.properties.action_type})`,
             fields: [
-                [
-                    { title: "LOCATIONS", value: `${event.properties.locations.substring(0, 70)} (x${event.properties.geocode.UGC.length})`, align: "left" },
-                    { title: "ISSUED", value: event.properties.issued.substring(0, 25), align: "right" },
-                ],
-                [
-                    { title: "HAIL", value: event.properties.parameters.max_hail_size, align: "left" },
-                    { title: "GUSTS", value: event.properties.parameters.max_wind_gust, align: "center" },
-                    { title: "EXPIRES", value: event.properties.expires, align: "right" },
-                ],
-                [
-                    { title: "THREAT (TOR)", value: event.properties.parameters.tornado_detection, align: "left" },
-                    { title: "THREAT (DMG)", value: event.properties.parameters.damage_threat, align: "center" },
-                    { title: "THREAT (FLD)", value: event.properties.parameters.flood_detection, align: "right" },
-                ],
-                [
-                    { title: "OFFICE", value: `${event.properties.sender_name} (${event.properties.sender_icao})`, align: "left" },
-                    { title: "TAGS", value: event.properties.tags[0], align: "right" },
-                ],
+            [
+                { title: "LOCATIONS", value: `${event.properties.locations.substring(0, 70)} (x${event.properties.geocode.UGC.length})`, align: "left" },
+                { title: "ISSUED", value: event.properties.issued.substring(0, 25), align: "right" },
+            ],
+            [
+                { title: "HAIL", value: event.properties.parameters.max_hail_size, align: "left" },
+                { title: "GUSTS", value: event.properties.parameters.max_wind_gust, align: "center" },
+                { title: "EXPIRES", value: event.properties.expires, align: "right" },
+            ],
+            [
+                { title: "THREAT (TOR)", value: event.properties.parameters.tornado_detection, align: "left" },
+                { title: "THREAT (DMG)", value: event.properties.parameters.damage_threat, align: "center" },
+                { title: "THREAT (FLD)", value: event.properties.parameters.flood_detection, align: "right" },
+            ],
+            [
+                { title: "OFFICE", value: `${event.properties.sender_name} (${event.properties.sender_icao})`, align: "left" },
+                { title: "TAGS", value: event.properties.tags.join(", ").substring(0, 40), align: "center" },
+                { 
+                title: "DISTANCE", 
+                value: (() => {
+                    const keys = Object.keys(event.properties.spotters);
+                    if (keys.length > 0) {
+                        const d = event.properties.spotters[keys[0]];
+                        return `${d.distance.toFixed(2)} ${d.unit}`;
+                    }
+                    return "N/A";
+                })(),
+                align: "right" 
+                },
+            ],
             ],
             start_anim: "anim_slide_up_fade_in",
             end_anim: "anim_slide_down_fade_out",
-            timer: cooldown * 1_000,
+            timer: cooldown,
             theme: { primary: getTheme.primary, secondary: getTheme.secondary },
             target: document.querySelector('.target')
         }).then(async () => {
-            await this.utils.sleep(3 * 1_000);
+            await this.utils.sleep(1 * 1_000);
             this.storage.isQueryRunning = false;
+            await this.syncQueue(cooldown);
         })
     }
 }

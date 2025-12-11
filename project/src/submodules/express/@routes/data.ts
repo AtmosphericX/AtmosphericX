@@ -25,10 +25,10 @@ export class Init {
         loader.cache.handlers.express.get(`/data/:endpoint/:source?`, (request: Record<string, any>, response: Record<string, any>) => { 
             try {
                 const endpoint = request.params.endpoint;
-                const source = request.params.source || null;
+                const source = request.params.source ?? null;
                 const isValid = Object.keys(loader.cache.external).includes(endpoint);
                 if (!isValid) { return response.sendFile(`${parentDirectory}${this.UNKNOWN_DIRECTORY}`); }
-                return response.json(loader.cache.external[endpoint][source] || loader.cache.external[endpoint]);
+                return response.json(loader.cache.external[endpoint][source] ?? loader.cache.external[endpoint]);
             } catch (error) {
                 loader.submodules.utils.log(`${this.NAME_SPACE} ERROR: ${error.message}`);
                 return response.status(500).json({ message: `Internal server error.` });

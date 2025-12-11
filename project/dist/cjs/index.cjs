@@ -20125,27 +20125,28 @@ var init_authority = __esm({
           "Expires": "0",
           "Surrogate-Control": "no-store"
         };
-        var _a, _b, _c;
+        var _a, _b, _c, _d, _e;
         submodules.utils.log(`${this.NAME_SPACE} initialized.`);
         const parentDirectory = packages.path.resolve(`..`, `storage`);
         const ConfigType = cache.internal.configurations;
         const limiter = packages.rateLimit({
-          windowMs: ((_a = ConfigType.web_hosting_settings.settings.ratelimiting) == null ? void 0 : _a.window_ms) || 3e4,
-          max: ((_b = ConfigType.web_hosting_settings.settings.ratelimiting) == null ? void 0 : _b.max_requests) || 125,
+          windowMs: (_b = (_a = ConfigType.web_hosting_settings.settings.ratelimiting) == null ? void 0 : _a.window_ms) != null ? _b : 3e4,
+          max: (_d = (_c = ConfigType.web_hosting_settings.settings.ratelimiting) == null ? void 0 : _c.max_requests) != null ? _d : 125,
           handler: (__, response) => {
             return response.status(429).json({ message: this.RATELIMIT_INVALID_MESSAGE });
           }
         });
-        if ((_c = ConfigType.web_hosting_settings.settings.ratelimiting) == null ? void 0 : _c.enabled) {
+        if ((_e = ConfigType.web_hosting_settings.settings.ratelimiting) == null ? void 0 : _e.enabled) {
           cache.handlers.express.use(limiter);
         }
         cache.handlers.express.use((request, response, next) => {
+          var _a2, _b2;
           const session = cache.internal.accounts.find((a) => {
-            var _a2;
-            return a.session == ((_a2 = request.headers.cookie) == null ? void 0 : _a2.split(`=`)[1]);
+            var _a3;
+            return a.session == ((_a3 = request.headers.cookie) == null ? void 0 : _a3.split(`=`)[1]);
           });
-          const address = request.headers["cf-connecting-ip"] || request.connection.remoteAddress;
-          const useragent = request.headers["user-agent"] || "Unknown";
+          const address = (_a2 = request.headers["cf-connecting-ip"]) != null ? _a2 : request.connection.remoteAddress;
+          const useragent = (_b2 = request.headers["user-agent"]) != null ? _b2 : "Unknown";
           for (const key in this.RESPONSE_HEADERS) {
             response.setHeader(key, this.RESPONSE_HEADERS[key]);
           }
@@ -20156,6 +20157,7 @@ var init_authority = __esm({
         });
         cache.handlers.express.use(packages.cookieParser());
         cache.handlers.express.use(`/src`, packages.express.static(`${parentDirectory}/www`));
+        cache.handlers.express.use(`/eas`, packages.express.static(`${parentDirectory}/scenarios/output`));
         cache.handlers.express.set(`trust proxy`, 1);
       }
       /**
@@ -20360,7 +20362,7 @@ var init_login = __esm({
         this.SESSION_SUCCESS_MESSAGE = `Login successful.`;
         submodules.utils.log(`${this.NAME_SPACE} initialized.`);
         cache.handlers.express.post(`/api/login`, (request, response) => __async(this, null, function* () {
-          var _a;
+          var _a, _b, _c, _d, _e, _f, _g;
           try {
             const ConfigType = cache.internal.configurations;
             const body = JSON.parse(yield new Promise((resolve, reject) => {
@@ -20376,15 +20378,15 @@ var init_login = __esm({
             }
             const account = submodules.database.query(`SELECT * FROM accounts WHERE username = ? AND hash = ? LIMIT 1`, [username, password]);
             if (account.length == 0) {
-              submodules.utils.log(`${this.NAME_SPACE} - Failed login attempt for username: ${username} @ ${request.headers["cf-connecting-ip"] || request.connection.remoteAddress}`);
+              submodules.utils.log(`${this.NAME_SPACE} - Failed login attempt for username: ${username} @ ${(_b = request.headers["cf-connecting-ip"]) != null ? _b : request.connection.remoteAddress}`);
               return response.status(401).json({ message: this.SESSION_INVALID_MESSAGE });
             }
             if (account[0].activated == 0) {
-              submodules.utils.log(`${this.NAME_SPACE} - Inactive account login attempt for username: ${username} @ ${request.headers["cf-connecting-ip"] || request.connection.remoteAddress}`);
+              submodules.utils.log(`${this.NAME_SPACE} - Inactive account login attempt for username: ${username} @ ${(_c = request.headers["cf-connecting-ip"]) != null ? _c : request.connection.remoteAddress}`);
               return response.status(403).json({ message: this.SESSION_ACCOUNT_INACTIVE_MESSAGE });
             }
             if (cache.internal.accounts.find((a) => a.username == username)) {
-              submodules.utils.log(`${this.NAME_SPACE} - Duplicate login attempt for username: ${username} @ ${request.headers["cf-connecting-ip"] || request.connection.remoteAddress}`);
+              submodules.utils.log(`${this.NAME_SPACE} - Duplicate login attempt for username: ${username} @ ${(_d = request.headers["cf-connecting-ip"]) != null ? _d : request.connection.remoteAddress}`);
               return response.status(409).json({ message: this.SESSION_ACCOUNT_DUPLICATE_MESSAGE });
             }
             const session = packages.crypto.randomBytes(32).toString("hex");
@@ -20397,10 +20399,10 @@ var init_login = __esm({
             cache.internal.accounts.push({
               username,
               session,
-              address: request.headers["cf-connecting-ip"] || request.connection.remoteAddress,
-              agent: request.headers["user-agent"] || "unknown"
+              address: (_e = request.headers["cf-connecting-ip"]) != null ? _e : request.connection.remoteAddress,
+              agent: (_f = request.headers["user-agent"]) != null ? _f : "unknown"
             });
-            submodules.utils.log(`${this.NAME_SPACE} - Successful login for username: ${username} @ ${request.headers["cf-connecting-ip"] || request.connection.remoteAddress}`);
+            submodules.utils.log(`${this.NAME_SPACE} - Successful login for username: ${username} @ ${(_g = request.headers["cf-connecting-ip"]) != null ? _g : request.connection.remoteAddress}`);
             return response.status(200).json({ message: this.SESSION_SUCCESS_MESSAGE });
           } catch (error) {
             submodules.utils.log(`${this.NAME_SPACE} ERROR: ${error.message}`);
@@ -20486,7 +20488,7 @@ var init_signup = __esm({
         this.ALLOWED_CHARS = /^[a-zA-Z0-9_\-\.]{3,20}$/;
         submodules.utils.log(`${this.NAME_SPACE} initialized.`);
         cache.handlers.express.post(`/api/signup`, (request, response) => __async(this, null, function* () {
-          var _a;
+          var _a, _b;
           try {
             const body = JSON.parse(yield new Promise((resolve, reject) => {
               let data = ``;
@@ -20507,7 +20509,7 @@ var init_signup = __esm({
               return response.status(400).json({ message: this.SESSION_INVALID_USERNAME_MESSAGE });
             }
             submodules.database.query(`INSERT INTO accounts (username, hash, activated) VALUES (?, ?, ?)`, [username, password, 0]);
-            submodules.utils.log(`${this.NAME_SPACE} - New account created for username: ${username} @ ${request.headers["cf-connecting-ip"] || request.connection.remoteAddress}`);
+            submodules.utils.log(`${this.NAME_SPACE} - New account created for username: ${username} @ ${(_b = request.headers["cf-connecting-ip"]) != null ? _b : request.connection.remoteAddress}`);
             return response.status(201).json({ message: this.SESSION_SUCCESS_MESSAGE });
           } catch (error) {
             submodules.utils.log(`${this.NAME_SPACE} ERROR: ${error.message}`);
@@ -20520,17 +20522,75 @@ var init_signup = __esm({
   }
 });
 
+// src/submodules/express/@routes/tracking.ts
+var tracking_exports = {};
+__export(tracking_exports, {
+  Init: () => Init6,
+  default: () => tracking_default
+});
+var Init6, tracking_default;
+var init_tracking = __esm({
+  "src/submodules/express/@routes/tracking.ts"() {
+    init_bootstrap();
+    Init6 = class {
+      constructor() {
+        this.NAME_SPACE = `submodule:@routes:tracking`;
+        this.ERR_NO_TRACKING = `No tracking ID provided.`;
+        this.ERR_NO_EVENT = `No event found for the provided tracking ID.`;
+        this.SUCCESS_DIRECTORY = `/eas/`;
+        submodules.utils.log(`${this.NAME_SPACE} initialized.`);
+        cache.handlers.express.get(`/api/getpoly/:tracking?`, (request, response) => __async(this, null, function* () {
+          var _a;
+          try {
+            const tracking = (_a = request.params.tracking) != null ? _a : null;
+            if (!tracking) {
+              return response.status(400).json({ message: this.ERR_NO_TRACKING });
+            }
+            const event = cache.external.events.features.find((ev) => ev.properties.details.tracking === tracking);
+            if (!event) {
+              return response.status(404).json({ message: this.ERR_NO_EVENT });
+            }
+            return response.json(yield cache.handlers.eventManager.getEventPolygon(event));
+          } catch (error) {
+            submodules.utils.log(`${this.NAME_SPACE} ERROR: ${error.message}`);
+            return response.status(500).json({ message: `Internal server error.` });
+          }
+        }));
+        cache.handlers.express.get(`/api/geteas/:tracking?`, (request, response) => __async(this, null, function* () {
+          var _a;
+          try {
+            const tracking = (_a = request.params.tracking) != null ? _a : null;
+            if (!tracking) {
+              return response.status(400).json({ message: this.ERR_NO_TRACKING });
+            }
+            const event = cache.external.events.features.find((ev) => ev.properties.details.tracking === tracking);
+            if (!event) {
+              return response.status(404).json({ message: this.ERR_NO_EVENT });
+            }
+            const output = yield cache.handlers.eventManager.createEasAudio(event.properties.description, event.properties.details.header);
+            return response.json({ file: `${this.SUCCESS_DIRECTORY}${output.split(`\\`).pop()}` });
+          } catch (error) {
+            submodules.utils.log(`${this.NAME_SPACE} ERROR: ${error.message}`);
+            return response.status(500).json({ message: `Internal server error.` });
+          }
+        }));
+      }
+    };
+    tracking_default = Init6;
+  }
+});
+
 // src/submodules/express/@routes/core.ts
 var core_exports = {};
 __export(core_exports, {
-  Init: () => Init6,
+  Init: () => Init7,
   default: () => core_default
 });
-var Init6, core_default;
+var Init7, core_default;
 var init_core = __esm({
   "src/submodules/express/@routes/core.ts"() {
     init_bootstrap();
-    Init6 = class {
+    Init7 = class {
       constructor() {
         this.NAME_SPACE = `submodule:@routes:core`;
         this.PORTAL_DIRECT = `/www/__pages/__portal/index.html`;
@@ -20572,35 +20632,36 @@ var init_core = __esm({
         });
       }
     };
-    core_default = Init6;
+    core_default = Init7;
   }
 });
 
 // src/submodules/express/@routes/data.ts
 var data_exports = {};
 __export(data_exports, {
-  Init: () => Init7,
+  Init: () => Init8,
   default: () => data_default
 });
-var Init7, data_default;
+var Init8, data_default;
 var init_data = __esm({
   "src/submodules/express/@routes/data.ts"() {
     init_bootstrap();
-    Init7 = class {
+    Init8 = class {
       constructor() {
         this.NAME_SPACE = `submodule:@routes:data`;
         this.UNKNOWN_DIRECTORY = `/www/__pages/__404/index.html`;
         submodules.utils.log(`${this.NAME_SPACE} initialized.`);
         const parentDirectory = packages.path.resolve(`..`, `storage`);
         cache.handlers.express.get(`/data/:endpoint/:source?`, (request, response) => {
+          var _a, _b;
           try {
             const endpoint = request.params.endpoint;
-            const source = request.params.source || null;
+            const source = (_a = request.params.source) != null ? _a : null;
             const isValid = Object.keys(cache.external).includes(endpoint);
             if (!isValid) {
               return response.sendFile(`${parentDirectory}${this.UNKNOWN_DIRECTORY}`);
             }
-            return response.json(cache.external[endpoint][source] || cache.external[endpoint]);
+            return response.json((_b = cache.external[endpoint][source]) != null ? _b : cache.external[endpoint]);
           } catch (error) {
             submodules.utils.log(`${this.NAME_SPACE} ERROR: ${error.message}`);
             return response.status(500).json({ message: `Internal server error.` });
@@ -20608,7 +20669,7 @@ var init_data = __esm({
         });
       }
     };
-    data_default = Init7;
+    data_default = Init8;
   }
 });
 
@@ -20651,6 +20712,7 @@ var init_routing = __esm({
           new (yield Promise.resolve().then(() => (init_login(), login_exports))).Init();
           new (yield Promise.resolve().then(() => (init_logout(), logout_exports))).Init();
           new (yield Promise.resolve().then(() => (init_signup(), signup_exports))).Init();
+          new (yield Promise.resolve().then(() => (init_tracking(), tracking_exports))).Init();
           new (yield Promise.resolve().then(() => (init_core(), core_exports))).Init();
           new (yield Promise.resolve().then(() => (init_data(), data_exports))).Init();
         });
@@ -20706,7 +20768,6 @@ var init_events = __esm({
         this.NAME_SPACE = `submodule:events`;
         this.PACKAGE = packages.AlertManager;
         submodules.utils.log(`${this.NAME_SPACE} initialized.`);
-        this.instance();
       }
       /**
        * @function returnAlertText
@@ -20729,9 +20790,9 @@ var init_events = __esm({
           const e = reg;
           return strings2.new_event_legacy.replace("{EVENT}", (_a = e.properties.event) != null ? _a : "Unknown").replace("{STATUS}", (_b = e.properties.action_type) != null ? _b : "Unknown").replace("{TRACKING}", e.properties.details.tracking.substring(0, 18)).replace("{SOURCE}", cache2.internal.getSource);
         }
-        return cache2.external.events.features.sort((a, b) => new Date(a.event.properties.issued).getTime() - new Date(b.event.properties.issued).getTime()).map((r) => {
+        return cache2.external.events.features.sort((a, b) => new Date(a.properties.issued).getTime() - new Date(b.properties.issued).getTime()).map((r) => {
           var _a2, _b2, _c, _d;
-          const p = r.event.properties, d = p.distance;
+          const p = r.properties, d = p.spotters;
           const dist = d && Object.keys(d).length > 0 ? Object.entries(d).map(([name, val]) => {
             var _a3, _b3;
             const distance = (_a3 = val == null ? void 0 : val.distance) != null ? _a3 : "N/A";
@@ -20786,50 +20847,63 @@ var init_events = __esm({
        * @returns {void}
        */
       handle(events2) {
-        var _a, _b;
-        const features = cache.external.events.features;
-        for (const event of events2) {
-          const registeredEvent = submodules.structure.register(event);
-          if (registeredEvent.properties.scene.ignored) continue;
-          const { properties } = registeredEvent;
-          const { tracking, history = [] } = registeredEvent.properties.details;
-          const index = features.findIndex((feature) => feature && feature.properties.details.tracking === tracking);
-          if (properties.is_cancelled && index !== -1) {
-            features[index] = void 0;
-            continue;
-          }
-          if (properties.is_issued && index === -1) {
-            features.push(registeredEvent);
-            continue;
-          }
-          if (properties.is_updated) {
+        return __async(this, null, function* () {
+          var _a, _b;
+          const features = cache.external.events.features;
+          for (const event of events2) {
+            const registeredEvent = submodules.structure.register(event);
+            if (registeredEvent.properties.scene.ignored) continue;
+            const { properties } = registeredEvent;
+            const { tracking, history = [] } = registeredEvent.properties.details;
+            const index = features.findIndex((feature) => feature && feature.properties.details.tracking === tracking);
+            const { distances, inArea } = yield submodules.calculations.getPolygonDistance(registeredEvent);
             if (index !== -1 && features[index]) {
-              const existing = features[index];
-              const existingLocations = (_a = existing.properties.locations) != null ? _a : "";
-              const mergedHistory = [
-                ...(_b = existing.properties.details.history) != null ? _b : [],
-                ...history
-              ].sort((a, b) => new Date(b.issued).getTime() - new Date(a.issued).getTime());
-              const uniqueHistory = mergedHistory.filter(
-                (item, pos, arr) => arr.findIndex((i) => i.issued === item.issued && i.description === item.description) === pos
-              );
-              existing.properties.event = properties.event;
-              existing.properties.details.history = uniqueHistory;
-              existing.properties = registeredEvent.properties;
-              const combinedLocations = [
-                ...new Set((existingLocations + "; " + registeredEvent.properties.locations).split(";").map((loc) => loc.trim()).filter(Boolean))
-              ].join("; ");
-              existing.properties.locations = combinedLocations;
-            } else {
+              features[index].properties.scene = registeredEvent.properties.scene;
+            }
+            registeredEvent.properties.spotters = distances;
+            if (!registeredEvent.properties.scene.ignored) {
+              registeredEvent.properties.scene.ignored = inArea === false;
+              if (inArea === false) {
+                continue;
+              }
+            }
+            if (properties.is_cancelled && index !== -1) {
+              features[index] = void 0;
+              continue;
+            }
+            if (properties.is_issued && index === -1) {
               features.push(registeredEvent);
+              continue;
+            }
+            if (properties.is_updated) {
+              if (index !== -1 && features[index]) {
+                const existing = features[index];
+                const existingLocations = (_a = existing.properties.locations) != null ? _a : "";
+                const mergedHistory = [
+                  ...(_b = existing.properties.details.history) != null ? _b : [],
+                  ...history
+                ].sort((a, b) => new Date(b.issued).getTime() - new Date(a.issued).getTime());
+                const uniqueHistory = mergedHistory.filter(
+                  (item, pos, arr) => arr.findIndex((i) => i.issued === item.issued && i.description === item.description) === pos
+                );
+                existing.properties.event = properties.event;
+                existing.properties.details.history = uniqueHistory;
+                existing.properties = registeredEvent.properties;
+                const combinedLocations = [
+                  ...new Set((existingLocations + "; " + registeredEvent.properties.locations).split(";").map((loc) => loc.trim()).filter(Boolean))
+                ].join("; ");
+                existing.properties.locations = combinedLocations;
+              } else {
+                features.push(registeredEvent);
+              }
             }
           }
-        }
-        cache.internal.metrics.events_processed += events2.length;
-        submodules.networking.updateCache(true);
+          cache.internal.metrics.events_processed += events2.length;
+          submodules.networking.updateCache(true);
+        });
       }
       /**
-       * @function instance
+       * @function listen
        * @description
        *     Initializes or refreshes the parser manager instance with current
        *     configurations and settings. Sets up event handlers for alert reception,
@@ -20840,7 +20914,7 @@ var init_events = __esm({
        * @param {boolean} [isRefreshing=false]
        * @returns {void}
        */
-      instance(isRefreshing = false) {
+      listen(isRefreshing = false) {
         if (isRefreshing && !this.MANAGER) return;
         const configurations = cache.internal.configurations;
         const alerts = configurations.sources.atmosx_parser_settings;
@@ -20850,7 +20924,7 @@ var init_events = __esm({
         const now = /* @__PURE__ */ new Date();
         const displayName = nwws.client_credentials.nickname.replace(`AtmosphericX`, ``).trim();
         const displayTimestamp = `${String(now.getUTCMonth() + 1).padStart(2, "0")}/${String(now.getUTCDate()).padStart(2, "0")} ${String(now.getUTCHours()).padStart(2, "0")}:${String(now.getUTCMinutes()).padStart(2, "0")}`;
-        if (alerts.noaa_weather_wire_service) cache.internal.getSource = `NWWS`;
+        cache.internal.getSource = alerts.noaa_weather_wire_service ? `NWWS` : `NWS`;
         const settings = {
           database: alerts.database,
           is_wire: alerts.noaa_weather_wire_service,
@@ -20867,6 +20941,7 @@ var init_events = __esm({
             shapefile_skip: alerts.global_settings.ugc_db_skip,
             parent_events_only: alerts.global_settings.parent_events,
             better_event_parsing: alerts.global_settings.better_parsing,
+            ignore_geometry_parsing: alerts.global_settings.ignore_geometry_parsing,
             filtering: {
               ignore_text_products: filter.ignore_tests,
               events: filter.all_events ? [] : filter.listening_events,
@@ -20934,7 +21009,7 @@ var init_pulsepoint = __esm({
           }
         });
         pulse.on(`onIncidentUpdate`, (event) => {
-          var _a;
+          var _a, _b;
           const emergencies = cache.external.emergencies;
           const index = emergencies ? emergencies.features.findIndex((f) => f.properties.ID === event.properties.ID) : -1;
           if (index === -1) {
@@ -20946,7 +21021,7 @@ var init_pulsepoint = __esm({
             `PulsePoint Incident Update: ${(_a = event.properties.type) != null ? _a : "Unknown Type"}`,
             { title: `\x1B[33m[ATMOSX-PULSEPOINT]\x1B[0m` }
           );
-          submodules.streaming.sendChatMessage(`${event.properties.agency} - ${event.properties.type} reported at ${event.properties.address || "Unknown Location"} (x${event.properties.units.length})`, `pulse_point`);
+          submodules.streaming.sendChatMessage(`${event.properties.agency} - ${event.properties.type} reported at ${(_b = event.properties.address) != null ? _b : "Unknown Location"} (x${event.properties.units.length})`, `pulse_point`);
         });
         pulse.on(`log`, (message) => {
           submodules.utils.log(message, { title: `\x1B[33m[ATMOSX-PULSEPOINT]\x1B[0m` });
@@ -21133,7 +21208,8 @@ var init_utils = __esm({
        * @returns {boolean}
        */
       isFancyDisplay() {
-        return cache.internal.configurations.display_settings.fancy_interface || false;
+        var _a;
+        return (_a = cache.internal.configurations.display_settings.fancy_interface) != null ? _a : false;
       }
       /**
        * @function logo
@@ -21164,10 +21240,11 @@ var init_utils = __esm({
        * @returns {void}
        */
       log(message, options, logType = `__console__`) {
-        const title = (options == null ? void 0 : options.title) || `\x1B[32m[ATMOSX-UTILS]\x1B[0m`;
-        const msg = message || `No message provided.`;
-        const rawConsole = (options == null ? void 0 : options.rawConsole) || false;
-        const echoFile = (options == null ? void 0 : options.echoFile) || false;
+        var _a, _b, _c;
+        const title = (_a = options == null ? void 0 : options.title) != null ? _a : `\x1B[32m[ATMOSX-UTILS]\x1B[0m`;
+        const msg = message != null ? message : `No message provided.`;
+        const rawConsole = (_b = options == null ? void 0 : options.rawConsole) != null ? _b : false;
+        const echoFile = (_c = options == null ? void 0 : options.echoFile) != null ? _c : false;
         if (!rawConsole) {
           cache.internal.logs[logType].push({ title, message: msg, timestamp: (/* @__PURE__ */ new Date()).toLocaleString() });
           if (cache.internal.logs[logType].length > 25) {
@@ -21319,6 +21396,15 @@ var init_calculations = __esm({
         const h = __pow(Math.sin(dA / 2), 2) + Math.cos(a * d) * Math.cos(x * d) * __pow(Math.sin(dB / 2), 2);
         return +(r * 2 * Math.atan2(Math.sqrt(h), Math.sqrt(1 - h))).toFixed(2);
       }
+      /**
+       * @function isPointInPolygon
+       * @description
+       *    Determines if a given point is inside a polygon using the ray-casting algorithm.
+       * 
+       * @param {types.Coordinates} point
+       * @param {Array<[number, number]>} polygon
+       * @returns {boolean}
+       */
       isPointInPolygon(point, polygon) {
         let inside = false;
         const x = point.lon, y = point.lat;
@@ -21372,6 +21458,66 @@ var init_calculations = __esm({
         const projLat = Math.asin(proj[2] / norm) * 180 / Math.PI;
         const projLon = Math.atan2(proj[1], proj[0]) * 180 / Math.PI;
         return this.calculateDistance(point, { lat: projLat, lon: projLon }, unit);
+      }
+      /**
+       * @function getPolygonDistance
+       * @description
+       *    Calculates the shortest distance from a point to the edges of a polygon.
+       *    If the point is inside the polygon, returns a distance of 0.
+       * 	
+       * @async
+       * @param {types.EventType} event
+       * @returns {object}
+       */
+      getPolygonDistance(event) {
+        return __async(this, null, function* () {
+          var _a, _b, _c, _d, _e, _f, _g, _h, _i, _j, _k;
+          const ConfigType = cache.internal.configurations;
+          const cache2 = cache.external.tracking.features;
+          let coords = (_b = (_a = event == null ? void 0 : event.geometry) == null ? void 0 : _a.coordinates) != null ? _b : null;
+          if (!coords) coords = (_d = (_c = yield cache.handlers.eventManager.getEventPolygon(event)) == null ? void 0 : _c.coordinates) != null ? _d : null;
+          let polygons = [];
+          if (Array.isArray(coords)) {
+            if (Array.isArray((_f = (_e = coords[0]) == null ? void 0 : _e[0]) == null ? void 0 : _f[0])) {
+              polygons = coords.map((poly) => poly[0]).filter(Array.isArray);
+            } else if (Array.isArray((_g = coords[0]) == null ? void 0 : _g[0])) {
+              polygons = coords.filter(Array.isArray);
+            } else if (Array.isArray(coords[0])) {
+              polygons = [coords];
+            }
+          }
+          polygons = polygons.map((r) => r.filter((p) => Array.isArray(p) && p.length === 2 && p[0] != null && p[1] != null)).filter((r) => r.length > 1);
+          const unit = (_h = ConfigType.filters.location_settings.unit) != null ? _h : "miles";
+          const out = {};
+          let inArea = false;
+          for (const key in cache2) {
+            const feature = cache2[key];
+            const name = (_i = feature.properties) == null ? void 0 : _i.name;
+            const [lon, lat] = (_k = (_j = feature.geometry) == null ? void 0 : _j.coordinates) != null ? _k : [];
+            if (name == null || lat == null || lon == null) continue;
+            let min = Infinity;
+            for (const ring of polygons) {
+              for (let i = 0, len = ring.length; i < len; i++) {
+                const p1 = ring[i];
+                const p2 = ring[(i + 1) % len];
+                const d = submodules.calculations.distanceToSegment({ lat, lon }, { lat: p1[1], lon: p1[0] }, { lat: p2[1], lon: p2[0] }, unit, ring);
+                if (d < min) min = d;
+              }
+            }
+            if (!ConfigType.filters.location_settings.enabled || min < ConfigType.filters.location_settings.max_distance) {
+              inArea = true;
+            }
+            if (min === Infinity) continue;
+            out[name] = { distance: min, unit };
+          }
+          if (polygons.length === 0) {
+            inArea = ConfigType.filters.location_settings.enabled ? false : true;
+          }
+          if (cache2.length == 0) {
+            inArea = true;
+          }
+          return { inArea, distances: out };
+        });
       }
       /**
        * @function timeRemaining
@@ -21585,6 +21731,7 @@ var init_networking = __esm({
        */
       sendWebhook(title, body, settings) {
         return __async(this, null, function* () {
+          var _a, _b, _c;
           if (!settings.enabled) {
             return;
           }
@@ -21601,9 +21748,9 @@ var init_networking = __esm({
           }
           const embed = { title, description: body, color: 16711680, timestamp: (/* @__PURE__ */ new Date()).toISOString(), footer: { text: title } };
           try {
-            yield packages.axios.post(settings.discord_webhook || ``, {
-              username: settings.webhook_display || `AtmosphericX Alerts`,
-              content: settings.content || ``,
+            yield packages.axios.post((_a = settings.discord_webhook) != null ? _a : ``, {
+              username: (_b = settings.webhook_display) != null ? _b : `AtmosphericX Alerts`,
+              content: (_c = settings.content) != null ? _c : ``,
               embeds: [embed]
             });
             cache.internal.limiters.push({ type: title, timestamp: time });
@@ -21632,7 +21779,6 @@ var init_networking = __esm({
             if (ConfigType.filters.all_events) return true;
             return ConfigType.filters.listening_events.includes(f.properties.event);
           });
-          submodules.alerts.instance(true);
           yield submodules.utils.sleep(200);
           let data = {};
           let stringText = ``;
@@ -21741,9 +21887,10 @@ var init_structure = __esm({
        * @returns {{ sfx: string; scheme: any; metadata: any }}
        */
       metadata(event) {
+        var _a, _b, _c, _d;
         const ConfigType = cache.internal.configurations;
-        const schemes = ConfigType.themes[event.properties.event] || ConfigType.themes[event.properties.parent] || ConfigType.themes["Default"];
-        const dictionary = ConfigType.alert_dictionary[event.properties.event] || ConfigType.alert_dictionary[event.properties.parent] || ConfigType.alert_dictionary["Special Event"];
+        const schemes = (_b = (_a = ConfigType.themes[event.properties.event]) != null ? _a : ConfigType.themes[event.properties.parent]) != null ? _b : ConfigType.themes["Default"];
+        const dictionary = (_d = (_c = ConfigType.alert_dictionary[event.properties.event]) != null ? _c : ConfigType.alert_dictionary[event.properties.parent]) != null ? _d : ConfigType.alert_dictionary["Special Event"];
         let sfx = dictionary.sfx_cancel;
         if (event.properties.is_issued) sfx = dictionary.sfx_issued;
         else if (event.properties.is_updated) sfx = dictionary.sfx_update;
@@ -21772,59 +21919,9 @@ var init_structure = __esm({
           scheme: eventMetadata.scheme,
           sfx: isBeepOnly ? ConfigType.tones.sfx_beep : eventMetadata.sfx,
           ignored: isIgnored,
-          beep: isBeepOnly
+          only_beep: isBeepOnly
         };
         return event;
-      }
-      /**
-       * @function distance
-       * @description
-       *    Calculates the distance of an event from predefined locations and determines if it's within range.
-       * 	
-       * @param {types.EventType} event
-       * @returns {object}
-       */
-      distance(event) {
-        var _a;
-        const ConfigType = cache.internal.configurations;
-        const cache2 = cache.external.tracking.features;
-        const coords = (_a = event == null ? void 0 : event.geometry) == null ? void 0 : _a.coordinates;
-        let range = [];
-        let inRange = ConfigType.filters.location_settings.enabled == true && cache2 && cache2.length > 0 ? false : true;
-        const polygons = Array.isArray(coords == null ? void 0 : coords[0]) && typeof (coords == null ? void 0 : coords[0][0]) === "number" ? [coords] : coords;
-        if (polygons != null) {
-          for (const key in cache2) {
-            const name = cache2[key].properties.name;
-            const lat = cache2[key].geometry.coordinates[1];
-            const lon = cache2[key].geometry.coordinates[0];
-            const unit = ConfigType.filters.location_settings.unit || "miles";
-            let minDistance = Infinity;
-            for (const polygon of polygons) {
-              for (let i = 0; i < polygon.length; i++) {
-                const point1 = polygon[i];
-                const point2 = polygon[(i + 1) % polygon.length];
-                if (Array.isArray(point1) && Array.isArray(point2) && point1.length === 2 && point2.length === 2) {
-                  const [lon1, lat1] = point1;
-                  const [lon2, lat2] = point2;
-                  const distance = submodules.calculations.distanceToSegment(
-                    { lat, lon },
-                    { lat: lat1, lon: lon1 },
-                    { lat: lat2, lon: lon2 },
-                    unit
-                  );
-                  if (distance < minDistance) minDistance = distance;
-                }
-              }
-            }
-            if (ConfigType.filters.location_settings.enabled) {
-              if (minDistance < ConfigType.filters.location_settings.max_distance) {
-                inRange = true;
-              }
-            }
-            range.push({ [name]: { distance: minDistance, unit, lon, lat } });
-          }
-        }
-        return { inRange, range: __spreadValues(__spreadValues({}, event.properties.distance), Object.assign({}, ...range)) };
       }
       /**
        * @function create
@@ -21837,7 +21934,7 @@ var init_structure = __esm({
        */
       create(data) {
         return __async(this, null, function* () {
-          var _a;
+          var _a, _b, _c;
           const clean = submodules.utils.filterWebContent(data);
           const ConfigType = cache.internal.configurations;
           const dataTypes = [
@@ -21859,13 +21956,8 @@ var init_structure = __esm({
           }
           if ((_a = clean.events) == null ? void 0 : _a.length) {
             for (const ev of clean.events) {
-              const isAlreadyLogged = cache.external.hashes.some((log) => log.id === ev.properties.hash);
-              const eventDistance = this.distance(ev);
-              ev.properties.distance = eventDistance.range;
-              if (!ev.properties.scene.ignored) {
-                ev.properties.scene.ignored = this.distance(ev).inRange === false;
-              }
-              if (isAlreadyLogged) {
+              const isLogged = cache.external.hashes.some((log) => log.id === ev.properties.hash);
+              if (isLogged) {
                 continue;
               }
               if (ev.properties.scene.ignored) {
@@ -21878,7 +21970,7 @@ var init_structure = __esm({
                 submodules.utils.log(submodules.alerts.returnAlertText(ev), {}, `__events__`);
               }
               const webhooks = ConfigType.webhook_settings;
-              const pSet = new Set((ConfigType.filters.priority_events || []).map((p) => String(p).toLowerCase()));
+              const pSet = new Set(((_b = ConfigType.filters.priority_events) != null ? _b : []).map((p) => String(p).toLowerCase()));
               const title = `${ev.properties.event} (${ev.properties.action_type})`;
               const locations = ev.properties.locations;
               const body = [
@@ -21904,7 +21996,13 @@ var init_structure = __esm({
               }
             }
           }
-          cache.external.events.features = clean.events.filter((ev) => !ev.properties.scene.ignored) || [];
+          if (!cache.internal.isListening) {
+            yield submodules.utils.sleep(500);
+            submodules.alerts.listen();
+            cache.internal.isListening = true;
+          }
+          submodules.alerts.listen(true);
+          cache.external.events.features = (_c = clean.events.filter((ev) => !ev.properties.scene.ignored)) != null ? _c : [];
           if (cache.external.rng.features.length == 0) {
             submodules.alerts.randomize();
           }
@@ -21926,8 +22024,9 @@ var init_display = __esm({
         this.NAME_SPACE = `submodule:display`;
         this.elements = {};
         (() => __async(this, null, function* () {
+          var _a;
           submodules.utils.log(`${this.NAME_SPACE} initialized.`);
-          const term = packages.process.env.TERM || "";
+          const term = (_a = packages.process.env.TERM) != null ? _a : "";
           const isGitBash = packages.process.env.MSYSTEM && packages.process.env.MSYSTEM.startsWith("MINGW");
           const unsupportedTerms = ["dumb", "cons25", "emacs", "cygwin"];
           if (isGitBash || unsupportedTerms.includes(term)) {
@@ -22015,6 +22114,7 @@ Revert to legacy display mode within configurations.`);
        * @returns {void}
        */
       update() {
+        var _a;
         if (!submodules.utils.isFancyDisplay()) {
           return;
         }
@@ -22039,9 +22139,9 @@ Revert to legacy display mode within configurations.`);
         );
         this.modifyElement(
           `sessions`,
-          cache.internal.accounts.map((session) => {
+          (_a = cache.internal.accounts.map((session) => {
             return `${session.username} - ${session.address}`;
-          }).join("\n") || `No active sessions.`,
+          }).join("\n")) != null ? _a : `No active sessions.`,
           ` Active Sessions (X${cache.internal.accounts.length}) `
         );
         this.MANAGER.render();
@@ -22413,8 +22513,8 @@ var init_parsing = __esm({
 });
 
 // src/submodules/utility/tracking.ts
-var GlobalPositioningSystem, tracking_default;
-var init_tracking = __esm({
+var GlobalPositioningSystem, tracking_default2;
+var init_tracking2 = __esm({
   "src/submodules/utility/tracking.ts"() {
     init_bootstrap();
     GlobalPositioningSystem = class {
@@ -22435,16 +22535,23 @@ var init_tracking = __esm({
        * @returns {void}
        */
       setCurrentCoordinates(name, coords) {
-        if (cache.handlers.eventManager == null) return;
-        if (!cache.external.tracking.features[name]) {
+        const ConfigType = cache.internal.configurations;
+        if (!cache.external.tracking.features.find((loc) => loc.properties.name === name)) {
           cache.external.tracking.features.push({
             type: "Feature",
             geometry: { type: "Point", coordinates: [coords.lon, coords.lat] },
-            properties: { icao: null, name }
+            properties: { icao: null, name, last_updated: /* @__PURE__ */ new Date() }
           });
         } else {
-          cache.external.tracking.features[name].geometry.coordinates = [coords.lon, coords.lat];
+          cache.external.tracking.features = cache.external.tracking.features.map((loc) => {
+            if (loc.properties.name === name) {
+              loc.geometry.coordinates = [coords.lon, coords.lat];
+              loc.properties.last_updated = /* @__PURE__ */ new Date();
+            }
+            return loc;
+          });
         }
+        cache.external.tracking.features = cache.external.tracking.features.filter((loc) => Date.now() - loc.properties.last_updated < ConfigType.sources.location_settings.expiry_time * 1e3);
         submodules.utils.log(`Updated current coordinates for ${name} [LON: ${coords.lon}, LAT: ${coords.lat}]`);
       }
       /**
@@ -22539,7 +22646,6 @@ var init_tracking = __esm({
               lat: snap.location.latitude,
               lon: snap.location.longitude
             };
-            cache.external.tracking.features[cfg.pull_key] = coords;
             this.setCurrentCoordinates(cfg.pull_key, coords);
           }
         };
@@ -22566,7 +22672,7 @@ var init_tracking = __esm({
         this.rtListener();
       }
     };
-    tracking_default = GlobalPositioningSystem;
+    tracking_default2 = GlobalPositioningSystem;
   }
 });
 
@@ -22673,7 +22779,7 @@ var init_bootstrap = __esm({
     init_structure();
     init_display();
     init_parsing();
-    init_tracking();
+    init_tracking2();
     init_database();
     cache = {
       external: {
@@ -22701,7 +22807,8 @@ var init_bootstrap = __esm({
         tracking: { type: "FeatureCollection", features: [] }
       },
       internal: {
-        getSource: `NWS`,
+        isListening: false,
+        getSource: `Awaiting Source`,
         configurations: {},
         logs: {
           __console__: [],
@@ -22802,7 +22909,7 @@ ${"	".repeat(5)} {ONLINE_CHANGELOGS}
       display: display_default,
       parsing: parsing_default,
       routes: routing_default,
-      gps: tracking_default,
+      gps: tracking_default2,
       database: database_default,
       pulsepoint: pulsepoint_default,
       tempest: tempest_default,

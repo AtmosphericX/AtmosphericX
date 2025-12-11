@@ -40,7 +40,7 @@ export class Init {
                     return response.status(400).json({ message: this.SESSION_INVALID_USERNAME_MESSAGE });
                 }
                 loader.submodules.database.query(`INSERT INTO accounts (username, hash, activated) VALUES (?, ?, ?)`, [username, password, 0]);
-                loader.submodules.utils.log(`${this.NAME_SPACE} - New account created for username: ${username} @ ${request.headers['cf-connecting-ip'] || request.connection.remoteAddress}`);
+                loader.submodules.utils.log(`${this.NAME_SPACE} - New account created for username: ${username} @ ${request.headers['cf-connecting-ip'] ?? request.connection.remoteAddress}`);
                 return response.status(201).json({ message: this.SESSION_SUCCESS_MESSAGE });
             } catch (error) {
                 loader.submodules.utils.log(`${this.NAME_SPACE} ERROR: ${error.message}`);

@@ -23,7 +23,6 @@ export class Alerts {
     constructor() {
         this.PACKAGE = loader.packages.AlertManager;
         loader.submodules.utils.log(`${this.NAME_SPACE} initialized.`)
-        this.instance();
     }
 
 
@@ -52,9 +51,9 @@ export class Alerts {
                 .replace('{SOURCE}', cache.internal.getSource);
         }
         return cache.external.events.features
-            .sort((a, b) => new Date(a.event.properties.issued).getTime() - new Date(b.event.properties.issued).getTime())
+            .sort((a, b) => new Date(a.properties.issued).getTime() - new Date(b.properties.issued).getTime())
             .map(r => {
-                const p = r.event.properties, d = p.distance;
+                const p = r.properties, d = p.spotters;
                 const dist = d && Object.keys(d).length > 0 ?
                     Object.entries(d as Record<string, { distance?: number | string; unit?: string }>).map(([name, val]) => {
                         const distance = val?.distance ?? 'N/A';
@@ -72,8 +71,7 @@ export class Alerts {
                     .replace('{TAGS}', p.tags?.join(', ') ?? 'N/A')
                     .replace('{LOCATIONS}', p.locations?.substring(0, 100) ?? 'N/A')
                     .replace('{DISTANCE}', dist);
-            })
-            .join('\n');
+            }).join('\n');
     }
 
 
@@ -121,7 +119,7 @@ export class Alerts {
      * @param {types.EventType[]} events
      * @returns {void}
      */
-    private handle(events: types.EventType[]): void {
+    private async handle(events: types.EventType[]): Promise<void> {
         const features = loader.cache.external.events.features;
         for (const event of events) {
             const registeredEvent = loader.submodules.structure.register(event);
@@ -129,6 +127,13 @@ export class Alerts {
             const { properties } = registeredEvent;
             const { tracking, history = [] } = registeredEvent.properties.details;
             const index = features.findIndex(feature => feature && feature.properties.details.tracking === tracking);
+            const {distances, inArea} = await loader.submodules.calculations.getPolygonDistance(registeredEvent)
+            if (index !== -1 && features[index]) { features[index].properties.scene = registeredEvent.properties.scene; }
+            registeredEvent.properties.spotters = distances 
+			if (!registeredEvent.properties.scene.ignored) { 
+                registeredEvent.properties.scene.ignored = inArea === false; 
+                if (inArea === false) { continue; }
+            }
             if (properties.is_cancelled && index !== -1) {
                 features[index] = undefined;
                 continue;
@@ -166,7 +171,7 @@ export class Alerts {
     }
 
     /**
-     * @function instance
+     * @function listen
      * @description
      *     Initializes or refreshes the parser manager instance with current
      *     configurations and settings. Sets up event handlers for alert reception,
@@ -177,7 +182,7 @@ export class Alerts {
      * @param {boolean} [isRefreshing=false]
      * @returns {void}
      */
-    private instance(isRefreshing: boolean = false): void {
+    public listen(isRefreshing: boolean = false): void {
         if (isRefreshing && !this.MANAGER) return;
         const configurations = loader.cache.internal.configurations as types.ConfigurationsType;
         const alerts = configurations.sources.atmosx_parser_settings;
@@ -187,7 +192,7 @@ export class Alerts {
         const now = new Date();
         const displayName = nwws.client_credentials.nickname.replace(`AtmosphericX`, ``).trim();
         const displayTimestamp = `${String(now.getUTCMonth() + 1).padStart(2, '0')}/${String(now.getUTCDate()).padStart(2, '0')} ${String(now.getUTCHours()).padStart(2, '0')}:${String(now.getUTCMinutes()).padStart(2, '0')}`;
-        if (alerts.noaa_weather_wire_service) loader.cache.internal.getSource = `NWWS`;
+        loader.cache.internal.getSource = alerts.noaa_weather_wire_service ? `NWWS` : `NWS`;
         const settings = {
             database: alerts.database,
             is_wire: alerts.noaa_weather_wire_service,
@@ -204,6 +209,7 @@ export class Alerts {
                 shapefile_skip: alerts.global_settings.ugc_db_skip,
                 parent_events_only: alerts.global_settings.parent_events,
                 better_event_parsing: alerts.global_settings.better_parsing,
+                ignore_geometry_parsing: alerts.global_settings.ignore_geometry_parsing,
                 filtering: {
                     ignore_text_products: filter.ignore_tests,
                     events: filter.all_events ? [] : filter.listening_events,

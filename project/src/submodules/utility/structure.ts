@@ -57,11 +57,11 @@ export class Structure {
 	private metadata(event: types.EventType) {
     	const ConfigType = loader.cache.internal.configurations as types.ConfigurationsType;
 		const schemes = ConfigType.themes[event.properties.event]
-			|| ConfigType.themes[event.properties.parent]
-			|| ConfigType.themes['Default'];
+			?? ConfigType.themes[event.properties.parent]
+			?? ConfigType.themes['Default'];
 		const dictionary = ConfigType.alert_dictionary[event.properties.event]
-			|| ConfigType.alert_dictionary[event.properties.parent]
-			|| ConfigType.alert_dictionary['Special Event'];
+			?? ConfigType.alert_dictionary[event.properties.parent]
+			?? ConfigType.alert_dictionary['Special Event'];
 		let sfx = dictionary.sfx_cancel;
 		if (event.properties.is_issued) sfx = dictionary.sfx_issued;
 		else if (event.properties.is_updated) sfx = dictionary.sfx_update;
@@ -91,59 +91,9 @@ export class Structure {
 			scheme:  eventMetadata.scheme,
 			sfx: isBeepOnly ? ConfigType.tones.sfx_beep : eventMetadata.sfx,
 			ignored: isIgnored,
-			beep: isBeepOnly,
+			only_beep: isBeepOnly,
 		};
 		return event;
-	}
-
-	/**
-	 * @function distance
-	 * @description
-	 *    Calculates the distance of an event from predefined locations and determines if it's within range.
-	 * 	
-	 * @param {types.EventType} event
-	 * @returns {object}
-	 */
-	public distance(event: types.EventType): types.InRange {
-		const ConfigType = loader.cache.internal.configurations as types.ConfigurationsType;
-		const cache = loader.cache.external.tracking.features;
-		const coords = event?.geometry?.coordinates;
-		let range = [];
-		let inRange = ConfigType.filters.location_settings.enabled == true && cache && cache.length > 0 ? false : true;
-		const polygons = Array.isArray(coords?.[0]) && typeof coords?.[0][0] === 'number' ? [coords] : coords;
-		if (polygons != null) {
-			for (const key in cache) {
-				const name = cache[key].properties.name;
-				const lat = cache[key].geometry.coordinates[1];
-				const lon = cache[key].geometry.coordinates[0];
-				const unit = ConfigType.filters.location_settings.unit || 'miles';
-				let minDistance = Infinity;
-				for (const polygon of polygons) {
-					for (let i = 0; i < polygon.length; i++) {
-						const point1 = polygon[i];
-						const point2 = polygon[(i + 1) % polygon.length];
-						if (Array.isArray(point1) && Array.isArray(point2) && point1.length === 2 && point2.length === 2) {
-							const [lon1, lat1] = point1;
-							const [lon2, lat2] = point2;
-							const distance = loader.submodules.calculations.distanceToSegment(
-								{ lat, lon },
-								{ lat: lat1, lon: lon1 },
-								{ lat: lat2, lon: lon2 },
-								unit
-							);
-							if (distance < minDistance) minDistance = distance;
-						}
-					}
-				}
-				if (ConfigType.filters.location_settings.enabled) {
-					if (minDistance < ConfigType.filters.location_settings.max_distance) {
-						inRange = true;
-					}
-				}
-				range.push({ [name]: { distance: minDistance, unit, lon, lat } });
-			}
-		}
-		return { inRange, range: { ...event.properties.distance, ...Object.assign({}, ...range) } };
 	}
 
 	/**
@@ -177,11 +127,8 @@ export class Structure {
 		}
 		if (clean.events?.length) {
 			for (const ev of clean.events) {
-				const isAlreadyLogged = loader.cache.external.hashes.some(log => log.id === ev.properties.hash);
-				const eventDistance = this.distance(ev)
-				ev.properties.distance = eventDistance.range; 
-				if (!ev.properties.scene.ignored) { ev.properties.scene.ignored = this.distance(ev).inRange === false; }
-				if (isAlreadyLogged) { continue; }
+				const isLogged = loader.cache.external.hashes.some(log => log.id === ev.properties.hash);
+				if (isLogged) { continue; }
 				if (ev.properties.scene.ignored) { continue; }				
 				loader.cache.external.hashes.push({ id: ev.properties.hash, expires: ev.properties.expires });
 				if (!loader.submodules.utils.isFancyDisplay()) {
@@ -189,9 +136,8 @@ export class Structure {
 				} else { 
 					loader.submodules.utils.log(loader.submodules.alerts.returnAlertText(ev), {}, `__events__`);
 				}
-				
 				const webhooks = ConfigType.webhook_settings;
-				const pSet = new Set((ConfigType.filters.priority_events || []).map(p => String(p).toLowerCase()));
+				const pSet = new Set((ConfigType.filters.priority_events ?? []).map(p => String(p).toLowerCase()));
 				const title = `${ev.properties.event} (${ev.properties.action_type})`;
 				const locations = ev.properties.locations;
 				const body = [
@@ -217,7 +163,13 @@ export class Structure {
 				}
 			}
 		}
-		loader.cache.external.events.features = clean.events.filter(ev => !ev.properties.scene.ignored) || [];
+		if (!loader.cache.internal.isListening) { 
+			await loader.submodules.utils.sleep(500);
+			loader.submodules.alerts.listen(); 
+			loader.cache.internal.isListening = true;
+		}
+		loader.submodules.alerts.listen(true);
+		loader.cache.external.events.features = clean.events.filter(ev => !ev.properties.scene.ignored) ?? [];
 		if (loader.cache.external.rng.features.length == 0) { loader.submodules.alerts.randomize(); }
 		loader.submodules.routes.onUpdateRequest();
 	}
