@@ -209,13 +209,12 @@ export class Alerts {
         const ConfigType = loader.cache.internal.configurations as types.ConfigurationsType;
         const ExternalType = loader.cache.external as types.ExternalType;
         ExternalType.hashes = ExternalType.hashes.filter(e => e !== undefined && new Date(e.expires).getTime() > new Date().getTime())
-        ExternalType.events = { features: ExternalType.events?.features
-            .filter(f => f !== undefined && new Date(f.event.properties.expires).getTime() > new Date().getTime())
+        ExternalType.events.features = ExternalType.events?.features
+            .filter(f => f !== undefined && new Date(f.properties.expires).getTime() > new Date().getTime())
             .filter(f => {
                 if (ConfigType.filters.all_events) return true;
-                return ConfigType.filters.listening_events.includes(f.event.properties.event);
+                return ConfigType.filters.listening_events.includes(f.properties.event);
             })
-        };
         loader.submodules.alerts.instance(true);
         await loader.submodules.utils.sleep(200);
         let data = {}

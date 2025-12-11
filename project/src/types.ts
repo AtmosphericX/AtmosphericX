@@ -38,7 +38,7 @@ interface LocalEventProperties {
     attributes: LocalDefaultAttributes; parameters: LocalEventParameters; 
     geometry: { type?: string; coordinates?: [number, number][] } | null; 
     distance?: Record<string, { distance: number; unit: string}>; 
-    geocode: { UGC: string[] }; 
+    geocode: { UGC: string[] };
 }
 
 // --- Exports --- //
@@ -71,14 +71,17 @@ export interface RegisterType {
 }
 
 export interface EventType {
-    performance: number;
-    tracking: string;
-    header: string;
-    pvtec?: string;
-    hvtec?: string;
-    history: { description: string; issued: string; type: string }[];
     properties: LocalEventProperties;
+    scene: Record<string, any>;
     geometry: { type?: string; coordinates?: [number, number][] } | null;
+    details: {
+        performance: number;
+        tracking: string;
+        header: string;
+        pvtec?: string;
+        hvtec?: string;
+        history: { description: string; issued: string; type: string }[];
+    }
 }
 
 export interface ConfigurationsType { 

@@ -39,7 +39,7 @@
         document.addEventListener("eventCacheUpdated", async () => {
             utils.setStreaming(true)
             await handler.syncEvents({includeEmergencies: options.emergencies, history: options.history, wxEvents: options.wxevents});
-            await handler.syncQueue(wait);
+            await handler.syncQueue(options.wait);
         });
     });
 </script>

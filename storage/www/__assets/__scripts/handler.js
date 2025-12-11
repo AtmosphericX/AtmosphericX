@@ -38,12 +38,12 @@ class Handler {
             const emergencies = this.storage.emergencies;
             if (manual.features.length > 0 && options.wxEvents) {
                 for (let feature of manual.features) {
-                    const isDuplicate = this.storage.queuedEvents.findIndex(e => e.hash === JSON.stringify(feature.event)) !== -1;
-                    const getIssuedDate = new Date(feature.event.properties.issued).getTime();
+                    const isDuplicate = this.storage.queuedEvents.findIndex(e => e.hash === JSON.stringify(feature)) !== -1;
+                    const getIssuedDate = new Date(feature.properties.issued).getTime();
                     if (!isDuplicate && !feature.ignored) {
                         this.storage.queuedEvents.push({
                             type: `event`,
-                            hash: JSON.stringify(feature.event),
+                            hash: JSON.stringify(feature),
                             issued: new Date().getTime(),
                             expires: getIssuedDate + 60_000_60,
                             feature: feature,
@@ -54,15 +54,15 @@ class Handler {
             }
             if (events.features.length > 0 && options.wxEvents) {
                 for (let feature of events.features) {
-                    const isDuplicate = this.storage.queuedEvents.findIndex(e => e.hash === feature.event.hash) !== -1;
+                    const isDuplicate = this.storage.queuedEvents.findIndex(e => e.hash === feature.hash) !== -1;
                     const isIgnored = feature.ignored;
-                    const getIssuedDate = new Date(feature.event.properties.issued).getTime();
-                    const getExpiresDate = new Date(feature.event.properties.expires).getTime();
+                    const getIssuedDate = new Date(feature.properties.issued).getTime();
+                    const getExpiresDate = new Date(feature.properties.expires).getTime();
                     const inTimeRange = (time - getIssuedDate) < options.history;
                     if (!isDuplicate && !isIgnored) {
                         this.storage.queuedEvents.push({
                             type: `event`,
-                            hash: feature.event.hash,
+                            hash: feature.hash,
                             issued: getIssuedDate,
                             expires: getExpiresDate,
                             feature: feature,
@@ -79,7 +79,7 @@ class Handler {
                     if (!isDuplicate) {
                         this.storage.queuedEvents.push({
                             type: `emergency`,
-                            hash: JSON.stringify(feature.event),
+                            hash: JSON.stringify(feature),
                             issued: getIssuedDate,
                             expires: getIssuedDate + 60_000_60,
                             feature: feature,
@@ -113,7 +113,7 @@ class Handler {
         next.queued = true;
         switch (next.type) { 
             case `event`: {
-                const event = next.feature.event;
+                const event = next.feature;
                 const getTheme = widgets.getCurrentTheme(event.properties.event);
                 if (this.utils.streaming) {  this.returnEventCard(event, getTheme, cooldown); }
                 if (!this.utils.streaming) { await this.utils.sleep(cooldown * 1_000); this.storage.isQueryRunning = false; }
@@ -128,15 +128,16 @@ class Handler {
             }
         }
         if (next.type === `emergency`) { return this.utils.play(cfg.tones.sfx_beep); }
-        if (next.feature.beep) this.utils.play(cfg.tones.sfx_beep);
-        if (!next.feature.beep) {
+        console.log(next)
+        if (next.feature.scene.beep) this.utils.play(cfg.tones.sfx_beep);
+        if (!next.feature.scene.beep) {
             this.utils.play(cfg.tones.sfx_beep);
             await this.utils.sleep(1_300);
-            this.utils.play(next.feature.sfx);
+            this.utils.play(next.feature.scene.sfx);
             await this.utils.sleep(3_800);
-            if (next.feature.metadata) {
-                for (const key in next.feature.metadata) {
-                    if (next.feature.metadata[key] === true) {
+            if (next.feature.scene.metadata) {
+                for (const key in next.metadata) {
+                    if (next.feature.scene.metadata[key] === true) {
                         const tone = cfg.tones[`sfx_${key}`];
                         if (tone) this.utils.play(tone);
                     }
@@ -256,9 +257,9 @@ class Handler {
                     { title: "EXPIRES", value: event.properties.expires, align: "right" },
                 ],
                 [
-                    { title: "THREAT (TOR)", value: event.properties.parameters.tornado_detection[0], align: "left" },
-                    { title: "THREAT (DMG)", value: event.properties.parameters.damage_threat[0], align: "center" },
-                    { title: "THREAT (FLD)", value: event.properties.parameters.flood_detection[0], align: "right" },
+                    { title: "THREAT (TOR)", value: event.properties.parameters.tornado_detection, align: "left" },
+                    { title: "THREAT (DMG)", value: event.properties.parameters.damage_threat, align: "center" },
+                    { title: "THREAT (FLD)", value: event.properties.parameters.flood_detection, align: "right" },
                 ],
                 [
                     { title: "OFFICE", value: `${event.properties.sender_name} (${event.properties.sender_icao})`, align: "left" },

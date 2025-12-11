@@ -86,14 +86,14 @@ export class Structure {
 		const eventMetadata = this.metadata(event);
 		const isBeepOnly = isBeepAuthorizedOnly && !isPriorityEvent;
 		const isIgnored = !isShowingUpdatesAllowed && !isPriorityEvent && !event.properties.is_issued;
-		return {
-			event,
+		event.scene = {
 			metadata: eventMetadata.metadata,
-			scheme: eventMetadata.scheme,
+			scheme:  eventMetadata.scheme,
 			sfx: isBeepOnly ? ConfigType.tones.sfx_beep : eventMetadata.sfx,
 			ignored: isIgnored,
 			beep: isBeepOnly,
 		};
+		return event;
 	}
 
 	/**
@@ -106,32 +106,44 @@ export class Structure {
 	 */
 	public distance(event: types.EventType): types.InRange {
 		const ConfigType = loader.cache.internal.configurations as types.ConfigurationsType;
-		const cache = loader.cache.external.tracking;
-		const coords = event.properties?.geometry?.coordinates;
-		let range = [] 
-		let inRange = ConfigType.filters.location_settings.enabled == true && cache && Object.keys(cache).length > 0 ? false : true;
-		if (coords != null) {
+		const cache = loader.cache.external.tracking.features;
+		const coords = event?.geometry?.coordinates;
+		let range = [];
+		let inRange = ConfigType.filters.location_settings.enabled == true && cache && cache.length > 0 ? false : true;
+		const polygons = Array.isArray(coords?.[0]) && typeof coords?.[0][0] === 'number' ? [coords] : coords;
+		if (polygons != null) {
 			for (const key in cache) {
-				const name = key;
-				const lat = cache[key].lat;
-				const lon = cache[key].lon;
+				const name = cache[key].properties.name;
+				const lat = cache[key].geometry.coordinates[1];
+				const lon = cache[key].geometry.coordinates[0];
 				const unit = ConfigType.filters.location_settings.unit || 'miles';
-				const singleCoord = coords;
-        	    const center = singleCoord.reduce((acc, [lat, lon]) => ([acc[0] + lat, acc[1] + lon]), [0, 0]).map(sum => sum / singleCoord.length);
-				const distance = loader.submodules.calculations.calculateDistance(
-					{ lat: center[0], lon: center[1] },
-					{ lat, lon },
-					unit
-				); 
+				let minDistance = Infinity;
+				for (const polygon of polygons) {
+					for (let i = 0; i < polygon.length; i++) {
+						const point1 = polygon[i];
+						const point2 = polygon[(i + 1) % polygon.length];
+						if (Array.isArray(point1) && Array.isArray(point2) && point1.length === 2 && point2.length === 2) {
+							const [lon1, lat1] = point1;
+							const [lon2, lat2] = point2;
+							const distance = loader.submodules.calculations.distanceToSegment(
+								{ lat, lon },
+								{ lat: lat1, lon: lon1 },
+								{ lat: lat2, lon: lon2 },
+								unit
+							);
+							if (distance < minDistance) minDistance = distance;
+						}
+					}
+				}
 				if (ConfigType.filters.location_settings.enabled) {
-					if (distance < ConfigType.filters.location_settings.max_distance) {
+					if (minDistance < ConfigType.filters.location_settings.max_distance) {
 						inRange = true;
 					}
 				}
-				range.push({ [name]: { distance, unit } });
+				range.push({ [name]: { distance: minDistance, unit, lon, lat } });
 			}
 		}
-		return { inRange, range: {... event.properties.distance, ...Object.assign({}, ...range) } };
+		return { inRange, range: { ...event.properties.distance, ...Object.assign({}, ...range) } };
 	}
 
 	/**
@@ -165,47 +177,48 @@ export class Structure {
 		}
 		if (clean.events?.length) {
 			for (const ev of clean.events) {
-				const isAlreadyLogged = loader.cache.external.hashes.some(log => log.id === ev.event.hash);
-				const eventDistance = this.distance(ev.event)
-				ev.event.properties.distance = eventDistance.range; 
-				if (!ev.ignored) { ev.ignored = this.distance(ev.event).inRange === false; }
+				const isAlreadyLogged = loader.cache.external.hashes.some(log => log.id === ev.hash);
+				const eventDistance = this.distance(ev)
+				ev.properties.distance = eventDistance.range; 
+				if (!ev.scene.ignored) { ev.scene.ignored = this.distance(ev).inRange === false; }
 				if (isAlreadyLogged) { continue; }
-				if (ev.ignored) { continue; }				
-				loader.cache.external.hashes.push({ id: ev.event.hash, expires: ev.event.properties.expires });
+				if (ev.scene.ignored) { continue; }				
+				loader.cache.external.hashes.push({ id: ev.hash, expires: ev.properties.expires });
 				if (!loader.submodules.utils.isFancyDisplay()) {
 					loader.submodules.utils.log(loader.submodules.alerts.returnAlertText(ev));
 				} else { 
 					loader.submodules.utils.log(loader.submodules.alerts.returnAlertText(ev), {}, `__events__`);
 				}
+				
 				const webhooks = ConfigType.webhook_settings;
 				const pSet = new Set((ConfigType.filters.priority_events || []).map(p => String(p).toLowerCase()));
-				const title = `${ev.event.properties.event} (${ev.event.properties.action_type})`;
-				const locations = ev.event.properties.locations;
+				const title = `${ev.properties.event} (${ev.properties.action_type})`;
+				const locations = ev.properties.locations;
 				const body = [
-					`**Locations:** ${ev.event.properties.locations.slice(0, 259)}`,
-					`**Issued:** ${ev.event.properties.issued}`,
-					`**Expires:** ${ev.event.properties.expires}`,
-					`**Wind Gusts:** ${ev.event.properties.parameters.max_wind_gust}`,
-					`**Hail Size:** ${ev.event.properties.parameters.max_hail_size}`,
-					`**Damage Threat:** ${ev.event.properties.parameters.damage_threat}`,
-					`**Tornado Threat:** ${ev.event.properties.parameters.tornado_detection}`,
-					`**Flood Threat:** ${ev.event.properties.parameters.flood_detection}`,
-					`**Tags:** ${ev.event.properties.tags ? ev.event.properties.tags.join(', ') : 'N/A'}`,
-					`**Sender:** ${ev.event.properties.sender_name}`,
-					`**Tracking ID:** ${ev.event.tracking}`,
+					`**Locations:** ${ev.properties.locations.slice(0, 259)}`,
+					`**Issued:** ${ev.properties.issued}`,
+					`**Expires:** ${ev.properties.expires}`,
+					`**Wind Gusts:** ${ev.properties.parameters.max_wind_gust}`,
+					`**Hail Size:** ${ev.properties.parameters.max_hail_size}`,
+					`**Damage Threat:** ${ev.properties.parameters.damage_threat}`,
+					`**Tornado Threat:** ${ev.properties.parameters.tornado_detection}`,
+					`**Flood Threat:** ${ev.properties.parameters.flood_detection}`,
+					`**Tags:** ${ev.properties.tags ? ev.properties.tags.join(', ') : 'N/A'}`,
+					`**Sender:** ${ev.properties.sender_name}`,
+					`**Tracking ID:** ${ev.tracking}`,
 					'```',
-					ev.event.properties.description.split('\n').map(line => line.trim()).filter(line => line.length > 0).join('\n'),
+					ev.properties.description.split('\n').map(line => line.trim()).filter(line => line.length > 0).join('\n'),
 					'```'
 				].join('\n');
 				await loader.submodules.streaming.sendChatMessage(`${title} for ${locations}`, `events`);
 				await loader.submodules.networking.sendWebhook(title,body, webhooks.general_alerts);
-				if (pSet.has(ev.event.properties.event.toLowerCase())) {
+				if (pSet.has(ev.properties.event.toLowerCase())) {
 					await loader.submodules.networking.sendWebhook(title, body, webhooks.critical_alerts);
 				}
 			}
 		}
-		loader.cache.external.events.features = clean.events.filter(ev => !ev.ignored) || [];
-		if (loader.cache.external.rng.alert == null) { loader.submodules.alerts.randomize(); }
+		loader.cache.external.events.features = clean.events.filter(ev => !ev.scene.ignored) || [];
+		if (loader.cache.external.rng.features.length == 0) { loader.submodules.alerts.randomize(); }
 		loader.submodules.routes.onUpdateRequest();
 	}
 }

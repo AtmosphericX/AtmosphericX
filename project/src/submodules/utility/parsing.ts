@@ -141,7 +141,7 @@ export class Parsing {
         const feedConfig = ConfigType.sources?.location_settings?.spotter_network_feed;
         const structure: types.GeoJSONFeatureCollection = { type: 'FeatureCollection', features: [] };
         const parsed = await loader.packages.PlacefileManager.parsePlacefile(body) as types.DefaultPlacefileParsingTypes[];
-        const locations = Object.keys(loader.cache.external.tracking);
+        const locations = loader.cache.external.tracking.features;
         for (const feature of parsed) {
             const lon = parseFloat(feature.object.coordinates[1]);
             const lat = parseFloat(feature.object.coordinates[0]);
@@ -159,10 +159,10 @@ export class Parsing {
             }
             let distance = 0;
             if (locations.length > 0) {
-                const index = locations[0] as string;
+                const index = locations[0];
                 distance = loader.submodules.calculations.calculateDistance(
                     { lat, lon },
-                    { lat: loader.cache.external.tracking[index].lat, lon: loader.cache.external.tracking[index].lon }
+                    { lat: index.geometry.coordinates[1], lon: index.geometry.coordinates[0] },
                 );
             }
             structure.features.push({
@@ -314,10 +314,10 @@ export class Parsing {
      * @returns {unknown}
      */
     public getWeatherStationStructure(body): unknown {
-        return {
-            features: [{
-                geometry: { type: "Point", coordinates: [body.latitude, body.longitude] },
+        return [
+            {
                 type: "Feature",
+                geometry: { type: "Point", coordinates: [body.longitude, body.latitude] },
                 properties: {
                     temperature: body.temperature,
                     dewpoint: body.dewpoint,
@@ -327,8 +327,8 @@ export class Parsing {
                     conditions: body.conditions,
                     location: body.location  
                 }
-            }]
-        }
+            }
+        ]
     }
 }
 

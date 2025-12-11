@@ -41,14 +41,14 @@ export class Alerts {
      * @param {boolean} [isLiveFeed=false]
      * @returns {string}
      */
-    public returnAlertText(reg?: types.RegisterType, isLive?: boolean): string {
+    public returnAlertText(reg?: types.EventType, isLive?: boolean): string {
         const { utils, calculations } = loader.submodules, { strings, cache } = loader;
         if (!utils.isFancyDisplay() || !isLive) {
-            const e = reg?.event
+            const e = reg
             return strings.new_event_legacy
                 .replace('{EVENT}', e.properties.event ?? 'Unknown')
                 .replace('{STATUS}', e.properties.action_type ?? 'Unknown')
-                .replace('{TRACKING}', e.tracking.substring(0, 18))
+                .replace('{TRACKING}', e.details.tracking.substring(0, 18))
                 .replace('{SOURCE}', cache.internal.getSource);
         }
         return cache.external.events.features
@@ -65,7 +65,7 @@ export class Alerts {
                 return strings.new_event_fancy
                     .replace('{EVENT}', p.event)
                     .replace('{ACTION_TYPE}', p.action_type)
-                    .replace('{TRACKING}', r.event.tracking.substring(0, 18))
+                    .replace('{TRACKING}', r.details.tracking.substring(0, 18))
                     .replace('{SENDER}', p.sender_name)
                     .replace('{ISSUED}', p.issued)
                     .replace('{EXPIRES}', calculations.timeRemaining(p.expires))
@@ -94,10 +94,10 @@ export class Alerts {
         const m = Array.isArray(ext.manual?.features) ? ext.manual.features.filter(Boolean) : [];
         const a = Array.isArray(ext.events?.features) ? ext.events.features.filter(Boolean) : [];
         const alerts = [...m, ...a].filter((x): x is types.EventType => x && typeof x === 'object' && Object.keys(x).length > 0);
-        if (!alerts.length) return (ext.rng = { alert: null, index: null }), null;
+        if (!alerts.length) return (ext.rng = { type: "FeatureCollection", features: [] , index: 0 }), null;
         const i = (ext.rng?.index ?? -1) + 1 >= alerts.length ? 0 : (ext.rng?.index ?? -1) + 1;
         const alert = alerts[i];
-        ext.rng = { alert, index: i };
+        ext.rng = { type: "FeatureCollection", features: alerts , index: i };
         return alert;
     }
 
@@ -126,8 +126,10 @@ export class Alerts {
         for (const event of events) {
             const registeredEvent = loader.submodules.structure.register(event);
             if (registeredEvent.ignored) continue;
-            const { tracking, properties, history = [] } = registeredEvent.event;
-            const index = features.findIndex(feature => feature && feature.event.tracking === tracking);
+            const { properties } = registeredEvent;
+            const { tracking, history = [] } = registeredEvent.details;
+
+            const index = features.findIndex(feature => feature && feature.details.tracking === tracking);
             if (properties.is_cancelled && index !== -1) {
                 features[index] = undefined;
                 continue;
@@ -139,22 +141,22 @@ export class Alerts {
             if (properties.is_updated) {
                 if (index !== -1 && features[index]) {
                     const existing = features[index];
-                    const existingLocations = existing.event.properties.locations ?? "";
+                    const existingLocations = existing.properties.locations ?? "";
                     const mergedHistory = [ 
-                        ...(existing.event.history ?? []), 
+                        ...(existing.history ?? []), 
                         ...history 
                     ].sort((a, b) => new Date(b.issued).getTime() - new Date(a.issued).getTime());
                     const uniqueHistory = mergedHistory.filter((item, pos, arr) => 
                         arr.findIndex(i => i.issued === item.issued && i.description === item.description) === pos
                     );
-                    existing.event.properties.event = properties.event;
-                    existing.event.history = uniqueHistory;
-                    existing.event.properties = registeredEvent.event.properties;
+                    existing.properties.event = properties.event;
+                    existing.history = uniqueHistory;
+                    existing.properties = registeredEvent.properties;
                     const combinedLocations = [
-                        ...new Set((existingLocations + "; " + registeredEvent.event.properties.locations)
+                        ...new Set((existingLocations + "; " + registeredEvent.properties.locations)
                         .split(";").map(loc => loc.trim()).filter(Boolean))
                     ].join("; ");
-                    existing.event.properties.locations = combinedLocations;
+                    existing.properties.locations = combinedLocations;
                 } else {
                     features.push(registeredEvent);
                 }
@@ -188,21 +190,22 @@ export class Alerts {
         const displayTimestamp = `${String(now.getUTCMonth() + 1).padStart(2, '0')}/${String(now.getUTCDate()).padStart(2, '0')} ${String(now.getUTCHours()).padStart(2, '0')}:${String(now.getUTCMinutes()).padStart(2, '0')}`;
         if (alerts.noaa_weather_wire_service) loader.cache.internal.getSource = `NWWS`;
         const settings = {
-            database: nwws.database,
+            database: alerts.database,
             is_wire: alerts.noaa_weather_wire_service,
             journal: alerts.journal,
             noaa_weather_wire_service_settings: {
                 reconnection_settings: { enabled: nwws.client_reconnections.attempt_reconnections, interval: nwws.client_reconnections.reconnection_attempt_interval },
                 credentials: { username: nwws.client_credentials.username, password: nwws.client_credentials.password, nickname: `AtmosphericX v${loader.submodules.utils.version()} -> ${displayName} (${displayTimestamp})` },
                 cache: { enabled: nwws.client_cache.read_cache, max_file_size: nwws.client_cache.max_size_mb, max_db_history: nwws.client_cache.max_db_history, directory: nwws.client_cache.directory },
-                preferences: { cap_only: nwws.alert_preferences.cap_only, shapefile_coordinates: nwws.alert_preferences.implement_db_ugc }
+                preferences: { cap_only: nwws.alert_preferences.cap_only }
             },
             national_weather_service_settings: { interval: nws.interval, endpoint: nws.endpoint },
             global_settings: {
+                shapefile_coordinates: alerts.global_settings.implement_db_ugc,
+                shapefile_skip: alerts.global_settings.ugc_db_skip,
                 parent_events_only: alerts.global_settings.parent_events,
                 better_event_parsing: alerts.global_settings.better_parsing,
                 filtering: {
-                    location: { unit: filter.location_settings.unit },
                     ignore_text_products: filter.ignore_tests,
                     events: filter.all_events ? [] : filter.listening_events,
                     ignored_events: filter.ignored_events,
@@ -217,7 +220,7 @@ export class Alerts {
         };
         if (isRefreshing) { this.MANAGER.setSettings(settings); return; }
         this.MANAGER = new this.PACKAGE(settings);
-        this.MANAGER.on(`onAlerts`, (alerts: types.EventType[]) => { this.handle(alerts); });
+        this.MANAGER.on(`onEvents`, (events: types.EventType[]) => { this.handle(events); });
         this.MANAGER.on(`onMessage`, async (message: { awipsType: { type: string }; message: string }) => {
             const webhooks = configurations.webhook_settings;
             await loader.submodules.networking.sendWebhook(`New Stanza - ${message.awipsType.type}`, `\`\`\`${message.message}\`\`\``, webhooks.misc_alerts);

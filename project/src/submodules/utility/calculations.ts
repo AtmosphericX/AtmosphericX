@@ -39,7 +39,6 @@ export class Calculations {
             "S", "SSW", "SW", "WSW",
             "W", "WNW", "NW", "NNW"
         ];
-        // Each direction covers 22.5 degrees
         const idx = Math.floor(((degrees % 360 + 360) % 360) / 22.5 + 0.5) % 16;
         return directions[idx];
     }
@@ -65,16 +64,72 @@ export class Calculations {
         return +(r * 2 * Math.atan2(Math.sqrt(h), Math.sqrt(1 - h))).toFixed(2);
     }
 
-    public radarToEarthCoordinates(lon: number, lat: number, bearingDeg: number, distance: number): [number, number] {
-        const br = bearingDeg * Math.PI / 180;
-        const dr = distance / 6371000;
-        const lat1 = lat * Math.PI / 180;
-        const lon1 = lon * Math.PI / 180;
-        const lat2 = Math.asin(Math.sin(lat1) * Math.cos(dr) + Math.cos(lat1) * Math.sin(dr) * Math.cos(br));
-        const lon2 = lon1 + Math.atan2(Math.sin(br) * Math.sin(dr) * Math.cos(lat1), Math.cos(dr) - Math.sin(lat1) * Math.sin(lat2));
-        return [lon2 * 180 / Math.PI, lat2 * 180 / Math.PI];
+    private isPointInPolygon(point: types.Coordinates, polygon: Array<[number, number]>): boolean {
+        let inside = false;
+        const x = point.lon, y = point.lat;
+        for (let i = 0, j = polygon.length - 1; i < polygon.length; j = i++) {
+            const xi = polygon[i][0], yi = polygon[i][1];
+            const xj = polygon[j][0], yj = polygon[j][1];
+            const intersect = ((yi > y) !== (yj > y)) && (x < (xj - xi) * (y - yi) / (yj - yi) + xi);
+            if (intersect) inside = !inside;
+        }
+        return inside;
     }
-            
+
+
+    /**
+     * @function distanceToSegment
+     * @description
+     *     Returns the shortest geodesic distance from a point to a line segment.
+     *     If a polygon is supplied AND the point is inside that polygon,
+     *     returns 0 immediately.
+     *
+     * @param {types.Coordinates} point
+     * @param {types.Coordinates} segStart
+     * @param {types.Coordinates} segEnd
+     * @param {'miles' | 'kilometers'} [unit='miles']
+     * @param {Array<[number, number]>} [polygon]
+     * @returns {number}
+     */
+    public distanceToSegment(point: types.Coordinates, segStart: types.Coordinates, segEnd: types.Coordinates, unit: 'miles' | 'kilometers' = 'miles', polygon?: Array<[number, number]>): number {
+
+        if (polygon && polygon.length > 2) {
+            if (this.isPointInPolygon(point, polygon)) return 0;
+        }
+
+        const toRad = (d: number) => d * Math.PI / 180;
+
+        const toXYZ = (lat: number, lon: number) => [
+            Math.cos(lat) * Math.cos(lon),
+            Math.cos(lat) * Math.sin(lon),
+            Math.sin(lat)
+        ];
+
+        const p0 = toXYZ(toRad(point.lat), toRad(point.lon));
+        const p1 = toXYZ(toRad(segStart.lat), toRad(segStart.lon));
+        const p2 = toXYZ(toRad(segEnd.lat), toRad(segEnd.lon));
+
+        const v = [p2[0] - p1[0], p2[1] - p1[1], p2[2] - p1[2]];
+        const w = [p0[0] - p1[0], p0[1] - p1[1], p0[2] - p1[2]];
+
+        const c1 = v[0]*w[0] + v[1]*w[1] + v[2]*w[2];
+        const c2 = v[0]*v[0] + v[1]*v[1] + v[2]*v[2];
+
+        let t = c2 === 0 ? 0 : c1 / c2;
+        t = Math.max(0, Math.min(1, t));
+
+        const proj = [
+            p1[0] + t*v[0],
+            p1[1] + t*v[1],
+            p1[2] + t*v[2]
+        ];
+
+        const norm = Math.sqrt(proj[0]**2 + proj[1]**2 + proj[2]**2);
+        const projLat = Math.asin(proj[2] / norm) * 180 / Math.PI;
+        const projLon = Math.atan2(proj[1], proj[0]) * 180 / Math.PI;
+
+        return this.calculateDistance(point, { lat: projLat, lon: projLon }, unit);
+    }
 
     /**
      * @function timeRemaining

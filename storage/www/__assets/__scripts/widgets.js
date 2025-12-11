@@ -35,10 +35,9 @@ class Widgets {
         const storage = utils.storage;
         const assign = (v) => this.previous = this.stringAssignment(v, options.element, this.previous, options.length, options.animations);
         const meso = (k) => storage?.mesonet?.features?.find(f => f.properties)?.properties?.[k] ?? null;
-        console.log(mode, type);
         if (mode === "rng") {
-            const rng = storage?.rng?.alert;
-            const out = rng?.event?.properties?.[type] ?? options.placeholder ?? "No Event Data";
+            const rng = storage?.rng?.features?.[0];
+            const out = rng?.properties?.[type] ?? options.placeholder ?? "No Event Data";
             return (this.previous = this.stringAssignment(out));
         }
         if (mode === "clock") {
@@ -57,7 +56,7 @@ class Widgets {
                     const exact = want.filter(e => !e.startsWith("*"));
                     const wildcard = want.filter(e => e.startsWith("*")).map(e => e.slice(1));
                     for (const f of feats) {
-                        const name = f.event.properties.event.toLowerCase();
+                        const name = f.properties.event.toLowerCase();
                         if (exact.includes(name)) { count++; } else {
                             for (const wc of wildcard) {
                                 if (wc && name.includes(wc)) { count++; break; }
@@ -75,15 +74,12 @@ class Widgets {
                     assign(`${cleanEvents.join(", ")}: ${count} Active`);
                 },
                 nearby_spotters: () => {
-                    const locs = storage?.tracking;
+                    const locs = storage?.tracking?.features[0]
                     if (!locs) return;
-                    const key = Object.keys(locs)[0];
-                    const primary = locs[key];
-                    if (!primary) return;
                     const spots = storage?.spotter_network_feed?.features ?? [];
                     const near = spots.filter(s => {
                         const [lon, lat] = s.geometry.coordinates;
-                        return utils.calculateDistance({ lat, lon }, primary) <= options.radius;
+                        return utils.calculateDistance({ lat, lon }, { lat: locs.geometry.coordinates[1], lon: locs.geometry.coordinates[0] }) <= options.radius;
                     });
                     storage.total_chasers = near.length;
                     assign(`${near.length} Chasers Nearby`);
@@ -91,26 +87,26 @@ class Widgets {
                 nearby_polygons: () => {
                     let name = null, min = Infinity;
                     for (const f of storage?.events?.features ?? []) {
-                        for (const d of Object.values(f.event?.properties?.distance ?? {})) {
+                        for (const d of Object.values(f?.properties?.distance ?? {})) {
                             if (d?.distance < min) {
                                 min = d.distance;
-                                name = f.event.properties.event;
+                                name = f.properties.event;
                             }
                         }
                     }
                     assign( name ? `${name} (${min.toFixed(1)} mi)` : options.placeholder);
                 },
+
+
                 intensity: () => {
-                    const locs = storage?.tracking;
+                    const locs = storage?.tracking.features[0]
                     if (!locs) return;
-                    const key = Object.keys(locs)[0];
-                    const primary = locs[key];
-                    if (!primary?.icao) return;
+                    if (!locs?.properties?.icao) return assign(options.placeholder);
                     const chart = storage?.configurations?.dbz_intensity ?? {};
-                    wise.fetchLatest(primary.icao, "REF0").then(async scan => {
+                    wise.fetchLatest(locs?.properties?.icao, "REF0").then(async scan => {
                         if (!scan) return;
                         const levels = await wise.getWiseLevels(scan);
-                        const nearest = levels.reduce((a, b) => utils.calculateDistance(primary, b) < utils.calculateDistance(primary, a) ? b : a);
+                        const nearest = levels.reduce((a, b) => utils.calculateDistance(locs.geometry.coordinates[1], locs.geometry.coordinates[0], b.lat, b.lon) < utils.calculateDistance(locs.geometry.coordinates[1], locs.geometry.coordinates[0], a.lat, a.lon) ? b : a);
                         const sorted = Object.keys(chart).map(Number).sort((a, b) => a - b);
                         let key = Math.max(sorted[0], Math.floor(nearest.dbz / 5) * 5);
                         if (!chart[key]) key = sorted.filter(k => k <= key).pop();
@@ -140,7 +136,7 @@ class Widgets {
         const events = utils.storage.events.features ?? [];
         const events2 = utils.storage.emergencies?.features ?? [];
         const matchedThemes = Object.keys(themes).filter(themeName =>
-            events.some(feature => feature.event?.properties?.event && feature.event.properties.event.trim().toLowerCase() === themeName.trim().toLowerCase()) || 
+            events.some(feature => feature?.properties?.event && feature.properties.event.trim().toLowerCase() === themeName.trim().toLowerCase()) || 
             events2.some(feature => feature?.properties?.type && feature.properties.type.trim().toLowerCase() === themeName.trim().toLowerCase())
         );
         const result = matchedThemes.map(name => ({name, ...themes[name]}));

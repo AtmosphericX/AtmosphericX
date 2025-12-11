@@ -36,7 +36,7 @@ export class Alerts {
             this.DATA.observation = data;
             const forecast = this.DATA?.forecast?.features?.[0];
             const rapid = this.DATA?.rapidWind?.features?.[0];
-            loader.cache.external.mesonet = loader.submodules.parsing.getWeatherStationStructure({
+            loader.cache.external.mesonet.features = loader.submodules.parsing.getWeatherStationStructure({
                 longitude: forecast?.geometry?.coordinates?.[1] ?? null,
                 latitude: forecast?.geometry?.coordinates?.[0] ?? null,
                 temperature: forecast?.properties?.temperature ?? null,

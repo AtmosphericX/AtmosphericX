@@ -36,13 +36,16 @@ export class GlobalPositioningSystem {
      */
     public setCurrentCoordinates(name: string, coords: types.CoordinatesDefined): void {
         if (loader.cache.handlers.eventManager == null) return;
-        loader.cache.external.tracking[name] = {
-            lat: coords.lat,
-            lon: coords.lon,
-            icao: (loader.cache.external.tracking[name] ? loader.cache.external.tracking[name].icao : null),
+        if (!loader.cache.external.tracking.features[name]) {
+            loader.cache.external.tracking.features.push({
+                type: 'Feature',
+                geometry: { type: 'Point', coordinates: [coords.lon, coords.lat] },
+                properties: { icao: null, name: name },
+            });
+        } else { 
+            loader.cache.external.tracking.features[name].geometry.coordinates = [coords.lon, coords.lat];
         }
-        loader.cache.handlers.eventManager.setCurrentLocation(name, coords);
-        loader.submodules.utils.log(`Updated current coordinates for ${name} [LAT: ${coords.lat}, LON: ${coords.lon}]`);
+        loader.submodules.utils.log(`Updated current coordinates for ${name} [LON: ${coords.lon}, LAT: ${coords.lat}]`);
     }
 
     /**
@@ -82,19 +85,19 @@ export class GlobalPositioningSystem {
         if (loader.cache.internal.limiters.filter(ts => ts.type == `gps.tracking.limit`).length >= 1) {
             return;
         }
-        const primaryTarget = Object.keys(loader.cache.external.tracking)[0]
-        const targetCoords = loader.cache.external.tracking[primaryTarget];
+        const primaryTarget = Object.keys(loader.cache.external.tracking.features)[0];
+        const targetCoords = loader.cache.external.tracking.features[primaryTarget]
         if (primaryTarget) {
             loader.cache.internal.limiters.push({ type: `gps.tracking.limit`, timestamp: time });
-            targetCoords.icao = this.getNearestICAO(targetCoords.lat, targetCoords.lon);
+            targetCoords.properties.icao = this.getNearestICAO(targetCoords.geometry.coordinates[1], targetCoords.geometry.coordinates[0]);
             if (!ConfigType.sources.miscellaneous_settings.tempest_station.enabled) {
-                const getLocationNames = loader.apis.open_street_map.replace("${X}", targetCoords.lat).replace("${Y}", targetCoords.lon);
-                const getWeatherConditions = loader.apis.temperature_coordinates.replace("${X}", targetCoords.lat).replace("${Y}", targetCoords.lon)
+                const getLocationNames = loader.apis.open_street_map.replace("${X}", targetCoords.geometry.coordinates[1]).replace("${Y}", targetCoords.geometry.coordinates[0])
+                const getWeatherConditions = loader.apis.temperature_coordinates.replace("${X}", targetCoords.geometry.coordinates[1]).replace("${Y}", targetCoords.geometry.coordinates[0])
                 const getLocationData = await loader.submodules.networking.httpRequest(getLocationNames)
                 const getWeatherData = await loader.submodules.networking.httpRequest(getWeatherConditions)
-                loader.cache.external.mesonet = loader.submodules.parsing.getWeatherStationStructure({
-                    longitude: targetCoords.lon,
-                    latitude: targetCoords.lat,
+                loader.cache.external.mesonet.features = loader.submodules.parsing.getWeatherStationStructure({
+                    longitude: targetCoords.geometry.coordinates[0],
+                    latitude: targetCoords.geometry.coordinates[1],
                     temperature: getWeatherData.message.main ? Math.round(((getWeatherData.message.main.temp - 273.15) * 9/5 + 32)) : null,
                     dewpoint: getWeatherData.message.main ? Math.round(((getWeatherData.message.main.temp - ((100 - getWeatherData.message.main.humidity) / 5)) - 273.15) * 9/5 + 32) : null,
                     humidity: getWeatherData.message.main ? Math.round(getWeatherData.message.main.humidity) : null,
@@ -105,7 +108,7 @@ export class GlobalPositioningSystem {
                 })
             } else { 
                 if (ConfigType.sources.miscellaneous_settings.tempest_station.location_based) {
-                    loader.cache.handlers.tempestStation.getClosestStation({lat: targetCoords.lat, lon: targetCoords.lon}).then((station) => {
+                    loader.cache.handlers.tempestStation.getClosestStation({lat: targetCoords.geometry.coordinates[1], lon: targetCoords.geometry.coordinates[0]}).then((station) => {
                         loader.cache.handlers.tempestStation.setSettings({stationId: station.id, deviceId: station.properties.devices[0]})
                     })
                 }
@@ -137,7 +140,7 @@ export class GlobalPositioningSystem {
                     lat: snap.location.latitude, 
                     lon: snap.location.longitude
                 };
-                loader.cache.external.tracking[cfg.pull_key] = coords;
+                loader.cache.external.tracking.features[cfg.pull_key] = coords;
                 this.setCurrentCoordinates(cfg.pull_key, coords);
             }
         };

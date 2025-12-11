@@ -37,12 +37,12 @@
         "atmosx_parser_settings": { // AtmosphericX event parser settings
             "noaa_weather_wire_service": false, // If you want to use NOAA Weather Wire Service, set this to true.
             "journal": false, // Not recommenedend to enable this as this may screw up the window on custom v2 displays.
+            "database": "../storage/databases/shapefiles.db", // Path to the shapefile database.
             "national_weather_service_settings": {
                 "interval": 29, // How often to pull NWS alerts (in seconds, Default: 29 seconds)
                 "endpoint": "https://api.weather.gov/alerts/active" // Endpoint for NWS Alerts
             },
             "weather_wire_settings": {
-                "database": "../storage/databases/shapefiles.db", // Path to the shapefile database.
                 "client_credentials": { // NWWS Client Credentials (See: https://www.weather.gov/nwws/) (RECOMMENDED)
                     "username": "username_here",
                     "password": "password_here",
@@ -59,13 +59,14 @@
                     "directory": "../storage/nwws/cache" // Directory to store cache files.
                 },
                 "alert_preferences": {
-                    "cap_only": false, // If you want to only process CAP formatted events. (THIS IS NOT AS FAST AS TEXT PRODUCTS)
-                    "implement_db_ugc": true // If you want to implement UGC codes from the shapefile database for NWWS events.
+                    "cap_only": false // If you want to only process CAP formatted events. (THIS IS NOT AS FAST AS TEXT PRODUCTS)
                 }
             },
             "global_settings": {
                 "parent_events": false, // If you want to group child events under parent events.
-                "better_parsing": true // If you want to enable better parsing for events (Ex. Radar Indicated Tornado Warning instead of Tornado Warning)
+                "better_parsing": true, // If you want to enable better parsing for events (Ex. Radar Indicated Tornado Warning instead of Tornado Warning)
+                "implement_db_ugc": false, // If you want to implement UGC codes from the shapefile database if no polygons are provided. (THIS IS VERY SLOW - AT LEAST FOR NOW)
+                "ugc_db_skip": 25 // Number of skips per line to avoid performance issues when implementing UGC codes from the shapefile database.
             }
         },
         "location_settings": {

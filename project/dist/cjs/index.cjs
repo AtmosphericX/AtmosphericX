@@ -20726,8 +20726,8 @@ var init_events = __esm({
         var _a, _b;
         const { utils, calculations } = submodules, { strings: strings2, cache: cache2 } = bootstrap_exports;
         if (!utils.isFancyDisplay() || !isLive) {
-          const e = reg == null ? void 0 : reg.event;
-          return strings2.new_event_legacy.replace("{EVENT}", (_a = e.properties.event) != null ? _a : "Unknown").replace("{STATUS}", (_b = e.properties.action_type) != null ? _b : "Unknown").replace("{TRACKING}", e.tracking.substring(0, 18)).replace("{SOURCE}", cache2.internal.getSource);
+          const e = reg;
+          return strings2.new_event_legacy.replace("{EVENT}", (_a = e.properties.event) != null ? _a : "Unknown").replace("{STATUS}", (_b = e.properties.action_type) != null ? _b : "Unknown").replace("{TRACKING}", e.details.tracking.substring(0, 18)).replace("{SOURCE}", cache2.internal.getSource);
         }
         return cache2.external.events.features.sort((a, b) => new Date(a.event.properties.issued).getTime() - new Date(b.event.properties.issued).getTime()).map((r) => {
           var _a2, _b2, _c, _d;
@@ -20738,7 +20738,7 @@ var init_events = __esm({
             const unit = (_b3 = val == null ? void 0 : val.unit) != null ? _b3 : "";
             return `${name}: ${distance}${unit ? ` ${unit}` : ""}`;
           }).join(", ") : "Not Available";
-          return strings2.new_event_fancy.replace("{EVENT}", p.event).replace("{ACTION_TYPE}", p.action_type).replace("{TRACKING}", r.event.tracking.substring(0, 18)).replace("{SENDER}", p.sender_name).replace("{ISSUED}", p.issued).replace("{EXPIRES}", calculations.timeRemaining(p.expires)).replace("{TAGS}", (_b2 = (_a2 = p.tags) == null ? void 0 : _a2.join(", ")) != null ? _b2 : "N/A").replace("{LOCATIONS}", (_d = (_c = p.locations) == null ? void 0 : _c.substring(0, 100)) != null ? _d : "N/A").replace("{DISTANCE}", dist);
+          return strings2.new_event_fancy.replace("{EVENT}", p.event).replace("{ACTION_TYPE}", p.action_type).replace("{TRACKING}", r.details.tracking.substring(0, 18)).replace("{SENDER}", p.sender_name).replace("{ISSUED}", p.issued).replace("{EXPIRES}", calculations.timeRemaining(p.expires)).replace("{TAGS}", (_b2 = (_a2 = p.tags) == null ? void 0 : _a2.join(", ")) != null ? _b2 : "N/A").replace("{LOCATIONS}", (_d = (_c = p.locations) == null ? void 0 : _c.substring(0, 100)) != null ? _d : "N/A").replace("{DISTANCE}", dist);
         }).join("\n");
       }
       /**
@@ -20759,10 +20759,10 @@ var init_events = __esm({
         const m = Array.isArray((_a = ext.manual) == null ? void 0 : _a.features) ? ext.manual.features.filter(Boolean) : [];
         const a = Array.isArray((_b = ext.events) == null ? void 0 : _b.features) ? ext.events.features.filter(Boolean) : [];
         const alerts = [...m, ...a].filter((x) => x && typeof x === "object" && Object.keys(x).length > 0);
-        if (!alerts.length) return ext.rng = { alert: null, index: null }, null;
+        if (!alerts.length) return ext.rng = { type: "FeatureCollection", features: [], index: 0 }, null;
         const i = ((_d = (_c = ext.rng) == null ? void 0 : _c.index) != null ? _d : -1) + 1 >= alerts.length ? 0 : ((_f = (_e = ext.rng) == null ? void 0 : _e.index) != null ? _f : -1) + 1;
         const alert = alerts[i];
-        ext.rng = { alert, index: i };
+        ext.rng = { type: "FeatureCollection", features: alerts, index: i };
         return alert;
       }
       /**
@@ -20791,8 +20791,9 @@ var init_events = __esm({
         for (const event of events2) {
           const registeredEvent = submodules.structure.register(event);
           if (registeredEvent.ignored) continue;
-          const { tracking, properties, history = [] } = registeredEvent.event;
-          const index = features.findIndex((feature) => feature && feature.event.tracking === tracking);
+          const { properties } = registeredEvent;
+          const { tracking, history = [] } = registeredEvent.details;
+          const index = features.findIndex((feature) => feature && feature.details.tracking === tracking);
           if (properties.is_cancelled && index !== -1) {
             features[index] = void 0;
             continue;
@@ -20804,21 +20805,21 @@ var init_events = __esm({
           if (properties.is_updated) {
             if (index !== -1 && features[index]) {
               const existing = features[index];
-              const existingLocations = (_a = existing.event.properties.locations) != null ? _a : "";
+              const existingLocations = (_a = existing.properties.locations) != null ? _a : "";
               const mergedHistory = [
-                ...(_b = existing.event.history) != null ? _b : [],
+                ...(_b = existing.history) != null ? _b : [],
                 ...history
               ].sort((a, b) => new Date(b.issued).getTime() - new Date(a.issued).getTime());
               const uniqueHistory = mergedHistory.filter(
                 (item, pos, arr) => arr.findIndex((i) => i.issued === item.issued && i.description === item.description) === pos
               );
-              existing.event.properties.event = properties.event;
-              existing.event.history = uniqueHistory;
-              existing.event.properties = registeredEvent.event.properties;
+              existing.properties.event = properties.event;
+              existing.history = uniqueHistory;
+              existing.properties = registeredEvent.properties;
               const combinedLocations = [
-                ...new Set((existingLocations + "; " + registeredEvent.event.properties.locations).split(";").map((loc) => loc.trim()).filter(Boolean))
+                ...new Set((existingLocations + "; " + registeredEvent.properties.locations).split(";").map((loc) => loc.trim()).filter(Boolean))
               ].join("; ");
-              existing.event.properties.locations = combinedLocations;
+              existing.properties.locations = combinedLocations;
             } else {
               features.push(registeredEvent);
             }
@@ -20851,21 +20852,22 @@ var init_events = __esm({
         const displayTimestamp = `${String(now.getUTCMonth() + 1).padStart(2, "0")}/${String(now.getUTCDate()).padStart(2, "0")} ${String(now.getUTCHours()).padStart(2, "0")}:${String(now.getUTCMinutes()).padStart(2, "0")}`;
         if (alerts.noaa_weather_wire_service) cache.internal.getSource = `NWWS`;
         const settings = {
-          database: nwws.database,
+          database: alerts.database,
           is_wire: alerts.noaa_weather_wire_service,
           journal: alerts.journal,
           noaa_weather_wire_service_settings: {
             reconnection_settings: { enabled: nwws.client_reconnections.attempt_reconnections, interval: nwws.client_reconnections.reconnection_attempt_interval },
             credentials: { username: nwws.client_credentials.username, password: nwws.client_credentials.password, nickname: `AtmosphericX v${submodules.utils.version()} -> ${displayName} (${displayTimestamp})` },
             cache: { enabled: nwws.client_cache.read_cache, max_file_size: nwws.client_cache.max_size_mb, max_db_history: nwws.client_cache.max_db_history, directory: nwws.client_cache.directory },
-            preferences: { cap_only: nwws.alert_preferences.cap_only, shapefile_coordinates: nwws.alert_preferences.implement_db_ugc }
+            preferences: { cap_only: nwws.alert_preferences.cap_only }
           },
           national_weather_service_settings: { interval: nws.interval, endpoint: nws.endpoint },
           global_settings: {
+            shapefile_coordinates: alerts.global_settings.implement_db_ugc,
+            shapefile_skip: alerts.global_settings.ugc_db_skip,
             parent_events_only: alerts.global_settings.parent_events,
             better_event_parsing: alerts.global_settings.better_parsing,
             filtering: {
-              location: { unit: filter.location_settings.unit },
               ignore_text_products: filter.ignore_tests,
               events: filter.all_events ? [] : filter.listening_events,
               ignored_events: filter.ignored_events,
@@ -20883,8 +20885,8 @@ var init_events = __esm({
           return;
         }
         this.MANAGER = new this.PACKAGE(settings);
-        this.MANAGER.on(`onAlerts`, (alerts2) => {
-          this.handle(alerts2);
+        this.MANAGER.on(`onEvents`, (events2) => {
+          this.handle(events2);
         });
         this.MANAGER.on(`onMessage`, (message) => __async(this, null, function* () {
           const webhooks = configurations.webhook_settings;
@@ -21050,7 +21052,7 @@ var init_tempest = __esm({
           this.DATA.observation = data;
           const forecast = (_c = (_b2 = (_a2 = this.DATA) == null ? void 0 : _a2.forecast) == null ? void 0 : _b2.features) == null ? void 0 : _c[0];
           const rapid = (_f = (_e = (_d = this.DATA) == null ? void 0 : _d.rapidWind) == null ? void 0 : _e.features) == null ? void 0 : _f[0];
-          cache.external.mesonet = submodules.parsing.getWeatherStationStructure({
+          cache.external.mesonet.features = submodules.parsing.getWeatherStationStructure({
             longitude: (_i = (_h = (_g = forecast == null ? void 0 : forecast.geometry) == null ? void 0 : _g.coordinates) == null ? void 0 : _h[1]) != null ? _i : null,
             latitude: (_l = (_k = (_j = forecast == null ? void 0 : forecast.geometry) == null ? void 0 : _j.coordinates) == null ? void 0 : _k[0]) != null ? _l : null,
             temperature: (_n = (_m = forecast == null ? void 0 : forecast.properties) == null ? void 0 : _m.temperature) != null ? _n : null,
@@ -21317,14 +21319,59 @@ var init_calculations = __esm({
         const h = __pow(Math.sin(dA / 2), 2) + Math.cos(a * d) * Math.cos(x * d) * __pow(Math.sin(dB / 2), 2);
         return +(r * 2 * Math.atan2(Math.sqrt(h), Math.sqrt(1 - h))).toFixed(2);
       }
-      radarToEarthCoordinates(lon, lat, bearingDeg, distance) {
-        const br = bearingDeg * Math.PI / 180;
-        const dr = distance / 6371e3;
-        const lat1 = lat * Math.PI / 180;
-        const lon1 = lon * Math.PI / 180;
-        const lat2 = Math.asin(Math.sin(lat1) * Math.cos(dr) + Math.cos(lat1) * Math.sin(dr) * Math.cos(br));
-        const lon2 = lon1 + Math.atan2(Math.sin(br) * Math.sin(dr) * Math.cos(lat1), Math.cos(dr) - Math.sin(lat1) * Math.sin(lat2));
-        return [lon2 * 180 / Math.PI, lat2 * 180 / Math.PI];
+      isPointInPolygon(point, polygon) {
+        let inside = false;
+        const x = point.lon, y = point.lat;
+        for (let i = 0, j = polygon.length - 1; i < polygon.length; j = i++) {
+          const xi = polygon[i][0], yi = polygon[i][1];
+          const xj = polygon[j][0], yj = polygon[j][1];
+          const intersect = yi > y !== yj > y && x < (xj - xi) * (y - yi) / (yj - yi) + xi;
+          if (intersect) inside = !inside;
+        }
+        return inside;
+      }
+      /**
+       * @function distanceToSegment
+       * @description
+       *     Returns the shortest geodesic distance from a point to a line segment.
+       *     If a polygon is supplied AND the point is inside that polygon,
+       *     returns 0 immediately.
+       *
+       * @param {types.Coordinates} point
+       * @param {types.Coordinates} segStart
+       * @param {types.Coordinates} segEnd
+       * @param {'miles' | 'kilometers'} [unit='miles']
+       * @param {Array<[number, number]>} [polygon]
+       * @returns {number}
+       */
+      distanceToSegment(point, segStart, segEnd, unit = "miles", polygon) {
+        if (polygon && polygon.length > 2) {
+          if (this.isPointInPolygon(point, polygon)) return 0;
+        }
+        const toRad = (d) => d * Math.PI / 180;
+        const toXYZ = (lat, lon) => [
+          Math.cos(lat) * Math.cos(lon),
+          Math.cos(lat) * Math.sin(lon),
+          Math.sin(lat)
+        ];
+        const p0 = toXYZ(toRad(point.lat), toRad(point.lon));
+        const p1 = toXYZ(toRad(segStart.lat), toRad(segStart.lon));
+        const p2 = toXYZ(toRad(segEnd.lat), toRad(segEnd.lon));
+        const v = [p2[0] - p1[0], p2[1] - p1[1], p2[2] - p1[2]];
+        const w = [p0[0] - p1[0], p0[1] - p1[1], p0[2] - p1[2]];
+        const c1 = v[0] * w[0] + v[1] * w[1] + v[2] * w[2];
+        const c2 = v[0] * v[0] + v[1] * v[1] + v[2] * v[2];
+        let t = c2 === 0 ? 0 : c1 / c2;
+        t = Math.max(0, Math.min(1, t));
+        const proj = [
+          p1[0] + t * v[0],
+          p1[1] + t * v[1],
+          p1[2] + t * v[2]
+        ];
+        const norm = Math.sqrt(__pow(proj[0], 2) + __pow(proj[1], 2) + __pow(proj[2], 2));
+        const projLat = Math.asin(proj[2] / norm) * 180 / Math.PI;
+        const projLon = Math.atan2(proj[1], proj[0]) * 180 / Math.PI;
+        return this.calculateDistance(point, { lat: projLat, lon: projLon }, unit);
       }
       /**
        * @function timeRemaining
@@ -21581,12 +21628,10 @@ var init_networking = __esm({
           const ConfigType = cache.internal.configurations;
           const ExternalType = cache.external;
           ExternalType.hashes = ExternalType.hashes.filter((e) => e !== void 0 && new Date(e.expires).getTime() > (/* @__PURE__ */ new Date()).getTime());
-          ExternalType.events = {
-            features: (_a = ExternalType.events) == null ? void 0 : _a.features.filter((f) => f !== void 0 && new Date(f.event.properties.expires).getTime() > (/* @__PURE__ */ new Date()).getTime()).filter((f) => {
-              if (ConfigType.filters.all_events) return true;
-              return ConfigType.filters.listening_events.includes(f.event.properties.event);
-            })
-          };
+          ExternalType.events.features = (_a = ExternalType.events) == null ? void 0 : _a.features.filter((f) => f !== void 0 && new Date(f.properties.expires).getTime() > (/* @__PURE__ */ new Date()).getTime()).filter((f) => {
+            if (ConfigType.filters.all_events) return true;
+            return ConfigType.filters.listening_events.includes(f.properties.event);
+          });
           submodules.alerts.instance(true);
           yield submodules.utils.sleep(200);
           let data = {};
@@ -21722,14 +21767,14 @@ var init_structure = __esm({
         const eventMetadata = this.metadata(event);
         const isBeepOnly = isBeepAuthorizedOnly && !isPriorityEvent;
         const isIgnored = !isShowingUpdatesAllowed && !isPriorityEvent && !event.properties.is_issued;
-        return {
-          event,
+        event.scene = {
           metadata: eventMetadata.metadata,
           scheme: eventMetadata.scheme,
           sfx: isBeepOnly ? ConfigType.tones.sfx_beep : eventMetadata.sfx,
           ignored: isIgnored,
           beep: isBeepOnly
         };
+        return event;
       }
       /**
        * @function distance
@@ -21740,31 +21785,43 @@ var init_structure = __esm({
        * @returns {object}
        */
       distance(event) {
-        var _a, _b;
+        var _a;
         const ConfigType = cache.internal.configurations;
-        const cache2 = cache.external.tracking;
-        const coords = (_b = (_a = event.properties) == null ? void 0 : _a.geometry) == null ? void 0 : _b.coordinates;
+        const cache2 = cache.external.tracking.features;
+        const coords = (_a = event == null ? void 0 : event.geometry) == null ? void 0 : _a.coordinates;
         let range = [];
-        let inRange = ConfigType.filters.location_settings.enabled == true && cache2 && Object.keys(cache2).length > 0 ? false : true;
-        if (coords != null) {
+        let inRange = ConfigType.filters.location_settings.enabled == true && cache2 && cache2.length > 0 ? false : true;
+        const polygons = Array.isArray(coords == null ? void 0 : coords[0]) && typeof (coords == null ? void 0 : coords[0][0]) === "number" ? [coords] : coords;
+        if (polygons != null) {
           for (const key in cache2) {
-            const name = key;
-            const lat = cache2[key].lat;
-            const lon = cache2[key].lon;
+            const name = cache2[key].properties.name;
+            const lat = cache2[key].geometry.coordinates[1];
+            const lon = cache2[key].geometry.coordinates[0];
             const unit = ConfigType.filters.location_settings.unit || "miles";
-            const singleCoord = coords;
-            const center = singleCoord.reduce((acc, [lat2, lon2]) => [acc[0] + lat2, acc[1] + lon2], [0, 0]).map((sum) => sum / singleCoord.length);
-            const distance = submodules.calculations.calculateDistance(
-              { lat: center[0], lon: center[1] },
-              { lat, lon },
-              unit
-            );
+            let minDistance = Infinity;
+            for (const polygon of polygons) {
+              for (let i = 0; i < polygon.length; i++) {
+                const point1 = polygon[i];
+                const point2 = polygon[(i + 1) % polygon.length];
+                if (Array.isArray(point1) && Array.isArray(point2) && point1.length === 2 && point2.length === 2) {
+                  const [lon1, lat1] = point1;
+                  const [lon2, lat2] = point2;
+                  const distance = submodules.calculations.distanceToSegment(
+                    { lat, lon },
+                    { lat: lat1, lon: lon1 },
+                    { lat: lat2, lon: lon2 },
+                    unit
+                  );
+                  if (distance < minDistance) minDistance = distance;
+                }
+              }
+            }
             if (ConfigType.filters.location_settings.enabled) {
-              if (distance < ConfigType.filters.location_settings.max_distance) {
+              if (minDistance < ConfigType.filters.location_settings.max_distance) {
                 inRange = true;
               }
             }
-            range.push({ [name]: { distance, unit } });
+            range.push({ [name]: { distance: minDistance, unit, lon, lat } });
           }
         }
         return { inRange, range: __spreadValues(__spreadValues({}, event.properties.distance), Object.assign({}, ...range)) };
@@ -21802,19 +21859,19 @@ var init_structure = __esm({
           }
           if ((_a = clean.events) == null ? void 0 : _a.length) {
             for (const ev of clean.events) {
-              const isAlreadyLogged = cache.external.hashes.some((log) => log.id === ev.event.hash);
-              const eventDistance = this.distance(ev.event);
-              ev.event.properties.distance = eventDistance.range;
-              if (!ev.ignored) {
-                ev.ignored = this.distance(ev.event).inRange === false;
+              const isAlreadyLogged = cache.external.hashes.some((log) => log.id === ev.hash);
+              const eventDistance = this.distance(ev);
+              ev.properties.distance = eventDistance.range;
+              if (!ev.scene.ignored) {
+                ev.scene.ignored = this.distance(ev).inRange === false;
               }
               if (isAlreadyLogged) {
                 continue;
               }
-              if (ev.ignored) {
+              if (ev.scene.ignored) {
                 continue;
               }
-              cache.external.hashes.push({ id: ev.event.hash, expires: ev.event.properties.expires });
+              cache.external.hashes.push({ id: ev.hash, expires: ev.properties.expires });
               if (!submodules.utils.isFancyDisplay()) {
                 submodules.utils.log(submodules.alerts.returnAlertText(ev));
               } else {
@@ -21822,33 +21879,33 @@ var init_structure = __esm({
               }
               const webhooks = ConfigType.webhook_settings;
               const pSet = new Set((ConfigType.filters.priority_events || []).map((p) => String(p).toLowerCase()));
-              const title = `${ev.event.properties.event} (${ev.event.properties.action_type})`;
-              const locations = ev.event.properties.locations;
+              const title = `${ev.properties.event} (${ev.properties.action_type})`;
+              const locations = ev.properties.locations;
               const body = [
-                `**Locations:** ${ev.event.properties.locations.slice(0, 259)}`,
-                `**Issued:** ${ev.event.properties.issued}`,
-                `**Expires:** ${ev.event.properties.expires}`,
-                `**Wind Gusts:** ${ev.event.properties.parameters.max_wind_gust}`,
-                `**Hail Size:** ${ev.event.properties.parameters.max_hail_size}`,
-                `**Damage Threat:** ${ev.event.properties.parameters.damage_threat}`,
-                `**Tornado Threat:** ${ev.event.properties.parameters.tornado_detection}`,
-                `**Flood Threat:** ${ev.event.properties.parameters.flood_detection}`,
-                `**Tags:** ${ev.event.properties.tags ? ev.event.properties.tags.join(", ") : "N/A"}`,
-                `**Sender:** ${ev.event.properties.sender_name}`,
-                `**Tracking ID:** ${ev.event.tracking}`,
+                `**Locations:** ${ev.properties.locations.slice(0, 259)}`,
+                `**Issued:** ${ev.properties.issued}`,
+                `**Expires:** ${ev.properties.expires}`,
+                `**Wind Gusts:** ${ev.properties.parameters.max_wind_gust}`,
+                `**Hail Size:** ${ev.properties.parameters.max_hail_size}`,
+                `**Damage Threat:** ${ev.properties.parameters.damage_threat}`,
+                `**Tornado Threat:** ${ev.properties.parameters.tornado_detection}`,
+                `**Flood Threat:** ${ev.properties.parameters.flood_detection}`,
+                `**Tags:** ${ev.properties.tags ? ev.properties.tags.join(", ") : "N/A"}`,
+                `**Sender:** ${ev.properties.sender_name}`,
+                `**Tracking ID:** ${ev.tracking}`,
                 "```",
-                ev.event.properties.description.split("\n").map((line) => line.trim()).filter((line) => line.length > 0).join("\n"),
+                ev.properties.description.split("\n").map((line) => line.trim()).filter((line) => line.length > 0).join("\n"),
                 "```"
               ].join("\n");
               yield submodules.streaming.sendChatMessage(`${title} for ${locations}`, `events`);
               yield submodules.networking.sendWebhook(title, body, webhooks.general_alerts);
-              if (pSet.has(ev.event.properties.event.toLowerCase())) {
+              if (pSet.has(ev.properties.event.toLowerCase())) {
                 yield submodules.networking.sendWebhook(title, body, webhooks.critical_alerts);
               }
             }
           }
-          cache.external.events.features = clean.events.filter((ev) => !ev.ignored) || [];
-          if (cache.external.rng.alert == null) {
+          cache.external.events.features = clean.events.filter((ev) => !ev.scene.ignored) || [];
+          if (cache.external.rng.features.length == 0) {
             submodules.alerts.randomize();
           }
           submodules.routes.onUpdateRequest();
@@ -22151,7 +22208,7 @@ var init_parsing = __esm({
           const feedConfig = (_b = (_a = ConfigType.sources) == null ? void 0 : _a.location_settings) == null ? void 0 : _b.spotter_network_feed;
           const structure = { type: "FeatureCollection", features: [] };
           const parsed = yield packages.PlacefileManager.parsePlacefile(body);
-          const locations = Object.keys(cache.external.tracking);
+          const locations = cache.external.tracking.features;
           for (const feature of parsed) {
             const lon = parseFloat(feature.object.coordinates[1]);
             const lat = parseFloat(feature.object.coordinates[0]);
@@ -22172,7 +22229,7 @@ var init_parsing = __esm({
               const index = locations[0];
               distance = submodules.calculations.calculateDistance(
                 { lat, lon },
-                { lat: cache.external.tracking[index].lat, lon: cache.external.tracking[index].lon }
+                { lat: index.geometry.coordinates[1], lon: index.geometry.coordinates[0] }
               );
             }
             structure.features.push({
@@ -22327,10 +22384,10 @@ var init_parsing = __esm({
        * @returns {unknown}
        */
       getWeatherStationStructure(body) {
-        return {
-          features: [{
-            geometry: { type: "Point", coordinates: [body.latitude, body.longitude] },
+        return [
+          {
             type: "Feature",
+            geometry: { type: "Point", coordinates: [body.longitude, body.latitude] },
             properties: {
               temperature: body.temperature,
               dewpoint: body.dewpoint,
@@ -22340,8 +22397,8 @@ var init_parsing = __esm({
               conditions: body.conditions,
               location: body.location
             }
-          }]
-        };
+          }
+        ];
       }
     };
     parsing_default = Parsing;
@@ -22372,13 +22429,16 @@ var init_tracking = __esm({
        */
       setCurrentCoordinates(name, coords) {
         if (cache.handlers.eventManager == null) return;
-        cache.external.tracking[name] = {
-          lat: coords.lat,
-          lon: coords.lon,
-          icao: cache.external.tracking[name] ? cache.external.tracking[name].icao : null
-        };
-        cache.handlers.eventManager.setCurrentLocation(name, coords);
-        submodules.utils.log(`Updated current coordinates for ${name} [LAT: ${coords.lat}, LON: ${coords.lon}]`);
+        if (!cache.external.tracking.features[name]) {
+          cache.external.tracking.features.push({
+            type: "Feature",
+            geometry: { type: "Point", coordinates: [coords.lon, coords.lat] },
+            properties: { icao: null, name }
+          });
+        } else {
+          cache.external.tracking.features[name].geometry.coordinates = [coords.lon, coords.lat];
+        }
+        submodules.utils.log(`Updated current coordinates for ${name} [LON: ${coords.lon}, LAT: ${coords.lat}]`);
       }
       /**
        * @function getNearestICAO
@@ -22417,19 +22477,19 @@ var init_tracking = __esm({
           if (cache.internal.limiters.filter((ts) => ts.type == `gps.tracking.limit`).length >= 1) {
             return;
           }
-          const primaryTarget = Object.keys(cache.external.tracking)[0];
-          const targetCoords = cache.external.tracking[primaryTarget];
+          const primaryTarget = Object.keys(cache.external.tracking.features)[0];
+          const targetCoords = cache.external.tracking.features[primaryTarget];
           if (primaryTarget) {
             cache.internal.limiters.push({ type: `gps.tracking.limit`, timestamp: time });
-            targetCoords.icao = this.getNearestICAO(targetCoords.lat, targetCoords.lon);
+            targetCoords.properties.icao = this.getNearestICAO(targetCoords.geometry.coordinates[1], targetCoords.geometry.coordinates[0]);
             if (!ConfigType.sources.miscellaneous_settings.tempest_station.enabled) {
-              const getLocationNames = apis.open_street_map.replace("${X}", targetCoords.lat).replace("${Y}", targetCoords.lon);
-              const getWeatherConditions = apis.temperature_coordinates.replace("${X}", targetCoords.lat).replace("${Y}", targetCoords.lon);
+              const getLocationNames = apis.open_street_map.replace("${X}", targetCoords.geometry.coordinates[1]).replace("${Y}", targetCoords.geometry.coordinates[0]);
+              const getWeatherConditions = apis.temperature_coordinates.replace("${X}", targetCoords.geometry.coordinates[1]).replace("${Y}", targetCoords.geometry.coordinates[0]);
               const getLocationData = yield submodules.networking.httpRequest(getLocationNames);
               const getWeatherData = yield submodules.networking.httpRequest(getWeatherConditions);
-              cache.external.mesonet = submodules.parsing.getWeatherStationStructure({
-                longitude: targetCoords.lon,
-                latitude: targetCoords.lat,
+              cache.external.mesonet.features = submodules.parsing.getWeatherStationStructure({
+                longitude: targetCoords.geometry.coordinates[0],
+                latitude: targetCoords.geometry.coordinates[1],
                 temperature: getWeatherData.message.main ? Math.round((getWeatherData.message.main.temp - 273.15) * 9 / 5 + 32) : null,
                 dewpoint: getWeatherData.message.main ? Math.round((getWeatherData.message.main.temp - (100 - getWeatherData.message.main.humidity) / 5 - 273.15) * 9 / 5 + 32) : null,
                 humidity: getWeatherData.message.main ? Math.round(getWeatherData.message.main.humidity) : null,
@@ -22440,7 +22500,7 @@ var init_tracking = __esm({
               });
             } else {
               if (ConfigType.sources.miscellaneous_settings.tempest_station.location_based) {
-                cache.handlers.tempestStation.getClosestStation({ lat: targetCoords.lat, lon: targetCoords.lon }).then((station) => {
+                cache.handlers.tempestStation.getClosestStation({ lat: targetCoords.geometry.coordinates[1], lon: targetCoords.geometry.coordinates[0] }).then((station) => {
                   cache.handlers.tempestStation.setSettings({ stationId: station.id, deviceId: station.properties.devices[0] });
                 });
               }
@@ -22472,7 +22532,7 @@ var init_tracking = __esm({
               lat: snap.location.latitude,
               lon: snap.location.longitude
             };
-            cache.external.tracking[cfg.pull_key] = coords;
+            cache.external.tracking.features[cfg.pull_key] = coords;
             this.setCurrentCoordinates(cfg.pull_key, coords);
           }
         };
@@ -22613,25 +22673,25 @@ var init_bootstrap = __esm({
         configurations: {},
         changelogs: null,
         version: null,
-        spotter_network_feed: [],
-        storm_reports: [],
-        storm_prediction_center_mesoscale: [],
-        tropical_storm_tracks: [],
         sonde_project_weather_eye: [],
-        wx_radio: [],
         tornado: [],
-        nexrad_radars: [],
         severe: [],
-        manual: { features: [] },
-        events: { features: [] },
-        emergencies: { features: [] },
-        mesonet: { features: [] },
-        rng: { index: 0, alert: null },
+        nexrad_radars: { type: "FeatureCollection", features: [] },
+        spotter_network_feed: { type: "FeatureCollection", features: [] },
+        storm_reports: { type: "FeatureCollection", features: [] },
+        storm_prediction_center_mesoscale: { type: "FeatureCollection", features: [] },
+        tropical_storm_tracks: { type: "FeatureCollection", features: [] },
+        wx_radio: { type: "FeatureCollection", features: [] },
+        manual: { type: "FeatureCollection", features: [] },
+        events: { type: "FeatureCollection", features: [] },
+        emergencies: { type: "FeatureCollection", features: [] },
+        mesonet: { type: "FeatureCollection", features: [] },
+        rng: { index: 0, type: "FeatureCollection", features: [] },
         hashes: [],
         placefiles: {
           locations: null
         },
-        tracking: {}
+        tracking: { type: "FeatureCollection", features: [] }
       },
       internal: {
         getSource: `NWS`,

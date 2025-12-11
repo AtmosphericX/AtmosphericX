@@ -32,6 +32,23 @@
     <span class="field_input" id='input_text'></span>
 </body>
 <script>
+
+    const parameters = new URLSearchParams(window.location.search);
+    const options = { 
+        element: document.getElementById("input_text"),
+        type: parameters.get("type") ?? `time`,
+        radius: parameters.get("radius") ?? 5,
+        maxcharacters: parameters.get("maxcharacters") ?? 2500,
+        center: parameters.get("center") == "true" ? true : false,
+        placeholder: parameters.get("placeholder") ?? `N/A`,
+        events: parameters.get("events") ? parameters.get("events").split(",") : [],
+        military: parameters.get("military") == "true" ? true : false,
+        timezone: parameters.get("timezone") ?? null,
+        animated: parameters.get("animated") == "true" ? true : false,
+        text: parameters.get("text") ?? null,
+    }
+
+
     const utils = new Utils();
     const wise = new Wise(utils);
     const widgets = new Widgets(utils, options);
@@ -44,22 +61,6 @@
         wind: [`mesonet`], conditions: [`mesonet`], tracking: [`mesonet`],
     }
 
-    const parameters = new URLSearchParams(window.location.search);
-    const options = { 
-        element: document.getElementById("input_text"),
-        type: parameters.get("type") ?? `time`,
-        radius: parameters.get("radius") ?? 50,
-        maxcharacters: parameters.get("maxcharacters") ?? 2500,
-        center: parameters.get("center") == "true" ? true : false,
-        placeholder: parameters.get("placeholder") ?? `N/A`,
-        events: parameters.get("events") ? parameters.get("events").split(",") : [],
-        military: parameters.get("military") == "true" ? true : false,
-        timezone: parameters.get("timezone") ?? null,
-        animated: parameters.get("animated") == "true" ? true : false,
-        countdown: parameters.get("countdown") == "true" ? true : false,
-        text: parameters.get("text") ?? null,
-    }
-
 
     if (options.center) { 
         options.element.style.textAlign = "center"; 
@@ -70,7 +71,6 @@
 
     utils.websocket(subscriptions[options.type]).then(() => {
         document.addEventListener("eventCacheUpdated", async () => {
-            console.log(options.text)
             switch (options.type) {
                 case `text`: { widgets.stringHandler(`generic`, options.type); break; }
                 case `locations`: { widgets.stringHandler(`rng`, options.type); break; }
