@@ -83,7 +83,6 @@ export class Init {
                 return loader.modules.routing.createUserSession(response, username, getAccount.role, address, useragent, hex);
             } catch (error) {
                 loader.modules.utilities.exception(error, `${this.name_space}/POST ${getRoutes.post_login_endpoint}`)
-                throw error;
                 return response.status(500).json({ message: getMessages.response_generic_error });
             }
         })

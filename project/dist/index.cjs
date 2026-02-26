@@ -3617,7 +3617,6 @@ var init_routes_portal_login = __esm({
             return modules.routing.createUserSession(response, username, getAccount.role, address, useragent, hex);
           } catch (error) {
             modules.utilities.exception(error, `${this.name_space}/POST ${getRoutes.post_login_endpoint}`);
-            throw error;
             return response.status(500).json({ message: getMessages.response_generic_error });
           }
         }));
@@ -4836,9 +4835,6 @@ var init_express_routes = __esm({
               });
               return response.status(409).json({ message: getMessages.response_account_duplicate });
             }
-            if (getSession.address == address && getSession.useragent == useragent) {
-              return response.status(200).json({ message: `You are already logged in from this device.` });
-            }
           }
           response.cookie(`session`, session, {
             httpOnly: true,
@@ -4880,15 +4876,11 @@ var init_express_routes = __esm({
        */
       getUserSession(request) {
         var _a4, _b, _c, _d2, _e, _f;
+        const sessionCookie = (_b = (_a4 = request.headers.cookie) == null ? void 0 : _a4.split(";").find((a) => a.trim().startsWith("session="))) == null ? void 0 : _b.split("=")[1];
+        const sessionData = cache.internal.http_sessions.find((a) => a.session == sessionCookie);
         return {
-          session: (_b = (_a4 = cache.internal.http_sessions.find((a) => {
-            var _a5;
-            return a.session == ((_a5 = request.headers.cookie) == null ? void 0 : _a5.split(`=`)[1]);
-          })) == null ? void 0 : _a4.session) != null ? _b : null,
-          session_data: (_c = cache.internal.http_sessions.find((a) => {
-            var _a5;
-            return a.session == ((_a5 = request.headers.cookie) == null ? void 0 : _a5.split(`=`)[1]);
-          })) != null ? _c : null,
+          session: (_c = sessionData == null ? void 0 : sessionData.session) != null ? _c : null,
+          session_data: sessionData != null ? sessionData : null,
           address: (_e = (_d2 = request.headers["cf-connecting-ip"]) != null ? _d2 : request.connection.remoteAddress) != null ? _e : `Unknown`,
           useragent: (_f = request.headers["user-agent"]) != null ? _f : "Unknown"
         };

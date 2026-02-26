@@ -241,9 +241,6 @@ export class Routes {
                     });
                     return response.status(409).json({ message: getMessages.response_account_duplicate });
                 }
-                if (getSession.address == address && getSession.useragent == useragent) { 
-                    return response.status(200).json({ message: `You are already logged in from this device.` });
-                }
             }
             response.cookie(`session`, session, {
                 httpOnly: true, secure: configurations?.web_hosting_settings?.settings?.is_https,
@@ -280,9 +277,11 @@ export class Routes {
      * @return {string | null} The session identifier if found, otherwise null.
      */
     public getUserSession(request: types.ExpressRequest): UserSession {
-        return { 
-            session: loader.cache.internal.http_sessions.find(a => a.session == request.headers.cookie?.split(`=`)[1])?.session ?? null,
-            session_data: loader.cache.internal.http_sessions.find(a => a.session == request.headers.cookie?.split(`=`)[1]) ?? null,
+        const sessionCookie = request.headers.cookie?.split(';').find((a: string) => a.trim().startsWith('session='))?.split('=')[1];
+        const sessionData = loader.cache.internal.http_sessions.find(a => a.session == sessionCookie);
+        return {
+            session: sessionData?.session ?? null,
+            session_data: sessionData ?? null,
             address: request.headers['cf-connecting-ip'] ?? request.connection.remoteAddress ?? `Unknown`,
             useragent: request.headers['user-agent'] ?? 'Unknown'
         }
