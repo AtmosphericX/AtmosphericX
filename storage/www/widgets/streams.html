@@ -170,7 +170,8 @@
                         getFilteredStreams = getFilteredStreams.filter(stream => {
                             const getStreamName = stream.properties.name?.toLowerCase() ?? ``;
                             const getLocationName = stream.properties.location?.toLowerCase() ?? ``;
-                            return getStreamName.includes(settings.setSearch.toLowerCase()) || getLocationName.includes(settings.setSearch.toLowerCase());
+                            const setSearch = String(settings.setSearch).toLowerCase();
+                            return getStreamName.includes(setSearch) || getLocationName.includes(setSearch);
                         })
                     }
                     if (getFilteredStreams.length === 0) {
