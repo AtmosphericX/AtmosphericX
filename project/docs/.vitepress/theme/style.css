@@ -1,0 +1,142 @@
+html, body {
+    overflow-x: hidden;
+}
+
+:root { 
+    --vp-local-nav-bg-color: transparent;
+    --vp-c-gutter: transparent;
+}
+
+body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: -1;
+    background-image:
+        linear-gradient(0deg, rgba(255, 255, 255, 0.034) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.034) 1px, transparent 1px);
+    background-size: 40px 40px;
+    animation: moveGrid 4s linear infinite;
+}
+
+.dark body::before {
+    background-color: rgba(26, 25, 25, 0.89);
+}
+
+.VPNavBar:not(.home.top) .content-body[data-v-cf6e7c5e] {
+    background-color: transparent;
+    border: none;
+}
+
+.VPNavBar:not(.home.top) .content-body[data-v-6aa21345] {
+    background-color: transparent;
+    border: none;
+}
+
+.VPNavBar[data-v-cf6e7c5e]:not(.has-sidebar):not(.home.top) {
+    background-color: transparent;
+    border: none;
+}
+
+.DocSearch-Button {
+    background-color: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    max-width: 760px !important;
+    width: 990px !important;
+}
+
+.VPSidebar[data-v-6750ea26] {
+    height: 100%;
+    scrollbar-color: rgba(255, 255, 255, 0) transparent;
+}
+
+.gallery-container {
+    padding: 4rem 0;
+    text-align: center;
+}
+
+.gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+    margin-top: 0rem;
+    padding: 0 2rem;
+}
+
+.gallery-image-credit {
+    font-size: 0.55rem;
+    text-align: left;
+    color: var(--vp-c-text-tertiary);
+    margin-top: 0.25rem;
+}
+
+.gallery-grid img {
+    width: 100%;
+    height: auto;
+    max-height: 320px;
+    object-fit: cover;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.548);
+    border-radius: 8px;
+    transition: transform 0.2s;
+    cursor: pointer;
+    display: block;
+}
+
+.gallery-grid img:hover {
+    transform: scale(1.02);
+}
+
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0,0,0,0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+.modal-content img {
+    max-width: 90vw;
+    max-height: 90vh;
+    border-radius: 12px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+}
+
+.gallery-image {
+    width: 100%;
+    max-height: 320px;
+    object-fit: cover;
+    cursor: pointer;
+}
+
+
+.profile[data-v-7735210d] {
+    background-color: transparent;
+    border: none;
+}
+.profile[data-v-f3fa364a] {
+    background-color: transparent;
+    border: none;
+}
+
+@keyframes moveGrid {
+    from {
+        background-position: 0 0, 0 0;
+    }
+    to {
+        background-position: 40px 40px, 40px 40px;
+    }
+}
+
+@media (max-width: 1200px) {
+    .DocSearch-Button {
+        max-width: none !important;
+        width: auto !important;
+    }
+}

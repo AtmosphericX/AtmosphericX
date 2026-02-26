@@ -5,7 +5,7 @@
            / /\ \| __| '_ ` _ \ / _ \/ __| '_ \| '_ \ / _ \ '__| |/ __| > <  
           / ____ \ |_| | | | | | (_) \__ \ |_) | | | |  __/ |  | | (__ / . \ 
          /_/    \_\__|_| |_| |_|\___/|___/ .__/|_| |_|\___|_|  |_|\___/_/ \_\
-                                         | |                           v8.0.0   
+                                         | |                           v8.0.0      
                                          |_|  
 
         Written by: KiyoWx (k3yomi) & StarflightWx      
@@ -33,13 +33,14 @@
 
     */
 {
+    "sources:hash": "e61bb8769ffe08f74350d968a0d81a62e9eb670df0845797bf1b69811727d5c9", // DO NOT MODIFY THIS VALUE. THIS IS USED FOR CONFIGURATION INTEGRITY CHECKS.
     "sources": {
         "atmosx_parser_settings": { // AtmosphericX event parser settings
             "noaa_weather_wire_service": false, // If you want to use NOAA Weather Wire Service, set this to true.
             "journal": false, // Not recommenedend to enable this as this may screw up the window on custom v2 displays.
             "database": "../storage/databases/shapefiles.db", // Path to the shapefile database.
             "national_weather_service_settings": {
-                "interval": 60, // How often to pull NWS alerts (in seconds, Default: 29 seconds)
+                "interval": 30, // How often to pull NWS alerts (in seconds, Default: 60 seconds)
                 "endpoint": "https://api.weather.gov/alerts/active" // Endpoint for NWS Alerts
             },
             "weather_wire_settings": {
@@ -53,10 +54,12 @@
                     "reconnection_attempt_interval": 60 // How often to attempt reconnections (in seconds)
                 },
                 "client_cache": {
-                    "read_cache": true, // If you want to read from cache on startup. (This may impact performance on initial load)
-                    "max_size_mb": 15, // Max cache size in MB.
+                    "read_cache": false, // If you want to read from cache on startup. (This may impact performance on initial load)
+                    "max_size_mb": 2, // Max cache size in MB.
                     "max_db_history": 15000, // Max number of events to keep in cache database.
-                    "directory": "../storage/nwws/cache" // Directory to store cache files.
+                    "max_db_cache_size": 5000, // Max number of events to load into the events cache on startup (Requires use_db_for_cache to be true)
+                    "use_db_cache": true, // If you want to use database for caching instead of flat files. (Recommended for large number of events)
+                    "directory": "../storage/temporary/events" // Directory to store cache files.
                 },
                 "alert_preferences": {
                     "cap_only": false // If you want to only process CAP formatted events. (THIS IS NOT AS FAST AS TEXT PRODUCTS)
@@ -66,28 +69,34 @@
                 "parent_events": false, // If you want to group child events under parent events.
                 "better_parsing": true, // If you want to enable better parsing for events (Ex. Radar Indicated Tornado Warning instead of Tornado Warning)
                 "implement_db_ugc": true, // If you want to implement UGC codes from the shapefile database if no polygons are provided. (THIS IS VERY SLOW - AT LEAST FOR NOW)
-                "ugc_db_skip": 1, // Number of skips per line to avoid performance issues when implementing UGC codes from the shapefile database.
+                "ugc_db_skip": 0, // Number of skips per line to avoid performance issues when implementing UGC codes from the shapefile database.
                 "ignore_geometry_parsing": true // Will not load geometry data in cache, instead it will fetch the function and use it for one time. This is recommended for low memory systems.
             }
         },
         "location_settings": {
             "expiry_time": 500, // How long to keep location data before getting remove for no recent updates (in seconds, Default: 500 seconds)
+            "polygon_update_time": 60, // How often to update polygon tracking (in seconds, Default: 60 seconds)
             "realtime_irl": { // RealtimeIRL GPS tracking implementation (See: https://rtirl.com/)
                 "enabled": false,
                 "pull_key": "pull_key_here", // Your RealtimeIRL Pull Key
+                "display_name": "AtmosphericX (RTIRL)", // Your RealtimeIRL Display Name
                 "contradictions": [] // Ignore
             },
-            "spotter_network_feed": { // Spotter Network Feed settings (See: https://www.spotternetwork.org/)
+            "spotter_network": { // Spotter Network Feed settings (See: https://www.spotternetwork.org/)
                 "enabled": true,
-                "pin_by_name": [], // You can pin spotter names, descriptions, etc and this will track their longitude/latitude. (Ex. ["KiyoWx", "StarflightWx"])
+                "pin_by_name": [], // You can pin spotters by their name (Case Sensitive)
                 "pins": {
-                    "offline": true, // If you want to see offline spotters. (If not seen for an extended period of time, they will be removed)
+                    "offline": false, // If you want to see offline spotters. (If not seen for an extended period of time, they will be removed)
                     "idle": true, // If you want to see idle spotters. (If not moving for an extended period of time, they will be marked as idle)
-                    "active": true, // If you want to see active spotters.
-                    "streaming": true // If you want to see spotters that are streaming.
+                    "active": true // If you want to see active spotters.
                 },
                 "cache_time": 29, // How often to pull Spotter Network feed (in seconds, Default: 29 seconds)
-                "endpoint": "https://www.spotternetwork.org/feeds/gr.txt",
+                "endpoint": "https://www.spotternetwork.org/positions",
+                "options": { // Ignore this, used for custom HTTP requests
+                    "method": "POST",
+                    "headers": {"content-type": "application/json"},
+                    "body": "AtmosphericX Agent"
+                },
                 "contradictions": [] // Ignore
             }
         },
@@ -95,7 +104,12 @@
             "spotter_reports": { // Spotter Network Local Storm Reports
                 "enabled": true,
                 "cache_time": 119, // How often to pull Spotter Network LSRs (in seconds, Default: 119 seconds)
-                "endpoint": "https://www.spotternetwork.org/feeds/reports.txt",
+                "endpoint": "https://www.spotternetwork.org/reports",
+                "options": { // Ignore this, used for custom HTTP requests
+                    "method": "POST",
+                    "headers": {"content-type": "application/json"},
+                    "body": "AtmosphericX Agent"
+                },
                 "contradictions": ["grlevelx_reports"] // Ignore
             },
             "grlevelx_reports": { // GRLevelX Local Storm Reports
@@ -106,7 +120,7 @@
             }
         },
         "dicussion_settings": {
-            "storm_prediction_center_mesoscale": { // Storm Prediction Center Mesoscale Discussions (WeatherWise Implementation for population/homes coverage)
+            "mesoscale_discussions": { // Storm Prediction Center Mesoscale Discussions (WeatherWise Implementation for population/homes coverage)
                 "enabled": true,
                 "cache_time": 120, // How often to pull SPC Mesoscale Discussions (in seconds, Default: 2 minutes)
                 "endpoint": "https://data2.weatherwise.app/mesoscale-discussions/USA.geojson", // Will be replaced soon with shapefile database implementation.
@@ -154,17 +168,43 @@
                 "endpoint": "https://api.weatherusa.net/v1/wxradio",
                 "contradictions": [] // Ignore
             },
+            "power_outages": { // Power Outage Data
+                "enabled": true,
+                "cache_time": 120,
+                "endpoint": "https://www.sdsweather.com/poweroutage/states.php",
+                "contradictions": [] // Ignore
+            },
+            "iot_streams": { // IoT Live streams
+                "enabled": true,
+                "cache_time": 120,
+                "endpoint": "https://www.sdsweather.com/php/iot/device/devices.php",
+                "contradictions": [] // Ignore
+            },
             "tempest_station": { // Tempest Weather Station Integration (See: https://tempestwx.com/)
                 "enabled": false,
-                "location_based": false, // If you want to use a chasers location by lon/lat instead of station/device ID.
+                "api": "api_key_here",
+                "location_based": true, // If you want to use a chasers location by lon/lat instead of station/device ID.
                 "station": 0, // Your Tempest Station ID (MUST BE CONNECTED TO THE INTERNET)
                 "device": 0 // Your Tempest Device ID (MUST BE CONNECTED TO THE INTERNET)
             },
             "pulse_point": { // PulsePoint Integration (See: https://www.pulsepoint.org/)
                 "enabled": false,
-                "key": "passkey_here", // Private key - you will not be able to access data without this. (Developer permissions needed)
+                "key": "private_key_here", // Private key - you will not be able to access data without this. (Developer permissions needed)
                 "interval": 30, // How often to pull PulsePoint data (in seconds, Default: 30 seconds)
-                "events": [], // Event types to pull (Ex. ["Resedential Structure Fire", "Flood", "Severe Weather"])
+                "events": [ // Event types to pull (Ex. ["Resedential Structure Fire", "Flood", "Severe Weather"])
+                     "Traffic Collision", "Auto Aid", "Mutual Aid", "Aircraft Crash", "Aircraft Emergency",
+                    "Aircraft Emergency Standby", "Fire Alarm", "Waterflow Alarm", "Police Assist", "Public Service", 
+                    "Sheared Hydrant", "Explosion", "Pipeline Emergency", "Transformer Explosion", "Appliance Fire", 
+                    "Chimney Fire", "Commercial Fire", "Confirmed Structure Fire", "Confirmed Vegetation Fire", "Electrical Fire", 
+                    "Fire", "Illegal Fire", "Marine Fire", "Outside Fire", "Pole Fire", "Refuse/Garbage Fire", "Residential Fire",
+                    "Structure Fire", "Tank Fire", "Vegetation Fire", "Vehicle Fire", "Confirmed Fire", "Working Commercial Fire",
+                    "Working Residential Fire", "Bomb Threat", "Electrical Emergency", "Emergency", "Emergency Response", "Hazardous Condition", 
+                    "Hazardous Response", "Tree Down", "Water Emergency", "Arson Investigation", "Hazmat Investigation", "Smoke Investigation",
+                    "Multi Casualty", "Weather Incident", "Cliff Rescue", "Confined Space Rescue", "Ice Rescue", "Industrial Accident", "Rescue", 
+                    "Rope Rescue", "Structural Collapse", "Technical Rescue", "Trench Rescue", "Urban Search and Rescue", "Vessel Sinking",
+                    "Water Rescue", "Collision Involving Pedestrian", "Collision Involving Structure", "Collision Involving Train", 
+                    "Expanded Traffic Collision", "Railroad/Train Emergency", "Powerline Emergency", "Wires Arching", "Wires Down", "Wires Down/Arcing"
+                ],
                 "agencies": [] // Agency IDs to pull data from (Ex. [1234, 5678])
             }
         }

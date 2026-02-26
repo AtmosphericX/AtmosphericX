@@ -1,0 +1,152 @@
+<!--
+              _                             _               _     __   __
+         /\  | |                           | |             (_)    \ \ / /
+        /  \ | |_ _ __ ___   ___  ___ _ __ | |__   ___ _ __ _  ___ \ V / 
+       / /\ \| __| '_ ` _ \ / _ \/ __| '_ \| '_ \ / _ \ '__| |/ __| > <  
+      / ____ \ |_| | | | | | (_) \__ \ |_) | | | |  __/ |  | | (__ / . \ 
+     /_/    \_\__|_| |_| |_|\___/|___/ .__/|_| |_|\___|_|  |_|\___/_/ \_\
+                                     | |                            
+                                     |_|                                                                                                                
+
+    Created with ♥ by the AtmosphericX Team (KiyoWx, StarflightWx, Everwatch1, & CJ Ziegler)
+    Discord: https://discord.gg/YAEjtzU3E8
+    Ko-Fi: https://ko-fi.com/k3yomi
+    Documentation: http://localhost/docs | https://atmosx.scriptkitty.cafe/docs
+
+-->
+    
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <title>AtmosphericX - Widgets</title>
+        <link rel="icon" href="/assets/images/favicon.ico" type="image/x-icon"/>
+        <!-- CSS -->
+        <link rel="stylesheet" href="/assets/styles/global.css">
+        <link rel="stylesheet" href="/assets/styles/notification.css">
+        <!-- JS --> 
+        <script src="/assets/js/classes/utils.js"></script> <!-- Utility Functions -->
+        <script src="/assets/js/classes/wise.js"></script> <!-- WeatherWise Logic -->
+        <script src="/assets/js/classes/handlers.js"></script> <!-- Handlers Logic -->
+        <script src="/assets/js/classes/widgets.js"></script> <!-- Widgets Logic -->
+        <script src="/assets/js/static/widgetFetch.js"></script> <!-- URL WidgetFetch Logic -->
+
+        <!-- Apple Stuff-->
+        <link rel="manifest" href="/assets/static/manifest.json">
+        <link rel="apple-touch-icon" href="/assets/images/manifest.png">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="yes">
+    </head>
+    <style>
+        :root {
+            --widget-text-color: white;
+            --widget-header-size: 1.9em;
+            --widget-header-weight: bold;
+            --widget-header-align: left;
+            --widget-header-bg: rgba(0, 0, 0, 0.86);
+            --widget-body-bg: rgba(0, 0, 0, 0.1);
+            --widget-row-light-bg: #000000;
+            --widget-row-dark-bg: #000000;
+            --widget-bg-gradient: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            --widget-border-radius: 15px;
+            --widget-box-shadow: 0 5px 12px rgb(0, 0, 0);
+            --widget-header-padding: 16px;
+            --widget-row-padding: 8px 16px;
+            --widget-gap: 6px;
+            --widget-max-width: 900px;
+            --widget-margin-top: 50px;
+        }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            touch-action: manipulation;
+        }
+        .widget-container { 
+            display: none;
+            background: var(--widget-bg-gradient); 
+            border-radius: var(--widget-border-radius); 
+            color: var(--widget-text-color); 
+            max-width: var(--widget-max-width); 
+            margin: var(--widget-margin-top) auto 0 auto; 
+            overflow: hidden; 
+            box-shadow: var(--widget-box-shadow);
+            position: relative;
+            padding: 0px;
+            width: 100vw;
+        }
+        .widget-child-header { 
+            background: var(--widget-header-bg); 
+            text-align: var(--widget-header-align); 
+            font-size: var(--widget-header-size); 
+            font-weight: var(--widget-header-weight); 
+            padding: var(--widget-header-padding); 
+        }
+        .widget-row-1 { 
+            background: var(--widget-row-light-bg); 
+            display: flex; 
+            align-items: center; 
+            justify-content: space-between; 
+            width: 100%; 
+            padding: var(--widget-row-padding); 
+            box-sizing: border-box; 
+        }
+        .widget-row-2 { 
+            background: var(--widget-row-dark-bg); 
+            display: flex; 
+            align-items: center; 
+            justify-content: space-between; 
+            width: 100%; 
+            padding: var(--widget-row-padding); 
+            box-sizing: border-box; 
+        }
+        .widget-row-3, .widget-row-4 {
+            display: flex;
+            align-items: center;
+            gap: var(--widget-gap);
+        }
+    </style>
+    <body>
+        <div class="notifications"></div>
+        <div class="widget-container" id="widget-container">
+            <div class="widget-child-header"></div>
+            <div class="widget-child-body"></div>
+        </div>
+    </body>
+    <script>
+        window.addEventListener('DOMContentLoaded', () => {
+            let cache = {};
+            const settings = {global: aGlobalElementSettings};
+            const utils = new Utils();
+            const wise = new Wise(utils);
+            const widgets = new Widgets(utils);
+            const handler = new Handlers(utils, widgets);
+
+            settings.setElement = get(aSearch, `setSelectedElement`) ?? document.getElementById('widget-container')
+            settings.setPauseTime = get(aSearch, `setPauseTime`) ?? 8;
+            settings.setMaxHistory = get(aSearch, `setMaxHistory`) ?? 5;
+            settings.setStreaming = get(aSearch, `setStreaming`) ?? true;
+            settings.setSfx = get(aSearch, `setSfx`) ?? null;
+            settings.setSfxVolume = get(aSearch, `setSfxVolume`) ?? 0.5;
+            settings.setDirectory = get(aSearch, `setDirectory`) ?? `%properties.event% (%properties.agency ?? properties.action_type%)`;
+            settings.setWx = get(aSearch, `setWx`) ?? true;
+            settings.setPulsePoint = get(aSearch, `setPulsePoint`) ?? false;
+            settings.global.setAnimationStartDuration = get(aSearch, `setAnimationStartDuration`) ?? 1.0;
+            settings.global.setAnimationEndDuration = get(aSearch, `setAnimationEndDuration`) ?? 0.5;
+
+            
+            utils.isMobileDevice()
+            utils.socket([`configurations`, `events`, `pulsepoint`, `manual`]).then(() => {
+                document.addEventListener('onUpdate', (event) => {
+                    widgets.applyGlobalSettings(settings.setElement, settings);  
+                    cb()
+                })
+            })
+            async function cb() { 
+                await handler.hSyncEvents(settings);
+                await handler.hSyncQueue(settings);
+            }
+        })
+    </script>
+</html>

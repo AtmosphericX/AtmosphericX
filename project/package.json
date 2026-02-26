@@ -1,59 +1,71 @@
 {
-	"name": "project-atmosphericx",
-	"version": "8.0.0",
-	"description": "Project AtmosphericX is a web based platform and widget manager tailored for amateur weather enthusiasts, storm chasers, and anyone passionate about understanding and tracking severe weather events. It provides near real-time alerts and updates, ensuring users stay informed about critical weather conditions as they unfold.",
-	"main": "dist/cjs/index.cjs",
-	"module": "dist/esm/index.mjs",
-	"repository": {
-		"type": "git",
-		"url": "git+https://github.com/K3YOMI/AtmosphericX.git",
-		"branch": "beta"
-	},
-	"keywords": [
-		"NWWS",
-		"NOAA Weather Wire Service",
-		"TypeScript",
-		"XMPP",
-		"Weather Data",
-		"Dashboard",
-		"Widgets",
-		"OBS Studio",
-		"Streaming"
-	],
-	"author": "k3yomi, StarflightWx",
-	"license": "MIT",
-	"bugs": {
-		"url": "https://github.com/K3YOMI/AtmosphericX/issues"
-	},
-	"homepage": "https://github.com/K3YOMI/AtmosphericX#readme",
-	"dependencies": {
-		"@streamerbot/client": "^1.12.2",
-		"atmosx-nwws-parser": "beta",
-		"atmosx-placefile-parser": "beta",
-		"atmosx-pulse-point": "latest",
-		"atmosx-tempest-station": "^1.1.141",
-		"axios": "^1.8.2",
-		"better-sqlite3": "^11.10.0",
-		"blessed": "^0.1.81",
-		"cookie-parser": "^1.4.7",
-		"croner": "^9.1.0",
-		"express": "^4.21.2",
-		"express-rate-limit": "^8.2.1",
-		"express-session": "^1.18.1",
-		"express-ws": "^5.0.2",
-		"firebase": "^11.10.0",
-		"jsonc-parser": "^3.3.1",
-		"nexrad-level-2-data": "^2.4.3",
-		"typescript": "^5.9.3",
-		"unbzip2-stream": "^1.4.3"
-	},
-	"scripts": {
-		"start": "node ./dist/cjs/index.cjs",
-		"build:npx": "npx tsc && node ./dist/cjs/index.cjs",
-		"build:tsup": "tsup && node ./dist/cjs/index.cjs"
-	},
-	"devDependencies": {
-		"@types/node": "^24.6.2",
-		"tsup": "^8.5.0"
-	}
+  "name": "atmosphericx",
+  "version": "8.0.0",
+  "description": "Project AtmosphericX is a web based platform and widget manager tailored for amateur weather enthusiasts, storm chasers, and anyone passionate about understanding and tracking severe weather events. It provides near real-time alerts and updates, ensuring users stay informed about critical weather conditions as they unfold.",
+  "main": "dist/index.cjs",
+  "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AtmosphericX/AtmosphericX.git",
+    "branch": "beta"
+  },
+  "keywords": [
+    "NWWS",
+    "NOAA Weather Wire Service",
+    "TypeScript",
+    "XMPP",
+    "Weather Data",
+    "Dashboard",
+    "Widgets",
+    "OBS Studio",
+    "Streaming",
+    "NWS API",
+    "National Weather Service",
+    "Storm Chasing",
+    "Severe Weather",
+    "Real-time Alerts",
+    "Meteorology",
+    "Weather Enthusiasts",
+    "Weather Tracking"
+  ],
+  "author": "KiyoWx, StarflightWx, CJ Ziegler",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/AtmosphericX/AtmosphericX/issues"
+  },
+  "homepage": "https://github.com/AtmosphericX/AtmosphericX#readme",
+  "dependencies": {
+    "@streamerbot/client": "1.12.2",
+    "argon2": "0.44.0",
+    "atmosx-nwws-parser": "beta",
+    "atmosx-placefile-parser": "beta",
+    "atmosx-pulse-point": "latest",
+    "atmosx-tempest-station": "latest",
+    "axios": "1.13.4",
+    "better-sqlite3": "12.6.2",
+    "blessed": "0.1.81",
+    "croner": "10.0.1",
+    "express": "5.2.1",
+    "express-rate-limit": "8.2.1",
+    "express-session": "1.19.0",
+    "express-ws": "5.0.2",
+    "@firebase/app": "0.14.7",
+    "@firebase/database": "1.1.0",
+    "jsonc-parser": "3.3.1",
+    "typescript": "5.9.3"
+  },
+  "scripts": {
+    "start": "node ./dist/index.cjs",
+    "build": "tsup && node ./dist/index.cjs",
+    "config": "tsup src/config.template.ts --out-dir dist/tools --format cjs --clean && node dist/config.template.cjs",
+    "docs:dev": "vitepress dev docs --host",
+    "docs:build": "vitepress build docs"
+  },
+  "devDependencies": {
+    "@types/node": "25.2.0",
+    "@types/serve-static": "2.2.0",
+    "chokidar": "5.0.0",
+    "tsup": "8.5.1",
+    "vitepress": "1.6.4"
+  }
 }

@@ -1,0 +1,167 @@
+/*
+              _                             _               _     __   __
+         /\  | |                           | |             (_)    \ \ / /
+        /  \ | |_ _ __ ___   ___  ___ _ __ | |__   ___ _ __ _  ___ \ V / 
+       / /\ \| __| '_ ` _ \ / _ \/ __| '_ \| '_ \ / _ \ '__| |/ __| > <  
+      / ____ \ |_| | | | | | (_) \__ \ |_) | | | |  __/ |  | | (__ / . \ 
+     /_/    \_\__|_| |_| |_|\___/|___/ .__/|_| |_|\___|_|  |_|\___/_/ \_\
+                                     | |                            
+                                     |_|                                                                                                                
+
+    Created with ♥ by the AtmosphericX Team (KiyoWx, StarflightWx, Everwatch1, & CJ Ziegler)
+    Discord: https://discord.gg/YAEjtzU3E8
+    Ko-Fi: https://ko-fi.com/k3yomi
+    Documentation: http://localhost/docs | https://atmosx.scriptkitty.cafe/docs
+
+*/
+
+@font-face { font-family: 'DefaultFont'; src: url('/assets/fonts/GenericFont.ttf'); }
+* { margin: 0; padding: 0; box-sizing: border-box; touch-action: manipulation; font-family: "DefaultFont"}
+
+:root, .global { 
+    --global-font-family: 'DefaultFont';
+
+    /* Basic Colors */
+    --clr-dark-a0: #000000;
+    --clr-light-a0: #ffffff;
+
+    /* Primary Colors - Deep Blue-Slate */
+    --clr-primary-a0: #1a2332;
+    --clr-primary-a10: #2a3547;
+    --clr-primary-a20: #3d4a5e;
+    --clr-primary-a30: #526077;
+    --clr-primary-a40: #697891;
+    --clr-primary-a50: #8290ab;
+    --clr-primary-a60: #9daac5;
+    --clr-primary-a70: #bac5df;
+    --clr-primary-a80: #d8e0f9;
+
+    /* Primary Transparent */
+    --clr-primary-a0-t50: #1a233280;
+    --clr-primary-a10-t50: #2a354780;
+    --clr-primary-a20-t50: #3d4a5e80;
+    --clr-primary-a30-t50: #52607780;
+
+    /* Surface Colors - Rich Dark */
+    --clr-surface-a0: #0a0c10;
+    --clr-surface-a10: #12151c;
+    --clr-surface-a20: #1c2028;
+    --clr-surface-a30: #272c36;
+    --clr-surface-a40: #343a46;
+    --clr-surface-a50: #434a58;
+    --clr-surface-a60: #545c6c;
+    --clr-surface-a70: #686f81;
+
+    /* Surface Transparent */
+    --clr-surface-a0-t80: #0a0c10cc;
+    --clr-surface-a10-t60: #12151c99;
+    --clr-surface-a20-t40: #1c202866;
+    --clr-surface-a30-t20: #272c3633;
+
+    /* Surface Tonal Colors - Warm Dark */
+    --clr-surface-tonal-a0: #0f0f14;
+    --clr-surface-tonal-a10: #1a1b23;
+    --clr-surface-tonal-a20: #252730;
+    --clr-surface-tonal-a30: #32343f;
+    --clr-surface-tonal-a40: #41434f;
+    --clr-surface-tonal-a50: #525461;
+    --clr-surface-tonal-a60: #656774;
+    --clr-surface-tonal-a70: #7a7c89;
+
+    /* Surface Tonal Transparent */
+    --clr-surface-tonal-a0-t70: #0f0f14b3;
+    --clr-surface-tonal-a10-t50: #1a1b2380;
+    --clr-surface-tonal-a20-t30: #2527304d;
+
+    /* Success Colors - Vibrant Cyan-Green */
+    --clr-success-a0: #00d9a0;
+    --clr-success-a10: #2effc4;
+    --clr-success-a20: #8affe1;
+
+    /* Success Transparent */
+    --clr-success-a0-t60: #00d9a099;
+    --clr-success-a10-t30: #2effc44d;
+
+    /* Warning Colors - Electric Amber */
+    --clr-warning-a0: #ff9f0a;
+    --clr-warning-a10: #ffc247;
+    --clr-warning-a20: #ffe08f;
+
+    /* Warning Transparent */
+    --clr-warning-a0-t50: #ff9f0a80;
+    --clr-warning-a10-t20: #ffc24733;
+
+    /* Danger Colors - Neon Red */
+    --clr-danger-a0: #ff3b3b;
+    --clr-danger-a5: #ff2d2d;
+    --clr-danger-a10: #ff6b6b;
+    --clr-danger-a20: #ffb3b3;
+
+    /* Danger Transparent */
+    --clr-danger-a0-t40: #ff3b3b66;
+    --clr-danger-a10-t20: #ff6b6b33;
+
+    /* Info Colors - Electric Blue */
+    --clr-info-a0: #0a84ff;
+    --clr-info-a10: #4da6ff;
+    --clr-info-a20: #99cbff;
+
+    /* Info Transparent */
+    --clr-info-a0-t50: #0a84ff80;
+    --clr-info-a10-t30: #4da6ff4d;
+
+    /* Additional Neutrals */
+    --clr-neutral-a0: #6b6b6b;
+    --clr-neutral-a10: #9e9e9e;
+    --clr-neutral-a20: #d4d4d4;
+
+    /* Neutral Transparent */
+    --clr-neutral-a0-t60: #6b6b6b99;
+    --clr-neutral-a10-t20: #9e9e9e33;
+}
+
+.graph-bg { 
+    position: fixed; 
+    inset: 0; 
+    background-color: var(--clr-surface-tonal-a0);
+    background-image:
+        linear-gradient(var(--clr-surface-a10) 1px, transparent 1px),
+        linear-gradient(90deg, var(--clr-surface-a10) 1px, transparent 1px);
+    background-size: 80px 80px;
+    pointer-events: none; 
+    overflow: hidden; 
+    filter: drop-shadow(0 0 3px var(--clr-surface-a10));
+}
+
+.graph-animations {
+    animation: anim_grid_drift 5s linear infinite;
+}
+
+.widget-container {
+    position: absolute; 
+    bottom: 20px; 
+    left: 20px;
+    width: 92%; 
+    padding: 15px;
+    min-height: 50px;
+}
+
+.mobile-confirm { 
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 9999;
+    padding: 10px 20px;
+    background-color: #19191aff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 20px;
+}
+
+@keyframes anim_grid_drift { 0% { background-position: 0px 0px, 0px 0px; } 100% { background-position: 80px 80px, 80px 80px; }}
+@keyframes anim_fade_out { 0% { opacity: 1; } 100% {  opacity: 0; } }
+@keyframes anim_fade_in { 0% { opacity: 0; } 100% { opacity: 1; } }
+@keyframes pulse { 0% { opacity: 1; transform: scale(1);} 50% { opacity: 0.7; transform: scale(1.05);} 100% { opacity: 1; transform: scale(1);} }

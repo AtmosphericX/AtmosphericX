@@ -1,10 +1,7 @@
-/storage/databases/shapefiles.db
-/storage/databases/accounts.db
-/storage/nwws
-/storage/logs.txt
-/project/old-src
-/project/node_modules
-/project/package-lock.json
-
-
-
+package-lock.json
+node_modules
+databases
+logs
+backups
+eas
+events

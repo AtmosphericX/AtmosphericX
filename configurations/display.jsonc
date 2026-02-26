@@ -33,10 +33,9 @@
 
     */
 {
-    // I will not comment on every display setting but basically this is used to configure and customize the new v2 display system.
+    "display:hash": "dde910ce7df88f51258a171989a0e367d032d679c2789723e358d35598b97fe4", // DO NOT MODIFY THIS VALUE. THIS IS USED FOR CONFIGURATION INTEGRITY CHECKS.
     "display_settings": {
-        "fancy_interface": true, // If you want to enable the fancy interface (true/false)
-        "fancy_interface_feed": false, // If you want to enable the fancy interface feed (true/false)
+        "fancy_interface": false, // If you want to enable the fancy interface (true/false)
         "intro_screen": {
             "width": "shrink",
             "height": "shrink",
@@ -46,18 +45,6 @@
             "style": { "align": "center", "fg": "white" },
             "valign": "middle",
             "align": "center" 
-        },
-        "intro_console": {
-            "top": "65%",
-            "left": "center",
-            "width": "80%",
-            "height": "15%",
-            "tags": true,
-            "wrap": true,
-            "border": { "type": "line" },
-            "scrollable": true,
-            "alwaysScroll": true,
-            "style": { "border": { "fg": "white" } }
         },
         "logging_window": {
             "top": "50%", 
@@ -75,7 +62,7 @@
             "top": 0,
             "left": "75%",
             "width": "25%",
-            "height": "15%",
+            "height": "17%",
             "label": " System Info ",
             "tags": true,
             "wrap": true,
@@ -85,10 +72,10 @@
             "style": { "border": { "fg": "white" } }
         },
         "sessions_window": {
-            "top": "15%",
+            "top": "17%",
             "left": "75%",
             "width": "25%",
-            "height": "37%",
+            "height": "35%",
             "label": " Active Sessions ",
             "tags": true,
             "wrap": true,
@@ -102,7 +89,7 @@
             "left": 0,
             "width": "75%",
             "height": "50%",
-            "label": " Active Events (X{INT}) - {STR} ",
+            "label": " Events ",
             "tags": true,
             "wrap": true,
             "border": { "type": "line" },
