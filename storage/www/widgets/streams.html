@@ -147,7 +147,7 @@
                 getActiveStreams = () => {
                     const getPlaceholder = settings.global.setPlaceholderText;
                     const getStreams = utils?.storage?.streams?.features ?? [];
-                    const getFilteredStreams = getStreams.filter(stream => {
+                    let getFilteredStreams = getStreams.filter(stream => {
                         if (settings.setStreamSource !== `*` && stream.properties.source?.toLowerCase() !== settings.setStreamSource.toLowerCase()) {
                             return false
                         }
