@@ -34,23 +34,23 @@ get_repository_information() {
         remote_version=$(curl -fsSL \
             -H "Authorization: token $token" \
             -H "Accept: application/vnd.github.v3.raw" \
-            "$api_base/$path_version?ref=main") \
+            "$api_base/$path_version?ref=beta") \
             || { echo "Failed to fetch remote version" >&2; return 1; }
 
         remote_changelogs_url=$(curl -fsSL \
             -H "Authorization: token $token" \
             -H "Accept: application/vnd.github.v3.raw" \
-            "$api_base/$path_changelog?ref=main") \
+            "$api_base/$path_changelog?ref=beta") \
             || { echo "Failed to fetch remote changelog" >&2; return 1; }
     else
         echo "GITHUB_TOKEN not set. Attempting unauthenticated fetch..." >&2
 
         remote_version=$(curl -fsSL \
-            "https://raw.githubusercontent.com/$repository/main/$path_version") \
+            "https://raw.githubusercontent.com/$repository/beta/$path_version") \
             || { echo "Failed to fetch remote version" >&2; return 1; }
 
         remote_changelogs_url=$(curl -fsSL \
-            "https://raw.githubusercontent.com/$repository/main/$path_changelog") \
+            "https://raw.githubusercontent.com/$repository/beta/$path_changelog") \
             || { echo "Failed to fetch remote changelog" >&2; return 1; }
     fi
 
@@ -107,7 +107,7 @@ get_user_update_confirmation() {
                     auth_url="https://$git_hub_token@github.com/$repository.git"
                     git remote set-url origin "$auth_url"
                 fi
-                if git fetch origin main --depth=1 && git reset --hard origin/main; then
+                if git fetch origin beta --depth=1 && git reset --hard origin/beta; then
                     echo "Repository updated to $(git rev-parse --short HEAD)"
                 else
                     echo "Git update failed." >&2
