@@ -176,7 +176,7 @@
                         case `getNearbySpotters`: {
                             const getSearch = get(aSearch, `setSearch`) ?? null;
                             const getRadius = get(aSearch, `setRadius`) ?? 50;
-                            const getQuery = utils.storage?.tracking?.features.find(tracker => tracker.properties?.name?.toLowerCase().includes(getSearch?.toLowerCase()));
+                            const getQuery = utils.storage?.tracking?.features.find(tracker => tracker.properties?.name?.toLowerCase().includes(String(getSearch)?.toLowerCase()));
                             const getTracker = getQuery ?? utils.storage?.tracking?.features[0];
                             if (!getTracker) { 
                                 return utils.setString(settings.setElement, settings?.global?.setPlaceholderText ?? `No Trackers Found`, settings);
@@ -197,7 +197,7 @@
                             for (const feature of utils.storage?.events?.features ?? []) {
                                 const getSpotters = feature.properties?.spotters ?? [];
                                 if (getSpotters?.length != 0) {
-                                    const getQuery = feature.properties?.spotters.find(spotter => spotter.name?.toLowerCase().includes(getSearch?.toLowerCase()));
+                                    const getQuery = feature.properties?.spotters.find(spotter => spotter.name?.toLowerCase().includes(String(getSearch)?.toLowerCase()));
                                     const getSelectedSpotter = getQuery ?? feature.properties?.spotters[0];
                                     if (getSelectedSpotter.metadata.distance < getMin && getSelectedSpotter.metadata.distance <= getMax) {
                                         getMin = getSelectedSpotter.metadata.distance;
@@ -214,7 +214,7 @@
                         case `getDbzIntensity`: {
                             let key = null;
                             const getSearch = get(aSearch, `setSearch`) ?? null;
-                            const getQuery = utils.storage?.tracking?.features.find(tracker => tracker.properties?.name?.toLowerCase().includes(getSearch?.toLowerCase()));
+                            const getQuery = utils.storage?.tracking?.features.find(tracker => tracker.properties?.name?.toLowerCase().includes(String(getSearch)?.toLowerCase()));
                             const getTracker = getQuery ?? utils.storage?.tracking?.features[0];
                             const getChart = utils.storage?.configurations?.dbz_settings ?? {};
                             if (getTracker && getTracker.properties?.icao) {
