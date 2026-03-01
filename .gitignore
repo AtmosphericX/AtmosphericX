@@ -5,3 +5,4 @@ logs
 backups
 eas
 events
+project/docs/.vitepress/cache
