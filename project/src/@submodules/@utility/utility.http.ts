@@ -175,11 +175,11 @@ export class Calling {
                     let success = false;
                     for (let attempt = 1; attempt <= 3; attempt++) {
                         const response = await this.getDataFromSource(source.url, source?.options);
-                        loader.cache.internal.metrics.total_requests++;
                         if (!response.error) {
                             data[source.name] = response.message;
                             status.push(`(${this.ansi_colors.GREEN}OK${this.ansi_colors.RESET}) ${source.name.toUpperCase()}`);
                             success = true;
+                            loader.cache.internal.metrics.total_requests++;
                             break;
                         }
                         loader.modules.utilities.log({
