@@ -20317,25 +20317,9 @@ var require_stream_management = __commonJS({
   }
 });
 
-// node_modules/create-hash/index.js
-var require_create_hash = __commonJS({
-  "node_modules/create-hash/index.js"(exports2, module2) {
-    module2.exports = require("crypto").createHash;
-  }
-});
-
-// node_modules/create-hmac/index.js
-var require_create_hmac = __commonJS({
-  "node_modules/create-hmac/index.js"(exports2, module2) {
-    module2.exports = require("crypto").createHmac;
-  }
-});
-
 // node_modules/sasl-scram-sha-1/lib/bitops.js
 var require_bitops = __commonJS({
   "node_modules/sasl-scram-sha-1/lib/bitops.js"(exports2) {
-    var createHash = require_create_hash();
-    var createHmac = require_create_hmac();
     exports2.XOR = function(a, b) {
       var res = [];
       if (a.length > b.length) {
@@ -20350,37 +20334,51 @@ var require_bitops = __commonJS({
       return new Uint8Array(res);
     };
     exports2.H = function(text) {
-      return createHash("sha1").update(text).digest();
+      return __async(this, null, function* () {
+        return new Uint8Array(
+          yield crypto.subtle.digest("SHA-1", text)
+        );
+      });
     };
     exports2.HMAC = function(key, msg) {
-      return createHmac("sha1", key).update(msg).digest();
+      return __async(this, null, function* () {
+        const hmac = yield crypto.subtle.importKey(
+          "raw",
+          key,
+          // https://developer.mozilla.org/en-US/docs/Web/API/HmacImportParams
+          { name: "HMAC", hash: "SHA-1" },
+          false,
+          // extractable
+          ["sign"]
+        );
+        return new Uint8Array(yield crypto.subtle.sign(
+          "HMAC",
+          hmac,
+          msg
+        ));
+      });
     };
     exports2.Hi = function(text, salt, iterations) {
-      var concat2 = new Uint8Array(salt.length + 4);
-      concat2.set(salt);
-      concat2.set(new Uint8Array([0, 0, 0, 1]), salt.length);
-      var ui1 = exports2.HMAC(text, concat2);
-      var ui = ui1;
-      for (var i2 = 0; i2 < iterations - 1; i2++) {
-        ui1 = exports2.HMAC(text, ui1);
-        ui = exports2.XOR(ui, ui1);
-      }
-      return ui;
+      return __async(this, null, function* () {
+        const key = new TextEncoder().encode(text);
+        var concat2 = new Uint8Array(salt.length + 4);
+        concat2.set(salt);
+        concat2.set(new Uint8Array([0, 0, 0, 1]), salt.length);
+        var ui1 = yield exports2.HMAC(key, concat2);
+        var ui = ui1;
+        for (var i2 = 0; i2 < iterations - 1; i2++) {
+          ui1 = yield exports2.HMAC(key, ui1);
+          ui = exports2.XOR(ui, ui1);
+        }
+        return ui;
+      });
     };
-  }
-});
-
-// node_modules/randombytes/index.js
-var require_randombytes = __commonJS({
-  "node_modules/randombytes/index.js"(exports2, module2) {
-    module2.exports = require("crypto").randomBytes;
   }
 });
 
 // node_modules/sasl-scram-sha-1/lib/utils.js
 var require_utils = __commonJS({
   "node_modules/sasl-scram-sha-1/lib/utils.js"(exports2) {
-    var randomBytes = require_randombytes();
     exports2.parse = function(chal) {
       var dtives = {};
       var tokens = chal.split(/,(?=(?:[^"]|"[^"]*")*$)/);
@@ -20408,7 +20406,9 @@ var require_utils = __commonJS({
       return escaped.join("");
     };
     exports2.genNonce = function(len) {
-      return randomBytes((len || 32) / 2).toString("hex");
+      const bytes = new Uint8Array((len || 32) / 2);
+      crypto.getRandomValues(bytes);
+      return Array.from(bytes, (b) => b.toString(16).padStart(2, "0")).join("");
     };
   }
 });
@@ -20419,8 +20419,8 @@ var require_sasl_scram_sha_1 = __commonJS({
     var bitops = require_bitops();
     var utils = require_utils();
     var RESP = {};
-    var CLIENT_KEY = "Client Key";
-    var SERVER_KEY = "Server Key";
+    var CLIENT_KEY = new TextEncoder().encode("Client Key");
+    var SERVER_KEY = new TextEncoder().encode("Server Key");
     function base64decode(s2) {
       if (atob) {
         return Uint8Array.from(atob(s2), function(c) {
@@ -20473,39 +20473,41 @@ var require_sasl_scram_sha_1 = __commonJS({
       return result;
     };
     RESP.challenge = function(mech, cred) {
-      var gs2Header = base64encode(mech._gs2Header);
-      mech._clientFinalMessageWithoutProof = "c=" + gs2Header + ",r=" + mech._nonce;
-      var saltedPassword, clientKey, serverKey;
-      if (cred.salt && cred.salt.every(function(value, index) {
-        return value === mech._salt[index];
-      })) {
-        if (cred.clientKey && cred.serverKey) {
-          clientKey = cred.clientKey;
-          serverKey = cred.serverKey;
-        } else if (cred.saltedPassword) {
-          saltedPassword = cred.saltedPassword;
-          clientKey = bitops.HMAC(saltedPassword, CLIENT_KEY);
-          serverKey = bitops.HMAC(saltedPassword, SERVER_KEY);
+      return __async(this, null, function* () {
+        var gs2Header = base64encode(mech._gs2Header);
+        mech._clientFinalMessageWithoutProof = "c=" + gs2Header + ",r=" + mech._nonce;
+        var saltedPassword, clientKey, serverKey;
+        if (cred.salt && cred.salt.every(function(value, index) {
+          return value === mech._salt[index];
+        })) {
+          if (cred.clientKey && cred.serverKey) {
+            clientKey = cred.clientKey;
+            serverKey = cred.serverKey;
+          } else if (cred.saltedPassword) {
+            saltedPassword = cred.saltedPassword;
+            clientKey = yield bitops.HMAC(saltedPassword, CLIENT_KEY);
+            serverKey = yield bitops.HMAC(saltedPassword, SERVER_KEY);
+          }
+        } else {
+          saltedPassword = yield bitops.Hi(cred.password || "", mech._salt, mech._iterationCount);
+          clientKey = yield bitops.HMAC(saltedPassword, CLIENT_KEY);
+          serverKey = yield bitops.HMAC(saltedPassword, SERVER_KEY);
         }
-      } else {
-        saltedPassword = bitops.Hi(cred.password || "", mech._salt, mech._iterationCount);
-        clientKey = bitops.HMAC(saltedPassword, CLIENT_KEY);
-        serverKey = bitops.HMAC(saltedPassword, SERVER_KEY);
-      }
-      var storedKey = bitops.H(clientKey);
-      var authMessage = mech._clientFirstMessageBare + "," + mech._challenge + "," + mech._clientFinalMessageWithoutProof;
-      var clientSignature = bitops.HMAC(storedKey, authMessage);
-      var clientProof = base64encode(String.fromCharCode.apply(null, bitops.XOR(clientKey, clientSignature)));
-      mech._serverSignature = bitops.HMAC(serverKey, authMessage);
-      var result = mech._clientFinalMessageWithoutProof + ",p=" + clientProof;
-      mech._stage = "final";
-      mech.cache = {
-        salt: mech._salt,
-        saltedPassword,
-        clientKey,
-        serverKey
-      };
-      return result;
+        var storedKey = yield bitops.H(clientKey);
+        var authMessage = new TextEncoder().encode(mech._clientFirstMessageBare + "," + mech._challenge + "," + mech._clientFinalMessageWithoutProof);
+        var clientSignature = yield bitops.HMAC(storedKey, authMessage);
+        var clientProof = base64encode(String.fromCharCode.apply(null, bitops.XOR(clientKey, clientSignature)));
+        mech._serverSignature = yield bitops.HMAC(serverKey, authMessage);
+        var result = mech._clientFinalMessageWithoutProof + ",p=" + clientProof;
+        mech._stage = "final";
+        mech.cache = {
+          salt: mech._salt,
+          saltedPassword,
+          clientKey,
+          serverKey
+        };
+        return result;
+      });
     };
     RESP.final = function() {
       return "";
@@ -27358,7 +27360,7 @@ var init_wrapper = __esm({
 });
 
 // src/@dictionaries/packages.ts
-var import_atmosx_nwws_parser, import_atmosx_pulse_point, import_atmosx_placefile_parser, import_atmosx_tempest_station, import_client, import_better_sqlite3, import_express2, import_express_rate_limit, import_axios, import_child_process, import_argon2, gui, events, path2, fs2, crypto, http3, https2, process2, xmpp, os, xml2js, firebase_app, firebase_database, jobs, jsonc, buffer, h_packages, h_modules;
+var import_atmosx_nwws_parser, import_atmosx_pulse_point, import_atmosx_placefile_parser, import_atmosx_tempest_station, import_client, import_better_sqlite3, import_express2, import_express_rate_limit, import_axios, import_child_process, import_argon2, gui, events, path2, fs2, crypto2, http3, https2, process2, xmpp, os, xml2js, firebase_app, firebase_database, jobs, jsonc, buffer, h_packages, h_modules;
 var init_packages = __esm({
   "src/@dictionaries/packages.ts"() {
     init_utility();
@@ -27390,7 +27392,7 @@ var init_packages = __esm({
     events = __toESM(require("events"), 1);
     path2 = __toESM(require("path"), 1);
     fs2 = __toESM(require("fs"), 1);
-    crypto = __toESM(require("crypto"), 1);
+    crypto2 = __toESM(require("crypto"), 1);
     http3 = __toESM(require("http"), 1);
     https2 = __toESM(require("https"), 1);
     process2 = __toESM(require("process"), 1);
@@ -27419,7 +27421,7 @@ var init_packages = __esm({
       events,
       path: path2,
       fs: fs2,
-      crypto,
+      crypto: crypto2,
       http: http3,
       https: https2,
       process: process2,
