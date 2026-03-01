@@ -17,7 +17,7 @@ prev:
 Congratulations on installing AtmosphericX! This guide walks you through post installation steps to get your instance running smoothly, including dashboard access, admin setup, and optional cdn hosting a with Cloudflare Tunnel.
 
 ::: warning
-Please make sure your server is running with `run.sh` before continuing
+Please make sure your server is running with `start.sh` (if you have already built the project) before continuing
 :::
 
 ## Web Interface & Dashboard

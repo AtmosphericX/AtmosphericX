@@ -60,7 +60,7 @@ sudo lsof -i :80
 ```
 ```sh [Linux Elevated Start]
 cd build-tools
-sudo bash run.sh
+sudo bash start.sh
 ```
 2. Stop the conflicting application or change its port.  
 :::

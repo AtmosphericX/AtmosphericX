@@ -47,6 +47,8 @@ As of AtmosphericX v8, `Node.js 20+` is required and we've also migrated from `J
 The Raspberry Pi is supported but please make sure to have the Model 4 version as AtmosphericX needs at least 2GB of memory to run this project smoothly. The OrangePi is **NOT** supported so please don't ask about this. We will try to get a workaround in the future.
 :::
 
+`Starflight: Redo this section - We moved building and running in the same script`
+
 ## Installation Process
 Installing AtmosphericX is a straightforward process as long as you **CAREFULLY** read and follow the introductions and meet the mentioned [system specifications](#system-requirements-specifications). Down below are installation steps for each OS including a limited easy install script for users that are not familiar with these applications.
 
@@ -71,7 +73,7 @@ git clone -b beta https://github.com/AtmosphericX/AtmosphericX.git
 cd AtmosphericX
 cd build-tools
 start /wait install.sh &
-start /wait run.sh
+start /wait start.sh
 ```
 :::
 
@@ -87,8 +89,8 @@ git clone -b beta https://github.com/AtmosphericX/AtmosphericX.git
 2. Installing Dependencies
 > Navigate to the `build-tools` directory and run the `install.sh` script to install all necessary dependencies. You can execute this script using **Git Bash**, **Windows Terminal**, or by double-clicking the file. This will install all of the NodeJS `npm` packages required to run AtmosphericX. If you encounter any issues, please check the [troubleshooting](./troubleshooting) section below.
 
-3. Starting AtmosphericX
-> After installation, navigate back to the `build-tools` directory and run the `run.sh` script to start the project.
+3. Building AtmosphericX
+> After installation, navigate back to the `build-tools` directory and run the `start.sh` script to build the project.
 
 **TL;DR Instructions**
 ::: code-group
@@ -102,9 +104,9 @@ cd build-tools
 install.sh
 ```
 
-```sh [3. Starting AtmosphericX]
+```sh [3. Building AtmosphericX]
 cd build-tools
-run.sh # npm run start works as well if you are in the project directory
+start.sh # Build the project and then run after building.
 ```
 :::
 
@@ -134,12 +136,11 @@ cd build-tools
 ./install.sh # or bash install.sh
 ```
 
-4. Starting AtmosphericX
-> After installation, navigate back to the `build-tools` directory and run the `run.sh
-script to start the project.
+4. Building AtmosphericX
+> After installation, navigate back to the `build-tools` directory and run the `start.sh` script to build the project.
 ```sh
 cd build-tools
-./run.sh # or bash run.sh (THIS WILL REQUIRE SUDO PERMISSIONS FOR CERTAIN PORTS)
+./start.sh # Build the project and then run after building.
 ```
 
 **TL;DR Instructions**
@@ -158,9 +159,9 @@ cd build-tools
 ./install.sh # or bash install.sh
 ```
 
-```sh [3. Starting AtmosphericX]
+```sh [3. Building AtmosphericX]
 cd build-tools
-./run.sh # or bash run.sh (THIS WILL REQUIRE SUDO PERMISSIONS FOR CERTAIN PORTS)
+./start.sh # Build the project and then run after building.
 ```
 :::
 
@@ -189,12 +190,11 @@ cd build-tools
 ./install.sh # or bash install.sh
 ```
 
-4. Starting AtmosphericX
-> After installation, navigate back to the `build-tools` directory and run the `run.sh
-script to start the project.
+4. Building AtmosphericX
+> After installation, navigate back to the `build-tools` directory and run the `start.sh` script to build the project.
 ```sh
 cd build-tools
-./run.sh # or bash run.sh (THIS WILL REQUIRE SUDO PERMISSIONS FOR CERTAIN PORTS)
+./start.sh # Build the project and then run after building.
 ```
 
 **TL;DR Instructions**
@@ -211,9 +211,9 @@ cd build-tools
 ./install.sh # or bash install.sh
 ```
 
-```sh [3. Starting AtmosphericX]
+```sh [3. Building AtmosphericX]
 cd build-tools
-./run.sh # or bash run.sh (THIS WILL REQUIRE SUDO PERMISSIONS FOR CERTAIN PORTS)
+./start.sh # Build the project and then run after building.
 ```
 
 :::
