@@ -11,7 +11,6 @@ prev:
 <img src="/logo.png" alt="AtmosphericX Logo" width="200" style="display: block; margin: 0 auto;" />
 <small class="page-author">Written By: <b>KiyoWx</b></small><br/>
 <small class="last-updated">Last Updated: <b>Feb 27th, 2026</b></small><br>
-<small class="version-made">Version: <b>8.0.0.02 (beta-pre-dashboard-testing)</b></small><br><br>
 
 # Installation Troubleshooting Guide
 If you followed the Installation Guide but encounter issues, this troubleshooting section addresses the most common problems. For problems not listed here, join our [Discord server](https://discord.gg/YAEjtzU3E8) and provide detailed information. Support is community based and mostly volunteer.

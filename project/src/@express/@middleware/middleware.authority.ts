@@ -35,7 +35,6 @@ export class Init {
         const storage = loader.packages.path.resolve(`..`, `storage`);
         const configurations = loader.modules.utilities.cfg();
         const options = configurations?.web_hosting_settings?.settings?.ratelimiting; 
-        const cached = configurations?.web_hosting_settings?.cache_control;
         if (options?.enabled) { 
             const settings = this.ratelimit({
                 windowMs: options?.window_ms ?? 30_000,
@@ -48,12 +47,8 @@ export class Init {
         }
         this.server.set(`trust proxy`, 1);
         this.server.use((request: types.ExpressRequest, response: types.ExpressResponse, next: types.ExpressNext) => {
-            const getExtension = loader.packages.path.extname(request.path);
-            const regExpExt = new RegExp(`\.(${cached})$`, `i`); 
-            if (!regExpExt.test(getExtension)) {
-                for (const key in getMessages.headers) { 
-                    response.setHeader(key, getMessages.headers[key]); 
-                }
+            for (const key in getMessages.headers) { 
+                response.setHeader(key, getMessages.headers[key]); 
             }
             next();
         })

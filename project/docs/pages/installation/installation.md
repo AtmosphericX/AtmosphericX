@@ -11,7 +11,6 @@ next:
 <img src="/logo.png" alt="AtmosphericX Logo" width="200" style="display: block; margin: 0 auto;" />
 <small class="page-author">Written By: <b>KiyoWx</b> & <b>StarflightWx</b></small><br/>
 <small class="last-updated">Last Updated: <b>Feb 27th, 2026</b></small><br>
-<small class="version-made">Version: <b>8.0.0.02 (beta-pre-dashboard-testing)</b></small><br><br>
 
 # Installation Guide
 ---

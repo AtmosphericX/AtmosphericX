@@ -38,7 +38,6 @@
         "is_login_required": true, // No account creation required for ATMOSX (Not secure) (Requires admin to be created in the setup process)
         "is_guest_access_allowed": false, // If you want to allow guest access to your dashboard. (Not Secure)
         "settings" : {
-            "cache_control": "js|css|html|png|jpg|gif", // Files types that should not be cached by the browser (Bypasses CF CDN Caching if using CF Tunnels)
             "is_https": false, // If you want to enable HTTPS (See documentation for CF Tunnel Integration)
             "port_number": 80, // What port you would like to host ATMOSX.
             "account_protection": {

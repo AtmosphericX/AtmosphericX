@@ -4399,7 +4399,7 @@ var init_middleware_authority = __esm({
         this.pkg = packages.express;
         this.server = cache.handlers.express;
         this.ratelimit = packages.rateLimit;
-        var _a4, _b, _c, _d2, _e;
+        var _a4, _b, _c, _d2;
         modules.utilities.log({
           title: `${this.ansi_colors.GREEN}${this.name_space}${this.ansi_colors.RESET}`,
           message: `Successfully initialized`
@@ -4409,11 +4409,10 @@ var init_middleware_authority = __esm({
         const storage = packages.path.resolve(`..`, `storage`);
         const configurations = modules.utilities.cfg();
         const options = (_b = (_a4 = configurations == null ? void 0 : configurations.web_hosting_settings) == null ? void 0 : _a4.settings) == null ? void 0 : _b.ratelimiting;
-        const cached = (_c = configurations == null ? void 0 : configurations.web_hosting_settings) == null ? void 0 : _c.cache_control;
         if (options == null ? void 0 : options.enabled) {
           const settings = this.ratelimit({
-            windowMs: (_d2 = options == null ? void 0 : options.window_ms) != null ? _d2 : 3e4,
-            max: (_e = options == null ? void 0 : options.max_requests) != null ? _e : 125,
+            windowMs: (_c = options == null ? void 0 : options.window_ms) != null ? _c : 3e4,
+            max: (_d2 = options == null ? void 0 : options.max_requests) != null ? _d2 : 125,
             handler: (__, response) => {
               return response.status(429).json({ message: getMessages.response_ratelimited });
             }
@@ -4422,12 +4421,8 @@ var init_middleware_authority = __esm({
         }
         this.server.set(`trust proxy`, 1);
         this.server.use((request, response, next) => {
-          const getExtension = packages.path.extname(request.path);
-          const regExpExt = new RegExp(`.(${cached})$`, `i`);
-          if (!regExpExt.test(getExtension)) {
-            for (const key in getMessages.headers) {
-              response.setHeader(key, getMessages.headers[key]);
-            }
+          for (const key in getMessages.headers) {
+            response.setHeader(key, getMessages.headers[key]);
           }
           next();
         });
