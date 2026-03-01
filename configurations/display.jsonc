@@ -95,8 +95,8 @@
             "border": { "type": "line" },
             "scrollable": true,
             "alwaysScroll": true,
-            "style": { "border": { "fg": "white" } }    }
-
+            "style": { "border": { "fg": "white" } }    
+        }
     }
 
 }
