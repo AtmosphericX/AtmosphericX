@@ -61,7 +61,7 @@
             const wise = new Wise(utils);
             const widgets = new Widgets(utils);
             settings.setElement = get(aSearch, `setSelectedElement`) ?? document.getElementById('widget-container')
-            settings.global.isElementThemed = true;
+            settings.global.setElementThemed = true;
            
             utils.socket([`configurations`, `events`, `pulsepoint`, `manual`]).then(() => {
                 document.addEventListener('onUpdate', (event) => {

@@ -62,7 +62,7 @@ class Widgets {
         try {
             const getThemeContainer = document.getElementById('widget-container');
             this.applyElementSettings(element, settings)
-            if (settings?.global.isElementThemed) {
+            if (settings?.global.setElementThemed) {
                 this.applyGlobalTheme(getThemeContainer, settings)
                 this.applyElementSettings(getThemeContainer, settings)
             }

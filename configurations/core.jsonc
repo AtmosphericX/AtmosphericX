@@ -33,7 +33,7 @@
 
     */
 {
-    "core:hash": "583b5138ae656dedc256a2572d66d2f1ba1bb1812de4dde2dbfa568b91784e86", // DO NOT MODIFY THIS VALUE. THIS IS USED FOR CONFIGURATION INTEGRITY CHECKS.
+    "core:hash": "79b4cf725df9680399d282d76419ecd4ac3d289b2e9ae59dabbcec07603a044e", // DO NOT MODIFY THIS VALUE. THIS IS USED FOR CONFIGURATION INTEGRITY CHECKS.
     "web_hosting_settings": {
         "is_login_required": true, // No account creation required for ATMOSX (Not secure) (Requires admin to be created in the setup process)
         "is_guest_access_allowed": false, // If you want to allow guest access to your dashboard. (Not Secure)
@@ -62,8 +62,8 @@
         "global_update": "*/5 * * * * *",  // Default 5 seconds (This updates the global cache but websocket settings will be primary guide)
         "random_update": "*/30 * * * * *",  // Default is 60 seconds (Updates rng event data)
         "update_check": "0 */6 * * *", // Default: 6 hours (Checks for AtmosphericX updates and logs to console if outdated)
-        "update_url_version": "https://raw.githubusercontent.com/k3yomi/AtmosphericX/main/version",
-        "update_url_changelogs": "https://raw.githubusercontent.com/k3yomi/AtmosphericX/main/changelogs-history.json",
+        "update_url_version": "https://raw.githubusercontent.com/AtmosphericX/AtmosphericX/beta/storage/store/version.bin",
+        "update_url_changelogs": "https://raw.githubusercontent.com/AtmosphericX/AtmosphericX/beta/storage/store/changelog.bin",
         "request_timeout": 10
     },
     "websocket_settings": {

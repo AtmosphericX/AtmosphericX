@@ -98,12 +98,24 @@
             border: none;
             z-index: var(--widget-z);
         }
+        .widget-child-3 { 
+            position: fixed;
+            top: 90%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            color: rgba(255, 255, 255, 0.422);
+            font-size: 45px;
+            z-index: 9999;
+            pointer-events: none;
+        }
 
     </style>
     <body> 
         <div class="notifications"></div>
         <div class="widget-container" id="widget-container">
             <video class="widget-child-1" id="widget-child-1" autoplay muted></video>
+            <p class="widget-child-3" id="widget-child-3">NOT FOR BROADCAST - REQUIRES PERMISSION FROM OWNER</p>
             <div class="widget-child-2" id="widget-child-2">...</div>
         </div>
     </body>
@@ -129,7 +141,7 @@
             settings.setLongitude = get(aSearch, `setLongitude`) ?? null;
             settings.setRadius = get(aSearch, `setRadius`) ?? 125;
             settings.global.setPlaceholderText = get(aSearch, `setPlaceholderText`) ?? `No streams available`;
-            settings.global.isElementThemed = false;
+            settings.global.setElementThemed = false;
 
             if (!settings.setTextComponenets) { 
                 settings.setElementTitle.style.display = `none`;

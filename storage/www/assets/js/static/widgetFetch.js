@@ -38,28 +38,28 @@ function get(url, param) {
 
 const aSearch = new URLSearchParams(window.location.search);
 const aGlobalElementSettings = {
-    isElementThemed: get(aSearch, `isElementThemed`) ?? false,
-    isTextColorThemed: get(aSearch, `isTextColorThemed`) ?? false,
-    setThemeType: get(aSearch, `setThemeType`) ?? `secondary`,
-    setTextColor: get(aSearch, `setTextColor`) ?? null,
-    setTextSize: get(aSearch, `setTextSize`) ?? null,
-    setTextFont: get(aSearch, `setTextFont`) ?? null,
-    setBorderRadius: get(aSearch, `setBorderRadius`) ?? null,
-    setBoxShadow: get(aSearch, `setBoxShadow`) ?? true,
-    setTextShadow: get(aSearch, `setTextShadow`) ?? true,
-    setAnimated: get(aSearch, `setAnimated`) ?? false,
-    setBackgroundAnimated: get(aSearch, `setBackgroundAnimated`) ?? false,
-    setAnimationStartDuration: get(aSearch, `setAnimationStartDuration`) ?? null,
-    setAnimatedDelayEnding: get(aSearch, `setAnimatedDelayEnding`) ?? 0,
-    setAnimationEndDuration: get(aSearch, `setAnimationEndDuration`) ?? null,
-    setAnimationStartType: get(aSearch, `setAnimationStartType`) ?? `anim_fade_in`,
-    setAnimationEndType: get(aSearch, `setAnimationEndType`) ?? `anim_fade_out`,
-    setAnimationHasEnding: get(aSearch, `setAnimationHasEnding`) ?? null,
-    setTextAllignment: get(aSearch, `setTextAllignment`) ?? null, 
-    setElementZoomLevel: get(aSearch, `setElementZoomLevel`) ?? null,
-    setTextCharacterLimit: get(aSearch, `setTextCharacterLimit`) ?? 64,
-    setPlaceholderText: get(aSearch, `setPlaceholderText`) ?? null,
-    setTextPrefix: get(aSearch, `setTextPrefix`) ?? null,
-    setTextSuffix: get(aSearch, `setTextSuffix`) ?? null,
+    setElementThemed: get(aSearch, `setElementThemed`) ?? false, // Applies theme to the element
+    setTextColorThemed: get(aSearch, `setTextColorThemed`) ?? false, // Applies theme to text color
+    setThemeType: get(aSearch, `setThemeType`) ?? `secondary`, // Sets the theme type
+    setTextColor: get(aSearch, `setTextColor`) ?? null, // Sets custom text color
+    setTextSize: get(aSearch, `setTextSize`) ?? null, // Sets custom text size
+    setTextFont: get(aSearch, `setTextFont`) ?? null, // Sets custom text font
+    setBorderRadius: get(aSearch, `setBorderRadius`) ?? null, // Sets border radius
+    setBoxShadow: get(aSearch, `setBoxShadow`) ?? true, // Enables/disables box shadow
+    setTextShadow: get(aSearch, `setTextShadow`) ?? true, // Enables/disables text shadow
+    setAnimated: get(aSearch, `setAnimated`) ?? false, // Enables element animation
+    setBackgroundAnimated: get(aSearch, `setBackgroundAnimated`) ?? false, // Enables background animation
+    setAnimationStartDuration: get(aSearch, `setAnimationStartDuration`) ?? null, // Sets animation start duration
+    setAnimatedDelayEnding: get(aSearch, `setAnimatedDelayEnding`) ?? 0, // Sets animation delay ending
+    setAnimationEndDuration: get(aSearch, `setAnimationEndDuration`) ?? null, // Sets animation end duration
+    setAnimationStartType: get(aSearch, `setAnimationStartType`) ?? `anim_fade_in`, // Sets animation start type
+    setAnimationEndType: get(aSearch, `setAnimationEndType`) ?? `anim_fade_out`, // Sets animation end type
+    setAnimationHasEnding: get(aSearch, `setAnimationHasEnding`) ?? null, // Specifies if animation has ending
+    setTextAllignment: get(aSearch, `setTextAllignment`) ?? null, // Sets text alignment
+    setElementZoomLevel: get(aSearch, `setElementZoomLevel`) ?? null, // Sets element zoom level
+    setTextCharacterLimit: get(aSearch, `setTextCharacterLimit`) ?? 64, // Sets character limit for text
+    setPlaceholderText: get(aSearch, `setPlaceholderText`) ?? null, // Sets placeholder text if a value doesn't exist
+    setTextPrefix: get(aSearch, `setTextPrefix`) ?? null, // Sets text prefix
+    setTextSuffix: get(aSearch, `setTextSuffix`) ?? null, // Sets text suffix
 }
 

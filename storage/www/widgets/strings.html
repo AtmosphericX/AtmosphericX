@@ -79,7 +79,7 @@
 
             const subscriptionServices = { 
                 text: [`/`, `configurations`],
-                getRandomEvent: [`random_event`, `configurations`], getClock: [`/`, `configurations`], initWatchdog: [`events`, `configurations`],
+                getRandomEvent: [`random_event`, `configurations`], getClock: [`/`, `configurations`], getWatchdog: [`events`, `configurations`],
                 getRandomPulsePoint: [`random_pulsepoint`, `configurations`],
                 getTracking: [`tracking`, `configurations`], getOutages: [`outages`, `configurations`],
                 getNearbySpotters: [`spotters`, `tracking`, `configurations`], getNearbyEvents: [`events`, `tracking`, `configurations`],
@@ -100,7 +100,7 @@
                     duration: 15e3
                 })
             }
-            if (settings?.global?.isElementThemed) {
+            if (settings?.global?.setElementThemed) {
                 subscriptionServices[settings.setType].push(`events`)
                 subscriptionServices[settings.setType].push(`pulsepoint`)
             }
@@ -149,12 +149,12 @@
                 }
                 if (assignmentType == `cb.special`) { 
                     switch (settings.setType) {
-                        case `initWatchdog`: {
+                        case `getWatchdog`: {
                             let count = 0;
-                            const getinitWatchdogList = (get(aSearch, `setinitWatchdogList`) ?? [`* Warning`]).map(e => e.trim().toLowerCase())
+                            const getWatchdogList = (get(aSearch, `setWatchdogList`) ?? [`* Warning`]).map(e => e.trim().toLowerCase())
                             const getFeatures = utils.storage?.events?.features ?? [];
-                            const getMatches = getinitWatchdogList.filter(e => !e.startsWith("*"));
-                            const getWildcards = getinitWatchdogList.filter(e => e.startsWith("*")).map(e => e.slice(1));
+                            const getMatches = getWatchdogList.filter(e => !e.startsWith("*"));
+                            const getWildcards = getWatchdogList.filter(e => e.startsWith("*")).map(e => e.slice(1));
                             for (const feature of getFeatures) {
                                 const getEventName = feature.properties.event.toLowerCase();
                                 if (getMatches.includes(getEventName)) { count++; } else {
@@ -163,7 +163,7 @@
                                     }
                                 }
                             }
-                            const getFiltered = getinitWatchdogList.map(e => e.replace(/\*/g, '')).map(ev => {
+                            const getFiltered = getWatchdogList.map(e => e.replace(/\*/g, '')).map(ev => {
                                 const getLoweredEvent = ev.trim().toUpperCase();
                                 if (getLoweredEvent === "advisory") return "Advisories";
                                 if (getLoweredEvent === "watch") return "Watches";

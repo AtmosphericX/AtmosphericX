@@ -2,7 +2,7 @@
 layout: home
 hero:
   name: "AtmosphericX"
-  tagline: "v8.0.0-beta"
+  tagline: "8.0.0.02 (beta-pre-dashboard-testing)"
   image:
     src: /logo.png
     alt: AtmosphericX Logo
@@ -17,7 +17,7 @@ hero:
       text: Discord
       link: https://discord.gg/YAEjtzU3E8
     - theme: alt
-      text: Project Board
+      text: Development Board
       link: https://github.com/users/AtmosphericX/projects/2
 --- 
 
@@ -31,7 +31,7 @@ hero:
 		{
 			avatar: 'https://avatars.githubusercontent.com/u/54733885?v=4',
 			name: 'KiyoWx',
-			title: 'Project Developer',
+			title: 'Project Developer & President @ ATMSX Storm Chasing',
 			links: [
 				{ icon: 'github', link: 'https://github.com/k3yomi' },
 				{ icon: 'twitter', link: 'https://twitter.com/KiyomiWx' }
@@ -40,7 +40,7 @@ hero:
 		{
 			avatar: 'https://pbs.twimg.com/profile_images/1787879680558743554/RMFWOj1T_400x400.jpg',
 			name: 'StarflightWx',
-			title: 'Co-Developer',
+			title: 'Co-Developer & Vice President @ ATMSX Storm Chasing',
 			links: [
 				{ icon: 'github', link: 'https://github.com/Starflight24' },
 				{ icon: 'twitter', link: 'https://x.com/starflightVR' }
@@ -49,7 +49,7 @@ hero:
 		{
 			avatar: 'https://pbs.twimg.com/profile_images/1614731133714825223/LoGNRgOp_400x400.jpg',
 			name: 'CJ Ziegler',
-			title: 'QA Tester / Storm Chaser',
+			title: 'Beta Tester & Storm Chaser @ CJZiegler Media',
 			links: [
 				{ icon: 'youtube', link: 'https://www.youtube.com/@CJZiegler' },
 				{ icon: 'twitter', link: 'https://x.com/StormChaser_CJ' }
@@ -57,12 +57,12 @@ hero:
 		}
 	]
 	const gallery = [
-		{ src: '/assets/images/demos/d2.png', alt: 'Settings Panel', caption: 'KiyoWx - Demo Showcase' },
-		{ src: '/assets/images/demos/d1.gif', alt: 'Settings Panel', caption: 'KiyoWx - Demo Showcase v2' },
-		{ src: '/assets/images/demos/d3.png', alt: 'Settings Panel', caption: 'nbur21wx - Rounded Theme' },
-		{ src: '/assets/images/demos/d4.gif', alt: 'Settings Panel', caption: 'CJ Ziegler - Live Storm Chase' },
-		{ src: '/assets/images/demos/d5.gif', alt: 'Settings Panel', caption: 'AaronOnAir - Live Storm Chase' },
-		{ src: '/assets/images/demos/d6.gif', alt: 'Settings Panel', caption: 'KiyoWx - Recorded Storm Chase' },
+		{ src: '/assets/images/demos/d2.png', alt: 'Settings Panel', caption: 'KiyoWx - Demo Showcase (v7)' },
+		{ src: '/assets/images/demos/d3.png', alt: 'Settings Panel', caption: 'nbur21wx - Rounded Theme (v7)' },
+		{ src: '/assets/images/demos/d4.gif', alt: 'Settings Panel', caption: 'CJ Ziegler - Live Storm Chasing (v7)' },
+		{ src: '/assets/images/demos/d5.gif', alt: 'Settings Panel', caption: 'AaronOnAir - Live Storm Chase (v7)' },
+		{ src: '/assets/images/demos/d7.gif', alt: 'Settings Panel', caption: 'CJ Ziegler - Live Storm Chase (v8)' },
+		{ src: '/assets/images/demos/d8.gif', alt: 'Settings Panel', caption: 'CJ Ziegler - Live Storm Chasing (v8)' },
 	]
 
 	const Gallery = {
@@ -82,7 +82,7 @@ hero:
 
 <VPTeamPageTitle>
   <template #lead>
-	Ignite your stream with AtmosphericX's powerful fully customizable widget and dashboard framework, immersive tools that turn passive viewers into active participants and boost engagement like never before. Elevate every broadcast with dynamic visuals, real time data, and interactive elements crafted for storm chasers, weather fans, and every curious viewer in between.
+	AtmosphericX is a modern, modular, and powerful weather dashboard and widget project designed to be self hosted for live streaming, storm spotting, storm chasing, meteorologists, first responders, or curious individuals who are concerned about weather conditions and safety.
   </template>
 </VPTeamPageTitle>
 
@@ -106,7 +106,7 @@ hero:
 <VPTeamPageTitle>
   <template #title>Meet the people behind the project</template>
   <template #lead>
-    Our dedicated team works tirelessly to bring you the best streaming experience possible.
+    AtmosphericX is powered by a dedicated community that works tirelessly to create the best streaming experience possible. From beta testers and developers to documentation writers, every contributor helps move the project forward.
   </template>
 </VPTeamPageTitle>
 <VPTeamMembers :members />

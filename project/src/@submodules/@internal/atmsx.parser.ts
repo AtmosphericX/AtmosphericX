@@ -438,10 +438,10 @@ export class ATMSXParser {
                     message: message
                 });
             });
-            this.mgr.on(`onReconnection`, (nickname: string) => {
+            this.mgr.on(`onReconnection`, (data: {lastName: string}) => {
                 loader.modules.utilities.log({ 
                     title: `${this.ansi_colors.YELLOW}Parser${this.ansi_colors.RESET}`, 
-                    message: `Reconnected to NOAA Weather Wire Service as ${this.ansi_colors.CYAN}${nickname}${this.ansi_colors.RESET}`
+                    message: `Reconnected to NOAA Weather Wire Service as ${this.ansi_colors.CYAN}${data.lastName}${this.ansi_colors.RESET}`
                 });
             });
             this.mgr.on(`onConnection`, (nickname: string) => {

@@ -120,7 +120,7 @@
             settings.global.setAnimationEndDuration = get(aSearch, `setAnimationEndDuration`) ?? 3;
             settings.global.setAnimationHasEnding = get(aSearch, `setAnimationHasEnding`) ?? true;
             settings.global.setAnimatedDelayEnding = get(aSearch, `setAnimatedDelayEnding`) ?? 5;
-            settings.global.isElementThemed = false; // Never enabled, no point in having a background for this;
+            settings.global.setElementThemed = false; // Never enabled, no point in having a background for this;
     
 
             utils.socket([`configurations`, `events`]).then(() => {

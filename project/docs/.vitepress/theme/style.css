@@ -119,10 +119,15 @@ body::before {
 .profile[data-v-7735210d] {
     background-color: transparent;
     border: none;
+    
 }
 .profile[data-v-f3fa364a] {
     background-color: transparent;
     border: none;
+}
+
+.avatar-img{
+    background-color: rgb(39, 38, 38);
 }
 
 @keyframes moveGrid {

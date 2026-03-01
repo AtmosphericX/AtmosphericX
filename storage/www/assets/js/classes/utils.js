@@ -114,9 +114,10 @@ class Utils {
      * @description
      *      Displays a notification message to the user. 
      * 
-     * @param {string} type - The type of notification ('success', 'error', 'info').
-     * @param {string} message - The message to display in the notification.
-     * @param {number} duration - Duration in milliseconds for which the notification is displayed.
+     * @param {Object} options - The notification options.
+     * @param {string} options.message - The message to display in the notification.
+     * @param {string} options.type - The type of notification ('success', 'error', 'info').
+     * @param {number} options.duration - Duration in milliseconds for which the notification is displayed.
      * @return {void}
      */
     notify = function(options = {message: `Notification`, type: `info`, duration: 5000}) {
@@ -269,7 +270,7 @@ class Utils {
      *      Calculates the distance in miles between two geographic coordinates using the Haversine formula.
      * 
      * 
-     * @param {Array<number>} coodinatesA - An array containing the longitude and latitude of the first point in degrees.
+     * @param {Array<number>} coordinatesA - An array containing the longitude and latitude of the first point in degrees.
      * @param {Array<number>} coordinatesB - An array containing the longitude and latitude of the second point in degrees.
      * @returns {number} The distance between the two points in miles.
      */
@@ -339,7 +340,7 @@ class Utils {
      * @error_handling
      * @function getSilentChannel
      * @description
-     *      Generates silent noise to keep iOS audio suspension
+     *      Generates silent noise to keep iOS audio suspension from happening.
      * 
      * @return {void}
      */
@@ -625,6 +626,18 @@ class Utils {
         }
     }
 
+    /**
+     * @production
+     * @error_handling
+     * @function setElementAnimation
+     * @description
+     *     Sets the animation for a DOM element based on provided settings and stage.
+     * 
+     * @param {HTMLElement} element - The DOM element to animate.
+     * @param {Object} settings - The settings object containing animation properties.
+     * @param {number} stage - The stage of the animation (0: end, 1: start, 2: ending).
+     * @return {Promise<void>} A promise that resolves when the animation ends.
+     */
     setElementAnimation = async function(element, settings, stage=0) { 
         if (!settings?.global?.setAnimated) return;
         element.style.animation = 'none';
@@ -691,7 +704,7 @@ class Utils {
         if (settings?.global?.setTextPrefix && !ignorePrefixSuffix) { 
             generatedString += settings?.global?.setTextPrefix + '&nbsp;';
         }
-        if (settings?.global?.isTextColorThemed) { 
+        if (settings?.global?.setTextColorThemed) { 
             generatedString += `<p style="color: ${getEventTheme?.default == false ? getEventTheme.primary : getNumberTheme}">${string}</p>`;
         } else { 
             generatedString += string;
