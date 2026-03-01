@@ -52,7 +52,14 @@ export class Init {
                     title: `${this.ansi_colors.GREEN}${this.name_space}${this.ansi_colors.RESET}`,
                     message: `GET ${getRoutes.get_dashboard_endpoint} - ${(performance.now() - tick).toFixed(2)}ms`
                 });
-                return response.sendFile(setPath);
+                return response.sendFile(setPath, { 
+                    headers: { 
+                        'Cache-Control': 'private, no-store, max-age=0, must-revalidate', 
+                        'Pragma': 'no-cache', 'Expires': '0', 
+                        'Surrogate-Control': 'no-store', 'Vary': 'Cookie', 
+                        'Last-Modified': new Date(0).toUTCString() 
+                    }, etag: false 
+                });
             } catch (error) {
                 loader.modules.utilities.exception(error, `${this.name_space}/GET ${getRoutes.get_dashboard_endpoint}`);
                 return response.status(500).sendFile(`${storage}${getRoutes.unknown_direct_path}`);
