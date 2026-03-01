@@ -1,4 +1,4 @@
-<h1 style='font-size: 65px'; align="center">Project AtmosphericX 8.0.0.02 (beta-pre-dashboard-testing)</h1>
+<h1 style='font-size: 65px'; align="center">Project AtmosphericX</h1>
 
 ---
 
