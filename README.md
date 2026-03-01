@@ -1,7 +1,5 @@
 <h1 style='font-size: 65px'; align="center">Project AtmosphericX</h1>
 
----
-
 AtmosphericX is a modern, modular, and powerful weather dashboard and widget project designed to be self hosted for live streaming, storm spotting, storm chasing, meteorologists, first responders, or curious individuals who are concerned about weather conditions and safety.
 
 ## Disclaimer
