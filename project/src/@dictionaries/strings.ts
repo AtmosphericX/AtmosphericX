@@ -81,10 +81,15 @@ export const h_strings: Record<string, any> = {
         websocket_unknown_type: `Unknown request type. Refer to the documentation for valid types.`,
         websocket_update_success: `Subscription update successful.`,
         headers: {
-            'Access-Control-Allow-Origin': '*', 'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
-            'Access-Control-Allow-Credentials': 'true', 'Strict-Transport-Security': 'max-age=31536000; includeSubDomains; preload',
-            'Cache-Control': 'no-store, no-cache, must-revalidate, proxy-revalidate',
-            'Pragma': 'no-cache', 'Expires': '0', 'Surrogate-Control': 'no-store',
+            'Access-Control-Allow-Origin': '*',
+            'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
+            'Access-Control-Allow-Credentials': 'true',
+            'Strict-Transport-Security': 'max-age=31536000; includeSubDomains; preload',
+            'Cache-Control': 'private, no-store, max-age=0, must-revalidate',
+            'Pragma': 'no-cache',
+            'Expires': '0',
+            'Surrogate-Control': 'no-store',
+            'Vary': 'Cookie',
         }
     },
     tooltips: [
