@@ -141,8 +141,14 @@ get_user_update_confirmation() {
                 fi
             fi
             [[ -n "$remote_changelogs_url" ]] && printf "\nChangelog:\n%s\n\n" "$remote_changelogs_url"
-            install_dependencies
-            echo "Update finished successfully."
+            echo "Do you want to fetch the latest depdendencies? [Y/n]"
+            read -r depend_confirm
+            if [[ "$depend_confirm" =~ ^[Yy]$ ]]; then
+                install_dependencies
+            fi
+            cd ../project
+            npm run docs:build
+            npm run build
         )
     else
         exit 0
@@ -156,6 +162,5 @@ install_dependencies() {
     npm install . --no-save
     echo "AtmosphericX dependencies installed successfully. You can now run the project using 'start.sh' under build-tools."
 }
-
 
 get_repository_information
