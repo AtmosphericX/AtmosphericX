@@ -1512,11 +1512,11 @@ var init_utility_http = __esm({
                 let success = false;
                 for (let attempt = 1; attempt <= 3; attempt++) {
                   const response = yield this.getDataFromSource(source.url, source == null ? void 0 : source.options);
-                  cache.internal.metrics.total_requests++;
                   if (!response.error) {
                     data[source.name] = response.message;
                     status.push(`(${this.ansi_colors.GREEN}OK${this.ansi_colors.RESET}) ${source.name.toUpperCase()}`);
                     success = true;
+                    cache.internal.metrics.total_requests++;
                     break;
                   }
                   modules.utilities.log({
