@@ -68,7 +68,7 @@ del Git-2.50.0.2-64-bit.exe &
 del node-v22.17.0-x64.msi
 
 git --version
-git clone https://github.com/AtmosphericX/AtmosphericX.git
+git clone -b beta https://github.com/AtmosphericX/AtmosphericX.git
 cd AtmosphericX
 cd build-tools
 start /wait install.sh &
@@ -82,7 +82,7 @@ start /wait run.sh
 1. Installing Git and Cloning Repository
 > If you haven't already, download and install Git from [here](https://git-scm.com/downloads). Once installed, open **Command Prompt** or **Windows Terminal** and type the following command to clone the AtmosphericX repository. Once cloned, navigate into the project directory.
 ```sh
-git clone https://github.com/AtmosphericX/AtmosphericX.git
+git clone -b beta https://github.com/AtmosphericX/AtmosphericX.git
 ```
 
 2. Installing Dependencies
@@ -94,7 +94,7 @@ git clone https://github.com/AtmosphericX/AtmosphericX.git
 **TL;DR Instructions**
 ::: code-group
 ```sh [1. Cloning the repository]
-git clone https://github.com/AtmosphericX/AtmosphericX.git
+git clone -b beta https://github.com/AtmosphericX/AtmosphericX.git
 cd AtmosphericX
 ```
 
@@ -124,7 +124,7 @@ sudo apt-get install -y nodejs
 2. Cloning the Repository
 > Once the dependencies are installed, clone the AtmosphericX repository and navigate into the project directory.
 ```sh
-git clone https://github.com/AtmosphericX/AtmosphericX.git
+git clone -b beta https://github.com/AtmosphericX/AtmosphericX.git
 cd AtmosphericX
 ```
 
@@ -150,7 +150,7 @@ sudo apt-get update && sudo apt-get upgrade -y
 sudo apt-get install -y git curl python3 build-essential
 curl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash -
 sudo apt-get install -y nodejs
-git clone https://github.com/AtmosphericX/AtmosphericX.git
+git clone -b beta https://github.com/AtmosphericX/AtmosphericX.git
 cd AtmosphericX
 ```
 
@@ -178,7 +178,7 @@ sudo pacman -S git curl python nodejs npm base-devel
 2. Cloning the Repository
 > Once the dependencies are installed, clone the AtmosphericX repository and navigate into the project directory. 
 ```sh
-git clone https://github.com/AtmosphericX/AtmosphericX.git
+git clone -b beta https://github.com/AtmosphericX/AtmosphericX.git
 cd AtmosphericX
 ```
 
@@ -203,7 +203,7 @@ cd build-tools
 ```sh [1. Installing dependencies and cloning repository]
 sudo pacman -Syu
 sudo pacman -S git curl python nodejs npm base-devel
-git clone https://github.com/AtmosphericX/AtmosphericX.git
+git clone -b beta https://github.com/AtmosphericX/AtmosphericX.git
 cd AtmosphericX
 ```
 

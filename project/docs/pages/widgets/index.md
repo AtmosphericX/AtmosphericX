@@ -14,7 +14,7 @@ prev:
 <small class="version-made">Version: <b>8.0.0.02 (beta-pre-dashboard-testing)</b></small><br><br>
 
 
-# Widgets Introduction
+# Widget Introduction
 ---
 AtmosphericX offers a variety of widgets that can be used to spice up your stream, display, or application with weather data, streams, events, and overlays. Widgets are modular components that can be easily added, removed, and customized to fit your specific needs. This guide provides an overview of the available widgets, their functionalities, and instructions on how to configure and use them effectively.
 
