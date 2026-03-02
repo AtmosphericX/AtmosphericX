@@ -1,5 +1,18 @@
 <h1 style='font-size: 65px'; align="center">🌩️ Project AtmosphericX 🌪️</h1>
-
+<div align="center">
+  	<p align="center">
+	  Documentation written by 
+	  <a href="https://github.com/k3yomi">k3yomi</a> & 
+	  <a href="https://github.com/Starflight24">StarflightWx</a>
+	</p>
+	<div align="center" style="border: none;">
+		<img alt="GitHub Repo stars" src="https://img.shields.io/github/stars/AtmosphericX/AtmosphericX">
+		<img alt="GitHub forks" src="https://img.shields.io/github/forks/AtmosphericX/AtmosphericX">
+		<img alt="GitHub issues" src="https://img.shields.io/github/issues/AtmosphericX/AtmosphericX">
+		<img alt="GitHub pull requests" src="https://img.shields.io/github/issues-pr/AtmosphericX/AtmosphericX">
+	</div>
+</div>
+<br>
 AtmosphericX is a modern, modular, and powerful weather dashboard and widget project designed to be self hosted for live streaming, storm spotting, storm chasing, meteorologists, first responders, or curious individuals who are concerned about weather conditions and safety.
 
 ## Disclaimer
@@ -11,3 +24,7 @@ AtmosphericX is a modern, modular, and powerful weather dashboard and widget pro
 >
 > AtmosphericX should **not** be relied upon for life safety decisions, emergency response coordination, aviation, marine navigation, or other critical applications. Always consult official sources for authoritative weather information. By using this software, you acknowledge and agree that the maintainers and contributors are **not** liable for any damages, losses, or consequences resulting from its use.
 
+
+## Important Links
+[Project Board](https://github.com/users/AtmosphericX/projects/2)\
+[Latest Documentation (v8)](https://atmosx-secondary.scriptkitty.cafe/docs)
