@@ -11,7 +11,7 @@
     Created with ♥ by the AtmosphericX Team (KiyoWx, StarflightWx, Everwatch1, & CJ Ziegler)
     Discord: https://discord.gg/YAEjtzU3E8
     Ko-Fi: https://ko-fi.com/k3yomi
-    Documentation: http://localhost/docs | https://atmosx.scriptkitty.cafe/docs
+    Documentation: http://localhost/docs | https://atmosx-secondary.scriptkitty.cafe/docs
 
 */
 
@@ -96,11 +96,10 @@ export const h_strings: Record<string, any> = {
         `Press 'Esc' or 'Ctrl + C' to exit AtmosphericX at any time.`,
         `Visit our Discord server for support: https://discord.gg/YAEjtzU3E8`,
         `Consider supporting the project on Ko-Fi: https://ko-fi.com/k3yomi`,
-        `Did you know? AtmosphericX supports custom themes with global.css files!`,
         `You can configure alert tones in the configuration files!`,
         `AtmosphericX can integrate with Streamer.bot for your stream chats!`,
-        `Check out the slideshow feature to display images within a widget.`,
         `Customize your experience with various display settings!`,
         `AtmosphericX supports multiple data sources for weather information!`,
+        `Check out the documentation @ http://localhost/docs`
     ]
 };
