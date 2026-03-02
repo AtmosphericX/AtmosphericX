@@ -323,16 +323,8 @@ export class Utility {
     public async getLatestUpdate(): Promise<void> {
         const configurations = this.cfg();
         const tVersion = this.version();
-        const oVersion = await this.httpRequest(configurations?.internal_settings?.update_url_version);
-        const oChangelogs = await this.httpRequest(configurations?.internal_settings?.update_url_changelogs);
-        if (oVersion.error || oChangelogs.error) {
-            loader.modules.utilities.log({
-                title: `${this.ansi_colors.RED}Update Check Error${this.ansi_colors.RESET}`,
-                message: `Failed to check for updates: ${oVersion.message} ${oChangelogs.message}`,
-                settings: { file: true }
-            });
-            return;
-        }
+        const oFeed = await this.httpRequest(configurations?.internal_settings?.feed_url);
+        const oVersion = await this.httpRequest(`https://raw.githubusercontent.com/${configurations?.internal_settings?.version_url}`);
         const latestVersion = oVersion.message.trim().replace(/\n/g, '');
         const normalizeVersion = (version: string): string => {
             return version.split(' ')[0].split('.').map(num => num.padStart(3, '0')).join('.');
@@ -345,6 +337,15 @@ export class Utility {
                     .replace(`{LATEST}`, latestVersion),
                 settings: { file: true }
             });
+        }
+        if (oFeed && oFeed.message) {
+            if (oFeed.message.length > 0) {
+                loader.modules.utilities.log({
+                    title: `${this.ansi_colors.RED}Announcement${this.ansi_colors.RESET}`,
+                    message: oFeed.message,
+                    settings: { file: true }
+                });
+            }
         }
     }
 
