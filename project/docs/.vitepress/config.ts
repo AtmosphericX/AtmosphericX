@@ -6,8 +6,8 @@ const directory = path.resolve(__dirname, "../../../storage/www");
 export default defineConfig({
 	lang: "en-US",
 	ignoreDeadLinks: true,
-	outDir: directory + "/docs",
-	base: "/docs",
+	outDir: directory + "/documentation",
+	base: "/documentation",
 	title: "AtmosphericX",
 	description: "A modern, modular, and powerful weather dashboard platform for live streaming, spotting, and content creation.",
 	themeConfig: {

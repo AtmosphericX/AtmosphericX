@@ -11,7 +11,7 @@
     Created with ♥ by the AtmosphericX Team (KiyoWx, StarflightWx, Everwatch1, & CJ Ziegler)
     Discord: https://discord.gg/YAEjtzU3E8
     Ko-Fi: https://ko-fi.com/k3yomi
-    Documentation: http://localhost/docs | https://atmosx-secondary.scriptkitty.cafe/docs
+    Documentation: http://localhost/documentation | https://atmosx-secondary.scriptkitty.cafe/documentation
 
 */
 
@@ -52,7 +52,7 @@ export class Init {
             }
             next();
         })
-        this.server.use(`/docs`, this.pkg.static(`${storage}/../storage/www/docs/`));
+        this.server.use(`/documentation`, this.pkg.static(`${storage}/../storage/www/documentation/`));
         this.server.use(`/assets`, this.pkg.static(`${storage}/www/assets`));
         this.server.use(`/eas`, this.pkg.static(`${storage}/temporary/eas/output`));
         this.server.all(/.*/, (___, response) => {

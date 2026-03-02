@@ -29,7 +29,7 @@ The installer cannot find Visual C++ Redistributable for Visual Studio 2017 or l
 2. Install the correct version for your system (x64 / x86).  
 3. Re-run the installation.
 
-> Tip: If `better-sqlite3` fails, see [its troubleshooting guide](https://github.com/WiseLibs/better-sqlite3/blob/master/docs/troubleshooting.md).
+> Tip: If `better-sqlite3` fails, see [its troubleshooting guide](https://github.com/WiseLibs/better-sqlite3/blob/master/documentation/troubleshooting.md).
 :::
 
 

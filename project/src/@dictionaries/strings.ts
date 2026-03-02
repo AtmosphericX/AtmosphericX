@@ -11,7 +11,7 @@
     Created with ♥ by the AtmosphericX Team (KiyoWx, StarflightWx, Everwatch1, & CJ Ziegler)
     Discord: https://discord.gg/YAEjtzU3E8
     Ko-Fi: https://ko-fi.com/k3yomi
-    Documentation: http://localhost/docs | https://atmosx-secondary.scriptkitty.cafe/docs
+    Documentation: http://localhost/documentation | https://atmosx-secondary.scriptkitty.cafe/documentation
 
 */
 
@@ -100,6 +100,6 @@ export const h_strings: Record<string, any> = {
         `AtmosphericX can integrate with Streamer.bot for your stream chats!`,
         `Customize your experience with various display settings!`,
         `AtmosphericX supports multiple data sources for weather information!`,
-        `Check out the documentation @ http://localhost/docs`
+        `Check out the documentation @ http://localhost/documentation`
     ]
 };
