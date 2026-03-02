@@ -13,7 +13,7 @@ prev:
 <small class="last-updated">Last Updated: <b>Feb 27th, 2026</b></small><br><br><br>
 
 # Installation Troubleshooting Guide
-If you followed the Installation Guide but encounter issues, this troubleshooting section addresses the most common problems. For problems not listed here, join our [Discord server](https://discord.gg/YAEjtzU3E8) and provide detailed information. Support is community based and mostly volunteer.
+If you followed the Installation Guide but encounter issues, this troubleshooting section addresses the most common problems. For problems not listed here, join our [Discord server](https://atmosphericx-discord.scriptktity.cafe) and provide detailed information. Support is community based and mostly volunteer.
 
 ::: tip Before you troubleshoot
 Confirm that you completed every step in the [Installation Guide](./installation). This list mainly addresses Windows issues; macOS and Linux users may not encounter all problems.
@@ -75,7 +75,7 @@ cd project
 npm run start
 ```
 2. Check the terminal output for errors and address them accordingly.
-3. If the issue persists, consider reaching out on our [Discord server](https://discord.gg/YAEjtzU3E8) for further assistance. Please make sure to include any error logs or messages you encounter.
+3. If the issue persists, consider reaching out on our [Discord server](https://atmosphericx-discord.scriptktity.cafe) for further assistance. Please make sure to include any error logs or messages you encounter.
 :::
 
 

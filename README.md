@@ -27,4 +27,5 @@ AtmosphericX is a modern, modular, and powerful weather dashboard and widget pro
 
 ## Important Links
 [Project Board](https://github.com/users/AtmosphericX/projects/2)\
-[Latest Documentation (v8)](https://atmosx-secondary.scriptkitty.cafe/documentation)
+[Latest Documentation (v8)](https://atmosphericx.scriptkitty.cafe/documentation)\
+[Discord](https://atmosphericx-discord.scriptkitty.cafe)

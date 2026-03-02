@@ -15,7 +15,7 @@ hero:
       link: https://github.com/AtmosphericX
     - theme: alt
       text: Discord
-      link: https://discord.gg/YAEjtzU3E8
+      link: https://atmosphericx-discord.scriptktity.cafe
     - theme: alt
       text: Development Board
       link: https://github.com/users/AtmosphericX/projects/2
