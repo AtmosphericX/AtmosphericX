@@ -47,8 +47,10 @@ export class Init {
         }
         this.server.set(`trust proxy`, 1);
         this.server.use((request: types.ExpressRequest, response: types.ExpressResponse, next: types.ExpressNext) => {
-            for (const key in getMessages.headers) { 
-                response.setHeader(key, getMessages.headers[key]); 
+            if (!configurations?.web_hosting_settings?.settings?.enable_cache) {
+                for (const key in getMessages.headers) { 
+                    response.setHeader(key, getMessages.headers[key]); 
+                }
             }
             next();
         })

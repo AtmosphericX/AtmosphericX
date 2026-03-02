@@ -33,12 +33,13 @@
 
     */
 {
-    "core:hash": "79b4cf725df9680399d282d76419ecd4ac3d289b2e9ae59dabbcec07603a044e", // DO NOT MODIFY THIS VALUE. THIS IS USED FOR CONFIGURATION INTEGRITY CHECKS.
+    "core:hash": "b268f3158479c4c8237fe5dadf7773d6198f9b6baf3e88c92b69f655cf53f933", // DO NOT MODIFY THIS VALUE. THIS IS USED FOR CONFIGURATION INTEGRITY CHECKS.
     "web_hosting_settings": {
         "is_login_required": true, // No account creation required for ATMOSX (Not secure) (Requires admin to be created in the setup process)
         "is_guest_access_allowed": false, // If you want to allow guest access to your dashboard. (Not Secure)
         "settings" : {
             "is_https": false, // If you want to enable HTTPS (See documentation for CF Tunnel Integration)
+            "enable_cache": true, // If you want to enable caching of static assets on browsers. (RECOMMENDED)
             "port_number": 80, // What port you would like to host ATMOSX.
             "account_protection": {
                 "duplicate_session_prevention": true, // Prevent multiple active sessions for the same account.

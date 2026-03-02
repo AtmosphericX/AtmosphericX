@@ -1,6 +1,6 @@
-update: docs
-change: isElementThemed -> setElementThemed
-change: isTextColorThemed -> setTextColorThemed
-change: docs -> documentation
-change: Discord perma link: https://atmosphericx-discord.scriptkitty.cafe
-change: Documentation perma link: https://atmosphericx.scriptkitty.cafe
+change(widget): isElementThemed -> setElementThemed
+change(widget): isTextColorThemed -> setTextColorThemed
+change(docs): docs -> documentation
+change(docs): Discord perma link: https://atmosphericx-discord.scriptkitty.cafe
+change(docs): Documentation perma link: https://atmosphericx.scriptkitty.cafe
+add(core): Browser TTL Caching
