@@ -77,7 +77,7 @@ window.addEventListener('DOMContentLoaded', () => {
                     type: 'success',
                     message: result.message || 'Operation successful! Redirecting...'
                 });
-                setTimeout(() => { window.location.reload(); }, 1500);
+                setTimeout(() => { window.location.reload(); }, 100);
             } catch (error) {
                 utils.notify({
                     type: 'error',

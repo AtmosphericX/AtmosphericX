@@ -39,6 +39,16 @@
             <h1 class="error-title">Dashboard Unavailable</h1>
             <p class="error-message">
                 The dashboard is currently unavailable. Please try again later.
+                <form method="POST" action="/api/portal/logout" style="display: inline;">
+                    <button type="submit" style="background: none; border: none; color: inherit; cursor: pointer; text-decoration: underline; padding: 0;">GO BACK</button>
+                </form>
+                <script>
+                    document.querySelector('form').addEventListener('submit', function(e) {
+                        e.preventDefault();
+                        fetch('/api/portal/logout', { method: 'POST' })
+                            .then(() => location.reload());
+                    });
+                </script>
             </p>
         </div>
     </body>
