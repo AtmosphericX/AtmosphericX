@@ -44,46 +44,46 @@ export default defineConfig({
 				text: "Widgets",
 				items: [
 					{ text: "Widget Introduction", link: "/pages/widgets/index" },
-					{ text: "Alerts Widget", link: "/pages/widgets/alerts" },
-					{ text: "Palette Widget", link: "/pages/widgets/palette" },
-					{ text: "Polywarn Widget", link: "/pages/widgets/polywarn" },
-					{ text: "Stream Widget", link: "/pages/widgets/streams" },
-					{ text: "Strings Widget", link: "/pages/widgets/strings" },
+					{ text: "Alerts Widget [todo]", link: "/pages/widgets/alerts" },
+					{ text: "Palette Widget [todo]", link: "/pages/widgets/palette" },
+					{ text: "Polywarn Widget [todo]", link: "/pages/widgets/polywarn" },
+					{ text: "Stream Widget [todo]", link: "/pages/widgets/streams" },
+					{ text: "Strings Widget [todo]", link: "/pages/widgets/strings" },
 				]
 			},
 			{
 				text: "RESTful API",
 				items: [
-					{ text: "API Introduction", link: "/pages/restful-api/index" },
-					{ text: "/data", link: "/pages/restful-api/data" },
-					{ text: "/placefiles", link: "/pages/restful-api/placefiles" },
-					{ text: "/api", link: "/pages/restful-api/api" },
+					{ text: "API Introduction [todo]", link: "/pages/restful-api/index" },
+					{ text: "/data [todo]", link: "/pages/restful-api/data" },
+					{ text: "/placefiles [todo]", link: "/pages/restful-api/placefiles" },
+					{ text: "/api [todo]", link: "/pages/restful-api/api" },
 				]
 			},
 			{
 				text: "Contributing",
 				items: [
-					{ text: "Creating Widgets", link: "/pages/contributing/creating-widgets" },
-					{ text: "Creating Themes", link: "/pages/contributing/creating-themes" },
-					{ text: "Submitting Bugs", link: "/pages/contributing/submitting-bugs" },
+					{ text: "Creating Widgets [todo]", link: "/pages/contributing/creating-widgets" },
+					{ text: "Creating Themes [todo]", link: "/pages/contributing/creating-themes" },
+					{ text: "Submitting Bugs [todo]", link: "/pages/contributing/submitting-bugs" },
 				]
 			},
 			{
 				text: "Frontend Codebase",
 				items: [
-					{ text: "Frontend Introduction", link: "/pages/frontend/index" },
-					{ text: "Classes", link: "/pages/frontend/classes" },
-					{ text: "Static", link: "/pages/frontend/static" },
+					{ text: "Frontend Introduction [todo]", link: "/pages/frontend/index" },
+					{ text: "Classes [todo]", link: "/pages/frontend/classes" },
+					{ text: "Static [todo]", link: "/pages/frontend/static" },
 				]
 			},
 			{
 				text: "Internal Packages",
 				items: [
-					{ text: "Internal Packages Introduction", link: "/pages/packages/index"},
-					{ text: "ATMOSX-NWWS-PARSER", link: "/pages/packages/nwws-parser"},
-					{ text: "ATMOSX-PULSE-POINT", link: "/pages/packages/pulse-point"},
-					{ text: "ATMOSX-PLACEFILE-PARSER", link: "/pages/packages/placefile-parser"},
-					{ text: "ATMOSX-TEMPEST-STATION", link: "/pages/packages/tempest-station"},
+					{ text: "Internal Packages Introduction [todo]", link: "/pages/packages/index"},
+					{ text: "ATMOSX-NWWS-PARSER [todo]", link: "/pages/packages/nwws-parser"},
+					{ text: "ATMOSX-PULSE-POINT [todo]", link: "/pages/packages/pulse-point"},
+					{ text: "ATMOSX-PLACEFILE-PARSER [todo]", link: "/pages/packages/placefile-parser"},
+					{ text: "ATMOSX-TEMPEST-STATION [todo]", link: "/pages/packages/tempest-station"},
 				]
 			},
 		],
