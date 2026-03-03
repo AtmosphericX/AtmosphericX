@@ -26,7 +26,21 @@ get_repository_is_updated() {
 
 get_is_config_hash_change() {
     local project_root="$(cd "$(dirname "$0")/.." && pwd)"
-    local local_file="$project_root/storage/store/hash"
+    local local_content
+    local remote_content
+    local local_file="$project_root/storage/store/confighash.bin"
+    local remote_url="https://raw.githubusercontent.com/$repository/$branch/storage/store/confighash.bin"
+    if [[ ! -f "$local_file" ]]; then
+        echo "Local file missing"
+        return 0
+    fi
+    local_content=$(tr -d '\r\n' < "$local_file")
+    remote_content=$(curl -fsSL "$remote_url" 2>/dev/null | tr -d '\r\n')
+    if [[ "$local_content" == "$remote_content" ]]; then
+        return 1
+    else
+        return 0
+    fi
 }
 
 get_user_backup_options() {
@@ -132,7 +146,8 @@ get_repository_information() {
 
     get_repository_is_updated "$current_version" "$remote_version"
     if [[ $? -eq 1 ]]; then
-        is_config_hash_change=$(get_is_config_hash_change)
+        get_is_config_hash_change
+        is_config_hash_change=$?
         if [[ "$is_config_hash_change" -eq 0 ]]; then
             get_user_backup_options
         fi
