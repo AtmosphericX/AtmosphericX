@@ -30,10 +30,6 @@ get_is_config_hash_change() {
     local remote_content
     local local_file="$project_root/storage/store/confighash.bin"
     local remote_url="https://raw.githubusercontent.com/$repository/$branch/storage/store/confighash.bin"
-    if [[ ! -f "$local_file" ]]; then
-        echo "Local file missing"
-        return 0
-    fi
     local_content=$(tr -d '\r\n' < "$local_file")
     remote_content=$(curl -fsSL "$remote_url" 2>/dev/null | tr -d '\r\n')
     if [[ "$local_content" == "$remote_content" ]]; then
@@ -65,6 +61,9 @@ get_user_backup_options() {
 }
 
 get_user_update_confirmation() {
+    get_is_config_hash_change
+    preserve_configurations=$?
+
     printf "Do you want to proceed with the update? (y/N) "
     read -r update_confirmation
     [[ ! "$update_confirmation" =~ ^[Yy]$ ]] && exit 0
@@ -83,13 +82,14 @@ get_user_update_confirmation() {
             fi
 
             orig_url=$(git remote get-url origin 2>/dev/null || true)
-
-            if [[ -n "$git_hub_token" ]]; then
-                git remote set-url origin "https://$git_hub_token@github.com/$repository.git"
-            fi
-
+            [[ -n "$git_hub_token" ]] && git remote set-url origin "https://$git_hub_token@github.com/$repository.git"
             git fetch origin "$branch" --depth=1 || exit 1
-            git reset --hard "origin/$branch" || exit 1
+
+            if [[ "$preserve_configurations" -eq 1 ]]; then
+                git checkout origin/$branch -- . ':!configurations'
+            else
+                git reset --hard origin/$branch || exit 1
+            fi
 
             [[ -n "$orig_url" && -n "$git_hub_token" ]] && git remote set-url origin "$orig_url"
             popd >/dev/null || true
@@ -105,9 +105,19 @@ get_user_update_confirmation() {
             git clone --depth=1 "$clone_url" "$tmpdir" || { rm -rf "$tmpdir"; exit 1; }
 
             if command -v rsync >/dev/null 2>&1; then
-                rsync -a --delete --exclude='.git' --exclude='configurations' "$tmpdir/" "$project_root/"
+                if [[ "$preserve_configurations" -eq 1 ]]; then
+                    rsync -a --delete --exclude='.git' --exclude='configurations' "$tmpdir/" "$project_root/"
+                else
+                    rsync -a --delete --exclude='.git' "$tmpdir/" "$project_root/"
+                fi
             else
-                cp -a "$tmpdir/." "$project_root/" || { rm -rf "$tmpdir"; exit 1; }
+                if [[ "$preserve_configurations" -eq 1 ]]; then
+                    shopt -s extglob
+                    cp -a "$tmpdir"/!(configurations) "$project_root/" || { rm -rf "$tmpdir"; exit 1; }
+                    shopt -u extglob
+                else
+                    cp -a "$tmpdir/." "$project_root/" || { rm -rf "$tmpdir"; exit 1; }
+                fi
             fi
 
             rm -rf "$tmpdir"
