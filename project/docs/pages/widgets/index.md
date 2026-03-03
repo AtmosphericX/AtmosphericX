@@ -33,43 +33,6 @@ Each widget has a set of `Local` and `Global` parameters that can be modified di
 ## Global vs Local Parameters
 The difference between global and local parameters is that global parameters can be applied to everything and are located within `assets/js/static/widgetFetch.js` while local parameters are specific to each widget and are defined within the widget's own script.
 
-## Understanding setDirectory
-"setDirectory" is a `local` but common parameter that can be used to get a value from a specific path within a JSON object. It is particularly useful when working with nested data structures like GeoJSON, where you might want to extract a specific value from within the `properties` object. For example, say we want to get the `wind_speed` value from the GeoJSON properties object, we would specify `?setDirectory=properties.wind_speed`.
-
-```jsonc
-{
-  "type": "FeatureCollection",
-  "features": [
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [-75.4968033, 44.6912994]
-      },
-      "properties": {
-        "temperature": 29,
-        "dewpoint": 18,
-        "humidity": 69,
-        "wind_speed": 4, // We want this value...
-        "wind_direction": "SSW",
-        "conditions": "broken clouds",
-        "location": "Saint Lawrence County, New York"
-      }
-    }
-  ]
-}
-```
-
-This can be slightly made better by appending a prefix or suffix to the returned value by using `setTextPrefix=Wind Speed:`, `setTextSuffix=MPH` and `setAnimated=true`. If you want to see more parameters, please see [Global Parameters](#global-parameters)
-
-`
-/exampleWidget?setDirectory=properties.wind_speed&setTextPrefix=Wind Speed:&setTextSuffix=MPH&setAnimated=true
-`
-
-This will output a value of: `Wind Speed: 4 MPH` with an animation upon text change.
-
-
-
 ## Global Parameters
 > This table is auto populated from `/assets/js/static/widgetFetch.js`. Values may change with updates.
 
@@ -109,6 +72,41 @@ This will output a value of: `Wind Speed: 4 MPH` with an animation upon text cha
     </tr>
   </tbody>
 </table>
+
+## Understanding setRoute
+"setRoute" is a `global` parameter that can be used to get a value from a specific path within a JSON object. It is particularly useful when working with nested data structures like GeoJSON, where you might want to extract a specific value from within the `properties` object. For example, say we want to get the `wind_speed` value from the GeoJSON properties object, we would specify `?setRoute=properties.wind_speed`.
+
+```jsonc
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-75.4968033, 44.6912994]
+      },
+      "properties": {
+        "temperature": 29,
+        "dewpoint": 18,
+        "humidity": 69,
+        "wind_speed": 4, // We want this value...
+        "wind_direction": "SSW",
+        "conditions": "broken clouds",
+        "location": "Saint Lawrence County, New York"
+      }
+    }
+  ]
+}
+```
+
+This can be slightly made better by appending a prefix or suffix to the returned value by using `setTextPrefix=Wind Speed:`, `setTextSuffix=MPH` and `setAnimated=true`. If you want to see more parameters, please see [Global Parameters](#global-parameters)
+
+`
+/exampleWidget?setRoute=properties.wind_speed&setTextPrefix=Wind Speed:&setTextSuffix=MPH&setAnimated=true
+`
+
+This will output a value of: `Wind Speed: 4 MPH` with an animation upon text change.
 
 
 ## Available Animations

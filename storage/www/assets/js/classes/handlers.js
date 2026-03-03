@@ -187,7 +187,6 @@ class Handlers {
      * @param {Object} event - The weather event data.
      * @param {string} theme - The theme to apply to the weather card.
      * @param {Object} settings - Additional options for the weather card.
-     * @param {string} settings.setDirectory - Directory for output.
      * @param {number} settings.setPauseTime - Duration to display the card.
      * @param {HTMLElement} settings.setElement - Parent element to attach the card to.
      * @return {Object} - The created weather card widget.
@@ -195,7 +194,7 @@ class Handlers {
     aWeatherCard = function(event, theme, settings) { 
         try {
             return this.aCreateCard({
-                title: this.utils.getTextFromDirectory(event, settings.setDirectory),
+                title: this.utils.getTextFromDirectory(event, settings.global.setRoute),
                 fields: [
                     [
                         { title: "LOCATIONS", value: `${event.properties.locations.substring(0, 70)} (x${event.properties.geocode.UGC.length})`, align: "left" },
@@ -236,7 +235,6 @@ class Handlers {
      * @param {Object} event - The PulsePoint event data.
      * @param {string} theme - The theme to apply to the PulsePoint card.
      * @param {Object} settings - Additional settings for the PulsePoint card.
-     * @param {string} settings.setDirectory - Directory for output.
      * @param {number} settings.setPauseTime - Duration to display the card.
      * @param {HTMLElement} settings.setElement - Parent element to attach the card to.
      * @return {Object} - The created PulsePoint card widget.
@@ -244,7 +242,7 @@ class Handlers {
     aPulsePointCard = function(event, theme, settings) { 
         try {
             return this.aCreateCard({
-                title: this.widgets.getTextFromDirectory(event, settings.setDirectory),
+                title: this.widgets.getTextFromDirectory(event, settings.global.setRoute),
                 fields: [
                     [
                         { title: "ADDRESS", value: `${event.properties.address.substring(0, 70)}`, align: "left" },

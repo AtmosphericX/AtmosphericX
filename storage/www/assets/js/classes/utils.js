@@ -685,7 +685,7 @@ class Utils {
             return str.replace(/\u00A0/g, ' ').trim();
         }
         if (string == 'null' || string == null) {
-            string = settings?.global?.setPlaceholderText ?? 'N/A'
+            string = settings?.global?.setTextPlaceholder ?? 'N/A'
         }
         if (string.length > settings?.global?.setTextCharacterLimit) {
             string = string.substring(0, settings.global.setTextCharacterLimit) + '...';

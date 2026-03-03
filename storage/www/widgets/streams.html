@@ -132,7 +132,6 @@
             settings.setElement = get(aSearch, `setSelectedElement`) ?? document.getElementById('widget-container')
             settings.setElementVideo = get(aSearch, `setElementVideo`) ??  document.getElementById('widget-child-1');
             settings.setElementTitle = get(aSearch, `setElementTitle`) ??  document.getElementById('widget-child-2');
-            settings.setDirectory = get(aSearch, `setDirectory`) ??  `%properties.name% (%properties.location ?? properties.source%)`
             settings.setRefreshTime = get(aSearch, `setRefreshTime`) ?? 30;
             settings.setTextComponenets = get(aSearch, `setTextComponenets`) ?? true;
             settings.setStreamSource = get(aSearch, `setStreamSource`) ?? `*`;
@@ -140,8 +139,10 @@
             settings.setLatitude = get(aSearch, `setLatitude`) ?? null;
             settings.setLongitude = get(aSearch, `setLongitude`) ?? null;
             settings.setRadius = get(aSearch, `setRadius`) ?? 125;
-            settings.global.setPlaceholderText = get(aSearch, `setPlaceholderText`) ?? `No streams available`;
+            settings.global.setTextPlaceholder = get(aSearch, `setTextPlaceholder`) ?? `No streams available`;
+            settings.global.setRoute = get(aSearch, `setRoute`) ??  `%properties.name% (%properties.location ?? properties.source%)`
             settings.global.setElementThemed = false;
+            
 
             if (!settings.setTextComponenets) { 
                 settings.setElementTitle.style.display = `none`;
@@ -157,7 +158,7 @@
             function cb() { 
                 if (cache.running) { return }
                 getActiveStreams = () => {
-                    const getPlaceholder = settings.global.setPlaceholderText;
+                    const getPlaceholder = settings.global.setTextPlaceholder;
                     const getStreams = utils?.storage?.streams?.features ?? [];
                     let getFilteredStreams = getStreams.filter(stream => {
                         if (settings.setStreamSource !== `*` && stream.properties.source?.toLowerCase() !== settings.setStreamSource.toLowerCase()) {
@@ -191,7 +192,7 @@
                         return 
                     }
                     const getRandomStream = getFilteredStreams[Math.floor(Math.random() * getFilteredStreams.length)] ?? null;
-                    const getOutput = utils.getTextFromDirectory(getRandomStream, settings.setDirectory);
+                    const getOutput = utils.getTextFromDirectory(getRandomStream, settings.global.setRoute);
                     settings.setElementVideo.style.transition = "opacity 1.0s";
                     settings.setElementVideo.style.opacity = "0";
 

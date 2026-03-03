@@ -111,8 +111,8 @@
             settings.setElement = get(aSearch, `setSelectedElement`) ?? document.getElementById('widget-container')
             settings.setElementTitle = get(aSearch, `setElementTitle`) ??  document.getElementById('widget-child-1');
             settings.setElementSubtitle = get(aSearch, `setElementSubtitle`) ??  document.getElementById('widget-child-2');
-            settings.setDirectory = get(aSearch, `setDirectory`) ??  `%properties.event%`
-            settings.setDirectorySecondary = get(aSearch, `setDirectorySecondary`) ??  `Issued at %properties.issued%`
+            settings.global.setRoute = get(aSearch, `setRoute`) ??  `%properties.event%`
+            settings.global.setRouteSecondary = get(aSearch, `setRouteSecondary`) ??  `Issued at %properties.issued%`
             settings.setSfx = get(aSearch, `setSfx`) ??  `/sfx/dash_sfx/boom3.mp3`;
             settings.setAwaitPeriod = get(aSearch, `setAwaitPeriod`) ?? 30;
             settings.setSearch = get(aSearch, `setSearch`) ?? null;
@@ -143,8 +143,8 @@
                         cache.running = true;
                         cache.hashes.push(getHash);
                         const getTheme = utils.getEventColor(getEventName)
-                        const getOutputTitle = utils.getTextFromDirectory(event, settings.setDirectory);
-                        const getOutputSubtitle = utils.getTextFromDirectory(event, settings.setDirectorySecondary);
+                        const getOutputTitle = utils.getTextFromDirectory(event, settings.global.setRoute);
+                        const getOutputSubtitle = utils.getTextFromDirectory(event, settings.global.setRouteSecondary);
                         utils.setString(settings.setElementTitle, getOutputTitle, settings)
                         utils.setString(settings.setElementSubtitle, getOutputSubtitle, settings, true)
                         utils.sound(settings.setSfx)

@@ -123,9 +123,8 @@
 
             function cb(assignmentType, assignmentData) { 
                 if (assignmentType == `cb.string`) { 
-                    const getDirectory = get(aSearch, `setDirectory`) ?? null;
-                    const getOutput = utils.getTextFromDirectory(assignmentData, getDirectory);
-                    utils.setString(settings.setElement, getOutput ?? settings?.global?.setPlaceholderText ?? `N/A`, settings);
+                    const getOutput = utils.getTextFromDirectory(assignmentData, settings.global.setRoute)
+                    utils.setString(settings.setElement, getOutput ?? settings?.global?.setTextPlaceholder ?? `N/A`, settings);
                 }
                 if (assignmentType == `cb.time`) { 
                     const getParameters = { time: { time: true }, date: { date: true }, timezone: { timezone: true }, };
@@ -179,7 +178,7 @@
                             const getQuery = utils.storage?.tracking?.features.find(tracker => tracker.properties?.name?.toLowerCase().includes(String(getSearch)?.toLowerCase()));
                             const getTracker = getQuery ?? utils.storage?.tracking?.features[0];
                             if (!getTracker) { 
-                                return utils.setString(settings.setElement, settings?.global?.setPlaceholderText ?? `No Trackers Found`, settings);
+                                return utils.setString(settings.setElement, settings?.global?.setTextPlaceholder ?? `No Trackers Found`, settings);
                             }
                             const getSpotters = utils.storage?.spotters?.features ?? [];
                             const getNearby = getSpotters.filter(spotter => {
@@ -207,7 +206,7 @@
                                 }
                             }
                             if (!getEvent) { 
-                                return utils.setString(settings.setElement, settings?.global?.setPlaceholderText ?? `No Events Found`, settings);
+                                return utils.setString(settings.setElement, settings?.global?.setTextPlaceholder ?? `No Events Found`, settings);
                             }
                             utils.setString(settings.setElement, `${getEvent}: ${getMin.toFixed(1)} ${getUnit}`, settings);
                         }
@@ -233,11 +232,11 @@
                                     return 
                                 })
                             } else { 
-                                utils.setString(settings.setElement, settings?.global?.setPlaceholderText ?? `No Data Available`, settings);
+                                utils.setString(settings.setElement, settings?.global?.setTextPlaceholder ?? `No Data Available`, settings);
                             }
                         }
                         default: {
-                            utils.setString(settings.setElement, settings?.global?.setPlaceholderText ?? `No Data Available`, settings);
+                            utils.setString(settings.setElement, settings?.global?.setTextPlaceholder ?? `No Data Available`, settings);
                             break;
                         }
                     }
