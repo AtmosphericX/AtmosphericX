@@ -39,7 +39,8 @@ export class Init {
                     switch (getAction) { 
                         case `audio`: 
                             const audio = await loader.cache.handlers.parser_client.createEasAudio(getEvent.properties.description, getEvent.properties.details.header);
-                            return response.json({file: `/eas/${audio.split(`\\`).pop()}`});
+                            const wavFile = loader.packages.path.basename(audio);
+                            return response.json({file: `/eas/${wavFile}`})
                         case `polygon`:
                             const multipolygon = request.query.multipolygon === `false` ? true : false;
                             const polygon = await loader.cache.handlers.parser_client.getEventPolygon(getEvent, multipolygon);
