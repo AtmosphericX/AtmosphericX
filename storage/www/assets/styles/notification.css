@@ -27,3 +27,10 @@
 .notification.info { background-color: var( --clr-info-a0); }
 .notification.success { background-color: var(--clr-success-a0); }
 .notification.error { background-color: var(--clr-danger-a0); }
+
+
+@media (max-width: 480px) {
+    .notifications {
+        zoom: 0.8;
+    }
+}

@@ -99,11 +99,9 @@ window.addEventListener('DOMContentLoaded', () => {
             document.querySelector(".header-message").textContent = `${announcement}`;
         }
         if (guests) { 
-            const guestButtons = document.querySelectorAll(".passive");
-            guestButtons.forEach(button => {
-                button.hidden = false;
-                button.setAttribute("aria-hidden", "false");
-            });
+            const guestButtons = document.getElementById("btn-guest");
+            guestButtons.hidden = false;
+            guestButtons.setAttribute("aria-hidden", "false");
         }
     });
     utils.notify({

@@ -24,6 +24,13 @@
         <link rel="icon" href="/assets/images/favicon.ico" type="image/x-icon"/>
         <!-- CSS -->
         <link rel="stylesheet" href="/assets/styles/global.css"> <!-- Global Theme CSS -->
+        <link rel="stylesheet" href="/assets/styles/types/buttons.css"> <!-- Buttons CSS -->
+        <link rel="stylesheet" href="/assets/styles/types/inputs.css"> <!-- Inputs CSS -->
+        <link rel="stylesheet" href="/assets/styles/types/interactions.css"> <!-- Interactions CSS -->
+        <link rel="stylesheet" href="/assets/styles/types/links.css"> <!-- Links CSS -->
+        <link rel="stylesheet" href="/assets/styles/types/text.css"> <!-- Text CSS -->
+        <link rel="stylesheet" href="/assets/styles/types/divs.css"> <!-- Div CSS -->
+        <link rel="stylesheet" href="/assets/styles/types/schemes.css"> <!-- Schemes CSS -->
         <link rel="stylesheet" href="/assets/styles/notification.css"> <!-- Notification CSS-->
         <link rel="stylesheet" href="/assets/styles/portal.css"> <!-- Page CSS -->
         <!-- JS -->
@@ -41,90 +48,91 @@
         <div class="background"></div>
         <!-- Announcement Container -->
         <div class="header-announcement" id="header-announcement">
-            <p class="header-message"></p>
+            <p class="text-primary text-neutral header-message"></p>
         </div>
 
         <!-- Login Container -->
-        <div class="container" id="login" style="display: block;">
+        <div class="div-primary container" id="login" style="display: block;">
             <img src="/assets/images/logo.png" alt="AtmosphericX v8.0.0 Logo" class="logo">
             <form>
                 <div class="input-group">
-                    <label class="input-label">Username</label>
-                    <input type="username" class="input-field" placeholder="root"/>
+                    <label class="label text-neutral">Username</label>
+                    <input type="username" class="input-primary hover radius-10 " placeholder="root"/>
                 </div>
                 <div class="input-group">
-                    <label class="input-label">Password</label>
-                    <input type="password" class="input-field" placeholder="••••••••••••••••"/>
+                    <label class="label text-neutral">Password</label>
+                    <input type="password" class="input-primary hover radius-10" placeholder="••••••••••••••••"/>
                 </div>
-                <button class="action" type="submit">Login</button>
-                <button class="passive" type="submit" hidden aria-hidden="true">Logon as Guest</button>
+                <button class="btn-primary hover-light bg-success" type="submit">Login</button>
+                <button class="btn-primary hover-light" id="btn-guest" type="submit" hidden aria-hidden="true">Logon as Guest</button>
             </form>
             <div class="extra">
-                <a href="/documentation" target="_blank">Documentation</a>
-                <a href="#signup">Sign Up</a>
-                <a href="#reset">Reset Password</a>
+                <a class='a-primary hover-light text-neutral' href="/documentation" target="_blank">Documentation</a>
+                <a class='a-primary hover-light text-neutral' href="#signup">Sign Up</a>
+                <a class='a-primary hover-light text-neutral' href="#reset">Reset Password</a>
             </div>
-            <p class="version">AtmosphericX <span id="version-value"></span></p>
+            <p class="text-primary text-neutral version"><span id="version-value"></span></p>
         </div>
 
+
         <!-- Sign up Container -->
-        <div class="container" id="signup">
+        <div class="div-primary container" id="signup">
             <img src="/assets/images/logo.png" alt="AtmosphericX v8.0.0 Logo" class="logo">
             <form>
                 <div class="input-group">
-                    <label class="input-label">Username</label>
-                    <input type="username" class="input-field" placeholder="root" required/>
+                    <label class="label text-neutral">Username</label>
+                    <input type="username" class="input-primary hover radius-10" placeholder="root" required/>
                 </div>
                 <div class="input-group">
-                    <label class="input-label">Password</label>
-                    <input type="password" class="input-field" placeholder="••••••••••••••••" required/>
+                    <label class="label text-neutral">Password</label>
+                    <input type="password" class="input-primary hover radius-10" placeholder="••••••••••••••••" required/>
                 </div>
                 <div class="input-group">
-                    <label class="input-label">Confirm Password</label>
-                    <input type="password" class="input-field" placeholder="••••••••••••••••" required/>
+                    <label class="label text-neutral">Confirm Password</label>
+                    <input type="password" class="input-primary hover radius-10" placeholder="••••••••••••••••" required/>
                 </div>
-                <button class="action" type="submit">Create Account</button>
+                <button class="btn-primary hover-light bg-info" type="submit">Create Account</button>
             </form>
             <div class="extra">
-                <a href="/documentation" target="_blank">Documentation</a>
-                <a href="#login">Sign in</a>
-                <a href="#reset">Reset Password</a>
+                <a class='a-primary hover-light text-neutral' href="/documentation" target="_blank">Documentation</a>
+                <a class='a-primary hover-light text-neutral' href="#login">Sign in</a>
+                <a class='a-primary hover-light text-neutral' href="#reset">Reset Password</a>
             </div>
-            <p class="version">AtmosphericX <span id="version-value"></span></p>
+            <p class="text-primary text-neutral version"><span id="version-value"></span></p>
         </div>
 
         <!-- Reset Password Container -->
-        <div class="container" id="reset">
+        <div class="div-primary container" id="reset">
             <img src="/assets/images/logo.png" alt="AtmosphericX v8.0.0 Logo" class="logo">
             <form>
                 <div class="input-group">
-                    <label class="input-label">Username</label>
-                    <input type="username" class="input-field" placeholder="root" required/>
+                    <label class="label text-neutral">Username</label>
+                    <input type="username" class="input-primary hover radius-10" placeholder="root" required/>
                 </div>
                 <div class="input-group">
-                    <label class="input-label">Current Password</label>
-                    <input type="password" class="input-field" placeholder="••••••••••••••••" required/>
+                    <label class="label text-neutral">Current Password</label>
+                    <input type="password" class="input-primary hover radius-10" placeholder="••••••••••••••••" required/>
                 </div>
                 <div class="input-group">
-                    <label class="input-label">New Password </label>
-                    <input type="password" class="input-field" placeholder="••••••••••••••••" required/>
+                    <label class="label text-neutral">New Password</label>
+                    <input type="password" class="input-primary hover radius-10" placeholder="••••••••••••••••" required/>
                 </div>
-                <button class="action" type="submit">Reset Password</button>
+                <button class="btn-primary hover-light bg-danger" type="submit">Reset Password</button>
             </form>
             <div class="extra">
-                <a href="#login">Sign in</a>
-                <a href="/documentation" target="_blank">Documentation</a>
-                <a href="#signup">Sign up</a>
+                <a class='a-primary hover-light text-neutral' href="#login">Sign in</a>
+                <a class='a-primary hover-light text-neutral' href="/documentation" target="_blank">Documentation</a>
+                <a class='a-primary hover-light text-neutral' href="#signup">Sign up</a>
             </div>
-            <p class="version">AtmosphericX <span id="version-value"></span></p>
+            <p class="text-primary text-neutral version"><span id="version-value"></span></p>
         </div>
 
         
         <footer>    
             <div class="footer-links">
-                <a href="https://atmosphericx-discord.scriptkitty.cafe" target="_blank" rel="noopener noreferrer">Discord</a>
-                <a href="https://ko-fi.com/k3yomi" target="_blank" rel="noopener noreferrer">Ko-Fi</a>
-                <a href="/documentation" target="_blank" rel="noopener noreferrer">Documentation</a>
+                <a class="a-primary hover-light text-neutral" href="https://atmosphericx-discord.scriptkitty.cafe" target="_blank" rel="noopener noreferrer">Discord</a>
+                <a class="a-primary hover-light text-neutral" href="https://ko-fi.com/k3yomi" target="_blank" rel="noopener noreferrer">Ko-Fi</a>
+                <a class="a-primary hover-light text-neutral" href="/documentation" target="_blank" rel="noopener noreferrer">Documentation</a>
             </div>
             <p class="footer-cc">&copy; 2026 Project AtmosphericX. All rights reserved.</p>
         </footer>
