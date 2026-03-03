@@ -9,7 +9,7 @@
                                      |_|                                                                                                                
 
     Created with ♥ by the AtmosphericX Team (KiyoWx, StarflightWx, Everwatch1, & CJ Ziegler)
-    Discord: https://atmosphericx-discord.scriptktity.cafe
+    Discord: https://atmosphericx-discord.scriptkitty.cafe
     Ko-Fi: https://ko-fi.com/k3yomi
     Documentation: http://localhost/documentation | https://atmosphericx.scriptkitty.cafe/documentation
 
@@ -19,11 +19,25 @@ body {
     color: var(--clr-light-a0);
     margin: 0;
     box-sizing: border-box;
-    display: flex; align-items: center;
-    justify-content: center; min-height: 100vh;
-    padding: 20px; position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 20px;
+    position: relative;
     user-select: none;
     -webkit-user-drag: none;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+}
+
+
+small {
+    display: block;
+    margin-top: 8px;
+    font-size: 11px;
+    color: var(--clr-light-a0);
+    opacity: 0.5;
+    letter-spacing: 0.3px;
 }
 
 footer {
@@ -31,57 +45,58 @@ footer {
     bottom: 0;
     left: 0;
     width: 100%;
-    padding: 10px;
-    text-align: center;
-    background: var(--clr-surface-tonal-a0-t70); 
+    padding: 8px 20px;
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
-    border-top: 1px solid var(--clr-surface-a20);
+    border-top: 1px;
     color: var(--clr-light-a0);
-    font-size: 12px;
+    font-size: 11px;
     z-index: 10;
     display: flex;
-    flex-direction: column;
-    gap: 4px;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
 }
 
-small {
-    display: block;
-    margin-top: 12px;
-    font-size: 10px;
-    color: var(--clr-light-a0);
+footer .footer-cc {
     opacity: 0.6;
-}
-
-footer p {
-    margin: 0;
-    opacity: 0.6;
+    font-size: 11px;
+    flex: 1;
+    text-align: right;
 }
 
 footer .footer-links {
     display: flex;
-    justify-content: center;
-    gap: 24px;
+    gap: 3px;
+    margin-right: auto;
 }
 
 footer .footer-links a {
     color: var(--clr-light-a0);
     text-decoration: none;
-    font-weight: 500;
-    transition: color 0.2s ease;
-    opacity: 0.8;
+    transition: all 0.2s ease;
+    opacity: 0.7;
+    font-size: 11px;
+    padding: 2px 6px;
+    border-radius: 4px;
 }
 
 footer .footer-links a:hover {
     color: var(--clr-info-a10);
     opacity: 1;
+    background: var(--clr-surface-a10-t80);
 }
 
 .background { 
     background-image: url('https://weather.cod.edu/data/satellite/background/background.truecolor.jpg');
     background-color: var(--clr-surface-tonal-a0);
-    background-size: cover; background-position: center;
-    position: fixed; inset: 0; z-index: -1;
+    background-size: cover;
+    background-position: center;
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    filter: brightness(0.85) contrast(1.05);
 }
 
 .header-announcement {
@@ -94,7 +109,7 @@ footer .footer-links a:hover {
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
     border-bottom: 1px solid var(--clr-surface-a20);
-    padding: 15px 20px;
+    padding: 16px 20px;
     z-index: 20;
 }
 
@@ -105,18 +120,19 @@ footer .footer-links a:hover {
     opacity: 0.9;
     text-align: center;
     margin: 0;
+    letter-spacing: 0.3px;
 }
 
 .container { 
-    width: 100%; max-width: 400px;
-    border-radius: 24px; 
+    width: 100%;
+    max-width: 420px;
+    border-radius: 16px;
     position: relative;
-    background-color: var(--clr-surface-a0-t80); 
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
+    background: var(--clr-surface-a0-t80);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
     padding: 40px;
-    padding-bottom: 70px;
-    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
     border: 1px solid var(--clr-surface-a20);
     text-align: center;
     display: none;
@@ -124,66 +140,86 @@ footer .footer-links a:hover {
 }
 
 .container .logo { 
-    width: 120px;
-    margin-bottom: 1px;
-    filter: drop-shadow(0 4px 6px rgba(0,0,0,0.3));
+    width: 150px;
 }
 
+.container .logo:hover {
+    transform: scale(1.02);
+}
 
 .container .input-group { 
-    text-align: left; margin-bottom: 20px;
+    text-align: left;
+    margin-bottom: 18px;
 }
 
 .container .input-label { 
-    display: block; font-size: 13px;
-    margin-bottom: 8px; color: var(--clr-light-a0);
+    display: block;
+    font-size: 13px;
+    margin-bottom: 8px;
+    color: var(--clr-light-a0);
     font-weight: 500;
-    opacity: 0.9;
-    letter-spacing: 0.5px;
+    opacity: 0.85;
+    letter-spacing: 0.4px;
 }
 
 .container .input-field { 
-    width: 100%; padding: 14px 16px;
-    border-radius: 12px; 
-    border: 1px solid var(--clr-surface-a20);
-    background: var(--clr-surface-a10-t60); 
+    width: 100%;
+    padding: 12px 16px;
+    border-radius: 10px;
+    border: 1.5px solid var(--clr-surface-a20);
+    background: var(--clr-surface-a10-t60);
     color: var(--clr-light-a0);
-    font-size: 15px; outline: none;
+    font-size: 15px;
+    outline: none;
     transition: all 0.3s ease;
+}
+
+.container .input-field::placeholder {
+    opacity: 0.5;
 }
 
 .container .input-field:focus { 
     border-color: var(--clr-info-a10);
     background: var(--clr-surface-a20-t40);
-    box-shadow: 0 0 0 4px var(--clr-info-a10-t30);
+    box-shadow: 0 0 0 3px var(--clr-info-a10-t20);
 }
 
 .container .action { 
-    width: 100%; padding: 14px;
-    border: none; border-radius: 12px;
-    background: var(--clr-info-a0-t50); 
+    width: 100%;
+    padding: 12px 16px;
+    border: none;
+    border-radius: 10px;
+    background: var(--clr-info-a0-t50);
     color: var(--clr-light-a0);
-    font-size: 16px; font-weight: 600;
-    cursor: pointer; margin-top: 12px;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    margin-top: 14px;
+    transition: all 0.2s ease;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    letter-spacing: 0.3px;
 }
 
 .container .passive { 
-    width: 100%; padding: 14px;
-    border: none; border-radius: 12px;
-    background: var(--clr-success-a10-t30); 
+    width: 100%;
+    padding: 12px 16px;
+    border: none;
+    border-radius: 10px;
+    background: var(--clr-success-a10-t30);
     color: var(--clr-light-a0);
-    font-size: 16px; font-weight: 600;
-    cursor: pointer; margin-top: 12px;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    margin-top: 14px;
+    transition: all 0.2s ease;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    letter-spacing: 0.3px;
 }
 
 .container .action:hover { 
-    transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
-    filter: brightness(1.1);
+    transform: translateY(-1px);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+    filter: brightness(1.08);
 }
 
 .container .action:active {
@@ -191,13 +227,14 @@ footer .footer-links a:hover {
 }
 
 .container .extra { 
-    margin-top: 24px; 
-    padding-top: 20px;
-    font-size: 14px;
+    margin-top: 20px;
+    padding-top: 16px;
+    font-size: 13px;
     display: flex;
     justify-content: space-between;
     align-items: center;
     border-top: 1px solid var(--clr-surface-a20);
+    gap: 8px;
 }
 
 .container .extra:has(:only-child) {
@@ -205,13 +242,14 @@ footer .footer-links a:hover {
 }
 
 .container .extra a { 
-    color: var(--clr-light-a0); 
+    color: var(--clr-light-a0);
     text-decoration: none;
-    font-weight: 500; 
+    font-weight: 500;
     transition: all 0.2s ease;
     opacity: 0.7;
-    padding: 4px 8px;
+    padding: 6px 10px;
     border-radius: 6px;
+    font-size: 13px;
 }
 
 .container .extra a:hover { 
@@ -222,49 +260,53 @@ footer .footer-links a:hover {
 
 .container .version {
     position: absolute;
-    bottom: 15px;
+    bottom: 12px;
     left: 0;
     width: 100%;
-    font-size: 12px;
+    font-size: 11px;
     color: var(--clr-light-a0);
-    opacity: 0.6;
+    opacity: 0.5;
+    letter-spacing: 0.2px;
 }
 
 @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
+    from {
+        opacity: 0;
+        transform: translateY(12px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
-
 
 @media (max-width: 480px) {
     .container {
-        padding: 15px;
-        padding-bottom: 50px;
+        padding: 28px 20px;
         max-width: 90%;
-    } 
+    }
     
     .container .logo {
-        width: 80px;
-        margin-bottom: 15px;
+        width: 140px;
+        margin-bottom: 12px;
     }
     
     .container .input-field {
-        padding: 10px 12px;
+        padding: 11px 14px;
         font-size: 14px;
     }
 
-    .container .action {
-        padding: 10px;
+    .container .action,
+    .container .passive {
+        padding: 11px 14px;
         font-size: 14px;
+        margin-top: 12px;
     }
 
-    .container .extra {
-        flex-direction: column;
-        gap: 1px;
-    }
+ 
 
     .container .extra a {
-        font-size: 11px;
+        font-size: 12px;
     }
 
     .container .input-label {

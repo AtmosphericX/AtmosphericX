@@ -9,7 +9,7 @@
                                      |_|                                                                                                                
 
     Created with ♥ by the AtmosphericX Team (KiyoWx, StarflightWx, Everwatch1, & CJ Ziegler)
-    Discord: https://atmosphericx-discord.scriptktity.cafe
+    Discord: https://atmosphericx-discord.scriptkitty.cafe
     Ko-Fi: https://ko-fi.com/k3yomi
     Documentation: http://localhost/documentation | https://atmosphericx.scriptkitty.cafe/documentation
 
@@ -94,7 +94,7 @@ export const h_strings: Record<string, any> = {
     },
     tooltips: [
         `Press 'Esc' or 'Ctrl + C' to exit AtmosphericX at any time.`,
-        `Visit our Discord server for support: https://atmosphericx-discord.scriptktity.cafe`,
+        `Visit our Discord server for support: https://atmosphericx-discord.scriptkitty.cafe`,
         `Consider supporting the project on Ko-Fi: https://ko-fi.com/k3yomi`,
         `You can configure alert tones in the configuration files!`,
         `AtmosphericX can integrate with Streamer.bot for your stream chats!`,

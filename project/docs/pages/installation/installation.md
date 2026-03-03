@@ -14,13 +14,13 @@ next:
 
 # Installation Guide
 ---
-This guide provides step-by-step instructions for installing AtmosphericX, including system requirements, OS specific steps, and troubleshooting tips. For additional support, join our [Discord Community](https://atmosphericx-discord.scriptktity.cafe) for volunteer support.
+This guide provides step-by-step instructions for installing AtmosphericX, including system requirements, OS specific steps, and troubleshooting tips. For additional support, join our [Discord Community](https://atmosphericx-discord.scriptkitty.cafe) for volunteer support.
 
 ::: info Documentation Notice
 Please keep in mind that this project is **actively** being maintained and updated, so be sure to check for information and updates. The primary documentation page can be found [here](https://atmosphericx.scriptkitty.cafe/documentation). Each instance will have it's own documentation as well which can be found at `/documentation` on the respective instance. 
 
 Please also be mindful that all help is community based since this is an open source project. You are welcome to ask questions if you encounter them but please keep in mind that most issues will be in the [troubleshooting](./troubleshooting) guide. If it's not listed there for your installation process. Please submit an issue on our [GitHub repository](https://github.com/AtmosphericX/AtmosphericX).
-If you have questions for the developers, please feel free to reach out to the public [Discord server](https://atmosphericx-discord.scriptktity.cafe).
+If you have questions for the developers, please feel free to reach out to the public [Discord server](https://atmosphericx-discord.scriptkitty.cafe).
 Please be aware that support is **limited** and mostly **volunteer** based as the main project developers work on this in their free time.
 :::
 
