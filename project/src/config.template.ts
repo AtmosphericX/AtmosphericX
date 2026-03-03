@@ -5,6 +5,7 @@ import path from 'path';
 
 const directory = path.resolve(__dirname, '../../configurations');
 const store = path.resolve(__dirname, '../../storage/store/hashmap.json');
+const storeCombined = path.resolve(__dirname, '../../storage/store/confighash.bin');
 
 type HashStore = Record<string, string>;
 
@@ -23,6 +24,7 @@ async function loadHashStore(): Promise<HashStore> {
 
 async function saveHashStore(hashes: HashStore): Promise<void> {
     await fs.writeFile(store, JSON.stringify(hashes, null, 4), 'utf-8');
+    await fs.writeFile(storeCombined, Object.entries(hashes).map(([key, hash]) => `${hash}`), 'utf-8');
 }
 
 async function processConfigFile(filePath: string, hashes: HashStore): Promise<void> {

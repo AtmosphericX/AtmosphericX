@@ -33,7 +33,7 @@
 
     */
 {
-    "events:hash": "9dd050fac6008ec4c3ce8f4330194bc8cbcf4201565d040bb28b22f3b18889e4", // DO NOT MODIFY THIS VALUE. THIS IS USED FOR CONFIGURATION INTEGRITY CHECKS.
+    "events:hash": "dded5ca96bd1debfcb123f23149649f142100964773d58d3b1ae24b54700c12d", // DO NOT MODIFY THIS VALUE. THIS IS USED FOR CONFIGURATION INTEGRITY CHECKS.
     "filters": {
         "listening_events": [ // Events you wish to listen to (ex. Tornado Warnings, Severe Thunderstorm Warnings, etc.)
             "Tornado Emergency", "PDS Tornado Warning",
