@@ -93,7 +93,7 @@
             "discord_webhook": "https://discord.com/api/webhooks/0000000000000/000000000000000000000000000-000000000000000000000000000", // Webhook goes here.
             "webhook_display": "AtmosphericX (Webhook Integration)", // Name of the webhook.
             "content": "<@&ROLE_ID_HERE>", // RoleID here, if you dont want a role, leave this empty.
-            "webhook_cooldown": 1 // Cooldown limit.
+            "webhook_cooldown": 3 // Cooldown limit.
         },
         // Same as below
         "critical_events": { // Handles critical only events specified in "priority_events" in events.jsonc
@@ -101,7 +101,7 @@
             "discord_webhook": "https://discord.com/api/webhooks/0000000000000/000000000000000000000000000-000000000000000000000000000",
             "webhook_display": "AtmosphericX (Webhook Integration)",
             "content": "<@&ROLE_ID_HERE>",
-            "webhook_cooldown": 1
+            "webhook_cooldown": 3
         },
         "misc_events": { // Handles all misc events such as forecasts, discussions, etc. 
             "enabled": false,
