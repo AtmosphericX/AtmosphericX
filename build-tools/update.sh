@@ -17,11 +17,8 @@ get_repository_is_updated() {
     local clean_remote_version="${remote_version%% *}"
     if version_lt "$clean_version" "$clean_remote_version"; then
         echo "Update available: $clean_version -> $clean_remote_version"
-        return 1
-    else
-        echo "Already up to date: $clean_version"
-        return 0
     fi
+    return 1
 }
 
 get_is_config_hash_change() {
@@ -167,15 +164,12 @@ get_repository_information() {
     echo -e "============ changelogs ============\n$remote_changelogs_url\n"
 
     get_repository_is_updated "$current_version" "$remote_version"
-    if [[ $? -eq 1 ]]; then
-        get_is_config_hash_change
-        is_config_hash_change=$?
-        if [[ "$is_config_hash_change" -eq 0 ]]; then
-            get_user_backup_options
-        fi
-        get_user_update_confirmation
+    get_is_config_hash_change
+    is_config_hash_change=$?
+    if [[ "$is_config_hash_change" -eq 0 ]]; then
+        get_user_backup_options
     fi
-
+    get_user_update_confirmation
     read -r -p "Press Enter to continue..."
 }
 
