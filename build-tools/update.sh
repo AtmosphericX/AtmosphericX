@@ -26,12 +26,18 @@ get_repository_is_updated() {
 
 get_is_config_hash_change() {
     local project_root="$(cd "$(dirname "$0")/.." && pwd)"
-    local local_content
-    local remote_content
     local local_file="$project_root/storage/store/confighash.bin"
     local remote_url="https://raw.githubusercontent.com/$repository/$branch/storage/store/confighash.bin"
+
+    if [[ ! -f "$local_file" ]]; then
+        echo "Local file missing"
+        return 0
+    fi
+
+    local local_content remote_content
     local_content=$(tr -d '\r\n' < "$local_file")
     remote_content=$(curl -fsSL "$remote_url" 2>/dev/null | tr -d '\r\n')
+
     if [[ "$local_content" == "$remote_content" ]]; then
         return 1
     else
@@ -58,6 +64,13 @@ get_user_backup_options() {
     else
         echo "Skipping configuration backup."
     fi
+}
+
+install_dependencies() {
+    cd ../project
+    rm -rf node_modules package-lock.json
+    npm install . --no-save
+    echo "AtmosphericX dependencies installed successfully."
 }
 
 get_user_update_confirmation() {
@@ -111,12 +124,11 @@ get_user_update_confirmation() {
                     rsync -a --delete --exclude='.git' "$tmpdir/" "$project_root/"
                 fi
             else
+                cd "$tmpdir" || { rm -rf "$tmpdir"; exit 1; }
                 if [[ "$preserve_configurations" -eq 1 ]]; then
-                    shopt -s extglob
-                    cp -a "$tmpdir"/!(configurations) "$project_root/" || { rm -rf "$tmpdir"; exit 1; }
-                    shopt -u extglob
+                    find . -mindepth 1 -maxdepth 1 ! -name 'configurations' -exec cp -a "{}" "$project_root/" \; || { rm -rf "$tmpdir"; exit 1; }
                 else
-                    cp -a "$tmpdir/." "$project_root/" || { rm -rf "$tmpdir"; exit 1; }
+                    cp -a ./* "$project_root/" || { rm -rf "$tmpdir"; exit 1; }
                 fi
             fi
 
@@ -165,13 +177,6 @@ get_repository_information() {
     fi
 
     read -r -p "Press Enter to continue..."
-}
-
-install_dependencies() {
-    cd ../project
-    rm -rf node_modules package-lock.json
-    npm install . --no-save
-    echo "AtmosphericX dependencies installed successfully."
 }
 
 get_repository_information
