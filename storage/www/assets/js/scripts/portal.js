@@ -17,7 +17,7 @@
 
 window.addEventListener('DOMContentLoaded', () => {
     const utils = new Utils();
-    utils.socket(["version", "configurations"]);
+    utils.socket(["version", "announcement", "configurations"]);
     const forms = [`login`, `signup`, `reset`];
     forms.forEach(id => {
         const container = document.getElementById(id);
@@ -89,10 +89,15 @@ window.addEventListener('DOMContentLoaded', () => {
     document.addEventListener("onUpdate", async () => {
         const spanVersions = document.querySelectorAll("#version-value");
         const version = utils?.storage?.version ?? ``;
+        const announcement = utils?.storage?.announcement ?? null;
         const guests = utils?.storage?.configurations?.guests_allowed ?? false;
         spanVersions.forEach(span => {
             span.textContent = `v${version}` ?? ``;
         });
+        if (announcement) {
+            document.getElementById("header-announcement").style.display = "block";
+            document.querySelector(".header-message").textContent = `${announcement}`;
+        }
         if (guests) { 
             const guestButtons = document.querySelectorAll(".passive");
             guestButtons.forEach(button => {

@@ -45,6 +45,7 @@ export const h_cache: Record<string, any> = {
     external: {
         configurations: null,
         changelogs: null,
+        announcement: null,
         version: null,
         sondewxeye: [],
         tornado_pot: [],

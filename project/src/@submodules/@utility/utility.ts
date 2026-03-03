@@ -339,6 +339,7 @@ export class Utility {
             });
         }
         if (oFeed && oFeed.message) {
+            loader.cache.external.announcement = oFeed.message.length > 0 ? oFeed.message : null;
             if (oFeed.message.length > 0) {
                 loader.modules.utilities.log({
                     title: `${this.ansi_colors.RED}Announcement${this.ansi_colors.RESET}`,

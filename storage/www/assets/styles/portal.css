@@ -84,6 +84,29 @@ footer .footer-links a:hover {
     position: fixed; inset: 0; z-index: -1;
 }
 
+.header-announcement {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background: var(--clr-surface-tonal-a0-t70);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--clr-surface-a20);
+    padding: 15px 20px;
+    z-index: 20;
+}
+
+.header-message { 
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--clr-light-a0);
+    opacity: 0.9;
+    text-align: center;
+    margin: 0;
+}
+
 .container { 
     width: 100%; max-width: 400px;
     border-radius: 24px; 
