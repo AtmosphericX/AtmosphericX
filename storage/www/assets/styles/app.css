@@ -52,7 +52,7 @@
 
 /* Links */
 .a-primary { 
-    color: var(--clr-light-a0); text-decoration: none;
+    text-decoration: none;
     font-size: 12px; padding: 6px 10px;
     transition: all 0.5s ease;
 }
