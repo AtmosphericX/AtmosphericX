@@ -27,7 +27,8 @@ The installer cannot find Visual C++ Redistributable for Visual Studio 2017 or l
 **Solution:**
 1. Download the latest Redistributable: <https://learn.microsoft.com/en-us/cpp/windows/latest-supported-vc-redist?view=msvc-170>  
 2. Install the correct version for your system (x64 / x86).  
-3. Re-run the installation.
+3. Install Desktop Development with C++
+4. Re-run the installation.
 
 > Tip: If `better-sqlite3` fails, see [its troubleshooting guide](https://github.com/WiseLibs/better-sqlite3/blob/master/documentation/troubleshooting.md).
 :::
