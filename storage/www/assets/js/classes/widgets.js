@@ -44,7 +44,7 @@ class Widgets {
         if (settings?.global.setTextColor) { element.style.color = settings.global.setTextColor }
         if (settings?.global.setTextSize) { element.style.fontSize = `${settings.global.setTextSize}px` }
         if (settings?.global.setTextFont) { element.style.fontFamily = settings.global.setTextFont }
-        if (settings?.global.setBackgroundAnimated) { element.style.transition = 'background-color 1.5s ease'; }
+        if (settings?.global.setBackgroundAnimated) { element.style.transition = `background-color ${settings.global.setAnimationStartDuration ?? 1.5}s ease`; }
     }
 
     /**

@@ -1,11 +1,11 @@
 ---
 layout: doc
 next: 
-    text: 'Alerts Widget'
-    link: /pages/widgets/alerts
+    text: 'Palette Widget'
+    link: /pages/widgets/palette
 prev:
-    text: 'Placefiles.jsonc'
-    link: /pages/configurations/placefiles
+    text: 'Widget Introduction'
+    link: /pages/widgets/index
 ---
 
 <img src="/logo.png" alt="AtmosphericX Logo" width="200" style="display: block; margin: 0 auto;" />
@@ -13,10 +13,10 @@ prev:
 <small class="last-updated">Last Updated: <b>Mar 4th, 2026</b></small><br><br><br>
 
 
-# Alerts Widget
+# Alert Widget
 ---
 
-The `alerts` widget centralizes the management of weather and miscellaneous events. It provides customizable sound effects, flexible theming options, and optional Text-to-Speech integration with full support for the [`setRoute`](./index#understanding-setroute) functionality. The `alerts` widget is located under `/widgets/alerts` and can be accessed directly via the URL.
+The `alert` widget centralizes the management of weather and miscellaneous events. It provides customizable sound effects, flexible theming options, and optional Text-to-Speech integration with full support for the [`setRoute`](./index#understanding-setroute) functionality. The `alert` widget is located under `/widgets/alerts` and can be accessed directly via the URL.
 
 ::: info Parameter Rules
 
@@ -47,7 +47,7 @@ Below are default values that you can use with `/widgets/alerts`. Visit [Global 
 - Example: `/widgets/alerts?setRoute=%properties.event% (%properties.agency ?? properties.action_type%)`
 
 ## Local Parameters
-Below are default / optional parameters you can use with the `alerts` widget. Please be sure to follow the default value type convention.
+Below are default / optional parameters you can use with the `alert` widget. Please be sure to follow the default value type convention.
 
 ### setElement
 - Description: The `element` to select for handling the widget. This is forced upon the widget and **can't** be changed.
@@ -111,20 +111,28 @@ Please make sure that your volume level is between `0.0-1.0` as going any lower 
 ## Examples
 ::: details Example 1
 - Prompt: Make an `alert` widget holds the event for `15` seconds, has a max event history of `25` minutes and sets the route header message to something like **Severe Thunderstorm Warning (Grand Junction, CO)** yet if not available default to the action type (`Updated/Issued/Upgraded`)
-- Result: `/widgets/alerts?setPauseTime=15&setMaxHistory=25&setRoute=%properties.event% (%properties.sender_name ?? properties.action_type%)`
+```
+/widgets/alerts?setPauseTime=15&setMaxHistory=25&setRoute=%properties.event% (%properties.sender_name ?? properties.action_type%)
+```
 :::
 
 ::: details Example 2
 - Prompt: Make an `alert` widget that has `no box shadow`, sets a `custom sfx to a siren` instead of the default beep, and has a `longer animation start duration of 3 seconds`
-- Result: `/widgets/alerts?setAnimationStartDuration=3.0&setSfx=/sfx/eas_sfx/siren-eas.mp3&setBoxShadow=false`
+```
+/widgets/alerts?setAnimationStartDuration=3.0&setSfx=/sfx/eas_sfx/siren-eas.mp3&setBoxShadow=false
+```
 :::
 
 ::: details Example 3
 - Prompt: Make an `alert` widget that sets the `text allignment of the header to the center`, doesn't contain `event status`, and changes the `border radius to 1px`
-- Result: `/widgets/alerts?setTextAlignment=center&setRoute=%properties.event%&setBorderRadius=1`
+```
+/widgets/alerts?setTextAlignment=center&setRoute=%properties.event%&setBorderRadius=1
+```
 :::
 
 ::: details Example 4
 - Prompt: Make an `alert` widget that is `muted`.
-- Result: `/widgets/alerts?setPlayback=false`
+```
+/widgets/alerts?setPlayback=false
+```
 :::

@@ -40,7 +40,7 @@ const aSearch = new URLSearchParams(window.location.search);
 const aGlobalElementSettings = {
     setRoute: get(aSearch, `setRoute`) ?? null,
     setRouteSecondary: get(aSearch, `setRouteSecondary`) ?? null,
-    setThemeType: get(aSearch, `setThemeType`) ?? `secondary`, // Sets the theme type
+    setThemeType: get(aSearch, `setThemeType`) ?? `primary`, // Sets the theme type
     setElementThemed: get(aSearch, `setElementThemed`) ?? false, // Applies theme to the element
     setElementZoomLevel: get(aSearch, `setElementZoomLevel`) ?? null, // Sets element zoom level
     setTextColorThemed: get(aSearch, `setTextColorThemed`) ?? false, // Applies theme to text color

@@ -1,7 +1,7 @@
 ---
 layout: doc
 next: 
-    text: 'Alerts Widget'
+    text: 'Alert Widget'
     link: /pages/widgets/alerts
 prev:
     text: 'Placefiles.jsonc'

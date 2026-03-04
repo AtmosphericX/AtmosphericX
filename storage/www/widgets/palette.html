@@ -60,7 +60,7 @@
             const utils = new Utils();
             const wise = new Wise(utils);
             const widgets = new Widgets(utils);
-            settings.setElement = get(aSearch, `setSelectedElement`) ?? document.getElementById('widget-container')
+            settings.setElement = document.getElementById('widget-container')
             settings.global.setElementThemed = true;
            
             utils.socket([`configurations`, `events`, `pulsepoint`, `manual`]).then(() => {
