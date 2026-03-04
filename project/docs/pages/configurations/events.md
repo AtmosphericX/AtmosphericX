@@ -31,7 +31,6 @@ events.jsonc
 │   ├── listening_events
 │   ├── priority_events
 │   ├── all_events
-│   ├── show_cancels
 │   ├── sfx_beep_only
 │   ├── show_updates
 │   ├── ignore_tests

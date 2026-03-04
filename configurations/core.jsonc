@@ -33,7 +33,7 @@
 
     */
 {
-    "core:hash": "3584074fd781a0eb5f439716839f73bc477fdd590b6ac34d549541cb7c9bdd4b", // DO NOT MODIFY THIS VALUE. THIS IS USED FOR CONFIGURATION INTEGRITY CHECKS.
+    "core:hash": "9cdb3d79b0f3c0577d6b56be3c77d73240fdf9525658a7c5e45ffc661d875124", // DO NOT MODIFY THIS VALUE. THIS IS USED FOR CONFIGURATION INTEGRITY CHECKS.
     "web_hosting_settings": {
         "is_login_required": true, // No account creation required for ATMOSX (Not secure) (Requires admin to be created in the setup process)
         "is_guest_access_allowed": false, // If you want to allow guest access to your dashboard. (Not Secure)

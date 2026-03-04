@@ -4,3 +4,5 @@ change(docs): docs -> documentation
 change(docs): Discord perma link: https://atmosphericx-discord.scriptkitty.cafe
 change(docs): Documentation perma link: https://atmosphericx.scriptkitty.cafe
 add(core): Browser TTL Caching
+remove(config): show_cancels option
+update(atmosx-nwws-parser): Better event handling for test warnings

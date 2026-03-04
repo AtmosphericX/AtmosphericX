@@ -33,7 +33,7 @@
 
     */
 {
-    "events:hash": "482a6465394b5b4a1d09f82b08ed18a69364011987d0d4ace732c3fe0f383d10", // DO NOT MODIFY THIS VALUE. THIS IS USED FOR CONFIGURATION INTEGRITY CHECKS.
+    "events:hash": "3d90a3ecd972fc488c8cd6f91b010b649205d893471ceef4c53ebf41800cd563", // DO NOT MODIFY THIS VALUE. THIS IS USED FOR CONFIGURATION INTEGRITY CHECKS.
     "filters": {
         "listening_events": [ // Events you wish to listen to (ex. Tornado Warnings, Severe Thunderstorm Warnings, etc.)
             "Tornado Emergency", "PDS Tornado Warning",
@@ -73,7 +73,6 @@
             "Extreme Cold Watch"
         ],
         "all_events": false, // If you want to listen to all events (overrides listening_events) (NOT RECOMMEDNED)
-        "show_cancels": false, // If you want to show cancels for events (true/false) (THIS GOES FOR ALL EVENTS)
         "sfx_beep_only": false, // If you want to use only the beep sfx for all alerts (true/false) (This ignores priority events)
         "show_updates": true, // If you want to show updates for events (true/false) (This ignores priority events)
         "ignore_tests": true, // Ignore test messages (Ex. Test Tsunami Warnings) (true/false)

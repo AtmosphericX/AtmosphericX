@@ -74,7 +74,7 @@ export const getConfigurations = () => {
                 ignored_icao: filteringSettings?.ignored_icao,
                 ugc_filter: filteringSettings?.listening_ugcs,
                 state_filter: filteringSettings?.listening_states,
-                check_expired: false,
+                check_expired: true, // Hardlock this, This will prevent duplicated issues later on :3
             },
             eas_settings: {
                 festival_tts_voice: easSettings?.festival_voice,

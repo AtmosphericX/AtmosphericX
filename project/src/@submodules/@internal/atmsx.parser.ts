@@ -225,26 +225,22 @@ export class ATMSXParser {
         if (isHashed || isIgnored) return;
         this.setHashes(isEntry, properties);
         const getFeature = featureMap.get(tracking);
-        if (!properties.is_expired && !properties.is_cancelled) {
-            const type = getFeature ? 'Merge' : 'Created';
+        const type = getFeature ? `Updated` : `Created`
+        if (!properties.is_cancelled) {
             loader.modules.utilities.log({ 
                 title: `${this.ansi_colors.MAGENTA}${type}${this.ansi_colors.RESET}`,
                 message: this.getEventText(register),
                 settings: { type: '__events__' }
             });
         }
-        if (properties.is_cancelled || properties.is_expired) {
+      
+        if (properties.is_cancelled) {
             if (getFeature) {
                 const index = features.indexOf(getFeature);
                 if (index !== -1) features.splice(index, 1);
                 loader.cache.external.hashes = loader.cache.external.hashes.filter(log => log.tracking !== tracking);
             }
-            if (configurations?.filters?.show_cancels && properties.is_cancelled) {
-                register.properties.expires = new Date(Date.now() + 60_000).toISOString();
-                features.push(register);
-                featureMap.set(tracking, register);
-            }
-            return;
+            return
         }
         if (properties.is_issued && !getFeature) {
             features.push(register);

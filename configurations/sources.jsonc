@@ -33,7 +33,7 @@
 
     */
 {
-    "sources:hash": "e9aa0c2560cdf21ee7e3f0ea18e93799e41a45eeb6997bf49880b608f1d5ab81", // DO NOT MODIFY THIS VALUE. THIS IS USED FOR CONFIGURATION INTEGRITY CHECKS.
+    "sources:hash": "60e3d854eaaec5b9679e90f5d4fbc1ac22e2c66ddc93fa081524e74339f97063", // DO NOT MODIFY THIS VALUE. THIS IS USED FOR CONFIGURATION INTEGRITY CHECKS.
     "sources": {
         "atmosx_parser_settings": { // AtmosphericX event parser settings
             "noaa_weather_wire_service": false, // If you want to use NOAA Weather Wire Service, set this to true.
