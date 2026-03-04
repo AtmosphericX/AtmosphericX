@@ -117,6 +117,8 @@ By default, AtmosphericX includes `4` animations that can be used throughout the
 - anim_fade_in
 - pulse
 
+You can use the `setAnimationStartType` or `setAnimationEndType` to define these animations as long as `setAnimated` is `true`
+
 
 
 ## Importing Widgets (OBS / Streamlabs)

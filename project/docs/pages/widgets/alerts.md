@@ -105,5 +105,10 @@ Please make sure that your volume level is between `0.0-1.0` as going any lower 
 
 ## Examples
 ::: details Example 1
-- Description: Make a `alert` widget holds the event for `15` seconds, has a max event history of `25` minutes and sets the route header message to something like **Severe Thunderstorm Warning (Grand Junction, CO)** yet if not available default to the action type (`Updated/Issued/Upgraded`)
+- Prompt: Make an `alert` widget holds the event for `15` seconds, has a max event history of `25` minutes and sets the route header message to something like **Severe Thunderstorm Warning (Grand Junction, CO)** yet if not available default to the action type (`Updated/Issued/Upgraded`)
 - Result: `/alerts?setPauseTime=15&setMaxHistory=25&setRoute=%properties.event% (%properties.sender_name ?? properties.action_type%)`
+:::
+
+::: details Example 2
+- Prompt: Make an `alert` widget that has `no box shadow`, sets a `custom sfx to a siren` instead of the default beep, and has a `longer animation start duration of 3 seconds`
+- Result: `/alerts?setAnimationStartDuration=3.0&setSfx=/sfx/eas_sfx/siren-eas.mp3&setBoxShadow=false`
