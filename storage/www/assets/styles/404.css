@@ -47,13 +47,11 @@ body {
     font-size: clamp(28px, 6vw, 48px);
     font-weight: 700;
     margin-bottom: 16px;
-    color: var(--clr-light-a0);
     letter-spacing: -0.5px;
 }
 
 .error-message { 
     font-size: clamp(14px, 3vw, 16px);
-    color: var(--clr-neutral-a10); 
     margin-bottom: 32px;
     line-height: 1.6; 
     opacity: 0.9;
@@ -76,13 +74,10 @@ body {
     box-shadow: 0 12px 48px rgba(0, 0, 0, 0.4);
 }
 
-.error-link { 
-    display: inline-block;
-    color: var(--clr-info-a10);
-    transition: all 0.3s ease;
+.a-primary { 
+    font-size: 35px;
 }
 
-.error-link:hover {
-    color: var(--clr-light-a0);
-    transform: translateY(-2px);
+.btn-primary { 
+    width: 25%;
 }

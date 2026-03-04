@@ -121,20 +121,16 @@
 }
 
 .graph-bg { 
-    position: fixed; 
-    inset: 0; 
-    background-color: var(--clr-surface-tonal-a0);
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: -1;
     background-image:
-        linear-gradient(var(--clr-surface-a10) 1px, transparent 1px),
-        linear-gradient(90deg, var(--clr-surface-a10) 1px, transparent 1px);
-    background-size: 80px 80px;
-    pointer-events: none; 
-    overflow: hidden; 
-    filter: drop-shadow(0 0 3px var(--clr-surface-a10));
-}
-
-.graph-animations {
-    animation: anim_grid_drift 5s linear infinite;
+        linear-gradient(0deg, rgba(255, 255, 255, 0.034) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.034) 1px, transparent 1px);
+    background-size: 40px 40px;
+    animation: anim_grid 4s linear infinite;
 }
 
 .widget-container {
@@ -161,7 +157,9 @@
     font-size: 20px;
 }
 
-@keyframes anim_grid_drift { 0% { background-position: 0px 0px, 0px 0px; } 100% { background-position: 80px 80px, 80px 80px; }}
+@keyframes anim_shrink { from { width: 100%; } to { width: 0%; } }
+@keyframes anim_slide_in { to {opacity: 1; transform: translateY(0) scale(1); } }
+@keyframes anim_grid { from { background-position: 0 0, 0 0; } to { background-position: 40px 40px, 40px 40px; } }
 @keyframes anim_fade_out { 0% { opacity: 1; } 100% {  opacity: 0; } }
 @keyframes anim_fade_in { 0% { opacity: 0; } 100% { opacity: 1; } }
 @keyframes pulse { 0% { opacity: 1; transform: scale(1);} 50% { opacity: 0.7; transform: scale(1.05);} 100% { opacity: 1; transform: scale(1);} }

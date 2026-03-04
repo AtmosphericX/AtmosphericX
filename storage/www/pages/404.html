@@ -20,11 +20,12 @@
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-        <title>AtmosphericX - 404</title>
+        <title>AtmosphericX - Dashboard</title>
         <link rel="icon" href="/assets/images/favicon.ico" type="image/x-icon"/>
         <!-- CSS -->
-        <link rel="stylesheet" href="/assets/styles/global.css">
-        <link rel="stylesheet" href="/assets/styles/404.css">
+        <link rel="stylesheet" href="/assets/styles/global.css"> <!-- Global Theme CSS -->
+        <link rel="stylesheet" href="/assets/styles/app.css"> <!-- App CSS -->
+        <link rel="stylesheet" href="/assets/styles/404.css"> <!-- 404 CSS -->
 
         <!-- Apple Stuff-->
         <link rel="manifest" href="/assets/static/manifest.json">
@@ -36,10 +37,14 @@
         <div class="graph-bg" style="z-index: -1;"></div>
         <div class="container">
             <img class="error-image" src="/assets/images/404-not-found.gif" alt="Lizard pressing random buttons">
-            <h1 class="error-title">404 - Page Not Found</h1>
-            <p class="error-message">
-                The page you are looking for does not exist or has been moved. Please check the URL or return to the <a class="error-link" href="/">dashboard</a>.
+            <h1 class="error-title text-danger">404 Page Not Found</h1>
+            <p class="error-message text-neutral">
+                The page you are looking for does not exist or has been moved.
             </p>
+            <form method="GET" action="/" style="display: inline;">
+                <button type="submit" class="btn-primary hover hover-light">Go Back</button>
+            </form>
+
         </div>
     </body>
 </html>

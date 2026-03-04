@@ -89,6 +89,7 @@
             if (settings.setType == null) { 
                 return utils.notify({
                     type: "error",
+                    title: "Widget Error",
                     message: `No widget type specified, please consult to the documentation for widget types.`,
                     duration: 15e3
                 })
@@ -96,6 +97,7 @@
             if (subscriptionServices[settings.setType] == null) { 
                 return utils.notify({
                     type: "error",
+                    title: "Widget Error",
                     message: `Invalid widget type specified, please consult to the documentation for widget types.`,
                     duration: 15e3
                 })

@@ -38,6 +38,7 @@ window.addEventListener('DOMContentLoaded', () => {
                     if (data.password !== data.confirmed) {
                         return utils.notify({
                             type: 'error',
+                            title: "Authentication Error",
                             message: 'Passwords do not match. Please try again.'
                         });
                     }
@@ -55,11 +56,13 @@ window.addEventListener('DOMContentLoaded', () => {
                 if (!response.ok) {
                     return utils.notify({
                         type: 'error',
+                        title: "Authentication Error",
                         message: result.message || 'An error occurred. Please try again.'
                     });
                 }
                 utils.notify({
                     type: 'success',
+                    title: "Authentication Success",
                     message: result.message || 'Operation successful! Redirecting...'
                 });
                 if (id === 'setup') {
@@ -71,7 +74,8 @@ window.addEventListener('DOMContentLoaded', () => {
             } catch (error) {
                 utils.notify({
                     type: 'error',
-                    message: 'Network error. Please try again later.'
+                    title: "Authentication Error",
+                    message: 'Network error. Please try again later. Server connection failed or you are getting ratelimited.'
                 });
             }
         })
@@ -88,9 +92,5 @@ window.addEventListener('DOMContentLoaded', () => {
             document.getElementById("header-announcement").style.display = "block";
             document.querySelector(".header-message").textContent = `${announcement}`;
         }
-    });
-    utils.notify({
-        type: 'info',
-        message: `Please complete the initial setup to continue. The authentication code can be found in your console`
     });
 })

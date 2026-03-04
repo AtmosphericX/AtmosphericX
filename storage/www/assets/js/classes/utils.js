@@ -55,7 +55,8 @@ class Utils {
         const msg = error instanceof Error ? error.message : JSON.stringify(error);
         this.log(`${parent} - An unexpected error occurred: ${msg}`);
         this.notify({ 
-            type: 'error', 
+            type: 'error',
+            title: parent, 
             message: msg, 
             duration: 5000 
         });
@@ -116,46 +117,56 @@ class Utils {
      * 
      * @param {Object} options - The notification options.
      * @param {string} options.message - The message to display in the notification.
+     * @param {string} options.title - The title of the notification.
      * @param {string} options.type - The type of notification ('success', 'error', 'info').
      * @param {number} options.duration - Duration in milliseconds for which the notification is displayed.
      * @return {void}
      */
-    notify = function(options = {message: `Notification`, type: `info`, duration: 5000}) {
+    notify = function(options = {}) {
         try {
-            if (!options || !options.message) return;
-            if (!options.type) options.type = `info`;
-            if (!options.duration) options.duration = 5000;
-            this.log(`[${options.type.toUpperCase()}] ${options.message}`);
-            const container = document.getElementsByClassName('notifications')[0];
+            const { title = 'Alert', message = 'Notification', type = 'info', duration = 5000 } = options;
+            if (!message) return;
+            this.log(`[${type.toUpperCase()}] ${message}`);
+            const container = document.querySelector('.notifications');
             if (!container) return;
-            this.sound(`/sfx/dash_sfx/notify.mp3`, 0.1)
-            if (container.children.length >= 2) {
-                const firstNotify = container.children[0];
+            if (container.children.length >= 4) {
+                const firstNotify = container.firstElementChild;
                 firstNotify.classList.add('fade-out');
-                setTimeout(() => { firstNotify.remove(); }, 500);
+                setTimeout(() => firstNotify.remove(), 400);
             }
             const notify = document.createElement('div');
-            notify.classList.add('notification', options.type);
-            notify.innerText = options.message;
+                notify.classList.add('notification', 'enter', type);
+            const notifyTitle = document.createElement('div');
+                notifyTitle.classList.add('notification-title');
+                notifyTitle.textContent = title;
+                notify.appendChild(notifyTitle);
+            const notifyMessage = document.createElement('p');
+                notifyMessage.classList.add('notification-message');
+                notifyMessage.textContent = message;
+                notify.appendChild(notifyMessage);
             const setNotifyBar = document.createElement('div');
                 setNotifyBar.classList.add('notification-bar');
             const progress = document.createElement('div');
-                progress.classList.add('notification-progress', options.type);
-                progress.style.width = '100%';
-                progress.style.transition = `width ${options.duration}ms linear`;
-            container.appendChild(notify);
-            notify.appendChild(setNotifyBar);
-            setNotifyBar.appendChild(progress);
-            progress.offsetWidth;
-            requestAnimationFrame(() => { progress.style.width = '0%';});
-            setTimeout(() => {
+                progress.classList.add('notification-progress', 'progress-animate', type);
+                progress.style.animationDuration = `${duration}ms`;
+                setNotifyBar.appendChild(progress);
+                notify.appendChild(setNotifyBar);
+                container.appendChild(notify);
+            const removeNotify = () => {
+                notify.classList.remove('enter');
                 notify.classList.add('fade-out');
-                setTimeout(() => { notify.remove(); }, 500);
-            }, options.duration);
+                setTimeout(() => notify.remove(), 400);
+            };
+            const autoRemove = setTimeout(removeNotify, duration);
+            notify.addEventListener('click', () => {
+                console.log('Notification clicked');
+                clearTimeout(autoRemove);
+                removeNotify();
+            });
         } catch (error) {
             this.exception(error, `${this.name_space}:notify`);
         }
-    }
+    };
 
     /**
      * @production
@@ -396,7 +407,8 @@ class Utils {
         try {
             if (window.innerWidth <= 1270) {
                 this.notify({ 
-                    type: 'info', 
+                    type: 'info',
+                    title: "Permissions", 
                     message: 'Mobile device detected. Please enable audio playback. If this prompt appeared in OBS, please increase the browser size.', 
                     duration: 10000 
                 });

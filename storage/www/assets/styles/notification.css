@@ -15,19 +15,65 @@
 
 */
 
-.notifications { position: fixed; bottom: 20px; right: 20px; display: flex; flex-direction: column-reverse; gap: 12px; z-index: 9999; pointer-events: none; }
-.notification { padding: 20px 12px; color: var(--clr-light-a0); font-weight: 500; background-color: var(--clr-surface-a10); box-shadow: 0 4px 16px rgba(0, 0, 0, 0.5); opacity: 1; transform: translateY(0); position: relative; transition: opacity 0.4s ease, transform 0.4s ease; pointer-events: auto; font-family: var(--global-font-family); width: auto; min-width: 220px; max-width: 320px; }
-.notification.fade-out { opacity: 0; transform: translateY(20px) scale(0.95); }
-.notification-bar { position: absolute; left: 0; bottom: 0; height: 4px; width: 100%; background: var(--clr-surface-a20); overflow: hidden; }
-.notification-progress { height: 100%; width: 100%; transform-origin: left; }
-.notification-progress { background: var(--clr-light-a0); }
-.notification-progress.progress-animate { width: 0%; }
+.notifications {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    display: flex;
+    flex-direction: column-reverse;
+    gap: 12px;
+    z-index: 9999;
+    pointer-events: none;
+} .notification {
+    position: relative;
+    max-width: 300px;
+    width: auto;
+    padding: 16px 20px;
+    border-radius: 8px;
+    background-color: var(--clr-surface-a10);
+    color: var(--clr-light-a0);
+    box-shadow: 0 6px 18px rgba(0,0,0,0.35);
+    overflow: hidden;
+    opacity: 0;
+    transform: translateY(20px) scale(0.95);
+    pointer-events: auto;
+    font-family: var(--global-font-family);
+} .notification-title {
+    font-size: 1.2em;
+    margin-bottom: 6px;
+} .notification-message {
+    font-size: 0.95em;
+} .notification-bar {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    height: 6px;
+    width: 100%;
+    background: var(--clr-surface-a20);
+    overflow: hidden;
+    border-radius: 0 0 8px 8px;
+} .notification-progress {
+    height: 100%;
+    width: 100%;
+    background: var(--clr-light-a0);
+    transform-origin: left;
+}
 
+.notification-progress.progress-animate {
+    animation: anim_shrink linear forwards;
+}
 
-.notification.info { background-color: var( --clr-info-a0); }
+.notification.enter {
+    animation: anim_slide_in 0.4s forwards ease-out;
+}
+
+.notification.fade-out {
+    animation: anim_fade_out 0s forwards ease-in;
+}
+
+.notification.info { background-color: var(--clr-info-a0); }
 .notification.success { background-color: var(--clr-success-a0); }
 .notification.error { background-color: var(--clr-danger-a0); }
-
 
 @media (max-width: 480px) {
     .notifications {
