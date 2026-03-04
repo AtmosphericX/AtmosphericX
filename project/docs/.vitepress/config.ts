@@ -2,14 +2,26 @@ import { defineConfig } from "vitepress";
 import serveStatic from "serve-static";
 import path from "path";
 const directory = path.resolve(__dirname, "../../../storage/www");
+const description = "AtmosphericX is a modern, modular weather dashboard and widget platform built for live streaming, storm chasing, meteorologists, first responders, and weather-aware individuals.";
 
 export default defineConfig({
 	lang: "en-US",
 	ignoreDeadLinks: true,
 	outDir: directory + "/documentation",
 	base: "/documentation",
-	title: "AtmosphericX",
-	description: "A modern, modular, and powerful weather dashboard platform for live streaming, spotting, and content creation.",
+	title: "AtmosphericX 8.0.0.029 (beta-pre-dashboard-testing)",
+	description: description,
+	head: [
+		['link', { rel: 'icon', href: '/assets/images/favicon.ico' }],
+		['meta', { property: 'og:type', content: 'website' }],
+		['meta', { property: 'og:title', content: '8.0.0.029 (beta-pre-dashboard-testing)' }],
+		['meta', { name: 'twitter:title', content: '8.0.0.029 (beta-pre-dashboard-testing)' }],
+		['meta', { property: 'og:url', content: '/' }],
+		['meta', { name: 'twitter:description', content: description }],
+		['meta', { property: 'og:description', content: description }],
+		['meta', { property: 'og:image', content: '/assets/images/manifest.png' }],
+		['meta', { name: 'twitter:image', content: '/assets/images/manifest.png' }],
+	],
 	themeConfig: {
 		search: { provider: "local" },
 		logo: "/logo.png",
