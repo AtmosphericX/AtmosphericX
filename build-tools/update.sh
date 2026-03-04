@@ -132,8 +132,6 @@ get_user_update_confirmation() {
             rm -rf "$tmpdir"
         fi
 
-        [[ -n "$remote_changelogs_url" ]] && printf "\nChangelog:\n%s\n\n" "$remote_changelogs_url"
-
         echo "Do you want to fetch the latest dependencies? [Y/n]"
         read -r depend_confirm
         if [[ "$depend_confirm" =~ ^[Yy]$ ]]; then
@@ -161,7 +159,7 @@ get_repository_information() {
 
     echo -e "current_version\t$current_version"
     echo -e "remote_version\t$remote_version"
-    echo -e "============ changelogs ============\n$remote_changelogs_url\n"
+    echo -e "\n$remote_changelogs_url\n"
 
     get_repository_is_updated "$current_version" "$remote_version"
     get_is_config_hash_change
