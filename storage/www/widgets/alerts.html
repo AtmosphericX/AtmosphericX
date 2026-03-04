@@ -123,7 +123,7 @@
             const widgets = new Widgets(utils);
             const handler = new Handlers(utils, widgets);
 
-            settings.setElement = get(aSearch, `setSelectedElement`) ?? document.getElementById('widget-container')
+            settings.setElement = document.getElementById('widget-container')
             settings.setPauseTime = get(aSearch, `setPauseTime`) ?? 8;
             settings.setMaxHistory = get(aSearch, `setMaxHistory`) ?? 5;
             settings.setStreaming = get(aSearch, `setStreaming`) ?? true;
@@ -134,6 +134,7 @@
             settings.global.setAnimationStartDuration = get(aSearch, `setAnimationStartDuration`) ?? 1.0;
             settings.global.setAnimationEndDuration = get(aSearch, `setAnimationEndDuration`) ?? 0.5;
             settings.global.setRoute = get(aSearch, `setRoute`) ?? `%properties.event% (%properties.agency ?? properties.action_type%)`;
+            settings.global.setElementThemed = false;
 
             
             utils.isMobileDevice()

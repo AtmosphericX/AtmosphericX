@@ -58,7 +58,7 @@
     "start": "node ./dist/index.cjs",
     "build": "tsup && node ./dist/index.cjs",
     "config": "tsup src/config.template.ts --out-dir dist/tools --format cjs --clean && node dist/config.template.cjs",
-    "docs:dev": "vitepress dev docs --host",
+    "docs:dev": "vitepress dev docs --host --port 3000",
     "docs:build": "vitepress build docs"
   },
   "devDependencies": {

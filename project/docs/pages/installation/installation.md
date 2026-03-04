@@ -47,8 +47,6 @@ As of AtmosphericX v8, `Node.js 20+` is required and we've also migrated from `J
 The Raspberry Pi is supported but please make sure to have the Model 4 version as AtmosphericX needs at least 2GB of memory to run this project smoothly. The OrangePi is **NOT** supported so please don't ask about this. We will try to get a workaround in the future.
 :::
 
-`Starflight: Redo this section - We moved building and running in the same script`
-
 ## Installation Process
 Installing AtmosphericX is a straightforward process as long as you **CAREFULLY** read and follow the introductions and meet the mentioned [system specifications](#system-requirements-specifications). Down below are installation steps for each OS including a limited easy install script for users that are not familiar with these applications.
 
