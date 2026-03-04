@@ -15,7 +15,6 @@ prev:
 
 # Alerts Widget
 ---
-## Overview
 
 The `alerts` widget centralizes the management of weather and miscellaneous events. It provides customizable sound effects, flexible theming options, and optional Text-to-Speech integration with full support for the [`setRoute`](./index#understanding-setroute) functionality. The `alerts` widget is located under `/widgets/alerts` and can be accessed directly via the URL.
 
