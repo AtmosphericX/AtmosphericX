@@ -11,6 +11,12 @@
 		<img alt="GitHub issues" src="https://img.shields.io/github/issues/AtmosphericX/AtmosphericX">
 		<img alt="GitHub pull requests" src="https://img.shields.io/github/issues-pr/AtmosphericX/AtmosphericX">
 	</div>
+	<div align="center" style="border: none;">
+		<a href="https://nodei.co/npm/atmosx-nwws-parser/"><img src="https://nodei.co/npm/atmosx-nwws-parser.svg?style=shields&data=n&color=red"></a>
+		<a href="https://nodei.co/npm/atmosx-tempest-station/"><img src="https://nodei.co/npm/atmosx-tempest-station.svg?style=shields&data=n&color=red"></a>
+		<a href="https://nodei.co/npm/atmosx-pulse-point/"><img src="https://nodei.co/npm/atmosx-pulse-point.svg?style=shields&data=n&color=red"></a>
+		<a href="https://nodei.co/npm/atmosx-placefile-parser/"><img src="https://nodei.co/npm/atmosx-placefile-parser.svg?style=shields&data=n&color=red"></a>
+	</div>
 </div>
 <br>
 AtmosphericX is a modern, modular, and powerful weather dashboard and widget project designed to be self hosted for live streaming, storm spotting, storm chasing, meteorologists, first responders, or curious individuals who are concerned about weather conditions and safety.
