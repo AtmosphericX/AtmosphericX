@@ -1,3 +1,5 @@
+========= 8.0.0.028 (beta-pre-dashboard-testing) =========
+
 change(widget): isElementThemed -> setElementThemed
 change(widget): isTextColorThemed -> setTextColorThemed
 change(docs): docs -> documentation
@@ -6,3 +8,4 @@ change(docs): Documentation perma link: https://atmosphericx.scriptkitty.cafe
 add(core): Browser TTL Caching
 remove(config): show_cancels option
 update(atmosx-nwws-parser): Better event handling for test warnings
+fix(internal-parser): Make sure merging actually merges...
