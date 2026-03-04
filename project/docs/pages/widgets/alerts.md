@@ -84,6 +84,11 @@ You can enable this feature in the [Sources.jsonc](../configurations/sources) wi
 - Default (`boolean`): `true`
 - Example: `/widgets/alerts?setStreaming=(true/false)`
 
+### setPlayback
+- Description: `Enable/Disable` the playback functionality for the widget. Essentially making it muted if set to `false`.
+- Default (`boolean`): `true`
+- Example: `/widgets/alerts?setPlayback=(true/false)`
+
 ### setSfx
 - Description: An optional way to override the default `beep` sfx sound effect with a predefined one. This is useful if you want to have a different sfx sound for a specific scene while having the backend still manage the default one.
 - Default: (`string/path/null`): `null`
@@ -106,9 +111,20 @@ Please make sure that your volume level is between `0.0-1.0` as going any lower 
 ## Examples
 ::: details Example 1
 - Prompt: Make an `alert` widget holds the event for `15` seconds, has a max event history of `25` minutes and sets the route header message to something like **Severe Thunderstorm Warning (Grand Junction, CO)** yet if not available default to the action type (`Updated/Issued/Upgraded`)
-- Result: `/alerts?setPauseTime=15&setMaxHistory=25&setRoute=%properties.event% (%properties.sender_name ?? properties.action_type%)`
+- Result: `/widgets/alerts?setPauseTime=15&setMaxHistory=25&setRoute=%properties.event% (%properties.sender_name ?? properties.action_type%)`
 :::
 
 ::: details Example 2
 - Prompt: Make an `alert` widget that has `no box shadow`, sets a `custom sfx to a siren` instead of the default beep, and has a `longer animation start duration of 3 seconds`
-- Result: `/alerts?setAnimationStartDuration=3.0&setSfx=/sfx/eas_sfx/siren-eas.mp3&setBoxShadow=false`
+- Result: `/widgets/alerts?setAnimationStartDuration=3.0&setSfx=/sfx/eas_sfx/siren-eas.mp3&setBoxShadow=false`
+:::
+
+::: details Example 3
+- Prompt: Make an `alert` widget that sets the `text allignment of the header to the center`, doesn't contain `event status`, and changes the `border radius to 1px`
+- Result: `/widgets/alerts?setTextAlignment=center&setRoute=%properties.event%&setBorderRadius=1`
+:::
+
+::: details Example 4
+- Prompt: Make an `alert` widget that is `muted`.
+- Result: `/widgets/alerts?setPlayback=false`
+:::

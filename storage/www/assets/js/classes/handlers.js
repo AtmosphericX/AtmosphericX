@@ -126,7 +126,6 @@ class Handlers {
             this.isQueuing = true; next.queued = true;
             switch (next.type) { 
                 case `event`: {
-                    console.log(settings)
                     if (settings.setStreaming) {
                         this.aWeatherCard(event, getTheme, settings);
                     }
@@ -144,6 +143,7 @@ class Handlers {
                     });
                 }
             }
+            if (!settings.setPlayback) { return }
             this.utils.sound(settings?.setSfx != null ? settings?.setSfx : configurations.tones.sfx_beep, settings?.setSfxVolume);
             if (!event?.properties?.client?.only_beep) {
                 await this.utils.sleep(1_300);
