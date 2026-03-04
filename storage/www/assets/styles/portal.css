@@ -108,11 +108,11 @@ footer {
     opacity: 0.6;
     font-size: 11px;
     flex: 1;
-    text-align: right;
+    text-align: left;
 } .footer-links {
     display: flex;
     gap: 3px;
-    margin-right: auto;
+    margin-left: auto;
 }
 
 
