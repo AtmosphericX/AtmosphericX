@@ -50,7 +50,7 @@ Below are default values that you can use with `/widgets/alerts`. Visit [Global 
 Below are default / optional parameters you can use with the `alerts` widget. Please be sure to follow the default value type convention.
 
 ### setElement
-- Description: The `element` to select for handling the widget This is forced upon the widget and **can't** be changed.
+- Description: The `element` to select for handling the widget. This is forced upon the widget and **can't** be changed.
 - Default (`DOM`): `widget-container`
 - Example: `N/A`
 
@@ -65,7 +65,7 @@ Below are default / optional parameters you can use with the `alerts` widget. Pl
 - Example: `/widgets/alerts?setPulsePoint=(true/false)`
 
 ::: details PulsePoint Availability
-This setting an `API key` to use, so setting this to `true` wont autoamtically give you `911` CAD events.
+This setting requires an `API key` to use, so setting this to `true` wont autoamtically give you `911` CAD events.
 You can enable this feature in the [Sources.jsonc](../configurations/sources) with the path `sources.miscellaneous_settings.pulse_point`.
 :::
 

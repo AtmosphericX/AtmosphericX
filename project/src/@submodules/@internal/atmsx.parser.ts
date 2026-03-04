@@ -242,30 +242,49 @@ export class ATMSXParser {
             }
             return
         }
-        if (properties.is_issued && !getFeature) {
-            features.push(register);
-            featureMap.set(tracking, register);
-            return;
-        }
-        if (properties.is_updated) {
+        if (properties.is_updated || properties.is_issued) {
             if (getFeature) {
-                const existingHistory = getFeature.properties.details?.history ?? [];
-                const mergedHistoryMap = new Map<string, typeof history[0]>();
-                [...existingHistory, ...history].forEach(item => {
-                    const key = `${item.issued}|${item.action_type}`;
-                    if (!mergedHistoryMap.has(key)) mergedHistoryMap.set(key, item);
-                });
-                const uniqueHistory = Array.from(mergedHistoryMap.values())
-                    .sort((a, b) => new Date(b.issued).getTime() - new Date(a.issued).getTime());
-                const existingLocations = getFeature.properties.locations?.split(";").map(l => l.trim()) ?? [];
-                const incomingLocations = register.properties.locations?.split(";").map(l => l.trim()) ?? [];
-                const mergedLocations = Array.from(new Set([...existingLocations, ...incomingLocations].filter(Boolean)))
-                    .join("; ");
-                getFeature.properties = {
-                    ...properties,
-                    event: properties.event,
-                    locations: mergedLocations,
-                    details: { ...properties.details, history: uniqueHistory }
+                const getIndex = features.indexOf(getFeature);
+
+                const cHistory = getFeature.properties?.details?.history ?? [];
+                const cLocations = getFeature.properties?.locations?.split(";").map((l: string) => l.trim()) ?? [];
+                const cUgc = getFeature.properties?.geocode?.UGC ?? [];
+                const cTags = getFeature.properties?.tags ?? [];
+
+                const iHistory = properties.details?.history ?? [];
+                const iLocations = properties.locations?.split(";").map((l: string) => l.trim()) ?? [];
+                const iUgc = properties?.geocode?.UGC ?? [];
+                const iTags = properties?.tags ?? [];
+
+                const mHistory = [...cHistory, ...iHistory]
+                    .filter((v, i, a) => a.indexOf(v) === i);
+                    
+                const mLocations = [...cLocations, ...iLocations]
+                    .filter((v, i, a) => a.indexOf(v) === i)
+                    .join('; ');
+
+                const mUgc = [...cUgc, ...iUgc]
+                    .filter((v, i, a) => a.indexOf(v) === i);
+
+                const mTags = [...cTags, ...iTags]
+                    .filter((v, i, a) => a.indexOf(v) === i)
+
+
+                loader.cache.external.events.features[getIndex] = {
+                    ...getFeature,
+                    properties: {
+                        ...getFeature.properties,
+                        details: {
+                            ...getFeature.properties.details,
+                            history: mHistory
+                        },
+                        locations: mLocations,
+                        geocode: {
+                            ...getFeature.properties.geocode,
+                            UGC: mUgc
+                        },
+                        tags: mTags
+                    }
                 };
             } else {
                 features.push(register);
