@@ -1,7 +1,7 @@
 #!/bin/bash
 
 configurations_directory="../configurations"
-current_version=$(cat ../storage/store/version.bin)
+current_version=$(cat ../storage/store/version)
 repository="AtmosphericX/AtmosphericX"
 branch="beta"
 git_hub_token="$1"
@@ -23,8 +23,8 @@ get_repository_is_updated() {
 
 get_is_config_hash_change() {
     local project_root="$(cd "$(dirname "$0")/.." && pwd)"
-    local local_file="$project_root/storage/store/confighash.bin"
-    local remote_url="https://raw.githubusercontent.com/$repository/$branch/storage/store/confighash.bin"
+    local local_file="$project_root/storage/store/confighash"
+    local remote_url="https://raw.githubusercontent.com/$repository/$branch/storage/store/confighash"
 
     if [[ ! -f "$local_file" ]]; then
         echo "Local file missing"
@@ -148,8 +148,8 @@ get_user_update_confirmation() {
 
 get_repository_information() {
     local api_base="https://api.github.com/repos/$repository/contents"
-    local path_version="storage/store/version.bin"
-    local path_changelog="storage/store/changelog.bin"
+    local path_version="storage/store/version"
+    local path_changelog="storage/store/changelog"
 
     if [[ -n "$git_hub_token" ]]; then
         remote_version=$(curl -fsSL -H "Authorization: token $git_hub_token" -H "Accept: application/vnd.github.v3.raw" "$api_base/$path_version?ref=$branch") || return 1

@@ -5,7 +5,7 @@ import path from 'path';
 
 const directory = path.resolve(__dirname, '../../configurations');
 const store = path.resolve(__dirname, '../../storage/store/hashmap.json');
-const storeCombined = path.resolve(__dirname, '../../storage/store/confighash.bin');
+const storeCombined = path.resolve(__dirname, '../../storage/store/confighash');
 
 type HashStore = Record<string, string>;
 

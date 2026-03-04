@@ -36,6 +36,11 @@ export class Init {
                 const configurations = loader.modules.utilities.cfg();
                 const isSetupFinished = loader.cache.external.setup == 0 ? false : true;
                 const isPortal = configurations.web_hosting_settings.is_login_required ?? false;
+                const documentation = configurations.web_hosting_settings?.documentation_mode ?? false;
+                console.log(documentation)
+                if (documentation) {
+                    return response.redirect(`/documentation`);
+                }
                 const { session } = await loader.modules.routing.getUserSession(request);
                 if (isPortal && !session) { 
                     setPath = `${storage}${getRoutes.portal_direct_path}`;

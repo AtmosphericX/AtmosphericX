@@ -122,20 +122,24 @@ export class Routes {
      * @return {void}
      */
     private async modules(): Promise<void> {
-        loader.modules.http_get_cache = new (await import('./@routes/@data/routes.data.cache')).Init();
-        loader.modules.http_get_query = new (await import('./@routes/@data/routes.data.query')).Init();
-        loader.modules.http_get_events = new (await import('./@routes/@data/routes.data.event')).Init();
-        loader.modules.http_post_create = new (await import('./@routes/@data/routes.data.create')).Init();
-        loader.modules.http_post_login = new (await import('./@routes/@portal/routes.portal.login')).Init();
-        loader.modules.http_post_logout = new (await import('./@routes/@portal/routes.portal.logout')).Init();
-        loader.modules.http_post_signup = new (await import('./@routes/@portal/routes.portal.signup')).Init();
-        loader.modules.http_post_reset = new (await import('./@routes/@portal/routes.portal.reset')).Init();
-        loader.modules.http_post_setup = new (await import('./@routes/@portal/routes.portal.setup')).Init();
+        const configurations = loader.modules.utilities.cfg();
+        const options = configurations.web_hosting_settings;
+        if (!options?.documentation_mode) {
+            loader.modules.http_get_cache = new (await import('./@routes/@data/routes.data.cache')).Init();
+            loader.modules.http_get_query = new (await import('./@routes/@data/routes.data.query')).Init();
+            loader.modules.http_get_events = new (await import('./@routes/@data/routes.data.event')).Init();
+            loader.modules.http_post_create = new (await import('./@routes/@data/routes.data.create')).Init();
+            loader.modules.http_post_login = new (await import('./@routes/@portal/routes.portal.login')).Init();
+            loader.modules.http_post_logout = new (await import('./@routes/@portal/routes.portal.logout')).Init();
+            loader.modules.http_post_signup = new (await import('./@routes/@portal/routes.portal.signup')).Init();
+            loader.modules.http_post_reset = new (await import('./@routes/@portal/routes.portal.reset')).Init();
+            loader.modules.http_post_setup = new (await import('./@routes/@portal/routes.portal.setup')).Init();
+            loader.modules.placefiles = new (await import('./@routes/@placefiles/routes.placefiles.authority')).Init();
+            loader.modules.http_widgets = new (await import('./@routes/@core/routes.core.widgets')).Init();
+        }
         loader.modules.http_core = new (await import('./@routes/@core/routes.core.dashboard')).Init();
-        loader.modules.http_widgets = new (await import('./@routes/@core/routes.core.widgets')).Init();
-        loader.modules.placefiles = new (await import('./@routes/@placefiles/routes.placefiles.authority')).Init();
-        loader.modules.middleware = new (await import('./@middleware/middleware.authority')).Init();
         loader.modules.websockets = new (await import('./@websockets/websockets.authority')).Init();
+        loader.modules.middleware = new (await import('./@middleware/middleware.authority')).Init();
         return;
     }
 

@@ -48,10 +48,10 @@ type LocalHttpMethod = 'GET' | 'POST' | 'PUT' | 'DELETE'
 
 export class Utility {
     name_space: string = `Utility`;
-    version_path: string = `../storage/store/version.bin`;
-    changelogs_path: string = `../storage/store/changelog.bin`;
-    logo_path: string = `../storage/store/current.bin`;
-    logo_legacy_path: string = `../storage/store/legacy.bin`;
+    version_path: string = `../storage/store/version`;
+    changelogs_path: string = `../storage/store/changelog`;
+    logo_path: string = `../storage/store/current`;
+    logo_legacy_path: string = `../storage/store/legacy`;
     logs_directory: string = `../storage/logs/`;
     hashmap_path : string = `../storage/store/hashmap.json`;
     absolute_paths: String[] = [
@@ -323,6 +323,7 @@ export class Utility {
     public async getLatestUpdate(): Promise<void> {
         const configurations = this.cfg();
         const tVersion = this.version();
+        const documentation = configurations.web_hosting_settings?.documentation_mode ?? false;
         const oFeed = await this.httpRequest(configurations?.internal_settings?.feed_url);
         const oVersion = await this.httpRequest(`https://raw.githubusercontent.com/${configurations?.internal_settings?.version_url}`);
         const latestVersion = oVersion.message.trim().replace(/\n/g, '');
@@ -347,6 +348,13 @@ export class Utility {
                     settings: { file: true }
                 });
             }
+        }
+        if (documentation) { 
+            loader.modules.utilities.log({
+                title: `${this.ansi_colors.BLUE}Documentation Mode${this.ansi_colors.RESET}`,
+                message: `Documentation mode is enabled. All core features are disabled.`,
+                settings: { file: true }
+            });
         }
     }
 

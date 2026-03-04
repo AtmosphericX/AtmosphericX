@@ -21,10 +21,10 @@ The `update.sh` script is only available for v8 or higher. Updating v7 instances
 :::
 
 ## How does it work?
-The script compares your current version (stored in `/storage/store/version.bin`) with the latest commit on `beta/main`. For private development builds, you can pass a GitHub Classic Token as a parameter.
+The script compares your current version (stored in `/storage/store/version`) with the latest commit on `beta/main`. For private development builds, you can pass a GitHub Classic Token as a parameter.
 
 ::: tip Forcing an Update
-If your version matches the latest, the script will do nothing. To force an update, edit `version.bin` and set a lower version number.
+If your version matches the latest, the script will do nothing. To force an update, edit `version` and set a lower version number.
 :::
 
 

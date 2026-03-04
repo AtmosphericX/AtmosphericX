@@ -143,6 +143,8 @@ export class Calling {
         try {
             loader.modules.utilities.configurations();
             const cfg = loader.modules.utilities.cfg();
+            const documentation = cfg.web_hosting_settings?.documentation_mode ?? false;
+            if (documentation) return;
             const clock = Date.now();
             const tick = performance.now();
             loader.cache.external.hashes = loader.cache.external.hashes.filter(h => {

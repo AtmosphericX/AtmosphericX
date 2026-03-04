@@ -34,7 +34,8 @@ export class Init {
         const getRoutes = loader.strings.route_locations;
         const storage = loader.packages.path.resolve(`..`, `storage`);
         const configurations = loader.modules.utilities.cfg();
-        const options = configurations?.web_hosting_settings?.settings?.ratelimiting; 
+        const options = configurations?.web_hosting_settings?.settings?.ratelimiting;
+        const documentation = configurations?.web_hosting_settings?.settings?.documentation_mode;
         if (options?.enabled) { 
             const settings = this.ratelimit({
                 windowMs: options?.window_ms ?? 30_000,
