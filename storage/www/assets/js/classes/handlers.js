@@ -242,7 +242,7 @@ class Handlers {
     aPulsePointCard = function(event, theme, settings) { 
         try {
             return this.aCreateCard({
-                title: this.widgets.getTextFromDirectory(event, settings.global.setRoute),
+                title: this.utils.getTextFromDirectory(event, settings.global.setRoute),
                 fields: [
                     [
                         { title: "ADDRESS", value: `${event.properties.address.substring(0, 70)}`, align: "left" },

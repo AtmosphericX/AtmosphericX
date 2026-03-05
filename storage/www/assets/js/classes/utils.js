@@ -507,10 +507,17 @@ class Utils {
                     return { primary, secondary, default: true };
                 }
             }
-            return {
-                primary: scheme[eventType]?.primary ?? `#ffffff`,
-                secondary: scheme[eventType]?.secondary ?? `#000000`,
-                default: !scheme[eventType] ? true : false
+            if (scheme[eventType]) {
+                return {
+                    primary: scheme[eventType]?.primary ?? `#ffffff`,
+                    secondary: scheme[eventType]?.secondary ?? `#000000`,
+                    default: !scheme[eventType] ? true : false
+                }
+            } else { 
+                const selected = scheme["Default"] ?? {};
+                const primary = selected?.primary ?? `#ffffff`;
+                const secondary = selected?.secondary ?? `#000000`;
+                return { primary, secondary, default: true };
             }
         } catch (error) {
             this.exception(error, `${this.name_space}:getEventColor`);
