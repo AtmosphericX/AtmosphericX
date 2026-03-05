@@ -701,7 +701,7 @@ class Utils {
             const getNumberTheme = this.getIntColor(getNumber);
             const getEventTheme = this.getEventColor(String(string));
             let generatedString = '';
-            if (settings?.global?.setTextPrefix && !ignorePrefixSuffix && string != (settings?.global?.setTextPlaceholder ?? `N/A`)) {
+            if (settings?.global?.setTextPrefix && !ignorePrefixSuffix && string != (settings?.global?.setTextPlaceholder ?? ``)) {
                 generatedString += settings?.global?.setTextPrefix + '&nbsp;';
             }
             if (settings?.global?.setTextColorThemed) { 
@@ -709,7 +709,7 @@ class Utils {
             } else { 
                 generatedString += string;
             }
-            if (settings?.global?.setTextSuffix && !ignorePrefixSuffix) {
+            if (settings?.global?.setTextSuffix && !ignorePrefixSuffix && string != (settings?.global?.setTextPlaceholder ?? ``)) {
                 generatedString += '&nbsp;' + settings?.global?.setTextSuffix;
             }
             if (generatedString.length > settings?.global?.setTextCharacterLimit) {
@@ -740,7 +740,7 @@ class Utils {
             return str.replace(/&nbsp;/g, ' ').replace(/\u00A0/g, ' ').trim();
         }
         if (string == 'null' || string == null) {
-            string = settings?.global?.setTextPlaceholder ?? 'N/A'
+            string = settings?.global?.setTextPlaceholder ?? ''
         }
         let startingString = String(string);
         const getCurrentContent = element.textContent;
