@@ -632,7 +632,7 @@ class Utils {
                 if ((directory.match(/%/g) || []).length < 4) {
                     return null;
                 }
-                return `--`
+                return `---`
             });
         } catch (error) {
             this.exception(error, `${this.name_space}:aOutputDirectory`);
