@@ -38,8 +38,8 @@ function get(url, param) {
 
 const aSearch = new URLSearchParams(window.location.search);
 const aGlobalElementSettings = {
-    setRoute: get(aSearch, `setRoute`) ?? null,
-    setRouteSecondary: get(aSearch, `setRouteSecondary`) ?? null,
+    setRoute: get(aSearch, `setRoute`) ?? null, // See documentation for available routes
+    setRouteSecondary: get(aSearch, `setRouteSecondary`) ?? null, // See documentation for available routes
     setThemeType: get(aSearch, `setThemeType`) ?? `primary`, // Sets the theme type
     setElementThemed: get(aSearch, `setElementThemed`) ?? false, // Applies theme to the element
     setElementZoomLevel: get(aSearch, `setElementZoomLevel`) ?? null, // Sets element zoom level
