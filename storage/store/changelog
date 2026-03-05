@@ -9,3 +9,4 @@ feat(portal): add meta tags for improved SEO and social sharing
 update(widgets/utils): Improve error handling in element animation functions
 fix(widgets/strings): Fix string manipulation issues in various widget components
 feat(widget styles, utils): update widget container positioning and enhance string processing logic
+feat(config): update allowedHosts for documentation server

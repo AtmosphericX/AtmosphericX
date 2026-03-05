@@ -110,7 +110,7 @@ export default defineConfig({
 		],
 		resolve: { alias: { "/assets": directory + "/assets" } },
 		server: {
-			allowedHosts: ["atmosx-documentation.scriptkitty.cafe", "localhost"],
+			allowedHosts: ["docs.scriptkitty.cafe", "localhost"],
 			fs: { allow: [ directory + "/assets" ] },
 			hmr: { overlay: true },
 		},
