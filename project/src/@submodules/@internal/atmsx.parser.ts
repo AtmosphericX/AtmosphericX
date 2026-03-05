@@ -270,6 +270,7 @@ export class ATMSXParser {
                     .filter((v, i, a) => a.indexOf(v) === i)
 
 
+                const filteredTags = mTags.filter((v, i) => mTags.indexOf(v) === i);
                 loader.cache.external.events.features[getIndex] = {
                     ...getFeature,
                     properties: {
@@ -283,7 +284,7 @@ export class ATMSXParser {
                             ...getFeature.properties.geocode,
                             UGC: mUgc
                         },
-                        tags: mTags
+                        tags: filteredTags.length > 1 ? filteredTags.filter(v => v !== "N/A") : filteredTags
                     }
                 };
             } else {

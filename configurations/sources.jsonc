@@ -33,7 +33,7 @@
 
     */
 {
-    "sources:hash": "46bca91f2a0b1c4ac15ad5f3acb69f3c610f8c604509dec6724aee074fc5ce93", // DO NOT MODIFY THIS VALUE. THIS IS USED FOR CONFIGURATION INTEGRITY CHECKS.
+    "sources:hash": "69d08594e2d731c35e28c4ed6c5de8c2e9d7c3af6c0fb5a966d24a4e1d24ba39", // DO NOT MODIFY THIS VALUE. THIS IS USED FOR CONFIGURATION INTEGRITY CHECKS.
     "sources": {
         "atmosx_parser_settings": { // AtmosphericX event parser settings
             "noaa_weather_wire_service": false, // If you want to use NOAA Weather Wire Service, set this to true.
@@ -57,7 +57,7 @@
                     "read_cache": false, // If you want to read from cache on startup. (This may impact performance on initial load)
                     "max_size_mb": 2, // Max cache size in MB.
                     "max_db_history": 15000, // Max number of events to keep in cache database.
-                    "max_db_cache_size": 5000, // Max number of events to load into the events cache on startup (Requires use_db_for_cache to be true)
+                    "max_db_cache_size": 250, // Max number of events to load into the events cache on startup (Requires use_db_for_cache to be true)
                     "use_db_cache": true, // If you want to use database for caching instead of flat files. (Recommended for large number of events)
                     "directory": "../storage/temporary/events" // Directory to store cache files.
                 },

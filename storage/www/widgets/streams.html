@@ -114,7 +114,7 @@
     <body> 
         <div class="notifications"></div>
         <div class="widget-container" id="widget-container">
-            <video class="widget-child-1" id="widget-child-1" autoplay muted></video>
+            <video class="widget-child-1" id="widget-child-1" autoplay></video>
             <p class="widget-child-3" id="widget-child-3">NOT FOR BROADCAST - REQUIRES PERMISSION FROM OWNER</p>
             <div class="widget-child-2" id="widget-child-2">...</div>
         </div>
@@ -122,7 +122,8 @@
     <script>
         window.addEventListener('DOMContentLoaded', () => {
             let cache = {
-                running: false
+                running: false,
+                previous: null
             };
             const settings = {global: aGlobalElementSettings};
             const utils = new Utils();
@@ -190,20 +191,25 @@
                     if (getFilteredStreams.length === 0) {
                         settings.setElementTitle.textContent = getPlaceholder;
                         return 
-                    }
+                    } 
                     const getRandomStream = getFilteredStreams[Math.floor(Math.random() * getFilteredStreams.length)] ?? null;
                     const getOutput = utils.getTextFromDirectory(getRandomStream, settings.global.setRoute);
+                    utils.setString(settings.setElementTitle, getOutput, settings);
+                    if (cache.previous == getRandomStream.properties.stream_url) {
+                        return;
+                    }
+
                     settings.setElementVideo.style.transition = "opacity 1.0s";
                     settings.setElementVideo.style.opacity = "0";
 
-
+                    
                     setTimeout(() => {
                         const HLS = new Hls();
                         HLS.loadSource(getRandomStream.properties.stream_url);
+                        cache.previous = getRandomStream.properties.stream_url;
                         HLS.on(Hls.Events.MANIFEST_PARSED, () => {
                             HLS.attachMedia(settings.setElementVideo)
                             settings.setElementVideo.play(); 
-                            utils.setString(settings.setElementTitle, getOutput, settings);
                             settings.setElementVideo.style.transition = "opacity 3.0s";
                             settings.setElementVideo.style.opacity = "1";
                         })

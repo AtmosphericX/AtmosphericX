@@ -6,3 +6,5 @@ add(widgets/alerts): Add setPlayback option to enable/disable playback functiona
 update(widgets/global): setThemeType default is now "primary"
 update(widgets/js): `setAnimationStartDuration` now impacts `setBackgroundAnimated` animation time. (Default 1.5 seconds)
 feat(portal): add meta tags for improved SEO and social sharing
+update(widgets/utils): Improve error handling in element animation functions
+fix(widgets/strings): Fix string manipulation issues in various widget components

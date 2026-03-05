@@ -52,10 +52,10 @@
             color: var(--widget-color); 
             font-size: var(--widget-font-size); 
             text-shadow: var(--widget-text-shadow); 
-            white-space: nowrap; 
-            overflow: hidden; 
-            text-overflow: ellipsis; 
             height: auto; 
+            overflow-wrap: break-word;
+            word-break: break-word;
+            white-space: normal;
         }
     </style>
     <body> 
@@ -107,7 +107,6 @@
                 subscriptionServices[settings.setType].push(`pulsepoint`)
             }
 
-
             utils.socket(subscriptionServices[settings.setType]).then(() => {
                 document.addEventListener('onUpdate', (event) => {
                     switch (settings.setType) {
@@ -126,7 +125,7 @@
             function cb(assignmentType, assignmentData) { 
                 if (assignmentType == `cb.string`) { 
                     const getOutput = utils.getTextFromDirectory(assignmentData, settings.global.setRoute)
-                    utils.setString(settings.setElement, getOutput ?? settings?.global?.setTextPlaceholder ?? `N/A`, settings);
+                    utils.setString(settings.setElement, getOutput ?? settings?.global?.setTextPlaceholder ?? `--`, settings);
                 }
                 if (assignmentType == `cb.time`) { 
                     const getParameters = { time: { time: true }, date: { date: true }, timezone: { timezone: true }, };
@@ -236,6 +235,7 @@
                             } else { 
                                 utils.setString(settings.setElement, settings?.global?.setTextPlaceholder ?? `No Data Available`, settings);
                             }
+                            break
                         }
                         default: {
                             utils.setString(settings.setElement, settings?.global?.setTextPlaceholder ?? `No Data Available`, settings);

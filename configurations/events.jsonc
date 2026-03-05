@@ -33,7 +33,7 @@
 
     */
 {
-    "events:hash": "de8d01e1872267f07c051fe7a2ed28d7182cba052611eed600578a604091217a", // DO NOT MODIFY THIS VALUE. THIS IS USED FOR CONFIGURATION INTEGRITY CHECKS.
+    "events:hash": "5badfe84c6d1a9f424761976f971887225a014dbd67eff5164b674a414bd19e2", // DO NOT MODIFY THIS VALUE. THIS IS USED FOR CONFIGURATION INTEGRITY CHECKS.
     "filters": {
         "listening_events": [ // Events you wish to listen to (ex. Tornado Warnings, Severe Thunderstorm Warnings, etc.)
             "Tornado Emergency", "PDS Tornado Warning",
@@ -163,7 +163,7 @@
             "sfx_cancel": "/sfx/eas_sfx/beep-sfx.mp3",
             "sfx_tts": false,
             "sfx_tts_format": "Attention, This %properties.event% has been {STATUS}",
-            "metadata": { "siren": false, "wail": true, "urgent": false, "iphone": false, "uniden": false}
+            "metadata": { "siren": true, "wail": true, "urgent": false, "iphone": false, "uniden": false}
         },
         "Destructive Severe Thunderstorm Warning": {
             "sfx_issued": "/sfx/severe_sfx/severe-destructive-issued.mp3",
@@ -171,7 +171,7 @@
             "sfx_cancel": "/sfx/eas_sfx/beep-sfx.mp3",
             "sfx_tts": false,
             "sfx_tts_format": "Attention, This %properties.event% has been {STATUS}",
-            "metadata": { "siren": false, "wail": true, "urgent": false, "iphone": false, "uniden": false}
+            "metadata": { "siren": true, "wail": true, "urgent": false, "iphone": false, "uniden": false}
         },
         "Considerable Severe Thunderstorm Warning (TPROB)": {
             "sfx_issued": "/sfx/severe_sfx/severe-tor-considerable-issued.mp3",
@@ -179,15 +179,15 @@
             "sfx_cancel": "/sfx/eas_sfx/beep-sfx.mp3",
             "sfx_tts": false,
             "sfx_tts_format": "Attention, This %properties.event% has been {STATUS}",
-            "metadata": { "siren": false, "wail": false, "urgent": false, "iphone": false, "uniden": false}
+            "metadata": { "siren": true, "wail": false, "urgent": false, "iphone": false, "uniden": false}
         },
         "Severe Thunderstorm Warning (TPROB)": {
             "sfx_issued": "/sfx/severe_sfx/severe-tor-issued.mp3",
             "sfx_update": "/sfx/severe_sfx/severe-updated.mp3",
             "sfx_cancel": "/sfx/eas_sfx/beep-sfx.mp3",
-            "sfx_tts": false,
+            "sfx_tts": true,
             "sfx_tts_format": "Attention, This %properties.event% has been {STATUS}",
-            "metadata": { "siren": false, "wail": false, "urgent": false, "iphone": false, "uniden": false}
+            "metadata": { "siren": true, "wail": false, "urgent": false, "iphone": false, "uniden": false}
         },
         "Considerable Severe Thunderstorm Warning": {
             "sfx_issued": "/sfx/severe_sfx/severe-considerable-issued.mp3",
@@ -321,6 +321,7 @@
     "themes": {
         "Tornado Emergency": { "primary": "rgb(168,30,172)", "secondary": "rgb(127,29,130)" },
         "PDS Tornado Warning": { "primary": "rgb(171,45,43)", "secondary": "rgb(130,20,20)" },
+        "Flash Flood Emergency": { "primary": "rgb(171,45,43)", "secondary": "rgb(130,20,20)" },
         "Confirmed Tornado Warning": { "primary": "rgb(171,45,43)", "secondary": "rgb(130,20,20)" },
         "Radar Indicated Tornado Warning": { "primary": "rgb(171,45,43)", "secondary": "rgb(130,20,20)" },
         "Tornado Warning": { "primary": "rgb(171,45,43)", "secondary": "rgb(130,20,20)" },
@@ -330,17 +331,17 @@
         "EDS Severe Thunderstorm Warning (TPROB)": { "primary": "rgb(171,45,43)", "secondary": "rgb(130,20,20)" },
         "Considerable Severe Thunderstorm Warning (TPROB)": { "primary": "rgb(171,45,43)", "secondary": "rgb(130,20,20)" },
         "Severe Thunderstorm Warning (TPROB)": { "primary": "rgb(171,45,43)", "secondary": "rgb(130,20,20)" },
-        "Flash Flood Emergency": { "primary": "rgb(171,45,43)", "secondary": "rgb(130,20,20)" },
         "Hurricane Warning": { "primary": "rgb(176,16,48)", "secondary": "rgb(136,8,32)" },
         "Earthquake Warning": { "primary": "rgb(96,16,16)", "secondary": "rgb(72,8,8)" },
         "Tropical Storm Warning": { "primary": "rgb(202,79,57)", "secondary": "rgb(160,56,40)" },
-        "Flash Flood Warning": { "primary": "rgb(97,204,30)", "secondary": "rgb(64,152,20)" },
-        "Flood Warning": { "primary": "rgb(0,204,0)", "secondary": "rgb(0,144,0)" },
         "Severe Thunderstorm Warning": { "primary": "rgb(204,132,0)", "secondary": "rgb(160,96,0)" },
         "Considerable Severe Thunderstorm Warning": { "primary": "rgb(204,160,0)", "secondary": "rgb(184,96,16)" },
         "Severe Thunderstorm Watch": { "primary": "rgb(204,172,0)", "secondary": "rgb(168,128,0)" },
         "Tornado Watch": { "primary": "rgb(204,204,0)", "secondary": "rgb(160,160,0)" },
+        "Flash Flood Warning": { "primary": "rgb(97,204,30)", "secondary": "rgb(64,152,20)" },
         "Flash Flood Watch": { "primary": "rgb(37,111,70)", "secondary": "rgb(24,80,48)" },
+        "Flood Warning": { "primary": "rgb(0,204,0)", "secondary": "rgb(0,144,0)" },
+
         "Flood Watch": { "primary": "rgb(37,111,70)", "secondary": "rgb(24,80,48)" },
         "Hurricane Watch": { "primary": "rgb(204,84,144)", "secondary": "rgb(160,56,112)" },
         "Snow Squall Warning": { "primary": "rgb(56,104,144)", "secondary": "rgb(40,72,104)" },

@@ -38,15 +38,15 @@ class Widgets {
         if (!element) { return }
         if (settings?.global.setBorderRadius) { element.style.borderRadius = `${settings.global.setBorderRadius}px` }
         if (settings?.global.setElementZoomLevel) { element.style.zoom = settings.global.setElementZoomLevel }
-        if (settings?.global.setBoxShadow === false) { element.style.boxShadow = 'none' }
-        if (settings?.global.setTextShadow === false) { element.style.textShadow = 'none' }
+        if (settings?.global.setBoxShadow == false) { element.style.boxShadow = 'none' }
+        if (settings?.global.setTextShadow == false) { element.style.textShadow = 'none' }
         if (settings?.global.setTextAllignment) { element.style.textAlign = settings.global.setTextAllignment }
         if (settings?.global.setTextColor) { element.style.color = settings.global.setTextColor }
         if (settings?.global.setTextSize) { element.style.fontSize = `${settings.global.setTextSize}px` }
         if (settings?.global.setTextFont) { element.style.fontFamily = settings.global.setTextFont }
         if (settings?.global.setBackgroundAnimated) { element.style.transition = `background-color ${settings.global.setAnimationStartDuration ?? 1.5}s ease`; }
     }
-
+    
     /**
      * @production
      * @error_handling

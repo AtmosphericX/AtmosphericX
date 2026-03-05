@@ -159,7 +159,6 @@ class Utils {
             };
             const autoRemove = setTimeout(removeNotify, duration);
             notify.addEventListener('click', () => {
-                console.log('Notification clicked');
                 clearTimeout(autoRemove);
                 removeNotify();
             });
@@ -630,7 +629,10 @@ class Utils {
                     }
                     if (value != null) return value;
                 }
-                return null
+                if ((directory.match(/%/g) || []).length < 4) {
+                    return null;
+                }
+                return `--`
             });
         } catch (error) {
             this.exception(error, `${this.name_space}:aOutputDirectory`);
@@ -650,31 +652,74 @@ class Utils {
      * @param {number} stage - The stage of the animation (0: end, 1: start, 2: ending).
      * @return {Promise<void>} A promise that resolves when the animation ends.
      */
-    setElementAnimation = async function(element, settings, stage=0) { 
-        if (!settings?.global?.setAnimated) return;
-        element.style.animation = 'none';
-        element.getBoundingClientRect();
-        switch (stage) {
-            case 0: element.style.animation = `${settings?.global?.setAnimationEndType ?? 'anim_fade_out'} 0.5s ease forwards`; break;
-            case 1: element.style.animation = `${settings?.global?.setAnimationStartType ?? 'anim_fade_in'} ${settings?.global?.setAnimationStartDuration ?? 0.5}s ease forwards`; break;
-            case 2: { 
-                if (settings?.global?.setAnimationHasEnding) { 
-                    if (settings?.global?.setAnimatedDelayEnding > 0) {
-                        await this.sleep(settings?.global?.setAnimatedDelayEnding * 1000)
+    setElementAnimation = async function(element, settings, stage=0) {
+        try { 
+            if (!settings?.global?.setAnimated) return;
+            element.style.animation = 'none';
+            element.getBoundingClientRect();
+            switch (stage) {
+                case 0: element.style.animation = `${settings?.global?.setAnimationEndType ?? 'anim_fade_out'} 0.5s ease forwards`; break;
+                case 1: element.style.animation = `${settings?.global?.setAnimationStartType ?? 'anim_fade_in'} ${settings?.global?.setAnimationStartDuration ?? 0.5}s ease forwards`; break;
+                case 2: { 
+                    if (settings?.global?.setAnimationHasEnding) { 
+                        if (settings?.global?.setAnimatedDelayEnding > 0) {
+                            await this.sleep(settings?.global?.setAnimatedDelayEnding * 1000)
+                        }
+                        element.style.animation = `${settings?.global?.setAnimationEndType ?? 'anim_fade_out'} ${settings?.global?.setAnimationEndDuration ?? 0.5}s ease forwards`; break;
                     }
-                    element.style.animation = `${settings?.global?.setAnimationEndType ?? 'anim_fade_out'} ${settings?.global?.setAnimationEndDuration ?? 0.5}s ease forwards`; break;
                 }
+                default: break;
             }
-            default: break;
+            return new Promise(resolve => {
+                const handleAnimationEnd = () => {
+                    element.removeEventListener('animationend', handleAnimationEnd);
+                    resolve();
+                };
+                element.addEventListener('animationend', handleAnimationEnd);
+            });
+        } catch (error) {
+            this.exception(error, `${this.name_space}:setElementAnimation`);
         }
-        return new Promise(resolve => {
-            const handleAnimationEnd = () => {
-                element.removeEventListener('animationend', handleAnimationEnd);
-                console.log('Animation ended for element:', element);
-                resolve();
-            };
-            element.addEventListener('animationend', handleAnimationEnd);
-        });
+    }
+
+    /**
+     * @production
+     * @error_handling
+     * @function buildString
+     * @description
+     *     Builds a formatted string based on the provided settings.
+     * 
+     * @param {string} string - The string to format.
+     * @param {Object} settings - The settings object containing formatting options.
+     * @param {boolean} ignorePrefixSuffix - Whether to ignore prefix and suffix.
+     * @return {string} The formatted string.
+     */
+    buildString(string, settings, ignorePrefixSuffix=false) {
+        try {
+            const isNumber = String(string).match(/-?\d+(\.\d+)?/);
+            const getNumber = isNumber ? Number(isNumber[0]) : NaN;
+            const getNumberTheme = this.getIntColor(getNumber);
+            const getEventTheme = this.getEventColor(String(string));
+            let generatedString = '';
+            if (settings?.global?.setTextPrefix && !ignorePrefixSuffix && string != (settings?.global?.setTextPlaceholder ?? `N/A`)) {
+                generatedString += settings?.global?.setTextPrefix + '&nbsp;';
+            }
+            if (settings?.global?.setTextColorThemed) { 
+                generatedString += `<p style="color: ${getEventTheme?.default == false ? getEventTheme.primary : getNumberTheme}">${string}</p>`;
+            } else { 
+                generatedString += string;
+            }
+            if (settings?.global?.setTextSuffix && !ignorePrefixSuffix) {
+                generatedString += '&nbsp;' + settings?.global?.setTextSuffix;
+            }
+            if (generatedString.length > settings?.global?.setTextCharacterLimit) {
+                generatedString = generatedString.substring(0, settings.global.setTextCharacterLimit) + '...';
+            }
+            return generatedString;
+        } catch (error) {
+            this.exception(error, `${this.name_space}:buildString`);
+            return null
+        }
     }
 
     /**
@@ -691,41 +736,20 @@ class Utils {
      * @return {void}
      */
     setString = async function(element, string, settings, ignorePrefixSuffix=false) {
-        // add a variable to the elemtn so we dont accidentally cal lthis twice
-
         function normalize(str) {
-            return str.replace(/\u00A0/g, ' ').trim();
+            return str.replace(/&nbsp;/g, ' ').replace(/\u00A0/g, ' ').trim();
         }
         if (string == 'null' || string == null) {
             string = settings?.global?.setTextPlaceholder ?? 'N/A'
         }
-        if (string.length > settings?.global?.setTextCharacterLimit) {
-            string = string.substring(0, settings.global.setTextCharacterLimit) + '...';
-        }
         let startingString = String(string);
-        let generatedString = ``;
-        const isNumber = String(string).match(/-?\d+(\.\d+)?/);
-        const getNumber = isNumber ? Number(isNumber[0]) : NaN;
-        const getNumberTheme = this.getIntColor(getNumber);
-        const getEventTheme = this.getEventColor(String(string));
-        const getCurrentContent = normalize(element.textContent);
-        const getFutureContent = normalize(`${settings?.global?.setTextPrefix ?? ''}${settings?.global?.setTextPrefix ? ' ' : ''}${startingString}${settings?.global?.setTextSuffix ? ' ' : ''}${settings?.global?.setTextSuffix ?? ''}`.trim());
-        const isTextTheSameAsBefore = getCurrentContent === getFutureContent;
+        const getCurrentContent = element.textContent;
+        const getFutureContent = this.buildString(startingString, settings, ignorePrefixSuffix);
+        const isTextTheSameAsBefore = normalize(getCurrentContent) == normalize(getFutureContent);
         if (isTextTheSameAsBefore) { return }
         await this.setElementAnimation(element, settings, 0);
-        if (settings?.global?.setTextPrefix && !ignorePrefixSuffix) { 
-            generatedString += settings?.global?.setTextPrefix + '&nbsp;';
-        }
-        if (settings?.global?.setTextColorThemed) { 
-            generatedString += `<p style="color: ${getEventTheme?.default == false ? getEventTheme.primary : getNumberTheme}">${string}</p>`;
-        } else { 
-            generatedString += string;
-        }
-        if (settings?.global?.setTextSuffix && !ignorePrefixSuffix) { 
-            generatedString += '&nbsp;' + settings?.global?.setTextSuffix;
-        }
         element.textContent = '';
-        element.insertAdjacentHTML('beforeend', generatedString);
+        element.insertAdjacentHTML('beforeend', getFutureContent);
         await this.setElementAnimation(element, settings, 1);
         await this.setElementAnimation(element, settings, 2);
 
