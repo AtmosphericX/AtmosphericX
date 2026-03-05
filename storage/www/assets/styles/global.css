@@ -135,8 +135,8 @@
 
 .widget-container {
     position: absolute; 
-    bottom: 20px; 
-    left: 20px;
+    bottom: 0%; 
+    left: 4%;
     width: 92%; 
     padding: 15px;
     min-height: 50px;

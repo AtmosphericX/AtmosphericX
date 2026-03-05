@@ -55,7 +55,7 @@
         body { 
             overflow: hidden; 
         }
-        .widget-container { 
+        .widget-container-isolated { 
             position: absolute;
             height: 100%;
             bottom: 0; 
@@ -92,7 +92,7 @@
     </style>
     <body> 
         <div class="notifications"></div>
-        <div class="widget-container" id="widget-container">
+        <div class="widget-container-isolated" id="widget-container-isolated">
             <div class="widget-child-1" id="widget-child-1"></div>
             <div class="widget-child-2" id="widget-child-2"></div>
         </div>
@@ -108,7 +108,7 @@
             const wise = new Wise(utils);
             const widgets = new Widgets(utils);
             
-            settings.setElement = get(aSearch, `setSelectedElement`) ?? document.getElementById('widget-container')
+            settings.setElement = get(aSearch, `setSelectedElement`) ?? document.getElementById('widget-container-isolated')
             settings.setElementTitle = get(aSearch, `setElementTitle`) ??  document.getElementById('widget-child-1');
             settings.setElementSubtitle = get(aSearch, `setElementSubtitle`) ??  document.getElementById('widget-child-2');
             settings.global.setRoute = get(aSearch, `setRoute`) ??  `%properties.event%`

@@ -341,7 +341,6 @@
         "Flash Flood Warning": { "primary": "rgb(97,204,30)", "secondary": "rgb(64,152,20)" },
         "Flash Flood Watch": { "primary": "rgb(37,111,70)", "secondary": "rgb(24,80,48)" },
         "Flood Warning": { "primary": "rgb(0,204,0)", "secondary": "rgb(0,144,0)" },
-
         "Flood Watch": { "primary": "rgb(37,111,70)", "secondary": "rgb(24,80,48)" },
         "Hurricane Watch": { "primary": "rgb(204,84,144)", "secondary": "rgb(160,56,112)" },
         "Snow Squall Warning": { "primary": "rgb(56,104,144)", "secondary": "rgb(40,72,104)" },
@@ -358,7 +357,7 @@
         "Tsunami Warning": { "primary": "rgb(48,0,96)", "secondary": "rgb(32,0,72)" },
         "Tsunami Watch": { "primary": "rgb(72,16,128)", "secondary": "rgb(48,10,88)" },
         "Tsunami Advisory": { "primary": "rgb(80,48,160)", "secondary": "rgb(56,32,120)" },
-        "Special Weather Statement": { "primary": "rgb(25,76,152)", "secondary": "rgb(28,77,125)" },
+        "Special Weather Statement": { "primary": "rgb(70,130,180)", "secondary": "rgb(45,85,130)" },
         "Default": { "primary": "rgb(56,72,88)", "secondary": "rgb(32,40,48)" }
     }
 }

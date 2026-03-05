@@ -173,14 +173,13 @@
                                 }
                             }
                             const getFiltered = getWatchdogList.map(e => e.replace(/\*/g, '')).map(ev => {
-                                const getLoweredEvent = ev.trim().toUpperCase();
+                                const getLoweredEvent = ev.trim().toLowerCase();
                                 if (getLoweredEvent === "advisory") return "Advisories";
                                 if (getLoweredEvent === "watch") return "Watches";
                                 if (getLoweredEvent === "warning") return "Warnings";
                                 return ev.trim().toUpperCase();
                             })
-                            utils.setString(settings.setElement, `${getFiltered.join(", ")}: ${count}`, settings);
-                            break;
+                            return utils.setString(settings.setElement, `${getFiltered.join(", ")}: ${count}`, settings);
                         }
                         case `getNearbySpotters`: {
                             const getSearch = get(aSearch, `setSearch`) ?? null;
@@ -195,9 +194,8 @@
                                 const [lon, lat] = spotter.geometry.coordinates;
                                 return utils.getDistance( {lat, lon}, {lat: getTracker.geometry.coordinates[1], lon: getTracker.geometry.coordinates[0]}) < getRadius ?? 5;
                             });
-                            cache.getNearbySpotters = getNearby.length - 1;
-                            utils.setString(settings.setElement, `${cache.getNearbySpotters} Nearby Spotters`, settings);
-                            break;
+                            cache.getNearbySpotters = (getNearby.length > 1) ? getNearby.length - 1 : 0;
+                            return utils.setString(settings.setElement, `${cache.getNearbySpotters} Nearby Spotters`, settings);
                         }
                         case `getNearbyEvents`: {
                             const getSearch = get(aSearch, `setSearch`) ?? null;
@@ -218,7 +216,7 @@
                             if (!getEvent) { 
                                 return utils.setString(settings.setElement, settings?.global?.setTextPlaceholder ?? `No Events Found`, settings);
                             }
-                            utils.setString(settings.setElement, `${getEvent}: ${getMin.toFixed(1)} ${getUnit}`, settings);
+                            return utils.setString(settings.setElement, `${getEvent}: ${getMin.toFixed(1)} ${getUnit}`, settings);
                         }
                         case `getDbzIntensity`: {
                             let key = null;
@@ -242,7 +240,7 @@
                                     return 
                                 })
                             } else { 
-                                utils.setString(settings.setElement, settings?.global?.setTextPlaceholder ?? `No Data Available`, settings);
+                                return utils.setString(settings.setElement, settings?.global?.setTextPlaceholder ?? `No Data Available`, settings);
                             }
                             break
                         }
