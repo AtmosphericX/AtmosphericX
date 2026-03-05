@@ -120,8 +120,9 @@
             settings.global.setAnimationEndDuration = get(aSearch, `setAnimationEndDuration`) ?? 3;
             settings.global.setAnimationHasEnding = get(aSearch, `setAnimationHasEnding`) ?? true;
             settings.global.setAnimatedDelayEnding = get(aSearch, `setAnimatedDelayEnding`) ?? 5;
-            settings.global.setElementThemed = false; // Never enabled, no point in having a background for this;
-    
+            settings.global.setTextCharacterLimit = get(aSearch, `setTextCharacterLimit`) ?? 125;
+            settings.global.setElementThemed = false;
+            
 
             utils.socket([`configurations`, `events`]).then(() => {
                 document.addEventListener('onUpdate', (event) => {

@@ -125,7 +125,7 @@
             function cb(assignmentType, assignmentData) { 
                 if (assignmentType == `cb.string`) { 
                     const getOutput = utils.getTextFromDirectory(assignmentData, settings.global.setRoute)
-                    utils.setString(settings.setElement, getOutput ?? settings?.global?.setTextPlaceholder ?? ``, settings);
+                    utils.setString(settings.setElement, getOutput ?? settings?.global?.setTextPlaceholder ?? `---`, settings);
                 }
                 if (assignmentType == `cb.time`) { 
                     const getParameters = { time: { time: true }, date: { date: true }, timezone: { timezone: true }, };

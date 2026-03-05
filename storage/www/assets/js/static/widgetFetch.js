@@ -50,7 +50,7 @@ const aGlobalElementSettings = {
     setTextShadow: get(aSearch, `setTextShadow`) ?? true, // Enables/disables text shadow
     setTextPrefix: get(aSearch, `setTextPrefix`) ?? null, // Sets text prefix
     setTextSuffix: get(aSearch, `setTextSuffix`) ?? null, // Sets text suffix
-    setTextCharacterLimit: get(aSearch, `setTextCharacterLimit`) ?? 125, // Sets character limit for text
+    setTextCharacterLimit: get(aSearch, `setTextCharacterLimit`) ?? 50, // Sets character limit for text
     setTextAllignment: get(aSearch, `setTextAllignment`) ?? null, // Sets text alignment
     setBorderRadius: get(aSearch, `setBorderRadius`) ?? null, // Sets border radius
     setBoxShadow: get(aSearch, `setBoxShadow`) ?? true, // Enables/disables box shadow
