@@ -62,8 +62,7 @@ export class Structure {
                 case 'grlevelx_reports': { return await gibsonReports.parse(body as string); }
                 case 'mesoscale_discussions': { return await mesoscaleDiscussions.parse(body as string); }
                 case 'tropical_storm_tracks': { return await tropicalStorms.parse(body as string); }
-                case 'tornado': { return await svrProbabilties.parse(body as string, 'tornado'); }
-                case 'severe': { return await svrProbabilties.parse(body as string, 'severe'); }
+                case 'probability': { return await svrProbabilties.parse(body as string); }
                 case 'sonde_project_weather_eye': { return await wxEye.parse(body as string); }
                 case 'nexrad_radars': { return await nexradRadars.parse(body as string); }
                 case 'wx_radio': { return await wxRadio.parse(body as string); }

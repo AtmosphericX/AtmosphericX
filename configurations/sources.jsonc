@@ -33,7 +33,7 @@
 
     */
 {
-    "sources:hash": "00b0d6768622eed71f5d4451b248da2a9cae0a23d9ff1472c1b23637c3227054", // DO NOT MODIFY THIS VALUE. THIS IS USED FOR CONFIGURATION INTEGRITY CHECKS.
+    "sources:hash": "757eabe82641b142bc6892db1be7bd7d251ecacd559cd773ad39baf992aad888", // DO NOT MODIFY THIS VALUE. THIS IS USED FOR CONFIGURATION INTEGRITY CHECKS.
     "sources": {
         "atmosx_parser_settings": { // AtmosphericX event parser settings
             "noaa_weather_wire_service": false, // If you want to use NOAA Weather Wire Service, set this to true.
@@ -133,23 +133,13 @@
                 "contradictions": [] // Ignore
             }
         },
-        "probability_settings": {
-            "tornado": { // Tornado Probability (CIMSS Implementation)
-                "enabled": true,
-                "cache_time": 119, // How often to pull tornado probabilities (in seconds, Default: 119 seconds)
-                "percentage_threshold": 2, // Minimum percentage threshold to show (Default: 2%)
-                "endpoint": "https://cimss.ssec.wisc.edu/severe_conv/NOAACIMSS_PTv3_LOOP",
-                "contradictions": [] // Ignore
-            },
-            "severe": { // Severe Thunderstorm Probability (CIMSS Implementation)
+        "miscellaneous_settings": {
+            "probability": { // Severe Thunderstorm Probability (CIMSS Implementation)
                 "enabled": true,
                 "cache_time": 119, // How often to pull severe thunderstorm probabilities (in seconds, Default: 119 seconds)
-                "percentage_threshold": 50, // Minimum percentage threshold to show (Default: 50%)
                 "endpoint": "https://cimss.ssec.wisc.edu/severe_conv/NOAACIMSS_PSv3_LOOP",
                 "contradictions": [] // Ignore
-            }
-        },
-        "miscellaneous_settings": {
+            },
             "sonde_project_weather_eye": { // Sonde Project Weather Eye implementation (See: https://www.wxeye.org/)
                 "enabled": false,
                 "cache_time": 2500, // How often to pull Sonde Project Weather Eye data (in seconds, Default: 2500 seconds)

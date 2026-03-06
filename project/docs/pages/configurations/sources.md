@@ -57,18 +57,17 @@ You can only choose one LSR at a time for your data source. Please choose the on
 ## Discussion Settings
 Sourced from `weatherwise.app`, these discussions cover topics such as mesoscale and tropical storms. Currently, there are no configurable settings or alerting capabilities for these discussions. In future updates, we plan to enable integration with the `alerts` widget so that relevant discussions can trigger notifications.
 
-
-## Probability Settings
-AtmosphericX incorporates data from the `CIMSS (Cooperative Institute for Mesoscale Meteorological Studies)` for both `PTv3` and `PSv3`. These probabilistic severe weather products are developed collaboratively by researchers at the NOAA National Severe Storms Laboratory and CIMSS. Designed as experimental forecasting tools, PTv3 and PSv3 help meteorologists estimate the likelihood that a storm will produce severe weather or tornadoes, providing early guidance for situational awareness and decision making during active weather events. If you wish to see the research papers see: 
-
-- https://journals.ametsoc.org/view/journals/wefo/39/12/WAF-D-24-0076.1.xml
-
 ## Sonde Project WxEye / Rise-26
 Special thanks to [Vince Waelti](https://www.youtube.com/channel/UCqSk-ojoH2rgAuYadPLJgJA) for providing radiosonde data through his RISE-26 project. His contributions help enhance AtmosphericX's weather tracking and analysis capabilities. Learn more about the project [here](https://www.wxeye.org/rise26).
 
 :::info Affiliation
 We are not affiliated with Vince Waelti or his projects. AtmosphericX simply utilizes the publicly available data he provides.
 :::
+
+## Probability Settings
+AtmosphericX incorporates data from the `CIMSS (Cooperative Institute for Mesoscale Meteorological Studies)` for `PSv3`. These probabilistic severe weather products are developed collaboratively by researchers at the NOAA National Severe Storms Laboratory and CIMSS. Designed as experimental forecasting tools, PSv3 help meteorologists estimate the likelihood that a storm will produce severe weather, hail, wind, or tornadoes, providing early guidance for situational awareness and decision making during active weather events. If you wish to see the research see: 
+
+- https://journals.ametsoc.org/view/journals/wefo/39/12/WAF-D-24-0076.1.xml
 
 ## Nexrad Stations
 This feature provides a **GeoJSON representation** of Nexrad radar station locations, including each station's **longitude and latitude** coordinates as well as its unique **ID**. The data can be used for mapping, storm tracking, and integration with other geospatial weather products.
@@ -119,11 +118,11 @@ sources.jsonc
     │   └── tropical_storm_tracks
     │
     ├── probability_settings
-    │   ├── tornado
     │   └── severe
     │
     └── miscellaneous_settings
         ├── sonde_project_weather_eye
+        ├── probability
         ├── nexrad_radars
         ├── wx_radio
         ├── power_outages

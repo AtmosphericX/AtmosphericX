@@ -17,3 +17,4 @@ fix(config): Fix sfx direct files for Tornado Warnings.
 fix(widget/polywarn): adjust styling and functionality for better user experience
 fix(widget/stream): adjust styling and functionality for better user experience
 fix(parsing): add optional chaining to conditions parsing for safety
+refactor(probability): consolidate probability settings and update parsing logic

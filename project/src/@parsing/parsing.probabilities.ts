@@ -19,29 +19,36 @@ import * as types from '../@dictionaries/types';
 import * as loader from '../';
 
 type ProbabilityTypes = { 
-    type?: string; 
-    probability?: number; 
+    tornado?: number; 
+    severe?: number;
+    hail?: number;
+    wind?: number;
     shear?: number; 
+    MLCape?: number;
+    MUCape?: number;
     description?: string 
 }
 
-export const parse = async (body: string, type: 'tornado' | 'severe') => {
+export const parse = async (body: string) => {
     const structure: ProbabilityTypes[] = [];
-    const configurations = loader.modules.utilities.cfg();
-    const threshold = configurations?.sources?.probability_settings[type]?.percentage_threshold ?? 50;
-    const typeRegexp = type === 'tornado' ? /ProbTor: (\d+)%/ : /ProbSevere: (\d+)%/;
     const parsed = await loader.packages.PlacefileManager.parsePlacefile(body) as types.DefaultPlacefileParsingTypes[];
     for (const feature of parsed) {
         if (!feature.line?.text) continue;
-        const probMatch = feature.line.text.match(typeRegexp);
-        const probability = probMatch ? parseInt(probMatch[1]) : 0;
+        const tornado = feature.line.text.match(/ProbTor: (\d+)/) ? parseInt(feature.line.text.match(/ProbTor: (\d+)/)[1]) : 0;
+        const severe = feature.line.text.match(/ProbSevere: (\d+)/) ? parseInt(feature.line.text.match(/ProbSevere: (\d+)/)[1]) : 0;
+        const hail = feature.line.text.match(/ProbHail: (\d+)/) ? parseInt(feature.line.text.match(/ProbHail: (\d+)/)[1]) : 0;
+        const wind = feature.line.text.match(/ProbWind: (\d+)/) ? parseInt(feature.line.text.match(/ProbWind: (\d+)/)[1]) : 0;
         const shearMatch = feature.line.text.match(/Max LLAzShear: ([\d.]+)/);
+        const MLCape = feature.line.text.match(/MLCAPE: ([\d.]+)/);
+        const MUCape = feature.line.text.match(/MUCAPE: ([\d.]+)/);
         const shear = shearMatch ? parseFloat(shearMatch[1]) : 0;
-        if (probability >= threshold) {
+        const MLCapeValue = MLCape ? parseFloat(MLCape[1]) : 0;
+        const MUCapeValue = MUCape ? parseFloat(MUCape[1]) : 0;
+        if (tornado > 2 || severe > 15 || hail > 10 || wind > 10 || shear > 10) {
             structure.push({
-                type,
-                probability,
-                shear,
+                tornado, severe, wind, hail, shear,
+                MLCape: MLCapeValue,
+                MUCape: MUCapeValue,
                 description: feature.line.text.replace(/\\n/g, '<br>') ?? 'N/A'
             });
         }
