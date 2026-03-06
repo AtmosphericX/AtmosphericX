@@ -71,14 +71,16 @@
             color: var(--widget-color);
             text-shadow: var(--widget-text-shadow);
             display: flex;
-            align-items: center;
+            flex-direction: row;
+            flex-wrap: wrap;
             justify-content: center;
             text-align: center;
-            white-space: nowrap; 
-            overflow: hidden; 
-            text-overflow: ellipsis; 
             width: 100%;
-            height: 1.4em;
+            line-height: 1.4em;
+            word-break: break-word;
+        }
+        .widget-child-1 > span {
+            word-break: break-word;
         }
         .widget-child-2 {
             font-size: var(--widget-subtext-font-size);
@@ -114,7 +116,7 @@
             settings.global.setRoute = get(aSearch, `setRoute`) ??  `%properties.event%`
             settings.global.setRouteSecondary = get(aSearch, `setRouteSecondary`) ??  `Issued at %properties.issued%`
             settings.setSfx = get(aSearch, `setSfx`) ??  `/sfx/dash_sfx/boom3.mp3`;
-            settings.setAwaitPeriod = get(aSearch, `setAwaitPeriod`) ?? 30;
+            settings.setAwaitPeriod = get(aSearch, `setAwaitPeriod`) ?? 20;
             settings.setSearch = get(aSearch, `setSearch`) ?? null;
             settings.global.setAnimationStartDuration = get(aSearch, `setAnimationStartDuration`) ?? 3;
             settings.global.setAnimationEndDuration = get(aSearch, `setAnimationEndDuration`) ?? 3;

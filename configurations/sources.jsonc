@@ -33,10 +33,10 @@
 
     */
 {
-    "sources:hash": "69d08594e2d731c35e28c4ed6c5de8c2e9d7c3af6c0fb5a966d24a4e1d24ba39", // DO NOT MODIFY THIS VALUE. THIS IS USED FOR CONFIGURATION INTEGRITY CHECKS.
+    "sources:hash": "00b0d6768622eed71f5d4451b248da2a9cae0a23d9ff1472c1b23637c3227054", // DO NOT MODIFY THIS VALUE. THIS IS USED FOR CONFIGURATION INTEGRITY CHECKS.
     "sources": {
         "atmosx_parser_settings": { // AtmosphericX event parser settings
-            "noaa_weather_wire_service": false, // If you want to use NOAA Weather Wire Service, set this to true.
+            "noaa_weather_wire_service": true, // If you want to use NOAA Weather Wire Service, set this to true.
             "journal": false, // Not recommenedend to enable this as this may screw up the window on custom v2 displays.
             "database": "../storage/databases/shapefiles.db", // Path to the shapefile database.
             "national_weather_service_settings": {
@@ -48,7 +48,7 @@
                     "username": "username_here",
                     "password": "password_here",
                     "nickname": "nickname_here" // Nickname for NWWS Client (Ex. KiyoWx - PC)
-                },
+                },  
                 "client_reconnections": {
                     "attempt_reconnections": true, // If you want to enable reconnections on NWWS disconnects. (Network outages, server issues, etc.)
                     "reconnection_attempt_interval": 60 // How often to attempt reconnections (in seconds)
@@ -184,8 +184,8 @@
                 "enabled": false,
                 "api": "api_key_here",
                 "location_based": true, // If you want to use a chasers location by lon/lat instead of station/device ID.
-                "station": 0, // Your Tempest Station ID (MUST BE CONNECTED TO THE INTERNET)
-                "device": 0 // Your Tempest Device ID (MUST BE CONNECTED TO THE INTERNET)
+                "station": 1, // Your Tempest Station ID (MUST BE CONNECTED TO THE INTERNET)
+                "device": 1 // Your Tempest Device ID (MUST BE CONNECTED TO THE INTERNET)
             },
             "pulse_point": { // PulsePoint Integration (See: https://www.pulsepoint.org/)
                 "enabled": false,

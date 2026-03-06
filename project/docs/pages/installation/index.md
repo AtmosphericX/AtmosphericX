@@ -10,7 +10,7 @@ prev:
 
 <img src="/logo.png" alt="AtmosphericX Logo" width="200" style="display: block; margin: 0 auto;" />
 <small class="page-author">Written By: <b>KiyoWx</b> & <b>StarflightWx</b></small><br/>
-<small class="last-updated">Last Updated: <b>Feb 27th, 2026</b></small><br>
+<small class="last-updated">Last Updated: <b>Mar 5th, 2026</b></small><br>
 <small class="version-made">Version: <b>8.0.0.029 (beta-pre-dashboard-testing)</b></small><br><br><br>
 
 # AtmosphericX Introduction
@@ -57,10 +57,17 @@ Throughout the documentation, you may see words that are commonly used. So we've
 - Port: The network protocol AtmosphericX chooses to run on for web access.
 
 
+## Honorable Mentions
+Special thanks to [CJ Ziegler](https://www.youtube.com/@CJZiegler), [James Pettus](https://x.com/PettusWX), [TylerWxCorner](https://x.com/TylersWXcorner), [CarsonGrayWX](https://x.com/CarsonGrayWX), [MesoHunter](https://www.youtube.com/channel/UCCbcwQgGkci3CRffdrCKFbg), [Connor's Climate Corner](https://www.youtube.com/channel/UCLxyjHhUz9MpfntbRMvNpbw), [Chief Meteorologist (WYFF 4) Chris Justus](https://x.com/ChrisWYFF4), and [StarflightWx](https://x.com/starflightVR) for inspiring me to continue this project.  
+
+A special note to **StarflightWx**, your encouragement since **AtmosphericX v2** has given me hope and motivation to keep improving this project, and I couldn’t be happier with the progress since then. See you on the road and on to the next storm. <3
+
+
 ## Disclaimer
 > AtmosphericX is an independent, open source project and is **not** affiliated with, endorsed by, or sponsored by any government agency, meteorological organization, emergency management service, or official weather provider. This project may reference, parse, or process publicly available weather data, including but **not** limited to services operated by the National Weather Service (NWS) and the National Oceanic and Atmospheric Administration (NOAA). All trademarks, service marks, and data rights remain the property of their respective owners. AtmosphericX is provided "as is", without warranty of any kind, express or implied, including but **not** limited to:
 > - Accuracy or completeness of parsed weather data
 > - Fitness for a particular purpose
+> - Protection against sources and data retrieval
 > - Availability or reliability of upstream data sources
 > - Protection against service interruptions or data delays
 >

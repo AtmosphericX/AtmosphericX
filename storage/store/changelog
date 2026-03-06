@@ -1,12 +1,17 @@
 ========= 8.0.0.029 (beta-pre-dashboard-testing) =========
 
-fix(internal-parser): Make sure merging actually merges...
 add(internal-http): Add documentation mode which disables all core features.
 add(widgets/alerts): Add setPlayback option to enable/disable playback functionality.
 update(widgets/global): setThemeType default is now "primary"
 update(widgets/js): `setAnimationStartDuration` now impacts `setBackgroundAnimated` animation time. (Default 1.5 seconds)
-feat(portal): add meta tags for improved SEO and social sharing
 update(widgets/utils): Improve error handling in element animation functions
-fix(widgets/strings): Fix string manipulation issues in various widget components
 feat(widget styles, utils): update widget container positioning and enhance string processing logic
 feat(config): update allowedHosts for documentation server
+feat(config): update event and source configurations for improved functionality and documentation
+feat(docs): enhance documentation for events, sources, and widgets; update last modified dates
+feat(portal): add meta tags for improved SEO and social sharing
+fix(widgets/strings): Fix string manipulation issues in various widget components
+fix(internal-parser): Make sure merging actually merges...
+fix(config): Fix sfx direct files for Tornado Warnings. 
+fix(widget/polywarn): adjust styling and functionality for better user experience
+fix(widget/stream): adjust styling and functionality for better user experience

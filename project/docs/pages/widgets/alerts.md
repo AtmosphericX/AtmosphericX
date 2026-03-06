@@ -18,6 +18,10 @@ prev:
 
 The `alert` widget centralizes the management of weather and miscellaneous events. It provides customizable sound effects, flexible theming options, and optional Text-to-Speech integration with full support for the [`setRoute`](./index#understanding-setroute) functionality. The `alert` widget is located under `/widgets/alerts` and can be accessed directly via the URL.
 
+::: warning TextToSpeech (OBS)
+Text to speech currently does not work when you enable `Control audio via OBS`. This is a bug within OBS.
+:::
+
 ::: info Parameter Rules
 
 - `?` is used when starting a query string in a URL.

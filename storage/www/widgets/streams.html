@@ -47,7 +47,7 @@
             --widget-text-color: #ffffff;
             --widget-bg: rgba(34, 40, 49, 0.92);
             --widget-radius: 18px;
-            --widget-padding: 1.2rem 2rem;
+            --widget-padding: 15px;
             --widget-blur: blur(8px);  
             --widget-shadow: 0 10px 40px rgba(0, 0, 0, 0.45);
             --video-shadow: 0 8px 32px rgba(0, 0, 0, 0.35);
@@ -87,13 +87,12 @@
             align-items: center;
             justify-content: center;
             text-align: center;
+            background-color: var(--widget-bg);
             font-size: var(--widget-font-size);
             font-weight: var(--widget-font-weight);
             color: var(--widget-text-color);
             border-radius: var(--widget-radius);
             padding: var(--widget-padding);
-            backdrop-filter: var(--widget-blur);
-            -webkit-backdrop-filter: var(--widget-blur);
             border: none;
             z-index: var(--widget-z);
         }
@@ -141,16 +140,17 @@
             settings.setRadius = get(aSearch, `setRadius`) ?? 125;
             settings.global.setTextPlaceholder = get(aSearch, `setTextPlaceholder`) ?? `No streams available`;
             settings.global.setRoute = get(aSearch, `setRoute`) ??  `%properties.name% (%properties.location ?? properties.source%)`
-            settings.global.setElementThemed = false;
             
 
             if (!settings.setTextComponenets) { 
                 settings.setElementTitle.style.display = `none`;
             }
            
-            utils.socket([`configurations`, `streams`]).then(() => {
+            utils.socket([`configurations`, `streams`, `events`, `pulsepoint`]).then(() => {
                 document.addEventListener('onUpdate', (event) => {
-                    widgets.applyGlobalSettings(settings.setElementTitle, settings);  
+                    if (settings.global.setElementThemed) {
+                        widgets.applyGlobalTheme(settings.setElementTitle, settings);
+                    }
                     cb()
                 })
             })

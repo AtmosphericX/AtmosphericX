@@ -177,6 +177,7 @@
                                 if (getLoweredEvent === "advisory") return "Advisories";
                                 if (getLoweredEvent === "watch") return "Watches";
                                 if (getLoweredEvent === "warning") return "Warnings";
+                                if (getLoweredEvent === "statement") return "Statements";
                                 return ev.trim().toUpperCase();
                             })
                             return utils.setString(settings.setElement, `${getFiltered.join(", ")}: ${count}`, settings);
@@ -195,7 +196,7 @@
                                 return utils.getDistance( {lat, lon}, {lat: getTracker.geometry.coordinates[1], lon: getTracker.geometry.coordinates[0]}) < getRadius ?? 5;
                             });
                             cache.getNearbySpotters = (getNearby.length > 1) ? getNearby.length - 1 : 0;
-                            return utils.setString(settings.setElement, `${cache.getNearbySpotters} Nearby Spotters`, settings);
+                            return utils.setString(settings.setElement, cache.getNearbySpotters, settings);
                         }
                         case `getNearbyEvents`: {
                             const getSearch = get(aSearch, `setSearch`) ?? null;

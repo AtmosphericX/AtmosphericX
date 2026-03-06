@@ -58,11 +58,11 @@ hero:
 	]
 	const gallery = [
 		{ src: '/assets/images/demos/d2.png', alt: 'Settings Panel', caption: 'KiyoWx - Demo Showcase (v7)' },
-		{ src: '/assets/images/demos/d3.png', alt: 'Settings Panel', caption: 'nbur21wx - Rounded Theme (v7)' },
+		{ src: '/assets/images/demos/d8.gif', alt: 'Settings Panel', caption: 'KiyoWx - Demo Showcase (v8)' },
+		{ src: '/assets/images/demos/d3.png', alt: 'Settings Panel', caption: 'KiyoWx - Demo Showcase v2.1 (v8)' },
 		{ src: '/assets/images/demos/d4.gif', alt: 'Settings Panel', caption: 'CJ Ziegler - Live Storm Chasing (v7)' },
 		{ src: '/assets/images/demos/d5.gif', alt: 'Settings Panel', caption: 'AaronOnAir - Live Storm Chase (v7)' },
 		{ src: '/assets/images/demos/d7.gif', alt: 'Settings Panel', caption: 'CJ Ziegler - Live Storm Chase (v8)' },
-		{ src: '/assets/images/demos/d8.gif', alt: 'Settings Panel', caption: 'CJ Ziegler - Live Storm Chasing (v8)' },
 	]
 
 	const Gallery = {

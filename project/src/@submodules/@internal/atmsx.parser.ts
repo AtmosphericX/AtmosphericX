@@ -249,12 +249,11 @@ export class ATMSXParser {
                 const cHistory = getFeature.properties?.details?.history ?? [];
                 const cLocations = getFeature.properties?.locations?.split(";").map((l: string) => l.trim()) ?? [];
                 const cUgc = getFeature.properties?.geocode?.UGC ?? [];
-                const cTags = getFeature.properties?.tags ?? [];
 
                 const iHistory = properties.details?.history ?? [];
                 const iLocations = properties.locations?.split(";").map((l: string) => l.trim()) ?? [];
                 const iUgc = properties?.geocode?.UGC ?? [];
-                const iTags = properties?.tags ?? [];
+        
 
                 const mHistory = [...cHistory, ...iHistory]
                     .filter((v, i, a) => a.indexOf(v) === i);
@@ -266,25 +265,19 @@ export class ATMSXParser {
                 const mUgc = [...cUgc, ...iUgc]
                     .filter((v, i, a) => a.indexOf(v) === i);
 
-                const mTags = [...cTags, ...iTags]
-                    .filter((v, i, a) => a.indexOf(v) === i)
-
-
-                const filteredTags = mTags.filter((v, i) => mTags.indexOf(v) === i);
                 loader.cache.external.events.features[getIndex] = {
-                    ...getFeature,
+                    ...event,
                     properties: {
-                        ...getFeature.properties,
+                        ...event.properties,
                         details: {
-                            ...getFeature.properties.details,
+                            ...event.properties.details,
                             history: mHistory
                         },
                         locations: mLocations,
                         geocode: {
-                            ...getFeature.properties.geocode,
+                            ...event.properties.geocode,
                             UGC: mUgc
                         },
-                        tags: filteredTags.length > 1 ? filteredTags.filter(v => v !== "N/A") : filteredTags
                     }
                 };
             } else {

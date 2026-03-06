@@ -190,7 +190,7 @@ export class Init {
                 description.push(`Temperature: ${mesonet ? mesonet.properties.temperature + ` °F` : `N/A`}`);
                 description.push(`Dew Point: ${mesonet ? mesonet.properties.dewpoint + ` °F` : `N/A`}`);
                 description.push(`Wind Speed: ${mesonet ? mesonet.properties.wind_speed + ` mph` : `N/A`}`);
-                description.push(`Wind Direction: ${mesonet ? mesonet.properties.wind_direction + `°` : `N/A`}`);
+                description.push(`Wind Direction: ${mesonet ? mesonet.properties.wind_direction : `N/A`}`);
                 description.push(`Humidity: ${mesonet ? mesonet.properties.humidity + ` %` : `N/A`}`);
                 description.push(`Conditions: ${mesonet ? mesonet.properties.conditions : `N/A`}`);
             }

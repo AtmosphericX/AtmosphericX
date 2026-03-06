@@ -28,7 +28,11 @@ export const parse = (body) => {
                 humidity: body.humidity,
                 wind_speed: body.wind_speed,
                 wind_direction: body.wind_direction,
-                conditions: body.conditions,
+                conditions: body.conditions
+                    .split(' ')
+                    .map(word => word.charAt(0)
+                                    .toUpperCase() + word.slice(1))
+                                    .join(' '),
                 location: body.location,
             }
         }

@@ -12,7 +12,7 @@ prev:
 <small class="page-author">Written By: <b>KiyoWx</b> & <b>StarflightWx</b></small><br/>
 <small class="last-updated">Last Updated: <b>Feb 27th, 2026</b></small><br><br><br>
 
-# Placefiles Configurations
+# Placefile Configurations
 ---
 The `placefiles.jsonc` configuration file defines how AtmosphericX generates, caches, and distributes dynamic **GRLevelX compatible placefile layers** for radar and mapping software.  
 
