@@ -424,6 +424,10 @@ export class ATMSXParser {
             }
             loader.cache.internal.source = (settings.is_wire ? `NWWS` : `NWS`);
             this.mgr = loader.cache.handlers.parser_client = new this.pkg(settings)
+            this.mgr.on(`onExpired`, async (event: types.EventType) => {
+                const configurations = loader.modules.utilities.cfg();
+                this.initEventProcessing(event, configurations)
+            });
             this.mgr.on(`onEvents`, async (events: types.EventType[]) => {
                 this.cache_events.push(...events);
                 if (!this.emitter_processing) {
