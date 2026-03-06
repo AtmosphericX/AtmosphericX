@@ -230,9 +230,11 @@
                                     if (!getScan) return;
                                     const getLevels = await wise.getWiseLevels(getScan);
                                     const getNearest = getLevels.reduce((a, b) => utils.getDistance(
-                                        getTracker.geometry.coordinates[0], getTracker.geometry.coordinates[1], b.lat, b.lon
+                                        {lat: getTracker.geometry.coordinates[1], lon: getTracker.geometry.coordinates[0]}, 
+                                        {lat: b.lat, lon: b.lon}
                                     ) < utils.getDistance(
-                                        getTracker.geometry.coordinates[0], getTracker.geometry.coordinates[1], a.lat, a.lon
+                                        {lat: getTracker.geometry.coordinates[1], lon: getTracker.geometry.coordinates[0]}, 
+                                        {lat: a.lat, lon: a.lon}
                                     ) ? b : a);
                                     const getSorted = Object.keys(getChart).map(Number).sort((a, b) => a - b);
                                     key = Math.max(getSorted[0], Math.floor(getNearest.dbz / 5) * 5);
