@@ -47,7 +47,7 @@
             --widget-text-color: #ffffff;
             --widget-bg: rgba(34, 40, 49, 0.92);
             --widget-radius: 18px;
-            --widget-padding: 15px;
+            --widget-padding: 10px;
             --widget-blur: blur(8px);  
             --widget-shadow: 0 10px 40px rgba(0, 0, 0, 0.45);
             --video-shadow: 0 8px 32px rgba(0, 0, 0, 0.35);
@@ -102,9 +102,10 @@
             left: 50%;
             transform: translate(-50%, -50%);
             text-align: center;
-            color: rgba(255, 255, 255, 0.422);
+            color: rgba(255, 255, 255, 0.357);
             font-size: 45px;
             z-index: 9999;
+            text-wrap: nowrap;
             pointer-events: none;
         }
 
@@ -131,9 +132,10 @@
             settings.setElement = get(aSearch, `setSelectedElement`) ?? document.getElementById('widget-container')
             settings.setElementVideo = get(aSearch, `setElementVideo`) ??  document.getElementById('widget-child-1');
             settings.setElementTitle = get(aSearch, `setElementTitle`) ??  document.getElementById('widget-child-2');
-            settings.setRefreshTime = get(aSearch, `setRefreshTime`) ?? 30;
+            settings.setRefreshTime = get(aSearch, `setRefreshTime`) ?? 15;
             settings.setTextComponenets = get(aSearch, `setTextComponenets`) ?? true;
             settings.setStreamSource = get(aSearch, `setStreamSource`) ?? `*`;
+            settings.setStreamMuted = get(aSearch, `setStreamMuted`) ?? true;
             settings.setSearch = get(aSearch, `setSearch`) ?? null;
             settings.setLatitude = get(aSearch, `setLatitude`) ?? null;
             settings.setLongitude = get(aSearch, `setLongitude`) ?? null;
@@ -201,21 +203,31 @@
                     settings.setElementVideo.style.transition = "opacity 1.0s";
                     settings.setElementVideo.style.opacity = "0";
 
-                    
-                    setTimeout(() => {
-                        const HLS = new Hls();
-                        HLS.loadSource(getRandomStream.properties.stream_url);
-                        cache.previous = getRandomStream.properties.stream_url;
-                        HLS.on(Hls.Events.MANIFEST_PARSED, () => {
-                            HLS.attachMedia(settings.setElementVideo)
-                            settings.setElementVideo.play(); 
-                            settings.setElementVideo.style.transition = "opacity 3.0s";
-                            settings.setElementVideo.style.opacity = "1";
-                        })
-                    }, 1000)
+                    const connect = () => {
+                        setTimeout(() => {
+                            const HLS = new Hls();
+                            HLS.loadSource(getRandomStream.properties.stream_url);
+                            cache.previous = getRandomStream.properties.stream_url;
+                            HLS.on(Hls.Events.MANIFEST_PARSED, () => {
+                                HLS.attachMedia(settings.setElementVideo)
+                                if (settings.setStreamMuted) {
+                                    settings.setElementVideo.muted = true;
+                                }
+                                settings.setElementVideo.play();
+                                settings.setElementVideo.style.transition = "opacity 3.0s";
+                                settings.setElementVideo.style.opacity = "1";
+                            })
+                            HLS.on(Hls.Events.ERROR, (event, data) => {
+                                if (data?.error?.code != 11 && data?.error?.code != undefined) {
+                                    connect()
+                                }
+                            });
+                        }, 1e3)
+                    }
+                    connect()
                 }
                 getActiveStreams()
-                cache.running = setInterval(() => { getActiveStreams() }, settings.setRefreshTime * 1000)
+                cache.running = setInterval(() => { getActiveStreams() }, settings.setRefreshTime * 1e3)
             }
         })
     </script>

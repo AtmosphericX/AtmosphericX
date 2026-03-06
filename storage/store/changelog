@@ -3,6 +3,7 @@
 add(internal-http): Add documentation mode which disables all core features.
 add(widgets/alerts): Add setPlayback option to enable/disable playback functionality.
 update(widgets/global): setThemeType default is now "primary"
+update(widgets/streams): Ability to set stream as muted.
 update(widgets/js): `setAnimationStartDuration` now impacts `setBackgroundAnimated` animation time. (Default 1.5 seconds)
 update(widgets/utils): Improve error handling in element animation functions
 feat(widget styles, utils): update widget container positioning and enhance string processing logic
@@ -20,5 +21,7 @@ fix(widget/stream): adjust styling and functionality for better user experience
 fix(parsing): add optional chaining to conditions parsing for safety
 fix(utils): change notification text element from paragraph to span for better styling
 fix(widget/strings): correct coordinate object structure for distance calculations
+fix(widgets/streams): adjust widget padding and refresh time settings
+fix(widgets/streams): auto-reconnect by error. (err-check)
 refactor(probability): consolidate probability settings and update parsing logic
 
