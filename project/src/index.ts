@@ -32,7 +32,7 @@ Object.entries(dictPackages.h_modules).forEach(([key, Class]) => {modules[key] =
 
 new Promise<void>(async () => {
     const configurations = modules.utilities.cfg();
-    new packages.jobs.Cron(configurations?.internal_settings?.global_update, () => { modules.networking.fetchCacheData(); });
+    new packages.jobs.Cron(configurations?.internal_settings?.global_update, () => { modules.networking.fetchCacheData(); modules.atmsxparser.initSpotterUpdating(); });
     new packages.jobs.Cron(configurations?.internal_settings?.random_update, () => { modules.atmsxparser.initRandomService(); modules.atmsxpulsepoint.initRandomService();  });
     new packages.jobs.Cron(configurations?.internal_settings?.update_check,  () => { modules.utilities.getLatestUpdate(); });
     modules.utilities.log({

@@ -10,6 +10,7 @@ feat(config): update allowedHosts for documentation server
 feat(config): update event and source configurations for improved functionality and documentation
 feat(docs): enhance documentation for events, sources, and widgets; update last modified dates
 feat(portal): add meta tags for improved SEO and social sharing
+feat(index): enhance Cron job functionality by adding cache data fetching and spotter updating
 fix(widgets/strings): Fix string manipulation issues in various widget components
 fix(internal-parser): Make sure merging actually merges...
 fix(config): Fix sfx direct files for Tornado Warnings. 
