@@ -131,7 +131,7 @@
             "sfx_cancel": "/sfx/eas_sfx/beep-sfx.mp3",
             "sfx_tts": false,
             "sfx_tts_format": "Attention, This %properties.event% has been {STATUS}",
-            "metadata": { "siren": true, "wail": false, "urgent": false, "iphone": false, "uniden": false}
+            "metadata": { "siren": false, "wail": false, "urgent": false, "iphone": false, "uniden": false}
         },
         "PDS Tornado Watch": {
             "sfx_issued": "/sfx/tornado_sfx/watch-tornado-pds.mp3",
@@ -163,7 +163,7 @@
             "sfx_cancel": "/sfx/eas_sfx/beep-sfx.mp3",
             "sfx_tts": false,
             "sfx_tts_format": "Attention, This %properties.event% has been {STATUS}",
-            "metadata": { "siren": true, "wail": true, "urgent": false, "iphone": false, "uniden": false}
+            "metadata": { "siren": true, "wail": false, "urgent": false, "iphone": false, "uniden": false}
         },
         "Destructive Severe Thunderstorm Warning": {
             "sfx_issued": "/sfx/severe_sfx/severe-destructive-issued.mp3",
