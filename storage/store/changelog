@@ -11,6 +11,7 @@ feat(config): update event and source configurations for improved functionality 
 feat(docs): enhance documentation for events, sources, and widgets; update last modified dates
 feat(portal): add meta tags for improved SEO and social sharing
 feat(index): enhance Cron job functionality by adding cache data fetching and spotter updating
+fix(utility): adjust webhook rate limit from 3 to 2 for improved control
 fix(widgets/strings): Fix string manipulation issues in various widget components
 fix(internal-parser): Make sure merging actually merges...
 fix(config): Fix sfx direct files for Tornado Warnings. 

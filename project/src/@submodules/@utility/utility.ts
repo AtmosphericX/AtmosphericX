@@ -514,7 +514,7 @@ export class Utility {
             if (!settings?.enabled || !settings?.discord_webhook) return;
             if (!settings?.discord_webhook.startsWith("https://")) return;
             const cooldown = (settings?.webhook_cooldown ?? 5) * 1000;
-            if (this.isLimited(`webhook.${settings?.discord_webhook}`, 3, cooldown)) return;
+            if (this.isLimited(`webhook.${settings?.discord_webhook}`, 2, cooldown)) return;
             if (message.length > 1900) {
                 message = message.substring(0, 1900) + "\n\n[Message truncated due to length]";
                 const blockCount = (message.match(/```/g) || []).length;
@@ -531,10 +531,7 @@ export class Utility {
                 username: settings?.webhook_display ?? "AtmosphericX Alerts",
                 content: settings?.content ?? "",
                 embeds: [embed],
-            });
-            loader.cache.internal.limiters.push({
-                type: `webhook:${settings?.discord_webhook}`,
-                timestamp: Date.now()
+                timeout: 2000
             });
         } catch (error) {
             this.exception(error, this.name_space + `.sendWebhook`);
