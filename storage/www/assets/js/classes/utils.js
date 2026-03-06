@@ -712,7 +712,7 @@ class Utils {
                 generatedString += settings?.global?.setTextPrefix + '&nbsp;';
             }
             if (settings?.global?.setTextColorThemed) { 
-                generatedString += `<p style="color: ${getEventTheme?.default == false ? getEventTheme.primary : getNumberTheme}">${string}</p>`;
+                generatedString += `<span style="color: ${getEventTheme?.default == false ? getEventTheme.primary : getNumberTheme}">${string}</span>`;
             } else { 
                 generatedString += string;
             }
