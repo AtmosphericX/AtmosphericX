@@ -108,13 +108,26 @@
             text-wrap: nowrap;
             pointer-events: none;
         }
-
+        .widget-child-4 { 
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            color: rgba(255, 255, 255, 0.357);
+            font-size: 45px;
+            z-index: 9999;
+            text-wrap: nowrap;
+            pointer-events: none;
+        }
     </style>
     <body> 
         <div class="notifications"></div>
         <div class="widget-container" id="widget-container">
             <video class="widget-child-1" id="widget-child-1" autoplay></video>
             <p class="widget-child-3" id="widget-child-3">NOT FOR BROADCAST - REQUIRES PERMISSION FROM OWNER</p>
+            <p class="widget-child-4" id="widget-child-4">BUFFERING...</p>
             <div class="widget-child-2" id="widget-child-2">...</div>
         </div>
     </body>
@@ -122,6 +135,7 @@
         window.addEventListener('DOMContentLoaded', () => {
             let cache = {
                 running: false,
+                isbuffering: false,
                 previous: null
             };
             const settings = {global: aGlobalElementSettings};
@@ -129,9 +143,10 @@
             const wise = new Wise(utils);
             const widgets = new Widgets(utils);
             
-            settings.setElement = get(aSearch, `setSelectedElement`) ?? document.getElementById('widget-container')
-            settings.setElementVideo = get(aSearch, `setElementVideo`) ??  document.getElementById('widget-child-1');
-            settings.setElementTitle = get(aSearch, `setElementTitle`) ??  document.getElementById('widget-child-2');
+            settings.setElement = document.getElementById('widget-container')
+            settings.setElementVideo = document.getElementById('widget-child-1');
+            settings.setElementTitle = document.getElementById('widget-child-2');
+            settings.setElementBuffering = document.getElementById('widget-child-4');
             settings.setRefreshTime = get(aSearch, `setRefreshTime`) ?? 15;
             settings.setTextComponenets = get(aSearch, `setTextComponenets`) ?? true;
             settings.setStreamSource = get(aSearch, `setStreamSource`) ?? `*`;
@@ -159,6 +174,7 @@
 
             function cb() { 
                 if (cache.running) { return }
+                let HLS;
                 getActiveStreams = () => {
                     const getPlaceholder = settings.global.setTextPlaceholder;
                     const getStreams = utils?.storage?.streams?.features ?? [];
@@ -195,35 +211,73 @@
                     } 
                     const getRandomStream = getFilteredStreams[Math.floor(Math.random() * getFilteredStreams.length)] ?? null;
                     const getOutput = utils.getTextFromDirectory(getRandomStream, settings.global.setRoute);
-                    utils.setString(settings.setElementTitle, getOutput, settings);
-                    if (cache.previous == getRandomStream.properties.stream_url) {
+                    if (cache.previous == getRandomStream.properties.stream_url) { 
                         return;
                     }
-
                     settings.setElementVideo.style.transition = "opacity 1.0s";
                     settings.setElementVideo.style.opacity = "0";
+                    const connect = async () => {
+                        utils.setString(settings.setElementTitle,getOutput,settings);
+                        const video=settings.setElementVideo;
+                        settings.setElementBuffering.style.display="none";
+                        if(HLS){HLS.destroy(); HLS=null;}
+                        HLS=new Hls({
+                            maxBufferLength:15,
+                            maxMaxBufferLength:30,
+                            liveSyncDurationCount:0,
+                            liveMaxLatencyDurationCount:3,
+                            backBufferLength:10,
+                            lowLatencyMode:false
+                        });
+                        HLS.attachMedia(video);
+                        HLS.loadSource(getRandomStream.properties.stream_url);
+                        cache.previous=getRandomStream.properties.stream_url;
+                        cache.reconnecting=false;
+                        HLS.on(Hls.Events.MANIFEST_PARSED,async()=>{
+                            if(settings.setStreamMuted){video.muted=true;}
+                            const buf=video.buffered;
+                            if(buf.length){video.currentTime=buf.end(buf.length-1)-0.05;}
+                            try{await video.play();}catch{}
+                            cache.isbuffering=false;
+                            settings.setElementBuffering.style.display="none";
+                            cache.reconnecting=false;
+                            video.style.transition="opacity 3s"; video.style.opacity="1";
+                        });
+                        HLS.on(Hls.Events.ERROR,async(event,data)=>{
+                            console.log(data);
+                            if(!data.fatal){
+                                if(data.details==="bufferStalledError"){
+                                    const buf=video.buffered;
+                                    if(buf.length){
+                                        settings.setElementBuffering.style.display="block";
+                                        cache.isbuffering=true;
+                                        video.currentTime=buf.end(buf.length-1)-0.05;
+                                        try{await video.play();}catch{}
+                                        cache.isbuffering=false;
+                                        settings.setElementBuffering.style.display="none";
+                                    }
+                                }
+                                if(data.details==="fragLoadCanceled") return;
+                                return;
+                            }
 
-                    const connect = () => {
-                        setTimeout(() => {
-                            const HLS = new Hls();
-                            HLS.loadSource(getRandomStream.properties.stream_url);
-                            cache.previous = getRandomStream.properties.stream_url;
-                            HLS.on(Hls.Events.MANIFEST_PARSED, () => {
-                                HLS.attachMedia(settings.setElementVideo)
-                                if (settings.setStreamMuted) {
-                                    settings.setElementVideo.muted = true;
-                                }
-                                settings.setElementVideo.play();
-                                settings.setElementVideo.style.transition = "opacity 3.0s";
-                                settings.setElementVideo.style.opacity = "1";
-                            })
-                            HLS.on(Hls.Events.ERROR, (event, data) => {
-                                if (data?.error?.code != 11 && data?.error?.code != undefined) {
-                                    connect()
-                                }
-                            });
-                        }, 1e3)
-                    }
+                            if(cache.reconnecting) return;
+                            cache.reconnecting=true;
+                            cache.isbuffering=true;
+                            settings.setElementBuffering.style.display="block";
+                            await utils.sleep(700);
+                            switch(data.type){
+                                case Hls.ErrorTypes.NETWORK_ERROR: 
+                                case Hls.ErrorTypes.MEDIA_ERROR: 
+                                default:
+                                    console.warn("Fatal/Network/Media error → reconnecting");
+                                    HLS.destroy(); HLS=null;
+                                    await utils.sleep(500);
+                                    connect();
+                                    break;
+                            }
+                        });
+                    };
                     connect()
                 }
                 getActiveStreams()

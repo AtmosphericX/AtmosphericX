@@ -2,6 +2,7 @@
 
 add(internal-http): Add documentation mode which disables all core features.
 add(widgets/alerts): Add setPlayback option to enable/disable playback functionality.
+add(widgets/dynamic) experimental dynamic widget
 update(widgets/global): setThemeType default is now "primary"
 update(widgets/streams): Ability to set stream as muted.
 update(widgets/js): `setAnimationStartDuration` now impacts `setBackgroundAnimated` animation time. (Default 1.5 seconds)

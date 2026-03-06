@@ -173,33 +173,47 @@ export class Utility {
         });
     }
 
+    /**
+     * @public
+     * @production
+     * @error_handling
+     * @function validateConfigurations
+     * @description
+     *     Validates the configurations against their expected hashes.
+     * 
+     * @return {Promise<void>}
+     */
     public async validateConfigurations(): Promise<void> {
-        const configurations = this.cfg() ?? {};
-        const getHashMap = loader.packages.fs.existsSync(this.hashmap_path) 
-            ? JSON.parse(loader.packages.fs.readFileSync(this.hashmap_path, 'utf-8')) as Record<string, string>
-            : {};
-        const getObKeys = Object.keys(configurations).filter((key: string) => key.endsWith(`:hash`));
-        const getHashKeysValues = getObKeys.map((key: string) => {
-            const configName = key.replace(`:hash`, ``);
-            const expectedHash = configurations[key];
-            return { configName, expectedHash };
-        });
-        while (getHashKeysValues.length != Object.keys(getHashMap).length) {
-            this.log({
-                title: `${this.ansi_colors.RED}Critical Configuration Error${this.ansi_colors.RESET}`,
-                message: loader.strings.configuration_validation_incomplete,
+        try {
+            const configurations = this.cfg() ?? {};
+            const getHashMap = loader.packages.fs.existsSync(this.hashmap_path) 
+                ? JSON.parse(loader.packages.fs.readFileSync(this.hashmap_path, 'utf-8')) as Record<string, string>
+                : {};
+            const getObKeys = Object.keys(configurations).filter((key: string) => key.endsWith(`:hash`));
+            const getHashKeysValues = getObKeys.map((key: string) => {
+                const configName = key.replace(`:hash`, ``);
+                const expectedHash = configurations[key];
+                return { configName, expectedHash };
             });
-            await this.sleep(100)
-        }
-        for (const { configName, expectedHash } of getHashKeysValues) {
-            const actualHash = getHashMap[configName] ?? null;
-            if (actualHash !== expectedHash || actualHash === null) {
+            while (getHashKeysValues.length != Object.keys(getHashMap).length) {
                 this.log({
-                    title: `${this.ansi_colors.RED}Critical Configuration Setup${this.ansi_colors.RESET}`,
-                    message: loader.strings.configuration_validation_failed.replace(`{FILE}`, `${configName}.jsonc`),
-                    settings: { file: true }
+                    title: `${this.ansi_colors.RED}Critical Configuration Error${this.ansi_colors.RESET}`,
+                    message: loader.strings.configuration_validation_incomplete,
                 });
+                await this.sleep(100)
             }
+            for (const { configName, expectedHash } of getHashKeysValues) {
+                const actualHash = getHashMap[configName] ?? null;
+                if (actualHash !== expectedHash || actualHash === null) {
+                    this.log({
+                        title: `${this.ansi_colors.RED}Critical Configuration Setup${this.ansi_colors.RESET}`,
+                        message: loader.strings.configuration_validation_failed.replace(`{FILE}`, `${configName}.jsonc`),
+                        settings: { file: true }
+                    });
+                }
+            }
+        } catch (error) {
+            this.exception(error, this.name_space + `.validateConfigurations`);
         }
     }
 
@@ -239,7 +253,8 @@ export class Utility {
                 dbz_settings: configurations?.dbz_intensity ?? {},
                 color_intensity: configurations?.color_intensity ?? {},
                 services: configurations?.services ?? {},
-                forecasting: configurations?.forecasting ?? {}
+                forecasting: configurations?.forecasting ?? {},
+                dynamic_widgets: configurations?.dynamic_widgets ?? {}
             }
             const hash = loader.packages.crypto.createHash('md5').update(JSON.stringify(configurations)).digest('hex');
             if (this.config_hash && this.config_hash !== hash) {
@@ -320,41 +335,55 @@ export class Utility {
         }
     }
 
+    /**
+     * @public
+     * @production
+     * @error_handling
+     * @function getLatestUpdate
+     * @description
+     *      Retrieves the latest update information.
+     * 
+     * @return {Promise<void>} - A promise that resolves when the update information is retrieved.
+     */
     public async getLatestUpdate(): Promise<void> {
-        const configurations = this.cfg();
-        const tVersion = this.version();
-        const documentation = configurations.web_hosting_settings?.documentation_mode ?? false;
-        const oFeed = await this.httpRequest(configurations?.internal_settings?.feed_url);
-        const oVersion = await this.httpRequest(`https://raw.githubusercontent.com/${configurations?.internal_settings?.version_url}`);
-        const latestVersion = oVersion.message.trim().replace(/\n/g, '');
-        const normalizeVersion = (version: string): string => {
-            return version.split(' ')[0].split('.').map(num => num.padStart(3, '0')).join('.');
-        }   
-        if (normalizeVersion(tVersion) < normalizeVersion(latestVersion)) {
-            loader.modules.utilities.log({
-                title: `${this.ansi_colors.YELLOW}Update Available${this.ansi_colors.RESET}`,
-                message: loader.strings.update_available
-                    .replace(`{CURRENT}`, tVersion)
-                    .replace(`{LATEST}`, latestVersion),
-                settings: { file: true }
-            });
-        }
-        if (oFeed && oFeed.message) {
-            loader.cache.external.announcement = oFeed.message.length > 0 ? oFeed.message : null;
-            if (oFeed.message.length > 0) {
+        try {
+            const configurations = this.cfg();
+            const tVersion = this.version();
+            const documentation = configurations.web_hosting_settings?.documentation_mode ?? false;
+            const oFeed = await this.httpRequest(configurations?.internal_settings?.feed_url);
+            const oVersion = await this.httpRequest(`https://raw.githubusercontent.com/${configurations?.internal_settings?.version_url}`);
+            const latestVersion = oVersion.message.trim().replace(/\n/g, '');
+            const normalizeVersion = (version: string): string => {
+                return version.split(' ')[0].split('.').map(num => num.padStart(3, '0')).join('.');
+            }   
+            if (normalizeVersion(tVersion) < normalizeVersion(latestVersion)) {
                 loader.modules.utilities.log({
-                    title: `${this.ansi_colors.RED}Announcement${this.ansi_colors.RESET}`,
-                    message: oFeed.message,
+                    title: `${this.ansi_colors.YELLOW}Update Available${this.ansi_colors.RESET}`,
+                    message: loader.strings.update_available
+                        .replace(`{CURRENT}`, tVersion)
+                        .replace(`{LATEST}`, latestVersion),
                     settings: { file: true }
                 });
             }
-        }
-        if (documentation) { 
-            loader.modules.utilities.log({
-                title: `${this.ansi_colors.BLUE}Documentation Mode${this.ansi_colors.RESET}`,
-                message: `Documentation mode is enabled. All core features are disabled.`,
-                settings: { file: true }
-            });
+            if (oFeed && oFeed.message) {
+                loader.cache.external.announcement = oFeed.message.length > 0 ? oFeed.message : null;
+                if (oFeed.message.length > 0) {
+                    loader.modules.utilities.log({
+                        title: `${this.ansi_colors.RED}Announcement${this.ansi_colors.RESET}`,
+                        message: oFeed.message,
+                        settings: { file: true }
+                    });
+                }
+            }
+            if (documentation) { 
+                loader.modules.utilities.log({
+                    title: `${this.ansi_colors.BLUE}Documentation Mode${this.ansi_colors.RESET}`,
+                    message: `Documentation mode is enabled. All core features are disabled.`,
+                    settings: { file: true }
+                });
+            }
+        } catch (error) {
+            this.exception(error, this.name_space + `.getLatestUpdate`);
         }
     }
 
@@ -419,7 +448,6 @@ export class Utility {
         }
     }
 
-
     /**
      * @public
      * @production
@@ -450,7 +478,6 @@ export class Utility {
             return false;
         }
     }
-
 
     /**
      * @public
@@ -495,7 +522,6 @@ export class Utility {
         }
     }
 
-    
     /**
      * @public
      * @production
