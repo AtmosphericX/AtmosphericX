@@ -16,7 +16,7 @@ prev:
 # Alert Widget
 ---
 
-The `alert` widget centralizes the management of weather and miscellaneous events. It provides customizable sound effects, flexible theming options, and optional Text-to-Speech integration with full support for the [`setRoute`](./index#understanding-setroute) functionality. The `alert` widget is located under `/widgets/alerts` and can be accessed directly via the URL.
+The `alert` widget centralizes the management of weather and miscellaneous events. It provides customizable sound effects, flexible theming options, and optional Text-to-Speech integration with full support for the [`setValuePath`](./index#understanding-setValuePath) functionality. The `alert` widget is located under `/widgets/alerts` and can be accessed directly via the URL.
 
 ::: warning TextToSpeech (OBS)
 Text to speech currently does not work when you enable `Control audio via OBS`. This is a bug within OBS.
@@ -45,10 +45,10 @@ Below are default values that you can use with `/widgets/alerts`. Visit [Global 
 - Default: (`float`): `0.5`
 - Example: `/widgets/alerts?setAnimationEndDuration=0.5`
 
-### setRoute
+### setValuePath
 - Description: The header text displayed at the very top of the card.
 - Default: (`string`): `%properties.event% (%properties.agency ?? properties.action_type%)`
-- Example: `/widgets/alerts?setRoute=%properties.event% (%properties.agency ?? properties.action_type%)`
+- Example: `/widgets/alerts?setValuePath=%properties.event% (%properties.agency ?? properties.action_type%)`
 
 ## Local Parameters
 Below are default / optional parameters you can use with the `alert` widget. Please be sure to follow the default value type convention.
@@ -116,7 +116,7 @@ Please make sure that your volume level is between `0.0-1.0` as going any lower 
 ::: details Example 1
 - Prompt: Make an `alert` widget holds the event for `15` seconds, has a max event history of `25` minutes and sets the route header message to something like **Severe Thunderstorm Warning (Grand Junction, CO)** yet if not available default to the action type (`Updated/Issued/Upgraded`)
 ```
-/widgets/alerts?setPauseTime=15&setMaxHistory=25&setRoute=%properties.event% (%properties.sender_name ?? properties.action_type%)
+/widgets/alerts?setPauseTime=15&setMaxHistory=25&setValuePath=%properties.event% (%properties.sender_name ?? properties.action_type%)
 ```
 :::
 
@@ -130,7 +130,7 @@ Please make sure that your volume level is between `0.0-1.0` as going any lower 
 ::: details Example 3
 - Prompt: Make an `alert` widget that sets the `text allignment of the header to the center`, doesn't contain `event status`, and changes the `border radius to 1px`
 ```
-/widgets/alerts?setTextAlignment=center&setRoute=%properties.event%&setBorderRadius=1
+/widgets/alerts?setTextAlignment=center&setValuePath=%properties.event%&setBorderRadius=1
 ```
 :::
 

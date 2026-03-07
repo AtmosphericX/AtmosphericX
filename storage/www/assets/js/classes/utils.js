@@ -710,7 +710,7 @@ class Utils {
             if (settings?.global?.setTextPrefix && !ignorePrefixSuffix && string != (settings?.global?.setTextPlaceholder)) {
                 generatedString += settings?.global?.setTextPrefix + '&nbsp;';
             }
-            if (settings?.global?.setTextColorThemed) { 
+            if (settings?.global?.setTextThemed) { 
                 generatedString += `<span style="color: ${getEventTheme?.default == false ? getEventTheme.primary : getNumberTheme}">${string}</span>`;
             } else { 
                 generatedString += string;

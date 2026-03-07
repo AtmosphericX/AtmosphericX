@@ -73,8 +73,8 @@ The difference between global and local parameters is that global parameters can
   </tbody>
 </table>
 
-## Understanding setRoute
-"setRoute" is a `global` parameter that can be used to get a value from a specific path within a JSON object. It is particularly useful when working with nested data structures like GeoJSON, where you might want to extract a specific value from within the `properties` object. For example, say we want to get the `wind_speed` value from the GeoJSON properties object, we would specify `?setRoute=properties.wind_speed`.
+## Understanding setValuePath
+"setValuePath" is a `global` parameter that can be used to get a value from a specific path within a JSON object. It is particularly useful when working with nested data structures like GeoJSON, where you might want to extract a specific value from within the `properties` object. For example, say we want to get the `wind_speed` value from the GeoJSON properties object, we would specify `?setValuePath=properties.wind_speed`.
 
 ```jsonc
 {
@@ -103,7 +103,7 @@ The difference between global and local parameters is that global parameters can
 This can be slightly made better by appending a prefix or suffix to the returned value by using `setTextPrefix=Wind Speed:`, `setTextSuffix=MPH` and `setAnimated=true`. If you want to see more parameters, please see [Global Parameters](#global-parameters)
 
 `
-/exampleWidget?setRoute=properties.wind_speed&setTextPrefix=Wind Speed:&setTextSuffix=MPH&setAnimated=true
+/exampleWidget?setValuePath=properties.wind_speed&setTextPrefix=Wind Speed:&setTextSuffix=MPH&setAnimated=true
 `
 
 This will output a value of: `Wind Speed: 4 MPH` with an animation upon text change.

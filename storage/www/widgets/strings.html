@@ -74,9 +74,10 @@
             const wise = new Wise(utils);
             const widgets = new Widgets(utils);
             
-            settings.setElement = get(aSearch, `setSelectedElement`) ?? document.getElementById('widget');
+            settings.setElement = document.getElementById('widget');
             settings.setType = get(aSearch, `setType`) ?? null;
             settings.setTextWrapping = get(aSearch, `setTextWrapping`) ?? false;
+
             settings.global.setAnimationStartDuration = get(aSearch, `setAnimationStartDuration`) ?? 2;
             settings.global.setAnimationEndDuration = get(aSearch, `setAnimationEndDuration`) ?? 2;
 
@@ -133,7 +134,7 @@
 
             function cb(assignmentType, assignmentData) { 
                 if (assignmentType == `cb.string`) { 
-                    const getOutput = utils.getTextFromDirectory(assignmentData, settings.global.setRoute)
+                    const getOutput = utils.getTextFromDirectory(assignmentData, settings.global.setValuePath)
                     utils.setString(settings.setElement, getOutput ?? settings?.global?.setTextPlaceholder ?? `---`, settings);
                 }
                 if (assignmentType == `cb.time`) { 

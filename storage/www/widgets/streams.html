@@ -155,8 +155,9 @@
             settings.setLatitude = get(aSearch, `setLatitude`) ?? null;
             settings.setLongitude = get(aSearch, `setLongitude`) ?? null;
             settings.setRadius = get(aSearch, `setRadius`) ?? 125;
+            
             settings.global.setTextPlaceholder = get(aSearch, `setTextPlaceholder`) ?? `No streams available`;
-            settings.global.setRoute = get(aSearch, `setRoute`) ??  `%properties.name% (%properties.location ?? properties.source%)`
+            settings.global.setValuePath = get(aSearch, `setValuePath`) ??  `%properties.name% (%properties.location ?? properties.source%)`
             
 
             if (!settings.setTextComponenets) { 
@@ -210,7 +211,7 @@
                         return 
                     } 
                     const getRandomStream = getFilteredStreams[Math.floor(Math.random() * getFilteredStreams.length)] ?? null;
-                    const getOutput = utils.getTextFromDirectory(getRandomStream, settings.global.setRoute);
+                    const getOutput = utils.getTextFromDirectory(getRandomStream, settings.global.setValuePath);
                     utils.setString(settings.setElementTitle,getOutput,settings);
                     if (cache.previous == getRandomStream.properties.stream_url) { 
                         return;

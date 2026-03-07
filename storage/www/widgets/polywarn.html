@@ -110,19 +110,20 @@
             const wise = new Wise(utils);
             const widgets = new Widgets(utils);
             
-            settings.setElement = get(aSearch, `setSelectedElement`) ?? document.getElementById('widget-container-isolated')
-            settings.setElementTitle = get(aSearch, `setElementTitle`) ??  document.getElementById('widget-child-1');
-            settings.setElementSubtitle = get(aSearch, `setElementSubtitle`) ??  document.getElementById('widget-child-2');
-            settings.global.setRoute = get(aSearch, `setRoute`) ??  `%properties.event%`
-            settings.global.setRouteSecondary = get(aSearch, `setRouteSecondary`) ??  `Issued at %properties.issued%`
+            settings.setElement = document.getElementById('widget-container-isolated')
+            settings.setElementTitle = document.getElementById('widget-child-1');
+            settings.setElementSubtitle = document.getElementById('widget-child-2');
             settings.setSfx = get(aSearch, `setSfx`) ??  `/sfx/dash_sfx/boom3.mp3`;
             settings.setAwaitPeriod = get(aSearch, `setAwaitPeriod`) ?? 20;
             settings.setSearch = get(aSearch, `setSearch`) ?? null;
+
             settings.global.setAnimationStartDuration = get(aSearch, `setAnimationStartDuration`) ?? 3;
             settings.global.setAnimationEndDuration = get(aSearch, `setAnimationEndDuration`) ?? 3;
             settings.global.setAnimationHasEnding = get(aSearch, `setAnimationHasEnding`) ?? true;
             settings.global.setAnimatedDelayEnding = get(aSearch, `setAnimatedDelayEnding`) ?? 5;
             settings.global.setTextCharacterLimit = get(aSearch, `setTextCharacterLimit`) ?? 125;
+            settings.global.setValuePath = get(aSearch, `setValuePath`) ??  `%properties.event%`
+            settings.global.setValuePathSecondary = get(aSearch, `setValuePathSecondary`) ??  `Issued at %properties.issued%`
             settings.global.setElementThemed = false;
             
 
@@ -146,8 +147,8 @@
                         cache.running = true;
                         cache.hashes.push(getHash);
                         const getTheme = utils.getEventColor(getEventName)
-                        const getOutputTitle = utils.getTextFromDirectory(event, settings.global.setRoute);
-                        const getOutputSubtitle = utils.getTextFromDirectory(event, settings.global.setRouteSecondary);
+                        const getOutputTitle = utils.getTextFromDirectory(event, settings.global.setValuePath);
+                        const getOutputSubtitle = utils.getTextFromDirectory(event, settings.global.setValuePathSecondary);
                         utils.setString(settings.setElementTitle, getOutputTitle, settings)
                         utils.setString(settings.setElementSubtitle, getOutputSubtitle, settings, true)
                         utils.sound(settings.setSfx)

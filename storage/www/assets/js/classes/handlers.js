@@ -194,7 +194,7 @@ class Handlers {
     aWeatherCard = function(event, theme, settings) { 
         try {
             return this.aCreateCard({
-                title: this.utils.getTextFromDirectory(event, settings.global.setRoute),
+                title: this.utils.getTextFromDirectory(event, settings.global.setValuePath),
                 fields: [
                     [
                         { title: "LOCATIONS", value: `${event.properties.locations.substring(0, 70)} (x${event.properties.geocode.UGC.length})`, align: "left" },
@@ -242,7 +242,7 @@ class Handlers {
     aPulsePointCard = function(event, theme, settings) { 
         try {
             return this.aCreateCard({
-                title: this.utils.getTextFromDirectory(event, settings.global.setRoute),
+                title: this.utils.getTextFromDirectory(event, settings.global.setValuePath),
                 fields: [
                     [
                         { title: "ADDRESS", value: `${event.properties.address.substring(0, 70)}`, align: "left" },
