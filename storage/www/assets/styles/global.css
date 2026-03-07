@@ -140,7 +140,6 @@
     width: 92%; 
     padding: 15px;
     min-height: 50px;
-    display: flex;
     flex-direction: column;
 }
 

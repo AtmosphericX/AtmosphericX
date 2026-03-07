@@ -31,16 +31,16 @@ Each widget has a set of `Local` and `Global` parameters that can be modified di
 `/widgets/example?setExample=true&setExample2=false`
 
 ## Global vs Local Parameters
-The difference between global and local parameters is that global parameters can be applied to everything and are located within `assets/js/static/widgetFetch.js` while local parameters are specific to each widget and are defined within the widget's own script.
+The difference between global and local parameters is that global parameters can be applied to everything and are located within `assets/js/static/parameters.js` while local parameters are specific to each widget and are defined within the widget's own script.
 
 ## Global Parameters
-> This table is auto populated from `/assets/js/static/widgetFetch.js`. Values may change with updates.
+> This table is auto populated from `/assets/js/static/parameters.js`. Values may change with updates.
 
 <script setup lang="ts">
     import { ref, onMounted } from 'vue'
     const rows = ref<{ property: string; defaultValue: string }[]>([])
     onMounted(async () => {
-        const getResponse = await fetch('/assets/js/static/widgetFetch.js')
+        const getResponse = await fetch('/assets/js/static/parameters.js')
         const getText = await getResponse.text()
         const getMatches = getText.match(/const\s+aGlobalElementSettings\s*=\s*{([\s\S]*?)}/)
         const getObject = getMatches[1]
