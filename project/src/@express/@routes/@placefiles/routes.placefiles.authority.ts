@@ -301,7 +301,7 @@ export class Init {
                 title: `${event.properties.event ?? 'Unknown Event'} (${event.properties.action_type ?? 'N/A'})`,
                 description,
                 polygon: getPolygon,
-                rgb: (event?.properties?.client?.theme?.primary).replace(/^rgb\(|\)$/g, '') + ',255',
+                rgb: (event?.properties?.client?.theme?.secondary).replace(/^rgb\(|\)$/g, '') + ',255',
             }
         });
         const results = (await Promise.all(getEvents)).filter(Boolean) as Exclude<PlacefileEntry, null>[];
