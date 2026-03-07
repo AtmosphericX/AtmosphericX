@@ -132,10 +132,6 @@ export class Init {
                 };
                 if (placefileMethods[getType]) {
                     if (cacheEntry && (Date.now() - cacheEntry.sent < cacheDuration)) {
-                        loader.modules.utilities.log({ 
-                            title: `${this.ansi_colors.GREEN}${this.name_space}${this.ansi_colors.RESET}`, 
-                            message: `Serving cached placefile for type: ${this.ansi_colors.CYAN}${getType}${this.ansi_colors.RESET} for ${address}`,
-                        });
                         return response.status(200).type('text/plain').send(cacheEntry.placefile);
                     }
                     const placefile = await placefileMethods[getType](query, settings);
