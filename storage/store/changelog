@@ -24,5 +24,6 @@ fix(utils): change notification text element from paragraph to span for better s
 fix(widget/strings): correct coordinate object structure for distance calculations
 fix(widgets/streams): adjust widget padding and refresh time settings
 fix(widgets/streams): auto-reconnect by error. (err-check)
+fix(configurations): update endpoints to point to the new WeatherWise data source
 refactor(probability): consolidate probability settings and update parsing logic
 
