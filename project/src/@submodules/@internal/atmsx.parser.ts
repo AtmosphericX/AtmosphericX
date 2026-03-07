@@ -30,6 +30,13 @@ interface setHashesEntry {
     expires: string;
 }
 
+type polygonMetadata = {
+    setSpotters: any[],
+    getCenter: {lon: number, lat: number},
+    isWithinProximity: boolean
+};
+
+
 export class ATMSXParser {
     name_space: string = `Internal.Atmsx.Parser`;
     ansi_colors = loader.modules.utilities.ansi_colors;
@@ -150,6 +157,46 @@ export class ATMSXParser {
      * @private
      * @production
      * @error_handling
+     * @function getPolygonMetadata
+     * @description
+     *   Retrieves metadata for a polygon based on its geometry and associated spotter locations.
+     * 
+     * @param {types.EventType} event - The event for which to retrieve polygon metadata.
+     * @param {types.Configurations} configurations - The current configurations for the parser.
+     * @param {any[]} spotters - The array of spotter locations.
+     * @return {Promise<polygonMetadata | null>} - A promise that resolves to the polygon metadata or null if not available.
+     */
+    private async getPolygonMetadata(event: types.EventType, configurations: types.Configurations, spotters: any): Promise<polygonMetadata | null> {
+        try {
+            let setSpotters = [];
+            let isWithinProximity = false;
+            const getGeometryIgnoring = configurations?.sources?.atmosx_parser_settings?.global_settings?.ignore_geometry_parsing;
+            const getLocationSettings = configurations?.filters?.location_settings
+            const getPolygon = (!event.geometry && getGeometryIgnoring) ? await this.mgr.getEventPolygon(event, false) : event.geometry ?? null;
+            if (!getPolygon?.coordinates) { return null}
+            const getCenter = loader.modules.calculations.getPolygonCenter(getPolygon);
+            for (const spotter of spotters) {
+                const [lon, lat] = spotter?.geometry?.coordinates;
+                const getPoint = loader.modules.calculations.getPolygonClosestPoint(getPolygon, {lon, lat});
+                setSpotters.push({
+                    name: spotter?.properties.name ?? `Unknown Spotter`,
+                    metadata: getPoint,
+                })
+                if (getLocationSettings?.enabled && getLocationSettings?.max_distance > getPoint?.distance) { 
+                    isWithinProximity = true;
+                }
+            }
+            return {setSpotters, getCenter, isWithinProximity}
+        } catch (error) {
+            loader.modules.utilities.exception(error, this.name_space + `.getPolygonMetadata`);
+            return null;
+        }
+    }
+
+    /**
+     * @private
+     * @production
+     * @error_handling
      * @function initSpotterUpdating
      * @description
      *   Updates spotter information for events based on their polygons and proximity to spotter locations.
@@ -166,28 +213,17 @@ export class ATMSXParser {
         const time = Date.now();
         const events = [... loader.cache.external.events.features];
         const spotters = [...loader.cache.external.tracking.features];
-        const isIgnoring = configurations?.sources?.atmosx_parser_settings?.global_settings?.ignore_geometry_parsing;
         const getUpdateWindow = configurations?.sources?.location_settings?.polygon_update_time * 1000;
         await Promise.all(events.map(async (event) => {
             const updated = event?.properties?.spotters_last_updated ?? null;
             if ((updated != null) && getUpdateWindow > 0 && updated > 0 && (time - updated) < getUpdateWindow) {
                 return;
             }
-            const getPolygon = (!event.geometry && isIgnoring) ? await this.mgr.getEventPolygon(event, false) : event.geometry ?? null;
-            if (!getPolygon?.coordinates) { return }
-            event.properties.center = loader.modules.calculations.getPolygonCenter(getPolygon);
-            event.properties.spotters = [];
+            const getDetails = await this.getPolygonMetadata(event, configurations, spotters);
+            if (!getDetails) { return }
+            event.properties.center = getDetails.getCenter
+            event.properties.spotters = getDetails.setSpotters;
             event.properties.spotters_last_updated = time;
-            spotters.forEach(spotter => {
-                const [lon, lat] = spotter.geometry.coordinates;
-                const getPoint = loader.modules.calculations.getPolygonClosestPoint( getPolygon, { lat, lon } );
-                if (getPoint) { 
-                    event.properties.spotters.push({
-                        name: spotter?.properties.name ?? `Unknown Spotter`,
-                        metadata: getPoint,
-                    })
-                }
-            });
             processed += 1;
         }));
         if (processed > 0) {
@@ -214,16 +250,27 @@ export class ATMSXParser {
      */
     private async initEventProcessing(event: types.EventType, configurations: types.Configurations): Promise<void> {
         const features = loader.cache.external.events.features;
+        const getLocationSettings = configurations?.filters?.location_settings
         const featureMap: Map<string, typeof features[0]> = new Map();
+        const spotters = [...loader.cache.external.tracking.features];
         features.forEach(f => f?.properties?.details?.tracking && featureMap.set(f.properties.details.tracking, f));
+
         const register = loader.modules.structure.register(event);
         const { properties } = register;
         const { tracking, history } = properties.details;
         const isEntry = loader.cache.external.hashes.find(log => log.tracking === tracking);
-        const isHashed = isEntry?.hashes.includes(register.properties.hash) ?? false;
+        const isHashed = isEntry?.hashes.includes(properties.hash) ?? false;
         const isIgnored = register.properties.client.ignored;
-        if (isHashed || isIgnored) return;
-        this.setHashes(isEntry, properties);
+
+        if (isHashed || isIgnored || properties.is_cancelled) return;
+
+        this.setHashes(properties, isEntry);
+        const getDetails = await this.getPolygonMetadata(event, configurations, spotters);
+        if (getLocationSettings?.enabled && !getDetails?.isWithinProximity || !getDetails) {
+            return;
+        }
+
+
         const getFeature = featureMap.get(tracking);
         const type = getFeature ? `Updated` : `Created`
         if (!properties.is_cancelled) {
@@ -234,14 +281,6 @@ export class ATMSXParser {
             });
         }
       
-        if (properties.is_cancelled) {
-            if (getFeature) {
-                const index = features.indexOf(getFeature);
-                if (index !== -1) features.splice(index, 1);
-                loader.cache.external.hashes = loader.cache.external.hashes.filter(log => log.tracking !== tracking);
-            }
-            return
-        }
         if (properties.is_updated || properties.is_issued) {
             if (getFeature) {
                 const getIndex = features.indexOf(getFeature);
@@ -352,7 +391,7 @@ export class ATMSXParser {
      * @param {types.LocalEventProperties} properties - The properties of the event being processed.
      * @return {Promise<void>} - A promise that resolves when the hashes have been updated.
      */
-    private async setHashes(isEntry?: setHashesEntry | null, properties?: types.LocalEventProperties): Promise<void> {
+    private async setHashes(properties?: types.LocalEventProperties, isEntry?: setHashesEntry | null): Promise<void> {
         try {
             if (isEntry) {
                 isEntry.hashes.push(properties.hash);
@@ -425,8 +464,19 @@ export class ATMSXParser {
             loader.cache.internal.source = (settings.is_wire ? `NWWS` : `NWS`);
             this.mgr = loader.cache.handlers.parser_client = new this.pkg(settings)
             this.mgr.on(`onExpired`, async (event: types.EventType) => {
-                const configurations = loader.modules.utilities.cfg();
-                this.initEventProcessing(event, configurations)
+                const getEvent = loader.cache.external.events.features.find(f => f?.properties?.tracking === event?.properties?.details?.tracking);
+                if (getEvent) {
+                    event.properties.action_type = `Expired`
+                     loader.modules.utilities.log({ 
+                        title: `${this.ansi_colors.MAGENTA}Cancelled${this.ansi_colors.RESET}`,
+                        message: this.getEventText(event),
+                        settings: { type: '__events__' }
+                    });
+                    const index = loader.cache.external.events.features.indexOf(getEvent);
+                    if (index !== -1) loader.cache.external.events.features.splice(index, 1);
+                    loader.cache.external.hashes = loader.cache.external.hashes.filter(log => log.tracking !== event?.properties?.details?.tracking);
+                }
+                return
             });
             this.mgr.on(`onEvents`, async (events: types.EventType[]) => {
                 this.cache_events.push(...events);
