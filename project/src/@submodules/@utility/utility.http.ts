@@ -48,6 +48,7 @@ export class Calling {
                     structure.push({
                         name,
                         url: config.endpoint,
+                        fallbacks: config.fallbacks,
                         enabled: Boolean(config.enabled),
                         cache: config.cache_time,
                         contradictions: Array.isArray(config.contradictions) ? config.contradictions : [],
@@ -109,7 +110,7 @@ export class Calling {
      * @param {{ headers?: Record<string, string> | string }} [settings] - Optional headers object or header string.
      * @returns {Promise<{ error: boolean; message: string }>} - The result of the fetch operation.
      */
-    private async getDataFromSource(url: string, settings?: any): Promise<{ error: boolean; message: string }> {
+    private async getDataFromSource(url: string, settings?: any, fallbackUrls?: string[]): Promise<{ error: boolean; message: string }> {
         try {
             let options = {
                 headers: { 'User-Agent': `AtmosphericX-Agent/${loader.cache.external.version}` }
@@ -119,6 +120,14 @@ export class Calling {
             if (settings?.body) { options['body'] = settings.body; }
             const response = await loader.modules.utilities.httpRequest(url, options);
             if (response?.error) {
+                if (fallbackUrls?.length) {
+                    for (const fallbackUrl of fallbackUrls) {
+                        const fallbackResponse = await loader.modules.utilities.httpRequest(fallbackUrl, options);
+                        if (!fallbackResponse?.error) {
+                            return fallbackResponse;
+                        }
+                    }
+                }
                 return { error: true, message: `Error fetching data from ${url} with message: ${response.message}`,  };
             }
             return { error: false, message: response?.message ?? response, };
@@ -176,7 +185,7 @@ export class Calling {
                     loader.cache.internal.cache_timers[source.name] = clock;
                     let success = false;
                     for (let attempt = 1; attempt <= 3; attempt++) {
-                        const response = await this.getDataFromSource(source.url, source?.options);
+                        const response = await this.getDataFromSource(source.url, source?.options, source?.fallbacks);
                         if (!response.error) {
                             data[source.name] = response.message;
                             status.push(`(${this.ansi_colors.GREEN}OK${this.ansi_colors.RESET}) ${source.name.toUpperCase()}`);

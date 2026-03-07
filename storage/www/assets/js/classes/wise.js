@@ -21,8 +21,9 @@ class Wise {
         this.utils = utils;
         this.storage = this.utils.storage;
         this.lastFetch = 0;
-        this.directory = `https://data1.weatherwise.app/radar/processed/{X}/{Y}/dir.list?_={Z}`;
-        this.file = `https://data1.weatherwise.app/radar/processed/{X}/{Y}/{Z}`;
+        this.subdomains = ['data', 'data1', 'data2'];
+        this.directory = `https://{A}.weatherwise.app/radar/processed/{X}/{Y}/dir.list?_={Z}`;
+        this.file = `https://{A}.weatherwise.app/radar/processed/{X}/{Y}/{Z}`;
         this.utils.log(`${this.name_space} initialized.`);
     }
 
@@ -205,6 +206,28 @@ class Wise {
     /**
      * @production
      * @error_handling
+     * @function getAvailableSubdomain
+     * @description 
+     *      Checks which subdomain is available for the given URL.
+     * 
+     * @param {string} url - The URL to check.
+     * @returns {Promise<string|null>} A promise that resolves to the available subdomain or null if none is available.
+     */
+    getAvailableSubdomain = async function(url) {
+        for (const subdomain of this.subdomains) {
+            const dirResponse = await this.utils.httpRequest(url.replace('{A}', subdomain)).catch(() => null);
+            if (dirResponse) {
+                console.log(`Found available subdomain: ${subdomain}`);
+                return dirResponse;
+            }
+        }
+        this.utils.exception(`No subdomain for weatherwise.app available`, `${this.name_space}`);
+        return null;
+    }
+
+    /**
+     * @production
+     * @error_handling
      * @function fetchLatest
      * @description 
      *      Fetches the latest WISE data file for the specified ICAO and product codes.
@@ -222,8 +245,8 @@ class Wise {
             this.lastFetch = now;
             const icaoCode    = icao.trim().toUpperCase();
             const productCode = product.trim().toUpperCase();
-            const dirUrl = this.directory.replace('{X}', icaoCode).replace('{Y}', productCode).replace('{Z}', now);
-            const dirResponse = await this.utils.httpRequest(dirUrl).catch(() => null);
+            const dirUrl = this.directory.replace('{X}', icaoCode).replace('{Y}', productCode).replace('{Z}', now)
+            const dirResponse = await this.getAvailableSubdomain(dirUrl).catch(() => null);
             const dirText = await dirResponse.text();
             const files = dirText
                 .trim().split('\n').map(l => l.trim())
@@ -238,7 +261,7 @@ class Wise {
                 .replace('{X}', icaoCode)
                 .replace('{Y}', productCode)
                 .replace('{Z}', latestFile);
-            const fileResponse = await this.utils.httpRequest(fileUrl).catch(() => null);
+            const fileResponse = await this.getAvailableSubdomain(fileUrl).catch(() => null);
             const arrayBuffer = await fileResponse.arrayBuffer();
             this.setBuffer(arrayBuffer);
             const parsedData = this.unpack(true);

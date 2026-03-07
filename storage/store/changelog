@@ -1,4 +1,4 @@
-========= 8.0.0.029 (beta-pre-dashboard-testing) =========
+========= 8.0.0.030 (beta-pre-dashboard-testing) =========
 
 add(internal-http): Add documentation mode which disables all core features.
 add(widgets/alerts): Add setPlayback option to enable/disable playback functionality.
@@ -25,5 +25,6 @@ fix(widget/strings): correct coordinate object structure for distance calculatio
 fix(widgets/streams): adjust widget padding and refresh time settings
 fix(widgets/streams): auto-reconnect by error. (err-check)
 fix(configurations): update endpoints to point to the new WeatherWise data source
+fix(weatherwise): adjust subdomain fallbacks for data, data1, data2
 refactor(probability): consolidate probability settings and update parsing logic
 

@@ -67,6 +67,7 @@ export type GeoJSONFeatureCollection<TFeature extends LocalGeoJSON = LocalGeoJSO
 export type CacheStructure = { 
     name: string;  
     url: string;  
+    fallbacks?: string[];
     enabled: boolean;  
     cache: number;  
     contradictions: string[]; 

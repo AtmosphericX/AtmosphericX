@@ -267,7 +267,6 @@ class Utils {
             const response = await fetch(url, dOptions);
             return response;
         } catch (error) { 
-            this.exception(error, `${this.name_space}:httpRequest`);
             return null;
         }
     }
