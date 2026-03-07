@@ -211,13 +211,13 @@
                     } 
                     const getRandomStream = getFilteredStreams[Math.floor(Math.random() * getFilteredStreams.length)] ?? null;
                     const getOutput = utils.getTextFromDirectory(getRandomStream, settings.global.setRoute);
+                    utils.setString(settings.setElementTitle,getOutput,settings);
                     if (cache.previous == getRandomStream.properties.stream_url) { 
                         return;
                     }
                     settings.setElementVideo.style.transition = "opacity 1.0s";
                     settings.setElementVideo.style.opacity = "0";
                     const connect = async () => {
-                        utils.setString(settings.setElementTitle,getOutput,settings);
                         const video=settings.setElementVideo;
                         settings.setElementBuffering.style.display="none";
                         if(HLS){HLS.destroy(); HLS=null;}
