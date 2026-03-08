@@ -14,3 +14,5 @@ refactor(parameters): Refactor code structure for improved readability and maint
 fix(utils): update content handling to use innerHTML for dynamic updates
 fix(parsing): update properties to use null instead of 'N/A' for better data consistency
 fix(tracking): add source parameter to setCurrentCoordinates for better context in logs
+fix(manifest): remove start_url from manifest for improved PWA compliance
+fix(widgets): add cards-test.html for widget display and functionality

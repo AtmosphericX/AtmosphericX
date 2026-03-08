@@ -1,0 +1,169 @@
+<!--
+              _                             _               _     __   __
+         /\  | |                           | |             (_)    \ \ / /
+        /  \ | |_ _ __ ___   ___  ___ _ __ | |__   ___ _ __ _  ___ \ V / 
+       / /\ \| __| '_ ` _ \ / _ \/ __| '_ \| '_ \ / _ \ '__| |/ __| > <  
+      / ____ \ |_| | | | | | (_) \__ \ |_) | | | |  __/ |  | | (__ / . \ 
+     /_/    \_\__|_| |_| |_|\___/|___/ .__/|_| |_|\___|_|  |_|\___/_/ \_\
+                                     | |                            
+                                     |_|                                                                                                                
+
+    Created with ♥ by the AtmosphericX Team (KiyoWx, StarflightWx, Everwatch1, & CJ Ziegler)
+    Discord: https://atmosphericx-discord.scriptkitty.cafe
+    Ko-Fi: https://ko-fi.com/k3yomi
+    Documentation: http://localhost/documentation | https://atmosphericx.scriptkitty.cafe/documentation
+
+-->
+    
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <title>AtmosphericX - Widgets</title>
+        <link rel="icon" href="/assets/images/favicon.ico" type="image/x-icon"/>
+        <!-- CSS -->
+        <link rel="stylesheet" href="/assets/styles/global.css">
+        <link rel="stylesheet" href="/assets/styles/notification.css">
+        <!-- JS --> 
+        <script src="/assets/js/classes/utils.js"></script> <!-- Utility Functions -->
+        <script src="/assets/js/classes/wise.js"></script> <!-- WeatherWise Logic -->
+        <script src="/assets/js/classes/handlers.js"></script> <!-- Handlers Logic -->
+        <script src="/assets/js/classes/widgets.js"></script> <!-- Widgets Logic -->
+        <script src="/assets/js/static/parameters.js"></script> <!-- URL parameters Logic -->
+
+        <!-- Apple Stuff-->
+        <link rel="manifest" href="/assets/static/manifest.json">
+        <link rel="apple-touch-icon" href="/assets/images/manifest.png">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="yes">
+    </head>
+    <style>
+      :root {
+        --widget-text-color: #fff;
+        --widget-max-width: 700px;
+        --widget-gap: 10px;
+        --widget-padding: 12px 16px;
+        --widget-radius: 10px;
+    }
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+    body {
+        background: black;
+        font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+    }
+    .widget-container {
+        max-width: var(--widget-max-width);
+        width: 90%;
+        margin: 40px auto;
+        padding: 10px;
+        display: flex;
+        flex-direction: column;
+        gap: var(--widget-gap);
+        max-height: 90vh;
+        overflow-y: auto;
+        scroll-behavior: smooth;
+    }
+
+    .widget-card {
+        padding: var(--widget-padding);
+        border-radius: var(--widget-radius);
+        border: 1px solid rgba(255,255,255,0.15);
+        color: var(--widget-text-color);
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+    }
+
+    .widget-card-event {
+        font-weight: 600;
+        font-size: 1rem;
+    }
+
+    .widget-card-meta {
+        font-size: 0.85rem;
+        opacity: 0.8;
+    }
+
+    @media (max-width: 600px) {
+        .widget-card-event {
+            font-size: 0.95rem;
+        }
+        .widget-card-meta {
+            font-size: 0.8rem;
+        }
+    }
+    </style>
+    <body>
+        <div class="notifications"></div>
+        <div class="widget-container" id="widget-container"></div>
+    </body>
+    <script>
+        window.addEventListener('DOMContentLoaded', () => {
+            let cache = {};
+            const settings = {global: aGlobalElementSettings};
+            const utils = new Utils();
+            const wise = new Wise(utils);
+            const widgets = new Widgets(utils);
+            const handler = new Handlers(utils, widgets);
+
+            settings.setElement = document.getElementById('widget-container')
+            settings.setTable = document.getElementById('widget-table');
+            settings.setPauseTime = get(aSearch, `setPauseTime`) ?? 8;
+            settings.setMaxHistory = get(aSearch, `setMaxHistory`) ?? 5;
+            settings.setPlayback = get(aSearch, `setPlayback`) ?? true;
+            settings.setSfx = get(aSearch, `setSfx`) ?? null;
+            settings.setSfxVolume = get(aSearch, `setSfxVolume`) ?? 0.5;
+            settings.setWx = get(aSearch, `setWx`) ?? true;
+            settings.setPulsePoint = get(aSearch, `setPulsePoint`) ?? false;
+
+            utils.isMobileDevice()
+            utils.socket([`configurations`, `events`, `pulsepoint`, `manual`]).then(() => {
+                document.addEventListener('onUpdate', (event) => {
+                    widgets.applyGlobalSettings(settings.setElement, settings);  
+                    cb()
+                })
+            })
+            async function cb() { 
+                await handler.hSyncEvents(settings);
+                await handler.hSyncQueue(settings);
+                const features = [
+                    ...Object.values(utils?.storage?.events?.features || {}),
+                ];
+                const container = settings.setElement;
+                container.innerHTML = "";
+                for (const feature of features) {
+                    const event = feature.properties.event;
+                    const issued = feature.properties.issued;
+                    const location = feature.properties.locations ?? feature.properties.address ?? "N/A";
+                    const getMyDistance = Math.round(feature.properties.spotters[0]?.metadata?.distance);
+                    const card = document.createElement("div");
+                    card.className = "widget-card";
+                    card.innerHTML = `
+                        <div class="widget-card-event">${event}</div>
+                        <div class="widget-card-meta">Issued: ${issued}</div>
+                        <div class="widget-card-meta">${location}</div>
+                        <div class="widget-card-meta">Distance: ${getMyDistance.toFixed(2)} mi</div>
+                    `;
+                    container.prepend(card);
+                    card.addEventListener('click', () => {
+                        const { lon, lat } = feature?.properties?.center;
+                        if (!lon || !lat) {
+                            return utils.notify({
+                                type: "error",
+                                title: "Widget Error",
+                                message: `Lon/Lat are invalid`,
+                                duration: 15e3
+                            })
+                        }
+                        const url = `https://www.google.com/maps/dir/?api=1&origin=current+location&destination=${lat},${lon}`;
+                        window.location.href = url;
+                    });
+                }
+            }
+        })
+    </script>
+</html>
