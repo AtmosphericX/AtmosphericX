@@ -21,7 +21,7 @@ class Wise {
         this.utils = utils;
         this.storage = this.utils.storage;
         this.lastFetch = 0;
-        this.subdomains = ['data', 'data1', 'data2'];
+        this.subdomains = ['data2', 'data1', 'data'];
         this.directory = `https://{A}.weatherwise.app/radar/processed/{X}/{Y}/dir.list?_={Z}`;
         this.file = `https://{A}.weatherwise.app/radar/processed/{X}/{Y}/{Z}`;
         this.utils.log(`${this.name_space} initialized.`);

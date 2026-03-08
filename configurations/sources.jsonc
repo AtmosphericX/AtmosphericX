@@ -123,15 +123,15 @@
             "mesoscale_discussions": { // Storm Prediction Center Mesoscale Discussions (WeatherWise Implementation for population/homes coverage)
                 "enabled": true,
                 "cache_time": 120, // How often to pull SPC Mesoscale Discussions (in seconds, Default: 2 minutes)
-                "endpoint": "https://data.weatherwise.app/mesoscale-discussions/USA.geojson", // Will be replaced soon with shapefile database implementation.
-                "fallbacks": ["https://data1.weatherwise.app/mesoscale-discussions/USA.geojson", "https://data2.weatherwise.app/mesoscale-discussions/USA.geojson"],
+                "endpoint": "https://data2.weatherwise.app/mesoscale-discussions/USA.geojson", // Will be replaced soon with shapefile database implementation.
+                "fallbacks": ["https://data1.weatherwise.app/mesoscale-discussions/USA.geojson", "https://data.weatherwise.app/mesoscale-discussions/USA.geojson"],
                 "contradictions": [] // Ignore
             },
             "tropical_storm_tracks": { // Tropical Storm Tracks (WeatherWise Implementation)
                 "enabled": true,
                 "cache_time": 1200, // How often to pull tropical storm tracks (in seconds, Default: 20 minutes)
-                "endpoint": "https://data.weatherwise.app/tropical/USA/NHC/storms.json?",
-                "fallbacks": ["https://data1.weatherwise.app/tropical/USA/NHC/storms.json?", "https://data2.weatherwise.app/tropical/USA/NHC/storms.json?"],
+                "endpoint": "https://data2.weatherwise.app/tropical/USA/NHC/storms.json?",
+                "fallbacks": ["https://data1.weatherwise.app/tropical/USA/NHC/storms.json?", "https://data.weatherwise.app/tropical/USA/NHC/storms.json?"],
                 "contradictions": [] // Ignore
             }
         },
