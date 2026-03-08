@@ -749,15 +749,14 @@ class Utils {
             string = settings?.global?.setTextPlaceholder ?? '---'
         }
         let startingString = String(string);
-        const getCurrentContent = element.textContent;
+        const getCurrentContent = element.innerHTML;
         const getFutureContent = this.buildString(startingString, settings, ignorePrefixSuffix);
         const isTextTheSameAsBefore = normalize(getCurrentContent) == normalize(getFutureContent);
         if (isTextTheSameAsBefore) { return }
         await this.setElementAnimation(element, settings, 0);
-        element.textContent = '';
+        element.innerHTML = '';
         element.insertAdjacentHTML('beforeend', getFutureContent);
         await this.setElementAnimation(element, settings, 1);
         await this.setElementAnimation(element, settings, 2);
-
     }
 }
