@@ -71,7 +71,7 @@ export class RtIrlSocket {
                         latitude: snap.location.latitude, 
                         longitude: snap.location.longitude
                     };
-                    loader.modules.tracking.setCurrentCoordinates(settings.display_name, coords);
+                    loader.modules.tracking.setCurrentCoordinates(settings.display_name, coords, `RTIRL`);
                 }
             };
             this.pkg2.onValue(ref, listen);

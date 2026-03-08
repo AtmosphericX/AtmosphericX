@@ -80,7 +80,7 @@ export const parse = (body: Record<string, string>) => {
     }
     tracked.sort((a, b) => { return settings.pin_by_name.indexOf(a.name) - settings.pin_by_name.indexOf(b.name); });
     for (const spotter of tracked) {
-        loader.modules.tracking.setCurrentCoordinates(spotter.name, { latitude: spotter.latitude, longitude: spotter.longitude });
+        loader.modules.tracking.setCurrentCoordinates(spotter.name, { latitude: spotter.latitude, longitude: spotter.longitude }, `SpotterNetwork`);
     }
     return structure;
 };

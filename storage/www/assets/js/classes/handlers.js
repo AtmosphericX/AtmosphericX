@@ -197,22 +197,22 @@ class Handlers {
                 title: this.utils.getTextFromDirectory(event, settings.global.setValuePath),
                 fields: [
                     [
-                        { title: "LOCATIONS", value: `${event.properties.locations.substring(0, 70)} (x${event.properties.geocode.UGC.length})`, align: "left" },
-                        { title: "ISSUED", value: event.properties.issued.substring(0, 25), align: "right" },
+                        { title: "Locations", value: `${event?.properties?.locations?.substring(0, 70)} (x${event?.properties?.geocode?.UGC?.length})`, align: "left" },
+                        { title: "Issued", value: event?.properties?.issued?.substring(0, 25) ?? `--`, align: "right" },
                     ],
                     [
-                        { title: "HAIL", value: event.properties.parameters.max_hail_size, align: "left" },
-                        { title: "GUSTS", value: event.properties.parameters.max_wind_gust, align: "center" },
-                        { title: "EXPIRES", value: event.properties.expires, align: "right" },
+                        { title: "Est. Hail", value: event?.properties?.parameters?.max_hail_size ?? `--`, align: "left" },
+                        { title: "Est. Wind Gusts", value: event?.properties?.parameters?.max_wind_gust ?? `--`, align: "center" },
+                        { title: "Expires", value: event?.properties?.expires ?? `--`, align: "right" },
                     ],
                     [
-                        { title: "THREAT (TOR)", value: event.properties.parameters.tornado_detection, align: "left" },
-                        { title: "THREAT (DMG)", value: event.properties.parameters.damage_threat, align: "center" },
-                        { title: "THREAT (FLD)", value: event.properties.parameters.flood_detection, align: "right" },
+                        { title: "Tornado Threat", value: event?.properties?.parameters?.tornado_detection ?? `--`, align: "left" },
+                        { title: "Damage Threat", value: event?.properties?.parameters?.damage_threat ?? `--`, align: "center" },
+                        { title: "Flood Threat", value: event?.properties?.parameters?.flood_detection ?? `--`, align: "right" },
                     ],
                     [
-                        { title: "OFFICE", value: `${event.properties.sender_name} (${event.properties.sender_icao})`, align: "left" },
-                        { title: "TAGS", value: event.properties.tags.join(", ").substring(0, 40), align: "right" },
+                        { title: "Office", value: `${event?.properties?.sender_icao ?? `--`}${event?.properties?.sender_icao ? ` (${event?.properties?.sender_name ?? `--`})` : ''}`, align: "left" },
+                        { title: "Tags", value: event?.properties?.tags?.join(", ")?.substring(0, 40) ?? `--`, align: "right" },
                     ]
                 ],
                 duration: settings.setPauseTime,
@@ -245,11 +245,11 @@ class Handlers {
                 title: this.utils.getTextFromDirectory(event, settings.global.setValuePath),
                 fields: [
                     [
-                        { title: "ADDRESS", value: `${event.properties.address.substring(0, 70)}`, align: "left" },
-                        { title: "RECIEVED", value: event.properties.issued, align: "right" },
+                        { title: "Address", value: `${event?.properties?.address?.substring(0, 70) ?? `--`}`, align: "left" },
+                        { title: "Received", value: event?.properties?.issued ?? `--`, align: "right" },
                     ],
                     [
-                        { title: "UNITS RESPONDING", value: event.properties.units && event.properties.units.length > 0  ? event.properties.units.map(u => u.id).join(", ").substring(0, 40) : "No Responding Units", align: "left" },
+                        { title: "Units Responding", value: event?.properties?.units && event?.properties?.units.length > 0  ? event?.properties?.units.map(u => u.id).join(", ").substring(0, 40) : "No Responding Units", align: "left" },
                     ],
                     [
                         { title: "", value: "",  align: "left" },

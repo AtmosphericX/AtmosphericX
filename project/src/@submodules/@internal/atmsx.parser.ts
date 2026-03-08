@@ -467,7 +467,7 @@ export class ATMSXParser {
                 const getEvent = loader.cache.external.events.features.find(f => f?.properties?.tracking === event?.properties?.details?.tracking);
                 if (getEvent) {
                     event.properties.action_type = `Expired`
-                     loader.modules.utilities.log({ 
+                    loader.modules.utilities.log({ 
                         title: `${this.ansi_colors.MAGENTA}Cancelled${this.ansi_colors.RESET}`,
                         message: this.getEventText(event),
                         settings: { type: '__events__' }

@@ -3,6 +3,7 @@
 add(themes): `themes` folder for public themes.
 update(widget-fetch): replace widgetFetch.js filename to parameters.js
 update(parameters): `setValuePath` replaces `setRoute` for clairty
+update(atmosx-nwws-parser): v1.0.3176 - set null instead of N/A  
 remove(global.css): display flex for widget-containerr
 feat(parser): implement getPolygonMetadata method to retrieve polygon metadata and enhance event processing
 feat(parser/locations): implement location based filtering
@@ -10,3 +11,4 @@ feat(parser/expires): implement expiration logic for parsed events
 refactor(index): remove promise from `index.ts` as it was not needed.
 refactor(parameters): Refactor code structure for improved readability and maintainability
 fix(utils): update content handling to use innerHTML for dynamic updates
+fix(tracking): add source parameter to setCurrentCoordinates for better context in logs

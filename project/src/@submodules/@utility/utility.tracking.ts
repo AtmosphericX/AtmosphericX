@@ -57,8 +57,9 @@ export class Tracking {
      * 
      * @param {string} name - The name associated with the coordinates.
      * @param {Coordinates} coordinates - The coordinates to set (latitude and longitude).
+     * @param {string} source - The source of the coordinates.
      */
-    public setCurrentCoordinates(name: string, coordinates: types.LatitudeLongitude): void {
+    public setCurrentCoordinates(name: string, coordinates: types.LatitudeLongitude, source: 'SpotterNetwork' | `RTIRL`): void {
         try {
             const cfg = loader.modules.utilities.cfg();
             const features = loader.cache.external.tracking.features;
@@ -76,6 +77,7 @@ export class Tracking {
                     },
                     properties: {
                         name,
+                        source,
                         location: null,
                         icao,
                         last_updated: new Date()
@@ -92,7 +94,7 @@ export class Tracking {
             });
             loader.modules.utilities.log({
                 title: `${this.ansi_colors.GREEN}${this.name_space}${this.ansi_colors.RESET}`,
-                message: `Updated coordinates for ${this.ansi_colors.CYAN}${name}${this.ansi_colors.RESET} to [${this.ansi_colors.YELLOW}${coordinates.longitude}, ${coordinates.latitude}${this.ansi_colors.RESET}]`
+                message: `Updated coordinates for ${this.ansi_colors.CYAN}${name}${this.ansi_colors.RESET} @ [${this.ansi_colors.YELLOW}${coordinates.longitude}, ${coordinates.latitude}${this.ansi_colors.RESET}] via ${source}`
             });
             this.getTrackingInformation();
         } catch (error) {
