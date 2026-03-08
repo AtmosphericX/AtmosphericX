@@ -154,13 +154,14 @@ export class Calculations {
             let totalLon = 0;
             let totalLat = 0;
             let totalPoints = 0;
-            for (const shape of coordinates) {
-                if (Array.isArray(shape) && typeof shape[0] !== "number") {
-                    for (const coord of shape) {
-                        totalLon += coord[0];
-                        totalLat += coord[1];
-                        totalPoints += 1;
-                    }
+            const isMultiPolygon = Array.isArray(coordinates[0]) && Array.isArray(coordinates[0][0]) && Array.isArray(coordinates[0][0][0]);
+            const polygons = isMultiPolygon ? coordinates : [coordinates];
+            for (const poly of polygons) {
+                const outerRing = poly[0];
+                for (const coord of outerRing as number[]) {
+                    totalLon += coord[0];
+                    totalLat += coord[1];
+                    totalPoints += 1;
                 }
             }
             if (totalPoints === 0) return null;
