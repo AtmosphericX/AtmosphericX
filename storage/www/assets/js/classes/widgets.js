@@ -63,6 +63,7 @@ class Widgets {
             const getThemeContainer = document.getElementById('widget-container');
             this.applyElementSettings(element, settings)
             if (settings?.global.setElementThemed) {
+                getThemeContainer.style.display = `flex`
                 this.applyGlobalTheme(getThemeContainer, settings)
                 this.applyElementSettings(getThemeContainer, settings)
             }
