@@ -1245,7 +1245,7 @@
             "versioned_id": "browser_source",
             "settings": {
                 "undo_uuid": "3b81002c-5a5f-4879-8c8e-4709212037a8",
-                "url": "http://localhost/widgets/strings?setType=getMesonet&setTextAllignment=left&setElementThemed=true&setBorderRadius=25&setRoute=%properties.conditions%&setBackgroundAnimated=true&setAnimated=true&setTextWrap=false&setTextCharacterLimit=45&setTextPlaceholder=Unknown Conditions&setTextPrefix=Current Conditions |",
+                "url": "http://localhost/widgets/strings?setType=getMesonet&setTextAllignment=left&setElementThemed=true&setBorderRadius=25&setValuePath=%properties.conditions%&setBackgroundAnimated=true&setAnimated=true&setTextWrap=false&setTextCharacterLimit=45&setTextPlaceholder=Unknown Conditions&setTextPrefix=Current Conditions |",
                 "width": 860,
                 "fps": 31
             },
@@ -1279,7 +1279,7 @@
             "id": "browser_source",
             "versioned_id": "browser_source",
             "settings": {
-                "url": "http://localhost/widgets/strings?setType=getTracking&setTextAllignment=left&setElementThemed=true&setBorderRadius=25&setRoute=%properties.location% (%properties.icao%)&setBackgroundAnimated=true&setAnimated=true&setTextWrap=false&setTextCharacterLimit=125&setTextPlaceholder=Couldn't locate current location&setTextPrefix=Current Location |",
+                "url": "http://localhost/widgets/strings?setType=getTracking&setTextAllignment=left&setElementThemed=true&setBorderRadius=25&setValuePath=%properties.location% (%properties.icao%)&setBackgroundAnimated=true&setAnimated=true&setTextWrap=false&setTextCharacterLimit=125&setTextPlaceholder=Couldn't locate current location&setTextPrefix=Current Location |",
                 "width": 1820,
                 "fps": 31
             },
@@ -1349,7 +1349,7 @@
             "versioned_id": "browser_source",
             "settings": {
                 "undo_uuid": "0cf42551-1db5-4b36-b2fa-2666704d62d9",
-                "url": "http://localhost/widgets/strings?setType=getMesonet&setTextAllignment=center&setElementThemed=true&setBorderRadius=25&setRoute=%properties.dewpoint%&setBackgroundAnimated=true&setAnimated=true&setTextWrap=false&setTextCharacterLimit=45&setTextPlaceholder=No Dews&setTextSuffix=F&setTextPrefix=Dewpoint |&setThemeType=secondary",
+                "url": "http://localhost/widgets/strings?setType=getMesonet&setTextAllignment=center&setElementThemed=true&setBorderRadius=25&setValuePath=%properties.dewpoint%&setBackgroundAnimated=true&setAnimated=true&setTextWrap=false&setTextCharacterLimit=45&setTextPlaceholder=No Dews&setTextSuffix=F&setTextPrefix=Dewpoint |&setThemeType=secondary",
                 "width": 392,
                 "fps": 31
             },
@@ -1419,7 +1419,7 @@
             "id": "browser_source",
             "versioned_id": "browser_source",
             "settings": {
-                "url": "http://localhost/widgets/strings?setType=getMesonet&setTextAllignment=center&setElementThemed=true&setBorderRadius=25&setRoute=%properties.humidity%&setBackgroundAnimated=true&setAnimated=true&setTextWrap=false&setTextCharacterLimit=45&setTextPlaceholder=No Humidity&setTextSuffix=%&setTextPrefix=Humidity  |&setThemeType=secondary",
+                "url": "http://localhost/widgets/strings?setType=getMesonet&setTextAllignment=center&setElementThemed=true&setBorderRadius=25&setValuePath=%properties.humidity%&setBackgroundAnimated=true&setAnimated=true&setTextWrap=false&setTextCharacterLimit=45&setTextPlaceholder=No Humidity&setTextSuffix=%&setTextPrefix=Humidity  |&setThemeType=secondary",
                 "width": 735,
                 "fps": 31
             },
@@ -1453,7 +1453,7 @@
             "id": "browser_source",
             "versioned_id": "browser_source",
             "settings": {
-                "url": "http://localhost/widgets/strings?setType=getDbzIntensity&setTextAllignment=center&setElementThemed=true&setBorderRadius=25&setRoute=%properties.location% (%properties.icao%)&setBackgroundAnimated=true&setAnimated=true&setTextWrap=false&setTextCharacterLimit=125&setTextPlaceholder=No Data&setThemeType=secondary&setTextThemed=true",
+                "url": "http://localhost/widgets/strings?setType=getDbzIntensity&setTextAllignment=center&setElementThemed=true&setBorderRadius=25&setValuePath=%properties.location% (%properties.icao%)&setBackgroundAnimated=true&setAnimated=true&setTextWrap=false&setTextCharacterLimit=125&setTextPlaceholder=No Data&setThemeType=secondary&setTextThemed=true",
                 "width": 500,
                 "fps": 31
             },
@@ -1556,7 +1556,7 @@
             "versioned_id": "browser_source",
             "settings": {
                 "undo_uuid": "7e8b888d-992a-41fd-9c9c-7338ec461d6e",
-                "url": "http://localhost/widgets/polywarn?setAnimated=true&setTextThemed=true&setTextPrefix=Entering&setRouteSecondary=Expires at  %properties.expires%",
+                "url": "http://localhost/widgets/polywarn?setAnimated=true&setTextThemed=true&setTextPrefix=Entering&setValuePathSecondary=Expires at  %properties.expires%",
                 "width": 1920,
                 "height": 1080,
                 "fps": 31,
@@ -1592,7 +1592,7 @@
             "id": "browser_source",
             "versioned_id": "browser_source",
             "settings": {
-                "url": "http://localhost/widgets/strings?setType=getRandomEvent&setTextAllignment=leftr&setElementThemed=true&setBorderRadius=25&setRoute=%properties.locations%&setBackgroundAnimated=true&setAnimated=true&setTextWrap=false&setTextCharacterLimit=185&setTextPlaceholder=No Events Found&setTextPrefix=Locations |&setThemeType=secondary",
+                "url": "http://localhost/widgets/strings?setType=getRandomEvent&setTextAllignment=leftr&setElementThemed=true&setBorderRadius=25&setValuePath=%properties.locations%&setBackgroundAnimated=true&setAnimated=true&setTextWrap=false&setTextCharacterLimit=185&setTextPlaceholder=No Events Found&setTextPrefix=Locations |&setThemeType=secondary",
                 "width": 4120,
                 "height": 900,
                 "fps": 31
@@ -1628,7 +1628,7 @@
             "versioned_id": "browser_source",
             "settings": {
                 "undo_uuid": "a1baaed5-8a9d-4406-b43b-e45770b32d51",
-                "url": "http://localhost/widgets/strings?setType=getRandomEvent&setTextAllignment=center&setElementThemed=true&setBorderRadius=25&setRoute=%properties.event%&setBackgroundAnimated=true&setAnimated=true&setTextWrap=false&setTextCharacterLimit=45&setTextPlaceholder=No Events Found&setThemeType=secondary",
+                "url": "http://localhost/widgets/strings?setType=getRandomEvent&setTextAllignment=center&setElementThemed=true&setBorderRadius=25&setValuePath=%properties.event%&setBackgroundAnimated=true&setAnimated=true&setTextWrap=false&setTextCharacterLimit=45&setTextPlaceholder=No Events Found&setThemeType=secondary",
                 "width": 1135,
                 "height": 900,
                 "fps": 31
@@ -2839,7 +2839,7 @@
             "versioned_id": "browser_source",
             "settings": {
                 "undo_uuid": "f6d83dd7-9b21-4aaa-baf3-bd164b7c870d",
-                "url": "http://localhost/widgets/strings?setType=getMesonet&setTextAllignment=center&setElementThemed=true&setBorderRadius=25&setRoute=%properties.temperature%&setBackgroundAnimated=true&setAnimated=true&setTextWrap=false&setTextCharacterLimit=45&setTextPlaceholder=No Temps&setTextSuffix=F&setTextPrefix=Temps |",
+                "url": "http://localhost/widgets/strings?setType=getMesonet&setTextAllignment=center&setElementThemed=true&setBorderRadius=25&setValuePath=%properties.temperature%&setBackgroundAnimated=true&setAnimated=true&setTextWrap=false&setTextCharacterLimit=45&setTextPlaceholder=No Temps&setTextSuffix=F&setTextPrefix=Temps |",
                 "width": 580,
                 "fps": 31
             },
@@ -2909,7 +2909,7 @@
             "versioned_id": "browser_source",
             "settings": {
                 "undo_uuid": "6f139dff-afab-448c-a156-51b27707ab2c",
-                "url": "http://localhost/widgets/strings?setType=getMesonet&setTextAllignment=center&setElementThemed=true&setBorderRadius=25&setRoute=%properties.wind_speed% MPH (%properties.wind_direction%)&setBackgroundAnimated=true&setAnimated=true&setTextWrap=false&setTextCharacterLimit=45&setTextPlaceholder=No Wind Speed&setTextPrefix=WND |",
+                "url": "http://localhost/widgets/strings?setType=getMesonet&setTextAllignment=center&setElementThemed=true&setBorderRadius=25&setValuePath=%properties.wind_speed% MPH (%properties.wind_direction%)&setBackgroundAnimated=true&setAnimated=true&setTextWrap=false&setTextCharacterLimit=45&setTextPlaceholder=No Wind Speed&setTextPrefix=WND |",
                 "width": 555,
                 "fps": 31
             },
