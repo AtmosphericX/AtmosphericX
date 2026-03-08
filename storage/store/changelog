@@ -2,7 +2,7 @@
 
 add(themes): `themes` folder for public themes.
 update(widget-fetch): replace widgetFetch.js filename to parameters.js
-update(parameters): `setValuePath` replaces `setValuePath` for clairty
+update(parameters): `setValuePath` replaces `setRoute` for clairty
 remove(global.css): display flex for widget-containerr
 feat(parser): implement getPolygonMetadata method to retrieve polygon metadata and enhance event processing
 feat(parser/locations): implement location based filtering
