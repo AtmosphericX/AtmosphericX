@@ -37,7 +37,7 @@ export const parse = (body) => {
                     coordinates: [lon, lat]
                 },
                 properties: {
-                    id: icao,
+                    id: icao ?? null
                 }
             });
         }

@@ -44,14 +44,14 @@ export const parse = (body: Record<string, string>) => {
                 coordinates: [parseFloat(longitude), parseFloat(latitude)]
             },
             properties: {
-                name: feature.name,
-                location: feature.last_location_text,
-                stream_name: feature.stream.name,
-                stream_url: feature.stream.url,
-                stream_viewiers: feature.stream.viewers,
-                icon_url: feature.icon_url,
-                model: feature.model,
-                source: feature.primary_location_source
+                name: feature.name ?? null,
+                location: feature.last_location_text ?? null,
+                stream_name: feature.stream?.name ?? null,
+                stream_url: feature.stream?.url ?? null,
+                stream_viewiers: feature.stream?.viewers ?? null,
+                icon_url: feature.icon_url ?? null,
+                model: feature.model ?? null,
+                source: feature.primary_location_source ?? null
             }
         });
     }

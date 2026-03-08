@@ -18,19 +18,12 @@
 import * as types from '../@dictionaries/types';
 import * as loader from '../';
 
-type ProbabilityTypes = { 
-    tornado?: number; 
-    severe?: number;
-    hail?: number;
-    wind?: number;
-    shear?: number; 
-    MLCape?: number;
-    MUCape?: number;
-    description?: string 
-}
 
 export const parse = async (body: string) => {
-    const structure: ProbabilityTypes[] = [];
+    const structure: types.GeoJSONFeatureCollection = {
+        type: `FeatureCollection`,
+        features: []
+    };
     const parsed = await loader.packages.PlacefileManager.parsePlacefile(body) as types.DefaultPlacefileParsingTypes[];
     for (const feature of parsed) {
         if (!feature.line?.text) continue;
@@ -41,15 +34,24 @@ export const parse = async (body: string) => {
         const shearMatch = feature.line.text.match(/Max LLAzShear: ([\d.]+)/);
         const MLCape = feature.line.text.match(/MLCAPE: ([\d.]+)/);
         const MUCape = feature.line.text.match(/MUCAPE: ([\d.]+)/);
+        const ObjID = feature.line.text.match(/Object ID: (\d+)/) ? parseInt(feature.line.text.match(/Object ID: (\d+)/)[1]) : 0;
         const shear = shearMatch ? parseFloat(shearMatch[1]) : 0;
         const MLCapeValue = MLCape ? parseFloat(MLCape[1]) : 0;
         const MUCapeValue = MUCape ? parseFloat(MUCape[1]) : 0;
-        if (tornado > 2 || severe > 15 || hail > 10 || wind > 10 || shear > 10) {
-            structure.push({
-                tornado, severe, wind, hail, shear,
-                MLCape: MLCapeValue,
-                MUCape: MUCapeValue,
-                description: feature.line.text.replace(/\\n/g, '<br>') ?? 'N/A'
+        if (tornado > 2 || severe > 15 || hail > 10 || wind > 10) {
+            structure.features.push({
+                type: 'Feature',
+                geometry: { 
+                    type: 'Polygon',
+                    coordinates: [feature.coordinates as unknown as [number, number]]
+                },
+                properties: {
+                    id: ObjID,
+                    tornado, severe, wind, hail, shear,
+                    MLCape: MLCapeValue,
+                    MUCape: MUCapeValue,
+                    description: feature.line.text.replace(/\\n/g, '<br>') ?? null
+                }
             });
         }
     }

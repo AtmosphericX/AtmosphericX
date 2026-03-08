@@ -43,10 +43,10 @@ export const parse = (body: Record<string, string>) => {
     let maxOutages = 0;
     for (const feature of (body.states as unknown) as OutageFeature[]) {
         structure.push({
-            fips: feature.US_State_FIPS,
-            state: feature.StateName,
-            tracked: feature.CustomersTracked,
-            outaged: feature.CustomersOut,
+            fips: feature.US_State_FIPS ?? null,
+            state: feature.StateName ?? null,
+            tracked: feature.CustomersTracked ?? null,
+            outaged: feature.CustomersOut ?? null,
         });
         totalTracked += feature.CustomersTracked;
         totalOut += feature.CustomersOut;
@@ -56,8 +56,8 @@ export const parse = (body: Record<string, string>) => {
         }
     }
     const summary = {
-        total_customers: totalTracked,
-        total_outages: totalOut,
+        total_customers: totalTracked ?? null,
+        total_outages: totalOut ?? null,
         priority: stateWithMostOutages,
     };
     return { summary, data: structure}

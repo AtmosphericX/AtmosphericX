@@ -22,7 +22,11 @@ export type LatitudeLongitude = {
 };
 
 export interface DefaultPlacefileParsingTypes { 
-    icon: LocalDefaultPlacefileIcon; 
+    icon: LocalDefaultPlacefileIcon;
+    coordinates?: { 
+        type: string; 
+        coordinates: number[]
+    }; 
     object: { coordinates: number }; 
     line: { text: string }; 
 }

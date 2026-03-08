@@ -49,7 +49,7 @@ export const h_cache: Record<string, any> = {
         sondewxeye: [],
         outages: [],
         hashes: [],
-        probability: [],
+        probability: {type: "FeatureCollection", features: []},
         streams: {type: "FeatureCollection", features: []},
         events: {type: "FeatureCollection", features: []},
         manual: {type: "FeatureCollection", features: []},

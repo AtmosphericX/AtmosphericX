@@ -62,10 +62,10 @@ export const parse = (body: Record<string, string>) => {
                     if (is(feature.injury)) events.push('Injury');
                     return events.join(', ') || 'Other';
                 })(),
-                email: feature.email ?? `N/A`,
+                email: feature.email ?? null,
                 reporter: (feature.first + ` ` + feature.last),
-                time: new Date(parseInt(feature.unix) * 1000).toISOString() ?? `N/A`,
-                notes: feature.narrative ?? `N/A`,
+                time: new Date(parseInt(feature.unix) * 1000).toISOString() ?? null,
+                notes: feature.narrative ?? null,
                 sender: "Spotter Network",
             }
         });

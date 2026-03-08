@@ -25,12 +25,12 @@ export const parse = (body) => {
         structure.features.push({
             type: `Feature`,
             properties: {
-                name: feature.name ?? `N/A`,
-                discussion: feature.forecast_discussion ?? `N/A`,
-                classification: feature.classification ?? `N/A`,
-                pressure: feature.pressure ?? `N/A`,
-                wind_speed: feature.wind_speed_mph ?? `N/A`,
-                last_updated: feature.last_update_at ? new Date(feature.last_update_at).toLocaleString() : 'N/A'
+                name: feature.name ?? null,
+                discussion: feature.forecast_discussion ?? null,
+                classification: feature.classification ?? null,
+                pressure: feature.pressure ?? null,
+                wind_speed: feature.wind_speed_mph ?? null,
+                last_updated: feature.last_update_at ? new Date(feature.last_update_at).toLocaleString() : null
             }
         });
     }

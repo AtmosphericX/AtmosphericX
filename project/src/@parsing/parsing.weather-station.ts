@@ -23,17 +23,17 @@ export const parse = (body) => {
                 coordinates: [body.longitude, body.latitude]
             },
             properties: {
-                temperature: body.temperature,
-                dewpoint: body.dewpoint,
-                humidity: body.humidity,
-                wind_speed: body.wind_speed,
-                wind_direction: body.wind_direction,
+                temperature: body.temperature ?? null,
+                dewpoint: body.dewpoint ?? null,
+                humidity: body.humidity ?? null,
+                wind_speed: body.wind_speed ?? null,
+                wind_direction: body.wind_direction ?? null,
                 conditions: body.conditions
                     ?.split(' ')
                     ?.map(word => word.charAt(0)
                                     ?.toUpperCase() + word.slice(1))
-                                    ?.join(' '),
-                location: body.location,
+                                    ?.join(' ') ?? null,
+                location: body.location ?? null,
             }
         }
     ]

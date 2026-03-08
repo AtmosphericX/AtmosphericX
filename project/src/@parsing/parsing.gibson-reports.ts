@@ -46,13 +46,13 @@ export const parse = (body: string) => {
                 type: 'Feature',
                 geometry: { type: 'Point', coordinates: [longitude, latitude] },
                 properties: {
-                    location: `${feature.city ?? 'N/A'}, ${feature.county ?? 'N/A'}, ${feature.state ?? 'N/A'}`,
-                    event: feature.event ?? 'N/A',
-                    sender: feature.source ?? 'N/A',
-                    description: `${feature.event ?? 'Event'} reported at ${feature.city ?? 'Unknown'}, ${feature.county ?? 'Unknown'}, ${feature.state ?? 'Unknown'}. ${feature.comment ?? 'No additional details.'}`,
-                    magnitude: feature.mag ?? 0,
-                    office: feature.office ?? 'N/A',
-                    time: `${feature.time ?? 'N/A'} ${feature.date ?? ''}`.trim() ?? 'N/A'
+                    location: `${feature.city ?? null}, ${feature.county ?? null}, ${feature.state ?? null}`,
+                    event: feature.event ?? null,
+                    sender: feature.source ?? null,
+                    description: `${feature.event ?? null} reported at ${feature.city ?? null}, ${feature.county ?? null}, ${feature.state ?? null}. ${feature.comment ?? null}`,
+                    magnitude: feature.mag ?? null,
+                    office: feature.office ?? null,
+                    time: `${feature.time ?? null} ${feature.date ?? null}`.trim() ?? null
                 }
             });
         }   

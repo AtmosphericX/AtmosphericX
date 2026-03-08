@@ -32,9 +32,9 @@ export const parse = (body) => {
                     coordinates: [feature.lon, feature.lat]
                 },
                 properties: {
-                    location: feature?.location ?? `N/A`,
-                    callsign: feature?.callsign ?? `N/A`,
-                    frequency: feature?.frequency ?? `N/A`,
+                    location: feature?.location ?? null,
+                    callsign: feature?.callsign ?? null,
+                    frequency: feature?.frequency ?? null,
                     stream_url: feature?.listen_url ?? null
                 }
             });
