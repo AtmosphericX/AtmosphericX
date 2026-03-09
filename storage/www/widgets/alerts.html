@@ -28,7 +28,7 @@
         <!-- JS --> 
         <script src="/assets/js/classes/utils.js"></script> <!-- Utility Functions -->
         <script src="/assets/js/classes/wise.js"></script> <!-- WeatherWise Logic -->
-        <script src="/assets/js/classes/handlers.js"></script> <!-- Handlers Logic -->
+        <script src="/assets/js/classes/events.js"></script> <!-- Events Logic -->
         <script src="/assets/js/classes/widgets.js"></script> <!-- Widgets Logic -->
         <script src="/assets/js/static/parameters.js"></script> <!-- URL parameters Logic -->
 
@@ -121,7 +121,7 @@
             const utils = new Utils();
             const wise = new Wise(utils);
             const widgets = new Widgets(utils);
-            const handler = new Handlers(utils, widgets);
+            const handler = new Events(utils, widgets);
 
             settings.setElement = document.getElementById('widget-container')
             settings.setPauseTime = get(aSearch, `setPauseTime`) ?? 8;

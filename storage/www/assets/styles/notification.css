@@ -43,33 +43,11 @@
     margin-bottom: 6px;
 } .notification-message {
     font-size: 0.95em;
-} .notification-bar {
-    position: absolute;
-    left: 0;
-    bottom: 0;
-    height: 6px;
-    width: 100%;
-    background: var(--clr-surface-a20);
-    overflow: hidden;
-    border-radius: 0 0 8px 8px;
-} .notification-progress {
-    height: 100%;
-    width: 100%;
-    background: var(--clr-light-a0);
-    transform-origin: left;
 }
 
-.notification-progress.progress-animate {
-    animation: anim_shrink linear forwards;
-}
-
-.notification.enter {
-    animation: anim_slide_in 0.4s forwards ease-out;
-}
-
-.notification.fade-out {
-    animation: anim_fade_out 0s forwards ease-in;
-}
+.notification-progress.progress-animate { animation: anim_shrink linear forwards; }
+.notification.enter { animation: anim_slide_in 0.4s forwards ease-out; }
+.notification.fade-out { animation: anim_fade_out 0s forwards ease-in; }
 
 .notification.info { background-color: var(--clr-info-a0); }
 .notification.success { background-color: var(--clr-success-a0); }

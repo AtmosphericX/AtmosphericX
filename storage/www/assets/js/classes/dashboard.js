@@ -21,9 +21,4 @@ class Dashboard {
         this.storage = utils.storage;
         utils.log(`${this.name_space} initialized.`);
     }
-
-    getGoogleMapDirections = function (coordinates = {latitude: 0, longitude: 0}) {
-        return `https://www.google.com/maps/dir/?api=1&origin=current+location&destination=${coordinates.latitude},${coordinates.longitude}`;
-    };
-
 }

@@ -1,18 +1,25 @@
 ========= 8.0.0.031 (beta-pre-dashboard-testing) =========
 
 add(themes): `themes` folder for public themes.
+
 update(widget-fetch): replace widgetFetch.js filename to parameters.js
 update(parameters): `setValuePath` replaces `setRoute` for clairty
 update(parsing/probability): update parsing logic to GeoJSON
 update(atmosx-nwws-parser): v1.0.3176 - set null instead of N/A  
-remove(global.css): display flex for widget-containerr
+
+remove(global.css): display flex for widget-container
+remove(notifications.css): Remove display remaining bar
+
 feat(parser): implement getPolygonMetadata method to retrieve polygon metadata and enhance event processing
 feat(parser/locations): implement location based filtering
 feat(parser/expires): implement expiration logic for parsed events
-refactor(index): remove promise from `index.ts` as it was not needed.
-refactor(parameters): Refactor code structure for improved readability and maintainability
+
 fix(utils): update content handling to use innerHTML for dynamic updates
 fix(parsing): update properties to use null instead of 'N/A' for better data consistency
 fix(tracking): add source parameter to setCurrentCoordinates for better context in logs
 fix(manifest): remove start_url from manifest for improved PWA compliance
 fix(widgets): add cards-test.html for widget display and functionality
+
+refactor(index): remove promise from `index.ts` as it was not needed.
+refactor(parameters): Refactor code structure for improved readability and maintainability
+refactor: remove handlers.js and integrate event handling into events.js

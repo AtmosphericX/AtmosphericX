@@ -144,13 +144,6 @@ class Utils {
                 notifyMessage.classList.add('notification-message');
                 notifyMessage.textContent = message;
                 notify.appendChild(notifyMessage);
-            const setNotifyBar = document.createElement('div');
-                setNotifyBar.classList.add('notification-bar');
-            const progress = document.createElement('div');
-                progress.classList.add('notification-progress', 'progress-animate', type);
-                progress.style.animationDuration = `${duration}ms`;
-                setNotifyBar.appendChild(progress);
-                notify.appendChild(setNotifyBar);
                 container.appendChild(notify);
             const removeNotify = () => {
                 notify.classList.remove('enter');

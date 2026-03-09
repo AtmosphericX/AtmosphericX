@@ -15,9 +15,9 @@
 
 */
 
-class Handlers { 
+class Events { 
     constructor(utils = null, widgets = null) {
-        this.name_space = `webmodule:handler`;
+        this.name_space = `webmodule:events`;
         this.utils = utils;
         this.widgets = widgets;
         this.storage = this.utils.storage;
