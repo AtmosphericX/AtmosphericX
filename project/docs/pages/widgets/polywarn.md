@@ -111,3 +111,9 @@ Below are default / optional parameters you can use with the `polywarn` widget. 
 
 
 ## Examples
+::: details Example 1
+- Prompt: Use the theme for the `event text color` and use the `boom2` sfx sound effect.
+```
+/widgets/polywarn?setSfx=/sfx/dash_sfx/boom2.mp3&setTextThemed=true
+```
+:::

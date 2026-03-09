@@ -19,6 +19,10 @@ window.addEventListener('DOMContentLoaded', () => {
     const utils = new Utils();
     utils.socket(["version", "announcement", "configurations"]);
     const forms = [`login`, `signup`, `reset`];
+    const getHour = () => new Date().getHours();
+    if (getHour() >= 21) {
+        document.getElementsByClassName('background')[0].style.backgroundImage = "url('https://weather.cod.edu/data/satellite/background/background.11.jpg')";
+    }
     forms.forEach(id => {
         const container = document.getElementById(id);
         const links = container.querySelectorAll('.extra a');
