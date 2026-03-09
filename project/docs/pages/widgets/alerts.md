@@ -38,25 +38,20 @@ Example URL: `/widgets/example?setWidgetParameter1=value1&setWidgetParameter2=va
 Below are default values that you can use with `/widgets/alerts`. Visit [Global Parameters](./index#global-parameters) to see a full list of all the global parameters.
 
 ### setAnimationStartDuration
-- Default: (`float`): `1.0`
+- Default (`float`): `1.0`
 - Example: `/widgets/alerts?setAnimationStartDuration=1.0`
 
 ### setAnimationEndDuration
-- Default: (`float`): `0.5`
+- Default (`float`): `0.5`
 - Example: `/widgets/alerts?setAnimationEndDuration=0.5`
 
 ### setValuePath
 - Description: The header text displayed at the very top of the card.
-- Default: (`string`): `%properties.event% (%properties.agency ?? properties.action_type%)`
+- Default (`string`): `%properties.event% (%properties.agency ?? properties.action_type%)`
 - Example: `/widgets/alerts?setValuePath=%properties.event% (%properties.agency ?? properties.action_type%)`
 
 ## Local Parameters
 Below are default / optional parameters you can use with the `alert` widget. Please be sure to follow the default value type convention.
-
-### setElement
-- Description: The `element` to select for handling the widget. This is forced upon the widget and **can't** be changed.
-- Default (`DOM`): `widget-container`
-- Example: `N/A`
 
 ### setWx
 - Description: Whether to display `weather related` events through event queue.
@@ -75,12 +70,12 @@ You can enable this feature in the [Sources.jsonc](../configurations/sources) wi
 
 ### setPauseTime
 - Description: The time in `seconds` to display an event for. It's **RECOMMENDED** to set this value between `8-15` seconds.
-- Default: (`int`): `8`
+- Default (`int`): `8`
 - Example: `/widgets/alerts?setPauseTime=8`
 
 ### setMaxHistory
 - Description: The maximum number of `minutes` to look back for events and add to the queue.
-- Default: (`int`): `5`
+- Default (`int`): `5`
 - Example: `/widgets/alerts?setMaxHistory=5`
 
 ### setStreaming
@@ -95,7 +90,7 @@ You can enable this feature in the [Sources.jsonc](../configurations/sources) wi
 
 ### setSfx
 - Description: An optional way to override the default `beep` sfx sound effect with a predefined one. This is useful if you want to have a different sfx sound for a specific scene while having the backend still manage the default one.
-- Default: (`string/path/null`): `null`
+- Default (`string/path/null`): `null`
 - Example: `/widgets/alerts?setSfx=/sfx/eas_sfx/siren-eas.mp3`
 
 ::: details Available Sfx / Custom Sfx
@@ -104,7 +99,7 @@ Sound effects and other related files can be found under `/www/assets/sfx` in th
 
 ### setSfxVolume
 - Description: The volume level for the sound effect, expressed as a decimal between 0.0 (muted) and 1.0 (full volume).
-- Default: (`float`): `1.0`
+- Default (`float`): `1.0`
 - Example: `/widgets/alerts?setSfxVolume=0.5`
 
 ::: details Volume Settings

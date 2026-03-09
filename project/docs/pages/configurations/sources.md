@@ -117,9 +117,6 @@ sources.jsonc
     │   ├── mesoscale_discussions
     │   └── tropical_storm_tracks
     │
-    ├── probability_settings
-    │   └── severe
-    │
     └── miscellaneous_settings
         ├── sonde_project_weather_eye
         ├── probability

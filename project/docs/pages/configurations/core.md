@@ -32,6 +32,7 @@ Editing this file allows you to customize the functionality and appearance of yo
 core.jsonc
 ├── core:hash
 ├── web_hosting_settings
+│   ├── documentation_mode
 │   ├── is_login_required
 │   ├── is_guest_access_allowed
 │   └── settings
@@ -55,4 +56,5 @@ core.jsonc
 ├── slideshow
 ├── dbz_intensity
 └── color_intensity
+└── dynamic_widgetss
 ```

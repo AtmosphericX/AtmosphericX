@@ -39,12 +39,7 @@ Example URL: `/widgets/example?setWidgetParameter1=value1&setWidgetParameter2=va
 All `global` parameters are supported. Visit [Global Parameters](./index#global-parameters) to see a full list of all the global parameters. However `setElementThemed` is forced to `true`.
 
 ## Local Parameters
-Below are default / optional parameters you can use with the `palette` widget. Please be sure to follow the default value type convention.
-
-### setElement
-- Description: The `element` to select for handling the widget. This is forced upon the widget and **can't** be changed.
-- Default (`DOM`): `widget-container`
-- Example: `N/A`
+There are currently **NO** local parameters for this widget.
 
 
 ## Examples

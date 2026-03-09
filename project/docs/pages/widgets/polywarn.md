@@ -45,54 +45,37 @@ Example URL: `/widgets/example?setWidgetParameter1=value1&setWidgetParameter2=va
 Below are default values that you can use with `/widgets/polywarn`. Visit [Global Parameters](./index#global-parameters) to see a full list of all the global parameters. However `setElementThemed` is forced to `false`.
 
 ### setAnimationStartDuration
-- Default: (`float`): `3`
+- Default (`float`): `3`
 - Example: `/widgets/polywarn?setAnimationStartDuration=1.0`
 
 ### setAnimationEndDuration
-- Default: (`float`): `3`
+- Default (`float`): `3`
 - Example: `/widgets/polywarn?setAnimationEndDuration=0.5`
 
 ### setAnimationHasEnding
-- Default: (`boolean`): `true`
-- Example: `/widgets/polywarn?setAnimationHasEnding=true`
+- Default (`boolean`): `true`
+- Example: `/widgets/polywarn?setAnimationHasEnding=(true/false)`
 
 ### setAnimatedDelayEnding
-- Default: (`number`): `5`
+- Default (`number`): `5`
 - Example: `/widgets/polywarn?setAnimatedDelayEnding=10`
 
 ### setTextCharacterLimit
-- Default: (`number`): `125`
+- Default (`number`): `125`
 - Example: `/widgets/polywarn?setTextCharacterLimit=100`
 
 ### setValuePath
-- Default: (`string/path/null`): `%properties.event%`
+- Default (`string/path/null`): `%properties.event%`
 - Example: `/widgets/polywarn?setValuePath=%properties.event%`
 
-
 ### setValuePathSecondary
-- Default: (`string/path/null`): `Issued at %properties.issued%`
+- Default (`string/path/null`): `Issued at %properties.issued%`
 - Example: `/widgets/polywarn?setValuePathSecondary=Issued at %properties.issued%`
 
 
 
 ## Local Parameters
 Below are default / optional parameters you can use with the `polywarn` widget. Please be sure to follow the default value type convention.
-
-
-### setElement
-- Description: The `element` to select for handling the widget. This is forced upon the widget and **can't** be changed.
-- Default (`DOM`): `widget-container-isolated`
-- Example: `N/A`
-
-### setElementTitle
-- Description: The `element` to select for hnadling the title. This is forced upon the widget and **can't** be changed.
-- Default (`DOM`): `widget-child-1`
-- Example: `N/A`
-
-### setElementSubtitle
-- Description: The `element` to select for hnadling the subtitle. This is forced upon the widget and **can't** be changed.
-- Default (`DOM`): `widget-child-2`
-- Example: `N/A`
 
 ### setSfx
 - Description: The sound that is played during the event.

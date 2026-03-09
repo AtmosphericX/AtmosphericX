@@ -1,0 +1,119 @@
+---
+layout: doc
+next: 
+    text: 'RESTful API Introduction'
+    link: /pages/restful-api/index
+prev:
+    text: 'Stream Widget'
+    link: /pages/widgets/stream
+---
+
+<img src="/logo.png" alt="AtmosphericX Logo" width="200" style="display: block; margin: 0 auto;" />
+<small class="page-author">Written By: <b>KiyoWx</b></small><br/>
+<small class="last-updated">Last Updated: <b>Mar 9th, 2026</b></small><br><br><br>
+
+
+# Strings Widget
+---
+The `strings` widget is the most versatile widget for displaying text based information in a dynamic and customizable manner. This includes anything from `event`, `mesonet data`, `clock and time information`, `PulsePoint`, `tracking nodes`, `dBZ intensity`, `nearby spotters`, `nearby events`, `outages`, and **way more**.
+
+
+::: info Parameter Rules
+
+- `?` is used when starting a query string in a URL.
+- `&` is used to append additional parameters to an existing query string.
+- `true` or `false` should be supplied depending on whether the parameter expects a boolean value.
+
+Always follow the expected type and position of the parameter when constructing the widget settings.
+
+Example URL: `/widgets/example?setWidgetParameter1=value1&setWidgetParameter2=value2`
+:::
+
+
+## Global Parameters
+Below are default values that you can use with `/widgets/strings`. Visit [Global Parameters](./index#global-parameters) to see a full list of all the global parameters.
+
+### setAnimationStartDuration
+- Default (`float`): `2.0`
+- Example: `/widgets/strings?setAnimationStartDuration=1.0`
+
+### setAnimationEndDuration
+- Default (`float`): `2.0`
+- Example: `/widgets/strings?setAnimationEndDuration=0.5`
+
+### setTextPlaceholder
+- Default (`string`): **Widget carries multiple defaults**
+- Example: `/widgets/strings?setTextPlaceholder=Custom Placeholder`
+
+### setValuePath
+- Default (`string`): **Widget carries multiple defaults**
+- Example: `/widgets/strings?setValuePath=properties.xxxxxx`
+
+
+## Local Parameters
+Below are default / optional parameters you can use with the `strings` widget. Please be sure to follow the default value type convention.
+
+
+### setType
+- Description: The type of data to display
+- Default (`null`): `null`
+- Available Types:
+    - text
+    - getRandomEvent
+    - GetRandomPulsePoint
+    - getTracking
+    - getNearbySpotters
+    - getDbzIntensity
+    - getClock
+    - getWatchdog
+    - getOutages
+    - getNearbyEvents
+    - getMesonet
+- Example: `/widgets/strings?setType=getMesonet`
+
+### setTextWrapping
+- Description: Controls whether text should wrap within the widget
+- Default (`boolean`): `false`
+- Example: `/widgets/strings?setTextWrapping=true`
+
+### setFormat
+- Description: Handles the `getClock` type and what to display
+- Types: `getClock`
+- Default (`string`): `time`
+- Example: `/widgets/strings?setType=getClock&setFormat=date`
+
+### setTimezone
+- Description: Sets the timezone for the `getClock` type
+- Types: `getClock`
+- Default (`string`): `America/New_York`
+- Example: `/widgets/strings?setType=getClock&setTimezone=America/New_York`
+
+### setMilitaryTime
+- Description: Controls whether to display time in military format
+- Types: `getClock`
+- Default (`boolean`): `false`
+- Example: `/widgets/strings?setType=getClock&setMilitaryTime=true`
+
+### setRefreshTime
+- Description: How often `getClock` should update
+- Types: `getClock`
+- Default (`number`): `1`
+- Example: `/widgets/strings?setType=getClock&setRefreshTime=5`
+
+### setWatchdogList
+- Description: What events we would like to count for in `getWatchdog`. This supports wildcard statements such as `* Watch` or multiple event types.
+- Types: `getWatchdog`
+- Default (`array`): `[* Warning]`
+- Example: `/widgets/strings?setType=getWatchdog&setWatchdogList=[* Warning]`
+
+### setSearch
+- Description: Searches for a specific `tracking node` (See: [location tracking](/configurations/sources.html#location-tracking)). If not set, it will default to `priority`.
+- Types: `getTracking`, `getNearbyEvents`, `getDbzIntensity`
+- Default (`string`): `null`
+- Example: `/widgets/strings?setType=XXXXXXXX&setSearch=John Doe`
+
+### setRadius
+- Description: Sets the radius for searching nearby events or spotters using the `priority` or `setSearch` parameter.
+- Types: `getNearbySpotters`, `getNearbyEvents`
+- Default (`number`): `50`
+- Example: `/widgets/strings?setType=XXXXXXXX&setRadius=5`
