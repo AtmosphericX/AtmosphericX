@@ -10,7 +10,7 @@ next:
 
 <img src="/logo.png" alt="AtmosphericX Logo" width="200" style="display: block; margin: 0 auto;" />
 <small class="page-author">Written By: <b>KiyoWx</b> & <b>StarflightWx</b></small><br/>
-<small class="last-updated">Last Updated: <b>Feb 27th, 2026</b></small><br><br><br>
+<small class="last-updated">Last Updated: <b>Mar 9th, 2026</b></small><br><br><br>
 
 # Installation Guide
 ---
@@ -216,6 +216,10 @@ cd build-tools
 
 :::
 
+###
+::: details [COMING SOON] Docker Container Installation
+> Feature not yet implemented.
+:::
 
 ## Post Installation
 Congratulations, you have most likely successfully completed the installation process of AtmosphericX. If you are still facing issues, please refer to [the troubleshooting guide](./troubleshooting). You may continue to the next section for [post installation](./post-installation)

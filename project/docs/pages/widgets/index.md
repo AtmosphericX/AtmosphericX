@@ -10,7 +10,7 @@ prev:
 
 <img src="/logo.png" alt="AtmosphericX Logo" width="200" style="display: block; margin: 0 auto;" />
 <small class="page-author">Written By: <b>KiyoWx</b></small><br/>
-<small class="last-updated">Last Updated: <b>Mar 1st, 2026</b></small><br><br><br>
+<small class="last-updated">Last Updated: <b>Mar 9th, 2026</b></small><br><br><br>
 
 
 # Widget Introduction
@@ -74,7 +74,23 @@ The difference between global and local parameters is that global parameters can
 </table>
 
 ## Understanding setValuePath
-"setValuePath" is a `global` parameter that can be used to get a value from a specific path within a JSON object. It is particularly useful when working with nested data structures like GeoJSON, where you might want to extract a specific value from within the `properties` object. For example, say we want to get the `wind_speed` value from the GeoJSON properties object, we would specify `?setValuePath=properties.wind_speed`.
+`setValuePath` is a global parameter that extracts values from nested JSON structures like GeoJSON. For example, to get `wind_speed` from properties, use:
+
+```
+?setValuePath=properties.wind_speed
+```
+
+**Multiple values:** Use `%` delimiters to combine multiple fields:
+```
+?setValuePath=This value is %properties.wind_speed% MPH and is moving %properties.wind_direction%
+```
+
+**Fallback values:** Use `??` to provide alternatives:
+```
+?setValuePath=%properties.location% ?? %properties.conditions%
+```
+
+**GeoJSON example**
 
 ```jsonc
 {
@@ -100,26 +116,36 @@ The difference between global and local parameters is that global parameters can
 }
 ```
 
-This can be slightly made better by appending a prefix or suffix to the returned value by using `setTextPrefix=Wind Speed:`, `setTextSuffix=MPH` and `setAnimated=true`. If you want to see more parameters, please see [Global Parameters](#global-parameters)
-
-`
-/exampleWidget?setValuePath=properties.wind_speed&setTextPrefix=Wind Speed:&setTextSuffix=MPH&setAnimated=true
-`
-
-This will output a value of: `Wind Speed: 4 MPH` with an animation upon text change.
+This can be slightly made better by appending a prefix or suffix to the returned value by using `setTextPrefix=Wind Speed:`, `setTextSuffix=MPH` and `setAnimated=true`. If you want to see more parameters, please see [Global Parameters](#global-parameters).
 
 
 ## Available Animations
-By default, AtmosphericX includes `4` animations that can be used throughout the widget and ~~dashboard~~ frontend. Below is a list of available animations that can be used:
+By default, AtmosphericX includes several animations that can be used throughout the widget and dashboard frontend. Below is a list of available animations that can be used:
 
 - anim_grid_drift
 - anim_fade_out 
 - anim_fade_in
 - pulse
+- anim_shrink
+- anim_slide_in
+- anim_grid
 
 You can use the `setAnimationStartType` or `setAnimationEndType` to define these animations as long as `setAnimated` is `true`
 
 
+## Importing Themes (OBS / Streamlabs)
+AtmosphericX v8 includes a **prebuilt theme** in the `/themes` directory. To import it into OBS Studio:
+
+1. Open OBS Studio
+2. Navigate to **Scene Collection** > **Import**
+3. Select the `.json` file from `/themes`
+4. Click **Import**
+
+For **community-created themes**, visit the community Discord or other public repositories.
+
+::: tip
+Save your current scene collection before importing to avoid losing custom settings.
+:::
 
 ## Importing Widgets (OBS / Streamlabs)
 To import widgets, add a `Browser Source` in your current `scene` and point it to the widget's URL. This allows you to customize your stream's appearance and functionality with real time data integration.
@@ -134,10 +160,15 @@ If you're experiencing sizing issues with widgets in your streaming software, en
 AtmosphericX will automatically detect window size (If width is below `1270`) and determine if you are on a mobile device and apply a silent radio channel to avoid audio context suspension. However, if you are facing this with a widget in OBS. Please make sure to increase the `height` and `width` of the source to prevent this.
 
 ## OBS Studio Plugins
-Plugins make widget handling within OBS Studio easier and actually decreases resource consumption considerably. Below are a list of widgets recommended for installation before fully creating your theme.
+Plugins make widget handling within OBS Studio easier and actually decrease resource consumption considerably. Below are a list of widgets recommended for installation before fully creating your theme.
 
 - **Source Code Plugin** (Recommended)
 > The [Source Clone](https://obsproject.com/forum/resources/source-clone.1632/) plugin allows you to clone sources to allow different filters than the original.
 By default, this will be used in majority of themes to decrease memory consumption while maintaining full widget functionality.
 - **Composite Blur Plugin** (Enhancement)
 > The [Composite Blur](https://obsproject.com/forum/resources/composite-blur.1780/) Plugin is a comprehensive blur plugin that provides blur algorithms and types for all levels of quality and computational need.
+
+
+::: tip Backup Your Widget Settings
+Before changing parameters or URLs, save a copy of your widget settings. This helps restore previous layouts if something breaks.
+:::

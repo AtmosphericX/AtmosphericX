@@ -23,6 +23,7 @@ The `strings` widget is the most versatile widget for displaying text based info
 - `?` is used when starting a query string in a URL.
 - `&` is used to append additional parameters to an existing query string.
 - `true` or `false` should be supplied depending on whether the parameter expects a boolean value.
+- All parameters are case sensitive meaning `setsearch != setSearch`
 
 Always follow the expected type and position of the parameter when constructing the widget settings.
 
@@ -42,12 +43,16 @@ Below are default values that you can use with `/widgets/strings`. Visit [Global
 - Example: `/widgets/strings?setAnimationEndDuration=0.5`
 
 ### setTextPlaceholder
-- Default (`string`): **Widget carries multiple defaults**
+- Default (`string`): **Widget carries multiple default values due to multiple widget types using this.**
 - Example: `/widgets/strings?setTextPlaceholder=Custom Placeholder`
 
 ### setValuePath
-- Default (`string`): **Widget carries multiple defaults**
-- Example: `/widgets/strings?setValuePath=properties.xxxxxx`
+- Default (`string`): **Widget carries multiple default values due to multiple widget types using this.**
+- Example: `/widgets/strings?setValuePath=properties.key_value_here`
+
+::: tip setValuePath Tips
+Please see [Understanding setValuePath](/pages/widgets/#understanding-setvaluepath) to understand how this works. You can also use the `/data` endpoint which is listed under the `RESTful API` guide on what type of values you can get.
+:::
 
 
 ## Local Parameters
@@ -55,12 +60,12 @@ Below are default / optional parameters you can use with the `strings` widget. P
 
 
 ### setType
-- Description: The type of data to display
+- Description: The type of data to display (**Case Sensitive**).
 - Default (`null`): `null`
 - Available Types:
     - text
     - getRandomEvent
-    - GetRandomPulsePoint
+    - getRandomPulsePoint
     - getTracking
     - getNearbySpotters
     - getDbzIntensity
@@ -72,48 +77,48 @@ Below are default / optional parameters you can use with the `strings` widget. P
 - Example: `/widgets/strings?setType=getMesonet`
 
 ### setTextWrapping
-- Description: Controls whether text should wrap within the widget
+- Description: Handles the getClock type and what to display.
 - Default (`boolean`): `false`
 - Example: `/widgets/strings?setTextWrapping=true`
 
 ### setFormat
 - Description: Handles the `getClock` type and what to display
-- Types: `getClock`
+- Widget Types: `getClock`
 - Default (`string`): `time`
 - Example: `/widgets/strings?setType=getClock&setFormat=date`
 
 ### setTimezone
 - Description: Sets the timezone for the `getClock` type
-- Types: `getClock`
+- Widget Types: `getClock`
 - Default (`string`): `America/New_York`
 - Example: `/widgets/strings?setType=getClock&setTimezone=America/New_York`
 
 ### setMilitaryTime
 - Description: Controls whether to display time in military format
-- Types: `getClock`
+- Widget Types: `getClock`
 - Default (`boolean`): `false`
 - Example: `/widgets/strings?setType=getClock&setMilitaryTime=true`
 
 ### setRefreshTime
 - Description: How often `getClock` should update
-- Types: `getClock`
-- Default (`number`): `1`
+- Widget Types: `getClock`
+- Default (`int`): `1`
 - Example: `/widgets/strings?setType=getClock&setRefreshTime=5`
 
 ### setWatchdogList
 - Description: What events we would like to count for in `getWatchdog`. This supports wildcard statements such as `* Watch` or multiple event types.
-- Types: `getWatchdog`
+- Widget Types: `getWatchdog`
 - Default (`array`): `[* Warning]`
 - Example: `/widgets/strings?setType=getWatchdog&setWatchdogList=[* Warning]`
 
 ### setSearch
 - Description: Searches for a specific `tracking node` (See: [location tracking](/configurations/sources.html#location-tracking)). If not set, it will default to `priority`.
-- Types: `getTracking`, `getNearbyEvents`, `getDbzIntensity`
+- Widget Types: `getTracking`, `getNearbyEvents`, `getDbzIntensity`
 - Default (`string`): `null`
-- Example: `/widgets/strings?setType=XXXXXXXX&setSearch=John Doe`
+- Example: `/widgets/strings?setType=getNearbyEvents&setSearch=John Doe`
 
 ### setRadius
 - Description: Sets the radius for searching nearby events or spotters using the `priority` or `setSearch` parameter.
-- Types: `getNearbySpotters`, `getNearbyEvents`
-- Default (`number`): `50`
-- Example: `/widgets/strings?setType=XXXXXXXX&setRadius=5`
+- Widget Types: `getNearbySpotters`, `getNearbyEvents`
+- Default (`int`): `50`
+- Example: `/widgets/strings?setType=getNearbySpotters&setRadius=5`

@@ -40,7 +40,7 @@ class Widgets {
         if (settings?.global.setElementZoomLevel) { element.style.zoom = settings.global.setElementZoomLevel }
         if (settings?.global.setBoxShadow == false) { element.style.boxShadow = 'none' }
         if (settings?.global.setTextShadow == false) { element.style.textShadow = 'none' }
-        if (settings?.global.setTextAllignment) { element.style.textAlign = settings.global.setTextAllignment }
+        if (settings?.global.setTextAlignment) { element.style.textAlign = settings.global.setTextAlignment }
         if (settings?.global.setTextColor) { element.style.color = settings.global.setTextColor }
         if (settings?.global.setTextSize) { element.style.fontSize = `${settings.global.setTextSize}px` }
         if (settings?.global.setTextFont) { element.style.fontFamily = settings.global.setTextFont }

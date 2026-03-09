@@ -299,7 +299,7 @@ class Events {
                     getParent.style.display = `block`
                     getHeader.setAttribute("class", "widget-child-header");
                     getHeader.style.background = settings?.theme?.secondary ?? 'inherit';
-                    getHeader.style.textAlign = settings?.options?.global?.setTextAllignment ?? 'left';
+                    getHeader.style.textAlign = settings?.options?.global?.setTextAlignment ?? 'left';
                     getHeader.textContent = settings?.title;
                     getBody.setAttribute("class", "widget-child-body");
                     getBody.style.background = settings?.theme?.primary ?? 'inherit';

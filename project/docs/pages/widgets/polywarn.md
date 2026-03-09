@@ -10,12 +10,12 @@ prev:
 
 <img src="/logo.png" alt="AtmosphericX Logo" width="200" style="display: block; margin: 0 auto;" />
 <small class="page-author">Written By: <b>KiyoWx</b></small><br/>
-<small class="last-updated">Last Updated: <b>Mar 8th, 2026</b></small><br><br><br>
+<small class="last-updated">Last Updated: <b>Mar 9th, 2026</b></small><br><br><br>
 
 
 # Polywarn Widget
 ---
-`PolyWarn` is one of **AtmosphericX's** most powerful features. It automatically generates alerts whenever a **tracked node** enters an **event polygon**.
+`Polywarn` is one of **AtmosphericX's** most powerful features. It automatically generates alerts whenever a **tracked node** enters an **event polygon**.
 
 This allows storm chasers and streamers to quickly see and display when they move into official weather products such as:
 
@@ -25,7 +25,7 @@ This allows storm chasers and streamers to quickly see and display when they mov
 - **Statements**
 - Other polygon based alerts
 
-PolyWarn is particularly useful for live broadcasts, as it can notify both the chaser and their viewers the moment they enter a significant weather alert area.
+Polywarn is particularly useful for live broadcasts, as it can notify both the chaser and their viewers the moment they enter a significant weather alert area.
 
 See more on [Tracking](/configurations/sources#tracking) with **Spotter Network** and **RealtimeIRL**.
 
@@ -34,6 +34,7 @@ See more on [Tracking](/configurations/sources#tracking) with **Spotter Network*
 - `?` is used when starting a query string in a URL.
 - `&` is used to append additional parameters to an existing query string.
 - `true` or `false` should be supplied depending on whether the parameter expects a boolean value.
+- All parameters are case sensitive meaning `setsearch != setSearch`
 
 Always follow the expected type and position of the parameter when constructing the widget settings.
 
@@ -54,14 +55,14 @@ Below are default values that you can use with `/widgets/polywarn`. Visit [Globa
 
 ### setAnimationHasEnding
 - Default (`boolean`): `true`
-- Example: `/widgets/polywarn?setAnimationHasEnding=(true/false)`
+- Example: `/widgets/polywarn?setAnimationHasEnding=true/false`
 
 ### setAnimatedDelayEnding
-- Default (`number`): `5`
+- Default (`int`): `5`
 - Example: `/widgets/polywarn?setAnimatedDelayEnding=10`
 
 ### setTextCharacterLimit
-- Default (`number`): `125`
+- Default (`int`): `125`
 - Example: `/widgets/polywarn?setTextCharacterLimit=100`
 
 ### setValuePath
@@ -71,6 +72,10 @@ Below are default values that you can use with `/widgets/polywarn`. Visit [Globa
 ### setValuePathSecondary
 - Default (`string/path/null`): `Issued at %properties.issued%`
 - Example: `/widgets/polywarn?setValuePathSecondary=Issued at %properties.issued%`
+
+::: tip setValuePath Tips
+Please see [Understanding setValuePath](/pages/widgets/#understanding-setvaluepath) to understand how this works. You can also use the `/data` endpoint which is listed under the `RESTful API` guide on what type of values you can get.
+:::
 
 
 
@@ -84,11 +89,11 @@ Below are default / optional parameters you can use with the `polywarn` widget. 
 
 ### setAwaitPeriod
 - Description: How long after the last polywarn event playback you should wait in seconds for the next one to play.
-- Default (`number`): `20`
+- Default (`int`): `20`
 - Example: `/widgets/polywarn?setAwaitPeriod=15`
 
 ### setSearch
-- Description: What tracker node you want to use. (See: [location tracking](/configurations/sources.html#location-tracking))
+- Description: What tracker node you want to use. (See: [Location Tracking](/configurations/sources.html#location-tracking))
 - Default (`string/null`): `null`
 - Example: `/widgets/polywarn?setSearch=First Last Name`
 

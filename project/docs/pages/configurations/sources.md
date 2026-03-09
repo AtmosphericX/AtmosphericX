@@ -10,12 +10,11 @@ prev:
 
 <img src="/logo.png" alt="AtmosphericX Logo" width="200" style="display: block; margin: 0 auto;" />
 <small class="page-author">Written By: <b>KiyoWx</b> & <b>StarflightWx</b></small><br/>
-<small class="last-updated">Last Updated: <b>Feb 27th, 2026</b></small><br><br><br>
+<small class="last-updated">Last Updated: <b>Mar 9th, 2026</b></small><br><br><br>
 
 # Source Configurations
 ---
 The `sources.jsonc` file defines how AtmosphericX **collects, caches, and processes live weather and emergency data**.  
-
 
 ## Data Sources
 The **Data Sources** feature integrates with multiple meteorological systems and APIs to provide comprehensive data. These integrations include the National Weather Service (NWS) API and the NOAA Weather Wire Service, which deliver official forecasts, warnings, and operational weather information in near real time. Additional data feeds include Local Storm Reports (LSRs), storm track data, probability products, and official forecast outlooks.

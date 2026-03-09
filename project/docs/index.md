@@ -57,32 +57,37 @@ hero:
 		}
 	]
 	const gallery = [
-		{ src: '/assets/images/demos/d2.png', alt: 'Settings Panel', caption: 'Credits: KiyoWx (Demo Showcase v7)' },
-		{ src: '/assets/images/demos/d8.gif', alt: 'Settings Panel', caption: 'Credits: CJ Ziegler (03.06.26)' },
-		{ src: '/assets/images/demos/d9.gif', alt: 'Settings Panel', caption: 'Credits: CJ Ziegler (03.05.26)' },
-		{ src: '/assets/images/demos/d4.gif', alt: 'Settings Panel', caption: 'Credits: CJ Ziegler (01.21.26)' },
-		{ src: '/assets/images/demos/d5.gif', alt: 'Settings Panel', caption: 'Credits: AaronOnAir (06.05.26)' },
-		{ src: '/assets/images/demos/d7.gif', alt: 'Settings Panel', caption: 'Credits: CJ Zielger (02.14.26)' },
+		{ src: '/assets/images/demos/d2.png', alt: '', caption: 'Credits: KiyoWx (Demo Showcase v7)' },
+		{ src: '/assets/images/demos/d8.gif', alt: '', caption: 'Credits: CJ Ziegler (03.06.26)' },
+		{ src: '/assets/images/demos/d9.gif', alt: '', caption: 'Credits: CJ Ziegler (03.05.26)' },
+		{ src: '/assets/images/demos/d4.gif', alt: '', caption: 'Credits: CJ Ziegler (01.21.26)' },
+		{ src: '/assets/images/demos/d5.gif', alt: '', caption: 'Credits: AaronOnAir (06.05.26)' },
+		{ src: '/assets/images/demos/d7.gif', alt: '', caption: 'Credits: CJ Zielger (02.14.26)' },
 	]
 
-	const Gallery = {
-		props: ['items'],
-		template: `
-			<div class="gallery-container">
-				<div class="gallery-grid">
-					<figure v-for="(item, i) in items" :key="i" class="gallery-item">
-						<img :src="item.src" :alt="item.alt" class="gallery-image" @click="openModal(item.src)" />
-						<figcaption class="gallery-image-credit">{{ item.caption }}</figcaption>
-					</figure>
-				</div>
-			</div>
-		`
+	const history = [
+		{ src: '/assets/images/history/h1.gif', alt: '', caption: 'AtmosphericX v1 Interface (Released Sep. 2023)' },
+		{ src: '/assets/images/history/d2.png', alt: '', caption: 'AtmosphericX v1 Dashboard (Released Sep. 2023)' },
+		{ src: '/assets/images/not-found.png', alt: '', caption: 'AtmosphericX v2 (Released Dec. 2023)' },
+		{ src: '/assets/images/not-found.png', alt: '', caption: 'AtmosphericX v3 (Released Feb. 2024)' },
+		{ src: '/assets/images/history/d4.png', alt: '', caption: 'AtmosphericX v4 Interface (Released May. 2024)' },
+		{ src: '/assets/images/history/d3.png', alt: '', caption: 'AtmosphericX v4 Dashboard (Released May. 2024)' },
+		{ src: '/assets/images/history/d5.png', alt: '', caption: 'AtmosphericX v5 Dashboard (Released Jan. 2025)' },
+		{ src: '/assets/images/history/d6.png', alt: '', caption: 'AtmosphericX v6 Dashboard (Released Mar. 2025)' },
+		{ src: '/assets/images/history/d7.png', alt: '', caption: 'AtmosphericX v7 Dashboard (Released May. 2025)' },
+		{ src: '/assets/images/history/d8.png', alt: '', caption: 'AtmosphericX v7 Interface (Released May. 2025)' },
+		{ src: '/assets/images/history/d9.png', alt: '', caption: 'AtmosphericX v8 (beta) (Released March. 2026)' },
+		{ src: '/assets/images/demos/d8.gif', alt: '', caption: 'AtmosphericX v8 (beta) Widgets (Released March. 2026)' },
+	]
+
+	const Gallery = { props: ['items'],
+		template: `<div class="gallery-container"><div class="gallery-grid"><figure v-for="(item, i) in items" :key="i" class="gallery-item"><img :src="item.src" :alt="item.alt" class="gallery-image" @click="openModal(item.src)" /><figcaption class="gallery-image-credit">{{ item.caption }}</figcaption></figure></div></div>`
 	}
 </script>
 
 <VPTeamPageTitle>
   <template #lead>
-	AtmosphericX is a modern, modular, and powerful weather dashboard and widget project designed to be self hosted for live streaming, storm spotting, storm chasing, meteorologists, first responders, or curious individuals who are concerned about weather conditions and safety.
+	AtmosphericX is a modern, modular, and powerful weather dashboard and widget project designed to be self hosted for live streaming, storm spotting, storm chasing, meteorologists, first responders, and weather enthusiasts who want better visibility into current conditions and severe weather events.
   </template>
 </VPTeamPageTitle>
 
@@ -101,6 +106,29 @@ hero:
 		<img :src="modalImage" alt="Modal Image" />
 	</div>
 </div>
+
+<VPTeamPageTitle>
+  <template #title>AtmosphericX's History (2023-2026)</template>
+  <template #lead>
+    AtmosphericX has evolved significantly since its creation in late 2023, growing from a simple weather project into a comprehensive solution for weather enthusiasts and professionals alike.
+  </template>
+</VPTeamPageTitle>
+
+<div class="gallery-container">
+	<div class="gallery-grid">
+		<figure v-for="(item, i) in history" :key="i" class="gallery-item">
+			<img :src="item.src" :alt="item.alt" class="gallery-image" @click="openModal(item.src)" />
+			<figcaption class="gallery-image-credit">{{ item.caption }}</figcaption>
+		</figure>
+	</div>
+</div>
+
+<div v-if="modalImage" class="modal-overlay" @click="closeModal">
+	<div class="modal-content">
+		<img :src="modalImage" alt="Modal Image" />
+	</div>
+</div>
+
 
 
 <VPTeamPageTitle>

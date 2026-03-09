@@ -10,7 +10,7 @@ prev:
 
 <img src="/logo.png" alt="AtmosphericX Logo" width="200" style="display: block; margin: 0 auto;" />
 <small class="page-author">Written By: <b>KiyoWx</b></small><br/>
-<small class="last-updated">Last Updated: <b>Mar 4th, 2026</b></small><br><br><br>
+<small class="last-updated">Last Updated: <b>Mar 9th, 2026</b></small><br><br><br>
 
 
 # Alert Widget
@@ -27,6 +27,7 @@ Text to speech currently does not work when you enable `Control audio via OBS`. 
 - `?` is used when starting a query string in a URL.
 - `&` is used to append additional parameters to an existing query string.
 - `true` or `false` should be supplied depending on whether the parameter expects a boolean value.
+- All parameters are case sensitive meaning `setsearch != setSearch`
 
 Always follow the expected type and position of the parameter when constructing the widget settings.
 
@@ -50,21 +51,25 @@ Below are default values that you can use with `/widgets/alerts`. Visit [Global 
 - Default (`string`): `%properties.event% (%properties.agency ?? properties.action_type%)`
 - Example: `/widgets/alerts?setValuePath=%properties.event% (%properties.agency ?? properties.action_type%)`
 
+::: tip setValuePath Tips
+Please see [Understanding setValuePath](/pages/widgets/#understanding-setvaluepath) to understand how this works. You can also use the `/data` endpoint which is listed under the `RESTful API` guide on what type of values you can get.
+:::
+
 ## Local Parameters
 Below are default / optional parameters you can use with the `alert` widget. Please be sure to follow the default value type convention.
 
 ### setWx
 - Description: Whether to display `weather related` events through event queue.
 - Default (`boolean`): `true`
-- Example: `/widgets/alerts?setWx=(true/false)`
+- Example: `/widgets/alerts?setWx=true/false`
 
 ### setPulsePoint
 - Description: Whether to display `PulsePoint Respond` emergency events in the queue
 - Default (`boolean`): `false`
-- Example: `/widgets/alerts?setPulsePoint=(true/false)`
+- Example: `/widgets/alerts?setPulsePoint=true/false`
 
 ::: details PulsePoint Availability
-This setting requires an `API key` to use, so setting this to `true` wont autoamtically give you `911` CAD events.
+This setting requires an `API key` to use, so setting this to `true` won't automatically give you `911` CAD events.
 You can enable this feature in the [Sources.jsonc](../configurations/sources) with the path `sources.miscellaneous_settings.pulse_point`.
 :::
 
@@ -81,12 +86,12 @@ You can enable this feature in the [Sources.jsonc](../configurations/sources) wi
 ### setStreaming
 - Description: `Enable/Disable` the interface for the card system. This is particularly useful having only `sfx` if set to `false`.
 - Default (`boolean`): `true`
-- Example: `/widgets/alerts?setStreaming=(true/false)`
+- Example: `/widgets/alerts?setStreaming=true/false`
 
 ### setPlayback
 - Description: `Enable/Disable` the playback functionality for the widget. Essentially making it muted if set to `false`.
 - Default (`boolean`): `true`
-- Example: `/widgets/alerts?setPlayback=(true/false)`
+- Example: `/widgets/alerts?setPlayback=true/false`
 
 ### setSfx
 - Description: An optional way to override the default `beep` sfx sound effect with a predefined one. This is useful if you want to have a different sfx sound for a specific scene while having the backend still manage the default one.
@@ -109,7 +114,7 @@ Please make sure that your volume level is between `0.0-1.0` as going any lower 
 
 ## Examples
 ::: details Example 1
-- Prompt: Make an `alert` widget holds the event for `15` seconds, has a max event history of `25` minutes and sets the route header message to something like **Severe Thunderstorm Warning (Grand Junction, CO)** yet if not available default to the action type (`Updated/Issued/Upgraded`)
+- Prompt: Make an `alert` that holds the event for `15` seconds, has a max event history of `25` minutes and sets the route header message to something like **Severe Thunderstorm Warning (Grand Junction, CO)** yet if not available default to the action type (`Updated/Issued/Upgraded`)
 ```
 /widgets/alerts?setPauseTime=15&setMaxHistory=25&setValuePath=%properties.event% (%properties.sender_name ?? properties.action_type%)
 ```
@@ -123,7 +128,7 @@ Please make sure that your volume level is between `0.0-1.0` as going any lower 
 :::
 
 ::: details Example 3
-- Prompt: Make an `alert` widget that sets the `text allignment of the header to the center`, doesn't contain `event status`, and changes the `border radius to 1px`
+- Prompt: Make an `alert` widget that sets the `text alignment of the header to the center`, doesn't contain `event status`, and changes the `border radius to 1px`
 ```
 /widgets/alerts?setTextAlignment=center&setValuePath=%properties.event%&setBorderRadius=1
 ```

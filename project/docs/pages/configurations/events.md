@@ -10,13 +10,11 @@ prev:
 
 <img src="/logo.png" alt="AtmosphericX Logo" width="200" style="display: block; margin: 0 auto;" />
 <small class="page-author">Written By: <b>KiyoWx</b> & <b>StarflightWx</b></small><br/>
-<small class="last-updated">Last Updated: <b>Feb 27th, 2026</b></small><br><br><br>
+<small class="last-updated">Last Updated: <b>Mar 9th, 2026</b></small><br><br><br>
 
 # Event Configurations
 ---
-The `events.jsonc` file defines how AtmosphericX handles **weather and emergency alerts**.  
-
-Key functions include:
+The `events.jsonc` file defines how AtmosphericX handles **weather and emergency alerts**. This includes:
 
 - **Filtering Alerts:** Determine which alerts are monitored, prioritized, ignored, or restricted by ICAO code, UGC, state, or distance based geolocation.  
 - **Event Sounds & TTS:** Assign sound effects (issued, update, cancellation) and optional TTS formatting for dynamic audio notifications.  

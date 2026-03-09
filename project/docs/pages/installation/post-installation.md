@@ -9,24 +9,24 @@ prev:
 ---
 
 <img src="/logo.png" alt="AtmosphericX Logo" width="200" style="display: block; margin: 0 auto;" />
-<small class="page-author">Written By: <b>KiyoWx</b></small><br/>
-<small class="last-updated">Last Updated: <b>Feb 27th, 2026</b></small><br><br><br>
+<small class="page-author">Written By: <b>KiyoWx</b> & <b>StarflightWx</b></small><br/>
+<small class="last-updated">Last Updated: <b>Mar 9th, 2026</b></small><br><br><br>
 
 # Post Installation
 ---
-Congratulations on installing AtmosphericX! This guide walks you through post installation steps to get your instance running smoothly, including dashboard access, admin setup, and optional cdn hosting a with Cloudflare Tunnel.
+Congratulations on installing AtmosphericX! This guide walks you through the essential post-installation steps to get your instance running smoothly, including dashboard access, administrator setup, and optional CDN exposure using a Cloudflare Tunnel **if you have a domain configured**.
 
 ::: warning
 Please make sure your server is running with `start.sh` (if you have already built the project) before continuing
 :::
 
 ## Web Interface & Dashboard
-AtmosphericX provides a web based dashboard for easy management. To access the web interface and dashboard, open your preferred web browser of choice and navigate to [`http://localhost`](http://localhost) (default port is 80). If you are running AtmosphericX on a different port, make sure to adjust the URL accordingly.
+AtmosphericX provides a web-based dashboard for easy management. To access the web interface and dashboard, open your preferred web browser and navigate to [`http://localhost`](http://localhost) (default port is 80). If you are running AtmosphericX on a different computer or port, make sure to adjust the URL accordingly.
 
 ::: info
 Default URL: http://localhost:80
 
-During your first launch, you may be prompted to complete an initial setup wizard. Follow the on screen instructions to configure basic settings such as admin account creation.
+During your first launch, you may be prompted to complete an initial setup wizard. Follow the on-screen instructions to configure basic settings such as admin account creation.
 :::
 
 ::: warning Dashboard Status
@@ -34,21 +34,26 @@ The dashboard in this version is not yet fully completed. Some features may be u
 :::
 
 ## Authentication & Setup Wizard
-During the initial setup you will be prompted to create an administrator account with full access to AtmosphericX. When that prompt appears, enter the randomly generated authentication key that the setup page provides. The key is created automatically each time you open the setup page, remains valid only for the current setup session, and appears **once** in the console, so be sure to copy it before closing or refreshing the page. This step helps ensure secure access while your administrative account is being created.
 
-Once you are authenticated, you can proceed to create your admin account by providing a username and password. Make sure to choose a strong password to enhance security. A full video walk through of the authentication setup process is provided below for your convenience.
+During the initial setup, you will be prompted to create an **administrator account** with full access to AtmosphericX. When the prompt appears, enter the randomly generated **authentication key** provided by the setup page.
+
+The key is automatically generated each time the setup page is opened, remains valid only for the current setup session, and appears **once** in the server console. Be sure to copy the key before closing or refreshing the page. This step helps ensure that only someone with access to the server console can complete the initial administrator setup.
+
+Once authenticated, you can proceed to create your admin account by entering a username and password. Be sure to choose a **strong password** to enhance the security of your instance.
+
+A full video walkthrough of the authentication setup process is provided below for your convenience.
 
 ### Username Guidelines
-Your username can contain letters, numbers, underscores, hyphens, periods, or exclamation marks, and must be 3–20 characters long.
+Your username can contain **letters, numbers, underscores (`_`), hyphens (`-`), periods (`.`), or exclamation marks (`!`)**, and must be **3–20 characters long**.
 
 ### Password Guidelines
-Passwords can use letters, numbers, and many common special characters, and must be 4–50 characters long.
+Passwords may include **letters, numbers, and common special characters**, and must be **4–50 characters long**.
 
 ### TL;DR
-1. Open the web interface
-2. Copy the authentication key from the console. (`4 digits`)
-3. Paste it into the setup page.
-4. Create an admin account with a username and a `strong` password.
+1. Open the web interface.
+2. Copy the **4-digit authentication key** from the server console.
+3. Paste the key into the setup page.
+4. Create an admin account with a username and a **strong password**.
 
 ::: details Video Walkthrough
 
@@ -61,7 +66,7 @@ Passwords can use letters, numbers, and many common special characters, and must
 
 
 ## Cloudflare Tunnel Walkthrough
-Cloudflare provides a free service to have the ability to host your instance of AtmosphericX on the internet without needing a public IP address or port forwarding. This is especially useful for users who are behind NAT or have dynamic IP addresses. To get started, you'll need a Cloudflare account. If you don't have one, visit [cloudflare.com](https://www.cloudflare.com) and sign up for free.
+Cloudflare provides a free service that allows you to expose your AtmosphericX instance to the internet without requiring a public IP address or port forwarding. This is especially useful for users who are behind NAT or have dynamic IP addresses. To get started, you'll need a Cloudflare account. If you don't have one, visit [cloudflare.com](https://www.cloudflare.com) and sign up for a free account.
 
 ### Step 1: Install Cloudflare Tunnel
 Download and install `cloudflared` for your operating system:
@@ -95,7 +100,11 @@ cloudflared tunnel run <TUNNEL_NAME>
 ```
 
 ::: info
-Please ensure that your instance ip address to reachable from your machine. For local testing, use 127.0.0.1
+Please ensure that your instance IP address is reachable from your machine. For local testing, use `127.0.0.1`.
 :::
 
-Now you should be able to access your AtmosphericX instance by going directly to the tunnel you created. By default, CF will not cache anything AtmosphericX. If you wish for interface intructions, please refer to [Cloudflare's documentation](https://one.dash.cloudflare.com/) for more information.
+Now you should be able to access your AtmosphericX instance by going directly to the tunnel you created. By default, Cloudflare will not cache any AtmosphericX content. If you wish for interface instructions, please refer to [Cloudflare's documentation](https://one.dash.cloudflare.com/) for more information.
+
+::: tip
+Cloudflare Tunnels eliminate the need for router port forwarding and help protect your origin server by routing traffic through Cloudflare’s edge network.
+:::

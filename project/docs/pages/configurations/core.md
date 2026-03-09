@@ -10,13 +10,11 @@ prev:
 
 <img src="/logo.png" alt="AtmosphericX Logo" width="200" style="display: block; margin: 0 auto;" />
 <small class="page-author">Written By: <b>KiyoWx</b> & <b>StarflightWx</b></small><br/>
-<small class="last-updated">Last Updated: <b>Feb 27th, 2026</b></small><br><br><br>
+<small class="last-updated">Last Updated: <b>Mar 9th, 2026</b></small><br><br><br>
 
 # Core Configurations
 ---
-The `core.jsonc` file is the **central configuration file** for AtmosphericX. It controls the behavior of your entire instance, including:
-
-Key functions include:
+The `core.jsonc` file is the **central configuration file** for AtmosphericX. It controls the behavior of your entire instance. This includes:
 
 - **Web Hosting:** login requirements, HTTPS, ports, cache control, rate limiting, and account protection.  
 - **WebSocket Management:** connection limits, priority handling, and secondary sockets.  

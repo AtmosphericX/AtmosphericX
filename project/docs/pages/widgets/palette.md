@@ -10,7 +10,7 @@ prev:
 
 <img src="/logo.png" alt="AtmosphericX Logo" width="200" style="display: block; margin: 0 auto;" />
 <small class="page-author">Written By: <b>KiyoWx</b></small><br/>
-<small class="last-updated">Last Updated: <b>Mar 5th, 2026</b></small><br><br><br>
+<small class="last-updated">Last Updated: <b>Mar 9th, 2026</b></small><br><br><br>
 
 
 # Palette Widget
@@ -20,7 +20,7 @@ The `palette` widget dynamically adjusts a block's color theme based on event pr
 Please keep in mind that the `palette` widget should be **rarely** used as the `strings` widget can cover most if not all of the theme backgrounds with the `setElementThemed` parameter.
 
 ::: tip Theme Priority
-Theme priority works by having the top most event (`top most`) take precedence over subsequent events.
+Theme priority works by having the top-most event takes precedence over subsequent events.
 :::
 
 ::: info Parameter Rules
@@ -28,6 +28,7 @@ Theme priority works by having the top most event (`top most`) take precedence o
 - `?` is used when starting a query string in a URL.
 - `&` is used to append additional parameters to an existing query string.
 - `true` or `false` should be supplied depending on whether the parameter expects a boolean value.
+- All parameters are case sensitive meaning `setsearch != setSearch`
 
 Always follow the expected type and position of the parameter when constructing the widget settings.
 
@@ -36,7 +37,8 @@ Example URL: `/widgets/example?setWidgetParameter1=value1&setWidgetParameter2=va
 
 
 ## Global Parameters
-All `global` parameters are supported. Visit [Global Parameters](./index#global-parameters) to see a full list of all the global parameters. However `setElementThemed` is forced to `true`.
+All `global` parameters are supported. Visit [Global Parameters](./index#global-parameters) to see a full list of all the global parameters. However `setElementThemed` is forced to `true`. This parameter cannot be changed via the URL and is always enabled.
+
 
 ## Local Parameters
 There are currently **NO** local parameters for this widget.
@@ -45,7 +47,7 @@ There are currently **NO** local parameters for this widget.
 ## Examples
 
 ::: details Example 1
-- Prompt: Make a `rounded box with about 125px of roundness` that has a `smooth color changing animation` and `animates for 3.5 seonds`.
+- Prompt: Make a `rounded box with about 125px of roundness` that has a `smooth color changing animation` and `animates for 3.5 seconds`.
 ```
 /widgets/palette?setBorderRadius=125&setBackgroundAnimated=true&setAnimationStartDuration=3.5
 ```
@@ -56,3 +58,4 @@ There are currently **NO** local parameters for this widget.
 ```
 /widgets/palette?setThemeType=secondary
 ```
+:::

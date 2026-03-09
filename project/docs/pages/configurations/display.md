@@ -10,13 +10,11 @@ prev:
 
 <img src="/logo.png" alt="AtmosphericX Logo" width="200" style="display: block; margin: 0 auto;" />
 <small class="page-author">Written By: <b>KiyoWx</b> & <b>StarflightWx</b></small><br/>
-<small class="last-updated">Last Updated: <b>Feb 27th, 2026</b></small><br><br><br>
+<small class="last-updated">Last Updated: <b>Mar 9th, 2026</b></small><br><br><br>
 
 # Display Configurations
 ---
-The `display.jsonc` file controls the **layout, positioning, and behavior** of the AtmosphericX terminal interface.  
-
-Key functions include:
+The `display.jsonc` file controls the **layout, positioning, and behavior** of the AtmosphericX terminal interface. This includes:
 
 - **Fancy Interface Mode:** Toggle the optional enhanced UI experience.  
 - **UI Components:** Configure individual windows such as the intro screen, logging window, system info panel, active sessions panel, and events window.  

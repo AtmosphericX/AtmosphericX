@@ -10,13 +10,11 @@ prev:
 
 <img src="/logo.png" alt="AtmosphericX Logo" width="200" style="display: block; margin: 0 auto;" />
 <small class="page-author">Written By: <b>KiyoWx</b> & <b>StarflightWx</b></small><br/>
-<small class="last-updated">Last Updated: <b>Feb 27th, 2026</b></small><br><br><br>
+<small class="last-updated">Last Updated: <b>Mar 9th, 2026</b></small><br><br><br>
 
 # Placefile Configurations
 ---
-The `placefiles.jsonc` configuration file defines how AtmosphericX generates, caches, and distributes dynamic **GRLevelX compatible placefile layers** for radar and mapping software.  
-
-Key functions include:
+The `placefiles.jsonc` configuration file defines how AtmosphericX generates, caches, and distributes dynamic **GRLevelX compatible placefile layers** for radar and mapping software. This includes:
 
 - The `placefile_settings` section controls a **global cache duration**, which determines how long placefiles are stored before being regenerated, balancing **performance** with **near real-time accuracy**.  
 - Each data layer including **events, tracking, discussions, live streams, and PulsePoint**. This can be individually enabled or disabled, allowing you to control which endpoints are publicly exposed.  

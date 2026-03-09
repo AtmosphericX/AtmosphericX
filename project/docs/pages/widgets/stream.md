@@ -15,7 +15,7 @@ prev:
 
 # Stream Widget
 ---
-The `streams` widget gathers `IoT` feeds from [SDS Weather](https://www.sdsweather.com/) and other available sources to provide feeds throughout the US and it's territories.
+The `streams` widget gathers `IoT` feeds from [SDS Weather](https://www.sdsweather.com/) and other available sources to provide feeds throughout the US and its territories.
 
 ::: danger Rebroadcasting Policy
 Under applicable copyright law, **explicit permission is required** before rebroadcasting any feeds originating from `sdsweather.com`.
@@ -33,6 +33,7 @@ Unauthorized rebroadcasting, redistribution, or public display of these feeds ma
 - `?` is used when starting a query string in a URL.
 - `&` is used to append additional parameters to an existing query string.
 - `true` or `false` should be supplied depending on whether the parameter expects a boolean value.
+- All parameters are case sensitive meaning `setsearch != setSearch`
 
 Always follow the expected type and position of the parameter when constructing the widget settings.
 
@@ -41,7 +42,7 @@ Example URL: `/widgets/example?setWidgetParameter1=value1&setWidgetParameter2=va
 
 
 ## Global Parameters
-Below are default values that you can use with `/widgets/streams`. Visit [Global Parameters](./index#global-parameters) to see a full list of all the global parameters. Global theme (`setElementThemed`) will only be applicable to the title of the feed.
+Below are default values that you can use with `/widgets/streams`. Visit [Global Parameters](./index#global-parameters) to see a full list of all the global parameters. Global theme (`setElementThemed`) will only be applicable to the title of the feed and it completely optional.
 
 ### setTextPlaceholder
 - Default (`string`): `No streams available`
@@ -51,24 +52,28 @@ Below are default values that you can use with `/widgets/streams`. Visit [Global
 - Default (`string/path/null`): `%properties.name% (%properties.location ?? properties.source%)`
 - Example: `/widgets/streams?setValuePath=properties.name`
 
+::: tip setValuePath Tips
+Please see [Understanding setValuePath](/pages/widgets/#understanding-setvaluepath) to understand how this works. You can also use the `/data` endpoint which is listed under the `RESTful API` guide on what type of values you can get.
+:::
+
 
 ## Local Parameters
 Below are default / optional parameters you can use with the `streams` widget. Please be sure to follow the default value type convention.
 
 ### setRefreshTime
-- Description: How often the stream changes if `applicable`
+- Description: How often the feed updates when not static.
 - Default (`int`): `15`
 - Example: `/widgets/streams?setRefreshTime=10`
 
 ### setTextComponents
-- Description: If you should show the title and other details about the feed.
+- Description: Whether to show the title and other details about the feed.
 - Default (`boolean`): `true`
-- Example: `/widgets/streams?setTextComponents=(true/false)`
+- Example: `/widgets/streams?setTextComponents=true/false`
 
 ### setStreamSource
 - Description: The source of the stream to display.
 - Default (`string`): `*`
-- Example: `/widgets/streams?setStreamSource=(USER/DEVICE/*)`
+- Example: `/widgets/streams?setStreamSource=USER/DEVICE/*`
 
 ### setStreamBufferDelay
 - Description: How many completed downloads to buffer before starting playback.
@@ -78,10 +83,10 @@ Below are default / optional parameters you can use with the `streams` widget. P
 ### setStreamMuted
 - Description: Enable/Disable audio playback from the feed
 - Default (`boolean`): `true`
-- Example: `/widgets/streams?setStreamMuted=(true/false)`
+- Example: `/widgets/streams?setStreamMuted=true/false`
 
 ### setSearch
-- Description: What tracker node you want to use. (See: [location tracking](/configurations/sources.html#location-tracking))
+- Description: What tracker node you want to use. (See: [Location Tracking](/configurations/sources.html#location-tracking))
 - Default (`string/null`): `null`
 - Example: `/widgets/streams?setSearch=First Last Name`
 
@@ -91,20 +96,20 @@ Below are default / optional parameters you can use with the `streams` widget. P
 - Example: `/widgets/streams?setLatitude=40.7128&setLongitude=-74.0060`
 
 ### setRadius
-- Description: Filter feeds by a circular area defined by a center point and radius given by `setLatitude` and `setLongitude`
+- Description: Filter feeds by a circular area defined by a center point and radius given by `setLatitude` and `setLongitude`.
 - Default (`float/null`): `null`
 - Example: `/widgets/streams?setLatitude=40.7128&setLongitude=-74.0060&setRadius=10`
 
 ## Examples
 ::: details Example 1
-- Prompt: Create a feed that specifically looks for all `USER (Storm Chasing) feeds` and `disable feed data`
+- Prompt: Create a feed that specifically looks for all `USER (Storm Chasing) feeds` and `disable feed data`.
 ```
 /widgets/streams?setStreamSource=USER&setTextComponents=false
 ```
 :::
 
 ::: details Example 2
-- Prompt: Find a feed `by name` and only display that
+- Prompt: Find a feed `by name` and only display that.
 ```
 /widgets/streams?setSearch=Feed Name
 ```
