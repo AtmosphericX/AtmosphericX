@@ -58,7 +58,7 @@ export default defineConfig({
 					{ text: "Widget Introduction", link: "/pages/widgets/index" },
 					{ text: "Alert Widget", link: "/pages/widgets/alerts" },
 					{ text: "Palette Widget", link: "/pages/widgets/palette" },
-					{ text: "Polywarn Widget [todo]", link: "/pages/widgets/polywarn" },
+					{ text: "Polywarn Widget", link: "/pages/widgets/polywarn" },
 					{ text: "Stream Widget [todo]", link: "/pages/widgets/streams" },
 					{ text: "Strings Widget [todo]", link: "/pages/widgets/strings" },
 				]
