@@ -77,7 +77,7 @@ hero:
 		{ src: '/assets/images/history/c7.png', alt: '', caption: 'AtmosphericX v7 Dashboard (Released May. 2025)' },
 		{ src: '/assets/images/history/c8.png', alt: '', caption: 'AtmosphericX v7 Interface (Released May. 2025)' },
 		{ src: '/assets/images/history/c9.png', alt: '', caption: 'AtmosphericX v8 (beta) (Released March. 2026)' },
-		{ src: '/assets/images/demos/c8.gif', alt: '', caption: 'AtmosphericX v8 (beta) Widgets (Released March. 2026)' },
+		{ src: '/assets/images/demos/d8.gif', alt: '', caption: 'AtmosphericX v8 (beta) Widgets (Released March. 2026)' },
 	]
 
 	const Gallery = { props: ['items'],
