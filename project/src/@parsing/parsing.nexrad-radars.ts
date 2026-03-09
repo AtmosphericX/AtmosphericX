@@ -17,7 +17,7 @@
 
 import * as types from '../@dictionaries/types';
 
-export const parse = (body) => {
+export const parse = (body: Record<string, unknown>) => {
     const structure: types.GeoJSONFeatureCollection = {
         type: `FeatureCollection`,
         features: []

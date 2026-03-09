@@ -33,7 +33,7 @@ type SPCDiscussionTypes = {
     properties: LocalSPCDiscussionProperties; 
 }
 
-export const parse = (body: string) => {
+export const parse = (body: Record<string, string>[]) => {
     const structure: types.GeoJSONFeatureCollection = { type: 'FeatureCollection', features: [] };
     loader.packages.PlacefileManager.parseGeoJSON(body).then(parsed => {
         parsed as SPCDiscussionTypes[];

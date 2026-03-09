@@ -14,7 +14,7 @@
 
 */
 
-export const parse = (body) => {
+export const parse = (body: Record<string, string>[]) => {
     return body.map(feature => feature as Record<string, string>);
 };
 

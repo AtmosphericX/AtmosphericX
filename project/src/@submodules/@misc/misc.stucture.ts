@@ -55,17 +55,39 @@ export class Structure {
     private async parse(body?: unknown, type?: string): Promise<unknown> {
         try {
             switch (type) {
-                case 'spotter_network': { return await spotterNetwork.parse(body as Record<string, string>); }
-                case 'spotter_reports': { return await spotterReports.parse(body as Record<string, string>); }
-                case 'iot_streams': { return await iotStreams.parse(body as Record<string, string>); }
-                case 'power_outages': { return await powerOutages.parse(body as Record<string, string>); }
-                case 'grlevelx_reports': { return await gibsonReports.parse(body as string); }
-                case 'mesoscale_discussions': { return await mesoscaleDiscussions.parse(body as string); }
-                case 'tropical_storm_tracks': { return await tropicalStorms.parse(body as string); }
-                case 'probability': { return await svrProbabilties.parse(body as string); }
-                case 'sonde_project_weather_eye': { return await wxEye.parse(body as string); }
-                case 'nexrad_radars': { return await nexradRadars.parse(body as string); }
-                case 'wx_radio': { return await wxRadio.parse(body as string); }
+                case 'spotter_network': { 
+                    return spotterNetwork.parse(body as Record<string,string>)
+                }
+                case 'spotter_reports': { 
+                    return spotterReports.parse(body as Record<string, string>); 
+                }
+                case 'iot_streams': { 
+                    return iotStreams.parse(body as Record<string, string>); 
+                }
+                case 'power_outages': { 
+                    return powerOutages.parse(body as Record<string, string>); 
+                }
+                case 'grlevelx_reports': { 
+                    return gibsonReports.parse(body as string); 
+                }
+                case 'mesoscale_discussions': { 
+                    return mesoscaleDiscussions.parse(body as Record<string, string>[]) 
+                }
+                case 'tropical_storm_tracks': {
+                    return tropicalStorms.parse(body as Record<string, string>[]);
+                }
+                case 'nexrad_radars': { 
+                    return nexradRadars.parse(body as Record<string, string>); 
+                }
+                case 'wx_radio': { 
+                    return wxRadio.parse(body as Record<string, string>); 
+                }
+                case 'probability': { 
+                    return await svrProbabilties.parse(body as string); }
+
+                case 'sonde_project_weather_eye': { 
+                    return await wxEye.parse(body as Record<string, string>[]);
+                }
                 default: return [];
             }
         } catch (error) {

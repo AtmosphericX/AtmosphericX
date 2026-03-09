@@ -14,7 +14,7 @@
 
 */
 
-export const parse = (body) => {
+export const parse = (body: Record<string, string>) => {
     return [
         {
             type: `Feature`,
