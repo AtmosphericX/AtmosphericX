@@ -57,12 +57,12 @@ hero:
 		}
 	]
 	const gallery = [
-		{ src: '/assets/images/demos/d2.png', alt: 'Settings Panel', caption: 'KiyoWx - Demo Showcase (v7)' },
-		{ src: '/assets/images/demos/d8.gif', alt: 'Settings Panel', caption: 'KiyoWx - Demo Showcase (v8)' },
-		{ src: '/assets/images/demos/d3.png', alt: 'Settings Panel', caption: 'KiyoWx - Demo Showcase v2.1 (v8)' },
-		{ src: '/assets/images/demos/d4.gif', alt: 'Settings Panel', caption: 'CJ Ziegler - Live Storm Chasing (v7)' },
-		{ src: '/assets/images/demos/d5.gif', alt: 'Settings Panel', caption: 'AaronOnAir - Live Storm Chase (v7)' },
-		{ src: '/assets/images/demos/d7.gif', alt: 'Settings Panel', caption: 'CJ Ziegler - Live Storm Chase (v8)' },
+		{ src: '/assets/images/demos/d2.png', alt: 'Settings Panel', caption: 'Credits: KiyoWx (Demo Showcase v7)' },
+		{ src: '/assets/images/demos/d8.gif', alt: 'Settings Panel', caption: 'Credits: CJ Ziegler (03.06.26)' },
+		{ src: '/assets/images/demos/d9.gif', alt: 'Settings Panel', caption: 'Credits: CJ Ziegler (03.05.26)' },
+		{ src: '/assets/images/demos/d4.gif', alt: 'Settings Panel', caption: 'Credits: CJ Ziegler (01.21.26)' },
+		{ src: '/assets/images/demos/d5.gif', alt: 'Settings Panel', caption: 'Credits: AaronOnAir (06.05.26)' },
+		{ src: '/assets/images/demos/d7.gif', alt: 'Settings Panel', caption: 'Credits: CJ Zielger (02.14.26)' },
 	]
 
 	const Gallery = {
