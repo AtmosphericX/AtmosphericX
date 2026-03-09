@@ -66,18 +66,18 @@ hero:
 	]
 
 	const history = [
-		{ src: '/assets/images/history/h1.gif', alt: '', caption: 'AtmosphericX v1 Interface (Released Sep. 2023)' },
-		{ src: '/assets/images/history/d2.png', alt: '', caption: 'AtmosphericX v1 Dashboard (Released Sep. 2023)' },
+		{ src: '/assets/images/history/c1.gif', alt: '', caption: 'AtmosphericX v1 Interface (Released Sep. 2023)' },
+		{ src: '/assets/images/history/c2.png', alt: '', caption: 'AtmosphericX v1 Dashboard (Released Sep. 2023)' },
 		{ src: '/assets/images/not-found.png', alt: '', caption: 'AtmosphericX v2 (Released Dec. 2023)' },
 		{ src: '/assets/images/not-found.png', alt: '', caption: 'AtmosphericX v3 (Released Feb. 2024)' },
-		{ src: '/assets/images/history/d4.png', alt: '', caption: 'AtmosphericX v4 Interface (Released May. 2024)' },
-		{ src: '/assets/images/history/d3.png', alt: '', caption: 'AtmosphericX v4 Dashboard (Released May. 2024)' },
-		{ src: '/assets/images/history/d5.png', alt: '', caption: 'AtmosphericX v5 Dashboard (Released Jan. 2025)' },
-		{ src: '/assets/images/history/d6.png', alt: '', caption: 'AtmosphericX v6 Dashboard (Released Mar. 2025)' },
-		{ src: '/assets/images/history/d7.png', alt: '', caption: 'AtmosphericX v7 Dashboard (Released May. 2025)' },
-		{ src: '/assets/images/history/d8.png', alt: '', caption: 'AtmosphericX v7 Interface (Released May. 2025)' },
-		{ src: '/assets/images/history/d9.png', alt: '', caption: 'AtmosphericX v8 (beta) (Released March. 2026)' },
-		{ src: '/assets/images/demos/d8.gif', alt: '', caption: 'AtmosphericX v8 (beta) Widgets (Released March. 2026)' },
+		{ src: '/assets/images/history/c4.png', alt: '', caption: 'AtmosphericX v4 Interface (Released May. 2024)' },
+		{ src: '/assets/images/history/c3.png', alt: '', caption: 'AtmosphericX v4 Dashboard (Released May. 2024)' },
+		{ src: '/assets/images/history/c5.png', alt: '', caption: 'AtmosphericX v5 Dashboard (Released Jan. 2025)' },
+		{ src: '/assets/images/history/c6.png', alt: '', caption: 'AtmosphericX v6 Dashboard (Released Mar. 2025)' },
+		{ src: '/assets/images/history/c7.png', alt: '', caption: 'AtmosphericX v7 Dashboard (Released May. 2025)' },
+		{ src: '/assets/images/history/c8.png', alt: '', caption: 'AtmosphericX v7 Interface (Released May. 2025)' },
+		{ src: '/assets/images/history/c9.png', alt: '', caption: 'AtmosphericX v8 (beta) (Released March. 2026)' },
+		{ src: '/assets/images/demos/c8.gif', alt: '', caption: 'AtmosphericX v8 (beta) Widgets (Released March. 2026)' },
 	]
 
 	const Gallery = { props: ['items'],
