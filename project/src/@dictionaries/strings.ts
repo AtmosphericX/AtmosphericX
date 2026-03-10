@@ -35,6 +35,7 @@ export const h_strings: Record<string, any> = {
         portal_direct_path: `/www/pages/portal.html`,
         setup_direct_path: `/www/pages/setup.html`,
         dashboard_direct_path: `/www/pages/dashboard.html`,
+        dashboard_dev_path: `/www/pages/dev.html`,
         unknown_direct_path: `/www/pages/404.html`,
         widgets_direct_path:`/www/widgets/`,
         get_dashboard_endpoint: [`/`],

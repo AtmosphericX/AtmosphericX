@@ -79,3 +79,4 @@
 /* Interactions */
 .hover { transition: all 0.5s ease-in-out; } .hover:hover { transform: translateY(-3px); }
 .hover-light { transition: all 0.5s ease-in-out; filter: brightness(1) } .hover-light:hover { filter: brightness(2); }
+.hover-pointer { cursor: pointer; }

@@ -29,6 +29,27 @@ export class Init {
         });
         const getRoutes = loader.strings.route_locations;
         const storage = loader.packages.path.resolve(`..`, `storage`);
+        this.server.get(`/dev`, async (request: types.ExpressRequest, response: types.ExpressResponse) => {
+            const tick = performance.now();
+            const configurations = loader.modules.utilities.cfg();
+            const documentation = configurations.web_hosting_settings?.documentation_mode ?? false;
+            if (documentation) { 
+                return response.redirect(`/documentation`);
+            }
+            loader.modules.utilities.log({
+                title: `${this.ansi_colors.GREEN}${this.name_space}${this.ansi_colors.RESET}`,
+                message: `GET ${getRoutes.get_dashboard_endpoint} - ${(performance.now() - tick).toFixed(2)}ms`
+            });
+            return response.sendFile(`${storage}${getRoutes.dashboard_dev_path}`, { 
+                headers: { 
+                    'Cache-Control': 'private, no-store, max-age=0, must-revalidate', 
+                    'Pragma': 'no-cache', 'Expires': '0', 
+                    'Surrogate-Control': 'no-store', 'Vary': 'Cookie', 
+                    'Last-Modified': new Date(0).toUTCString() 
+                }, etag: false 
+            });
+        })
+
         this.server.get(getRoutes.get_dashboard_endpoint, async (request: types.ExpressRequest, response: types.ExpressResponse) => {
             try {
                 const tick = performance.now();
