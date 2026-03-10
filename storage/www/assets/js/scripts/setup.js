@@ -20,7 +20,7 @@ window.addEventListener('DOMContentLoaded', () => {
     utils.socket(["version", "announcement"]);
     const forms = [`setup`, `creation`];
     const getHour = () => new Date().getHours();
-    if (getHour() >= 21) {
+    if (getHour() >= 21 && getHour() <= 6) {
         document.getElementsByClassName('background')[0].style.backgroundImage = "url('https://weather.cod.edu/data/satellite/background/background.11.jpg')";
     }
     forms.forEach(id => {
