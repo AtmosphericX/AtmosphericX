@@ -129,7 +129,6 @@
             })
             async function cb() { 
                 await handler.hSyncEvents(settings);
-                await handler.hSyncQueue(settings);
                 const features = [
                     ...Object.values(utils?.storage?.events?.features || {}),
                 ];
@@ -163,6 +162,7 @@
                         window.location.href = url;
                     });
                 }
+                await handler.hSyncQueue(settings);
             }
         })
     </script>
