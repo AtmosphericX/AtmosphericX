@@ -149,7 +149,7 @@
                         <div class="widget-card-meta"><b>Damage:</b> ${properties?.parameters?.damage_threat ?? `--`}</div>
                         <div class="widget-card-meta"><b>Flood:</b> ${properties?.parameters?.flood_detection ?? `--`}</div>
                         <div class="widget-card-meta"><b>Locations:</b> ${properties?.locations ?? `--`}</div>
-                        <div class="widget-card-meta"><b>Distance:</b> ${properties?.imported?.spotters[0]?.metadata?.distance ?? `--`} ${properties?.imported?.spotters[0]?.units ?? ``}</div>
+                        <div class="widget-card-meta"><b>Distance:</b> ${properties?.imported?.spotters[0]?.metadata?.distance ?? `--`} ${properties?.imported?.spotters[0]?.unit ?? ``}</div>
                     `;
                     container.prepend(card);
                     card.addEventListener('click', () => {
