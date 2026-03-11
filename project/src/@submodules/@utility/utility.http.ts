@@ -115,22 +115,22 @@ export class Calling {
             let options = {
                 headers: { 'User-Agent': `AtmosphericX-Agent/${loader.cache.external.version}` }
             }
-            if (settings?.headers) { options.headers = { ...options.headers, ...settings.headers }; }
-            if (settings?.method) { options['method'] = settings.method; }
-            if (settings?.body) { options['body'] = settings.body; }
+            if (settings.headers) { options.headers = { ...options.headers, ...settings.headers }; }
+            if (settings.method) { options['method'] = settings.method; }
+            if (settings.body) { options['body'] = settings.body; }
             const response = await loader.modules.utilities.httpRequest(url, options);
-            if (response?.error) {
+            if (response.error) {
                 if (fallbackUrls?.length) {
                     for (const fallbackUrl of fallbackUrls) {
                         const fallbackResponse = await loader.modules.utilities.httpRequest(fallbackUrl, options);
-                        if (!fallbackResponse?.error) {
+                        if (!fallbackResponse.error) {
                             return fallbackResponse;
                         }
                     }
                 }
                 return { error: true, message: `Error fetching data from ${url} with message: ${response.message}`,  };
             }
-            return { error: false, message: response?.message ?? response, };
+            return { error: false, message: response.message ?? response };
         } catch (error) {
             loader.modules.utilities.exception(error, this.name_space + `.getDataFromSource`);
             return { error: true, message: `Exception fetching data from ${url}`,  };
@@ -152,7 +152,7 @@ export class Calling {
         try {
             loader.modules.utilities.configurations();
             const cfg = loader.modules.utilities.cfg();
-            const documentation = cfg.web_hosting_settings?.documentation_mode ?? false;
+            const documentation = cfg?.web_hosting_settings?.documentation_mode ?? false;
             if (documentation) return;
             const clock = Date.now();
             const tick = performance.now();

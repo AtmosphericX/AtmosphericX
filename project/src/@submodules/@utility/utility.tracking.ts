@@ -67,7 +67,7 @@ export class Tracking {
             const now = Date.now();
             const expiryMs = cfg.sources.location_settings.expiry_time * 1000;
             const icao = this.getNearestICAO(coordinates);
-            const existing = features.find((loc: LocationFilter) => loc?.properties?.name === name);
+            const existing = features.find((node: LocationFilter) => node?.properties?.name === name);
             if (!existing) {
                 features.push({
                     type: "Feature",
@@ -88,8 +88,8 @@ export class Tracking {
                 existing.properties.icao = icao;
                 existing.properties.last_updated = new Date();
             }
-            loader.cache.external.tracking.features = features.filter((loc: LocationFilter) => {
-                const updated = new Date(loc?.properties?.last_updated).getTime();
+            loader.cache.external.tracking.features = features.filter((node: LocationFilter) => {
+                const updated = new Date(node?.properties?.last_updated).getTime();
                 return now - updated < expiryMs;
             });
             loader.modules.utilities.log({
@@ -114,12 +114,11 @@ export class Tracking {
      */
     public getNearestICAO(coordinates: types.LatitudeLongitude): string | null {
         try {
-            const sites = loader.cache.external.radars;
-            const features = sites?.features;
+            const features = loader.cache.external.radars.features;
             if (!Array.isArray(features) || features.length === 0) return null;
-            const distances = features.map((site: Site) => {
-                const [lon, lat] = site.geometry?.coordinates ?? [];
-                const icao = site.properties?.id ?? null;
+            const distances = features.map((nexrad: Site) => {
+                const [lon, lat] = nexrad?.geometry?.coordinates ?? [];
+                const icao = nexrad?.properties?.id ?? null;
                 if (!Number.isFinite(lon) || !Number.isFinite(lat) || !icao) return null;
                 const miles = loader.modules.calculations.distanceBetweenPoints(
                     { lat: coordinates.latitude, lon: coordinates.longitude },
@@ -159,7 +158,7 @@ export class Tracking {
             const target = Array.isArray(features)
                 ? features[0] : features[Object.keys(features)[0]];
             if (!target) return;
-            const [lon, lat] = target.geometry?.coordinates ?? [];
+            const [lon, lat] = target.geometry.coordinates ?? [];
             if (typeof lon !== "number" || typeof lat !== "number") return;
             const locationUrl = loader.endpoints.map_api
                 .replace("${X}", lat)
@@ -167,17 +166,17 @@ export class Tracking {
             const weatherUrl = loader.endpoints.mesonet_api
                 .replace("${X}", lat)
                 .replace("${Y}", lon);
-            const locationData = await loader.modules.utilities.httpRequest(locationUrl);
-            const address = locationData?.message?.address ?? {};
+            const getAddress = await loader.modules.utilities.httpRequest(locationUrl);
+            const address = getAddress?.message?.address ?? {};
             const county = address.county ?? "";
             const state = address.state ?? "";
             target.properties.location = `${county}, ${state}`.trim().replace(/^,|,$/g, "");
             target.properties.icao = this.getNearestICAO({ latitude: lat, longitude: lon });
             if (!cfg.sources.miscellaneous_settings.tempest_station.enabled) {
-                const weatherData = await loader.modules.utilities.httpRequest(weatherUrl);
-                const main = weatherData?.message?.main;
-                const wind = weatherData?.message?.wind;
-                const wx = weatherData?.message?.weather?.[0];
+                const getMesodata = await loader.modules.utilities.httpRequest(weatherUrl);
+                const main = getMesodata?.message?.main;
+                const wind = getMesodata?.message?.wind;
+                const wx = getMesodata?.message?.weather?.[0];
                 loader.cache.external.mesonet.features = parse({
                     longitude: lon,
                     latitude: lat,
@@ -197,7 +196,7 @@ export class Tracking {
                 if (station) {
                     loader.cache.handlers.tempest_client.setSettings({
                         stationId: station.id,
-                        deviceId: station.properties.devices?.[0] ?? null
+                        deviceId: station?.properties?.devices?.[0] ?? null
                     });
                 }
             }

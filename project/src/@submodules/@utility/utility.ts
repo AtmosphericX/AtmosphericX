@@ -124,13 +124,13 @@ export class Utility {
      */
     public async log(options: LogOptions): Promise<void> {
         const { ansi_colors } = this;
-        const title = options?.title ?? `${ansi_colors.RED}[${this.name_space}]${ansi_colors.RESET}`;
-        const message = options?.message ?? `No Message Provided`;
+        const title = options.title ?? `${ansi_colors.RED}[${this.name_space}]${ansi_colors.RESET}`;
+        const message = options.message ?? `No Message Provided`;
         const timestamp = new Date().toLocaleString();
         const logFileName = new Date().toISOString().split('T')[0];
-        const isConsole = options?.settings?.console ?? true;
-        const isFile = options?.settings?.file ?? false;
-        const logType = options?.settings?.type ?? `__console__`;
+        const isConsole = options.settings?.console ?? true;
+        const isFile = options.settings?.file ?? false;
+        const logType = options.settings?.type ?? `__console__`;
         if (isConsole) {
             loader.cache.internal.logs[logType].push({ title: title, message: message, timestamp: timestamp})
             if (loader.cache.internal.logs[logType].length > this.getMaxLogLines()) {
@@ -349,7 +349,7 @@ export class Utility {
         try {
             const configurations = this.cfg();
             const tVersion = this.version();
-            const documentation = configurations.web_hosting_settings?.documentation_mode ?? false;
+            const documentation = configurations?.web_hosting_settings?.documentation_mode ?? false;
             const oFeed = await this.httpRequest(configurations?.internal_settings?.feed_url);
             const oVersion = await this.httpRequest(`https://raw.githubusercontent.com/${configurations?.internal_settings?.version_url}`);
             const latestVersion = oVersion.message.trim().replace(/\n/g, '');
@@ -539,7 +539,7 @@ export class Utility {
         try {
             if (!settings?.enabled || !settings?.discord_webhook) return;
             if (!settings?.discord_webhook.startsWith("https://")) return;
-            const cooldown = (settings?.webhook_cooldown ?? 5) * 1000;
+            const cooldown = (settings.webhook_cooldown ?? 5) * 1000;
             if (this.isLimited(`webhook.${settings?.discord_webhook}`, 2, cooldown)) return;
             if (message.length > 1900) {
                 message = message.substring(0, 1900) + "\n\n[Message truncated due to length]";
@@ -554,8 +554,8 @@ export class Utility {
                 footer: { text: title }
             };
             await loader.packages.axios.post(settings?.discord_webhook, {
-                username: settings?.webhook_display ?? "AtmosphericX Alerts",
-                content: settings?.content ?? "",
+                username: settings.webhook_display ?? "AtmosphericX Alerts",
+                content: settings.content ?? "",
                 embeds: [embed],
                 timeout: 2000
             });

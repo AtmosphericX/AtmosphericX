@@ -111,14 +111,14 @@ export class Structure {
         try {
             const configurations = loader.modules.utilities.cfg();
             const name = event?.properties?.event;
-            const isPriority = configurations.filters.priority_events.some(e => e.toLowerCase() === name.toLowerCase());
-            const isBeepAuthorizedOnly = configurations.filters.sfx_beep_only;
-            const isShowingUpdatesAllowed = configurations.filters.show_updates;
+            const isPriority = configurations?.filters?.priority_events.some(e => e.toLowerCase() === name.toLowerCase());
+            const isBeepAuthorizedOnly = configurations?.filters?.sfx_beep_only;
+            const isShowingUpdatesAllowed = configurations?.filters?.show_updates;
             const isBeepOnly = isBeepAuthorizedOnly && !isPriority;
             const isIgnored = !isShowingUpdatesAllowed && !isPriority && !event?.properties?.is_issued;
-            const theme = configurations.themes[event?.properties?.event]
-                ?? configurations.themes[event?.properties?.parent]
-                ?? configurations.themes[`Default`];
+            const theme = configurations?.themes?.[event?.properties?.event]
+                ?? configurations?.themes?.[event?.properties?.parent]
+                ?? configurations?.themes?.[`Default`];
             event.properties.imported = { 
                 ignored: isIgnored,
                 beep_only: isBeepOnly,

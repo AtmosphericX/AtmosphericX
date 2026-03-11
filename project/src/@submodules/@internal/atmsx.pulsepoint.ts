@@ -90,7 +90,7 @@ export class ATMSXPulsePoint {
             this.mgr.on(`onIncidentUpdate`, async (event) => {
                 const ev = JSON.parse(JSON.stringify(event))
                 const pulse = loader.cache.external.pulsepoint;
-                const index = pulse ? pulse.features.findIndex((f: types.PulsePointFeatures) => f?.properties?.ID === ev.properties?.ID) : -1;
+                const index = pulse ? pulse.features.findIndex((feature: types.PulsePointFeatures) => feature?.properties?.ID === ev.properties?.ID) : -1;
                 const expired = ev.properties?.expires != null;
                 if (index === -1) { ev.properties.is_issued = true; }
                 if (index !== -1) { 

@@ -82,14 +82,14 @@ export class Streaming {
             loader.cache.handlers.bot_client = await new this.pkg({...settings,
                 onConnect: async () => {
                     const broadcaster = await loader.cache.handlers.bot_client.getBroadcaster();
-                    this.service = broadcaster?.connected[0] ?? null;
+                    this.service = broadcaster?.connected?.[0] ?? null;
                     this.is_bot_account = settings.is_bot;
                     this.events = settings.events;
                     if (this.service) { 
                         this.chatStreamerBot(loader.strings.streamer_bot_connection_success, `onWelcomeEvent`);
                         loader.modules.utilities.log({ 
                             title: `${this.ansi_colors.YELLOW}Streamer.bot${this.ansi_colors.RESET}`, 
-                            message: `Connected to ${broadcaster?.connected[0]} as ${this.is_bot_account ? `Bot Account` : `Standard Account`}.`
+                            message: `Connected to ${broadcaster?.connected?.[0]} as ${this.is_bot_account ? `Bot Account` : `Standard Account`}.`
                         });
                     }
                 }
