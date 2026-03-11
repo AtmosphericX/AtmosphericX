@@ -34,17 +34,26 @@ class Widgets {
      * @param {Object} settings - The settings object to apply.
      * @return {void}
      */
-    applyElementSettings = function(element, settings) { 
-        if (!element) { return }
-        if (settings?.global.setBorderRadius) { element.style.borderRadius = `${settings.global.setBorderRadius}px` }
-        if (settings?.global.setElementZoomLevel) { element.style.zoom = settings.global.setElementZoomLevel }
-        if (settings?.global.setBoxShadow == false) { element.style.boxShadow = 'none' }
-        if (settings?.global.setTextShadow == false) { element.style.textShadow = 'none' }
-        if (settings?.global.setTextAlignment) { element.style.textAlign = settings.global.setTextAlignment }
-        if (settings?.global.setTextColor) { element.style.color = settings.global.setTextColor }
-        if (settings?.global.setTextSize) { element.style.fontSize = `${settings.global.setTextSize}px` }
-        if (settings?.global.setTextFont) { element.style.fontFamily = settings.global.setTextFont }
-        if (settings?.global.setBackgroundAnimated) { element.style.transition = `background-color ${settings.global.setAnimationStartDuration ?? 1.5}s ease`; }
+    applyElementSettings = function(element, settings) {
+        try {
+            if (!element) return;
+            const set = settings?.global;
+            if (set) {
+                if (set.setBorderRadius != null) element.style.borderRadius = `${set.setBorderRadius}px`;
+                if (set.setElementZoomLevel != null) element.style.zoom = set.setElementZoomLevel;
+                if (set.setBoxShadow === false) element.style.boxShadow = 'none';
+                if (set.setTextShadow === false) element.style.textShadow = 'none';
+                if (set.setTextAlignment) element.style.textAlign = set.setTextAlignment;
+                if (set.setTextColor) element.style.color = set.setTextColor;
+                if (set.setTextSize != null) element.style.fontSize = `${set.setTextSize}px`;
+                if (set.setTextFont) element.style.fontFamily = set.setTextFont;
+                if (set.setBackgroundAnimated) {
+                    element.style.transition = `background-color ${set.setAnimationStartDuration ?? 1.5}s ease`;
+                }
+            }
+        } catch (error) {
+            this.utils.exception(error, `${this.name_space}:applyElementSettings`);  
+        }
     }
     
     /**
@@ -60,12 +69,12 @@ class Widgets {
      */
     applyGlobalSettings = function(element, settings) { 
         try {
-            const getThemeContainer = document.getElementById('widget-container');
-            this.applyElementSettings(element, settings)
-            if (settings?.global.setElementThemed) {
-                getThemeContainer.style.display = `flex`
-                this.applyGlobalTheme(getThemeContainer, settings)
-                this.applyElementSettings(getThemeContainer, settings)
+            const themeContainer = document.getElementById('widget-container');
+            this.applyElementSettings(element, settings);
+            if (settings?.global?.setElementThemed && themeContainer) {
+                themeContainer.style.display = 'flex';
+                this.applyGlobalTheme(themeContainer, settings);
+                this.applyElementSettings(themeContainer, settings);
             }
         } catch (error) {
             this.utils.exception(error, `${this.name_space}:applyGlobalSettings`);
@@ -82,12 +91,13 @@ class Widgets {
      * @param {HTMLElement} element - The HTML element to apply the theme to.
      * @return {void}
      */
-    applyGlobalTheme = function(element, settings) { 
+    applyGlobalTheme = function(element, settings) {
         try {
-            if (!element) { return }
-            const getCurrentTheme = this.utils.getEventColor(null, true);
-            element.style.backgroundColor = getCurrentTheme[settings?.global.setThemeType] ?? getCurrentTheme?.primary;
-        } catch (error) { 
+            if (!element) return;
+            const theme = this.utils.getEventColor(null, true);
+            const type = settings?.global?.setThemeType;
+            element.style.backgroundColor = theme?.[type] ?? theme?.primary;
+        } catch (error) {
             this.utils.exception(error, `${this.name_space}:applyGlobalTheme`);
         }
     }

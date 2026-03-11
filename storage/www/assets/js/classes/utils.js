@@ -51,16 +51,19 @@ class Utils {
      * @param {string} parent - The context or parent function where the error occurred.
      * @return {void}
      */
-    exception = function(error, parent) { 
-        const msg = error instanceof Error ? error.message : JSON.stringify(error);
+    exception = function(error, parent) {
+        const msg = error instanceof Error ? error.message
+            : typeof error === 'object'
+                ? JSON.stringify(error)
+                : String(error);
         this.log(`${parent} - An unexpected error occurred: ${msg}`);
-        this.notify({ 
+        this.notify({
             type: 'error',
-            title: parent, 
-            message: msg, 
-            duration: 5000 
+            title: parent,
+            message: msg,
+            duration: 5000
         });
-    } 
+    }
 
     /**
      * @production
@@ -75,7 +78,7 @@ class Utils {
     socket = async function(types = ['configurations']) {
         return new Promise((resolve) => {
             try {
-                const url = `${window.location.protocol == `https:` ? `wss:` : `ws:`}//${window.location.hostname}:${window.location.port}/stream`
+                const url = `${window?.location?.protocol == `https:` ? `wss:` : `ws:`}//${window?.location?.hostname}:${window?.location?.port}/stream`
                 this.storage.socket = new WebSocket(url);
                 this.storage.socket.addEventListener('open', () => {
                     this.log(`socket connection established.`);
@@ -91,10 +94,10 @@ class Utils {
                     setTimeout(() => { this.socket(types) }, 1000)
                 });
                 this.storage.socket.addEventListener('message', (event) => {
-                    const data = JSON.parse(event.data)
-                    const type = data.type || null;
-                    const message = data.message || null;
-                    const value = data.value || null;
+                    const data = JSON.parse(event?.data ?? [])
+                    const type = data?.type || null;
+                    const message = data?.message || null;
+                    const value = data?.value || null;
                     if (type == `subscribe` && message != null) { 
                         this.storage[value] = message; 
                     }
@@ -189,7 +192,7 @@ class Utils {
             const dispatch = (eventName, detail = {}) => document.dispatchEvent(new CustomEvent(eventName, { detail }));
             let timeString = '';
             let dateString = '';
-            if (returnOptions.time) {
+            if (returnOptions?.time) {
                 timeString = now.toLocaleTimeString(locale, {
                     timeZone: resolvedTimezone,
                     hour12: !military,
@@ -199,7 +202,7 @@ class Utils {
                 });
                 dispatch('timeMetadataUpdate', { time: timeString });
             }
-            if (returnOptions.date) {
+            if (returnOptions?.date) {
                 dateString = now.toLocaleDateString(locale, {
                     timeZone: resolvedTimezone,
                     year: 'numeric',
@@ -208,12 +211,12 @@ class Utils {
                 });
                 dispatch('dateMetadataUpdate', { date: dateString });
             }
-            if (returnOptions.timezone) {
+            if (returnOptions?.timezone) {
                 dispatch('timezoneMetadataUpdate', { timezone: resolvedTimezone });
             }
             let countdownPayload = null;
-            if (returnOptions.countdown && countdownOptions) {
-                const targetUnix = countdownOptions.targetUnix ?? countdownOptions.target ?? null;
+            if (returnOptions?.countdown && countdownOptions) {
+                const targetUnix = countdownOptions?.targetUnix ?? countdownOptions?.target ?? null;
                 if (typeof targetUnix === 'number') {
                     const targetMs = targetUnix > 1e12 ? targetUnix : targetUnix * 1000;
                     const delta = Math.max(0, targetMs - now.getTime());
@@ -232,11 +235,11 @@ class Utils {
                 }
             }
             const response = {};
-            if (returnOptions.time) response.time = timeString;
-            if (returnOptions.date) response.date = dateString;
-            if (returnOptions.timezone) response.timezone = resolvedTimezone;
-            if (returnOptions.countdown && countdownPayload) response.countdown = countdownPayload;
-            if (Object.keys(response).length === 1) return Object.values(response)[0];
+            if (returnOptions?.time) response.time = timeString;
+            if (returnOptions?.date) response.date = dateString;
+            if (returnOptions?.timezone) response.timezone = resolvedTimezone;
+            if (returnOptions?.countdown && countdownPayload) response.countdown = countdownPayload;
+            if (Object.keys(response).length === 1) return Object.values(response)?.[0];
             return response;
         } catch (error) {
             this.exception(error, `${this.name_space}:getTimeMetadata`);
@@ -280,10 +283,10 @@ class Utils {
         try {
             const toRadians = deg => deg * (Math.PI / 180);
             const earthRadiusMeters = 6371000;
-            const startLatRad = toRadians(coordinatesA.lat);
-            const endLatRad = toRadians(coordinatesB.lat);
-            const deltaLatRad = toRadians(coordinatesB.lat - coordinatesA.lat);
-            const deltaLonRad = toRadians(coordinatesB.lon - coordinatesA.lon);
+            const startLatRad = toRadians(coordinatesA?.lat);
+            const endLatRad = toRadians(coordinatesB?.lat);
+            const deltaLatRad = toRadians(coordinatesB?.lat - coordinatesA?.lat);
+            const deltaLonRad = toRadians(coordinatesB?.lon - coordinatesA?.lon);
             const a =
                 Math.sin(deltaLatRad / 2) * Math.sin(deltaLatRad / 2) +
                 Math.cos(startLatRad) * Math.cos(endLatRad) *
@@ -388,15 +391,15 @@ class Utils {
     /**
      * @production
      * @error_handling
-     * @function isMobileDevice
+     * @function getMobileDevice
      * @description 
      *      Detects if the user is on a mobile device based on screen width and initializes audio channels if true.
      * 
      * @return {void}
      */
-    isMobileDevice = function() {
+    getMobileDevice = function() {
         try {
-            if (window.innerWidth <= 1270) {
+            if (window?.innerWidth <= 1270) {
                 this.notify({ 
                     type: 'info',
                     title: "Permissions", 
@@ -426,7 +429,7 @@ class Utils {
                 });
             }
         } catch (error) {
-            this.exception(error, `${this.name_space}:isMobileDevice`);
+            this.exception(error, `${this.name_space}:getMobileDevice`);
         }
     }
   
@@ -455,7 +458,7 @@ class Utils {
      */
     getIntColor = function(int = 0) {
         try {
-            const scheme = this.storage?.configurations?.color_intensity
+            const scheme = this?.storage?.configurations?.color_intensity
             const levels = Object.keys(scheme).map(Number).sort((a, b) => a - b);
             let key = levels[0];
             for (const level of levels) { if (int >= level) { key = level; } else { break; } }
@@ -476,44 +479,50 @@ class Utils {
      * @param {string} eventType - The event type to get the color for.
      * @return {string} The corresponding color in hex format.
      */
-    getEventColor = function(eventType = `Tornado Warning`, getCurrentTheme = false) {
+    getEventColor = function(eventType = 'Tornado Warning', getCurrentTheme = false) {
+        const defColors = { primary: '#ffffff', secondary: '#000000', default: true };
         try {
-            const scheme = this.storage?.configurations?.themes
-            if (getCurrentTheme) { 
-                const events = this.storage?.events?.features ?? []
-                const pulsepoint = this.storage.pulsepoint?.features ?? []
+            const scheme = this.storage?.configurations?.themes;
+            if (!scheme) return defColors;
+            if (getCurrentTheme) {
+                const events = this.storage?.events?.features ?? [];
+                const pulsepoint = this.storage?.pulsepoint?.features ?? [];
                 const themes = Object.keys(scheme).filter(name =>
-                    events.some(feature => feature?.properties?.event && feature.properties.event.trim().toLowerCase() === name.trim().toLowerCase()) ||
-                    pulsepoint.some(feature => feature?.properties?.event && feature.properties.event.trim().toLowerCase() === name.trim().toLowerCase())
+                    events.some(f => f?.properties?.event?.trim().toLowerCase() === name?.trim().toLowerCase()) ||
+                    pulsepoint.some(f => f?.properties?.event?.trim().toLowerCase() === name?.trim().toLowerCase())
                 );
-                const matched = themes.map(name => ({name, ...scheme[name]}));
-                if (matched.length) {
-                    const selected = matched?.[0] ?? {};
-                    const primary = selected?.primary ?? `#ffffff`;
-                    const secondary = selected?.secondary ?? `#000000`;
-                    return { primary, secondary, default: false };
-                } else { 
-                    const selected = scheme["Default"] ?? {};
-                    const primary = selected?.primary ?? `#ffffff`;
-                    const secondary = selected?.secondary ?? `#000000`;
-                    return { primary, secondary, default: true };
+                if (themes.length) {
+                    const selected = scheme[themes[0]] ?? {};
+                    return {
+                        primary: selected.primary ?? defColors.primary,
+                        secondary: selected.secondary ?? defColors.secondary,
+                        default: false
+                    };
                 }
+                const defaultTheme = scheme['Default'] ?? {};
+                return {
+                    primary: defaultTheme.primary ?? defColors.primary,
+                    secondary: defaultTheme.secondary ?? defColors.secondary,
+                    default: true
+                };
             }
             if (scheme[eventType]) {
+                const selected = scheme[eventType];
                 return {
-                    primary: scheme[eventType]?.primary ?? `#ffffff`,
-                    secondary: scheme[eventType]?.secondary ?? `#000000`,
-                    default: !scheme[eventType] ? true : false
-                }
-            } else { 
-                const selected = scheme["Default"] ?? {};
-                const primary = selected?.primary ?? `#ffffff`;
-                const secondary = selected?.secondary ?? `#000000`;
-                return { primary, secondary, default: true };
+                    primary: selected.primary ?? defColors.primary,
+                    secondary: selected.secondary ?? defColors.secondary,
+                    default: false
+                };
             }
+            const defaultTheme = scheme['Default'] ?? {};
+            return {
+                primary: defaultTheme.primary ?? defColors.primary,
+                secondary: defaultTheme.secondary ?? defColors.secondary,
+                default: true
+            };
         } catch (error) {
             this.exception(error, `${this.name_space}:getEventColor`);
-            return { primary: `#ffffff`, secondary: `#000000`, default: true };
+            return defColors;
         }
     }
 
@@ -529,29 +538,37 @@ class Utils {
      * @return {table}
      */
     getEventMetadata = function(event) {
+        const defFallback = {
+            sfx: '',
+            theme: { background: '#000000', border: '#FFFFFF', text: '#FFFFFF' },
+            metadata: { priority: 0, description: 'No description available.' }
+        };
         try {
             const configurations = this.storage?.configurations;
-            const dictionary = configurations.dictionary[event?.properties?.event]
-                ?? configurations.dictionary[event?.properties?.parent]
-                ?? (event.properties?.hash == null ? configurations.dictionary[`Pulse Point`] :
-                configurations.dictionary[`Special Event`]);
-            let sfx = dictionary.sfx_cancel;
-            if (event.properties.is_issued) sfx = dictionary.sfx_issued;
-            else if (event.properties.is_updated) sfx = dictionary.sfx_update;
-            else if (event.properties.is_cancelled) sfx = dictionary.sfx_cancel;
-            return { 
+            if (!configurations) return defFallback;
+            const eventType = event?.properties?.event;
+            const parentType = event?.properties?.parent;
+            const hash = event?.properties?.hash;
+            const dictionary = configurations.dictionary?.[eventType] ??
+                configurations.dictionary?.[parentType] ??
+                (hash == null 
+                    ? configurations.dictionary?.['Pulse Point'] 
+                    : configurations.dictionary?.['Special Event']);
+            if (!dictionary) return defFallback;
+            let sfx;
+            if (event?.properties?.is_issued) sfx = dictionary.sfx_issued;
+            else if (event?.properties?.is_updated) sfx = dictionary.sfx_update;
+            else if (event?.properties?.is_cancelled) sfx = dictionary.sfx_cancel;
+            else sfx = dictionary.sfx_cancel;
+            return {
                 sfx,
                 metadata: dictionary.metadata,
                 tts: dictionary.sfx_tts,
                 tts_format: dictionary.sfx_tts_format
-            }
+            };
         } catch (error) {
             this.exception(error, `${this.name_space}:getEventMetadata`);
-            return {
-                sfx: ``,
-                theme: { background: `#000000`, border: `#FFFFFF`, text: `#FFFFFF` },
-                metadata: { priority: 0, description: `No description available.` }
-            };
+            return defFallback;
         }
     }
 
@@ -569,7 +586,7 @@ class Utils {
     sound = function(url, volume = 1.0) {
         try {
             const audioUrl = `../assets${url}`;
-            if (!this.isMobile) { 
+            if (!this?.isMobile) { 
                 let audio = new Audio()
                     audio.src = audioUrl
                     audio.volume = isNaN(volume) ? 1.0 : volume;
@@ -577,22 +594,22 @@ class Utils {
                     audio.play()
                     audio.onended = () => {
                         audio.remove()
-                        let index = this.audioQueue.indexOf(audio);
-                        if (index > -1) {  this.audioQueue.splice(index, 1); }
+                        let index = this?.audioQueue?.indexOf(audio);
+                        if (index > -1) {  this?.audioQueue?.splice(index, 1); }
                     }  
-                this.audioQueue.push(audio)
+                this?.audioQueue?.push(audio)
             } else { 
-                for (let channel of this.audioChannels) {
+                for (let channel of this?.audioChannels) {
                     if (channel.ended || channel.paused) {
                         channel.src = audioUrl;
                         channel.autoplay = true;
                         channel.volume = isNaN(volume) ? 1.0 : volume;
                         channel.play();
-                        if (!this.audioQueue) { this.audioQueue = [] }
-                        this.audioQueue.push(channel);
+                        if (!this?.audioQueue) { this.audioQueue = [] }
+                        this?.audioQueue?.push(channel);
                         channel.onended = () => {
-                            let index = this.audioQueue.indexOf(channel);
-                            if (index > -1) { this.audioQueue.splice(index, 1); }
+                            let index = this?.audioQueue?.indexOf(channel);
+                            if (index > -1) { this?.audioQueue?.splice(index, 1); }
                         };
                         break;
                     }
@@ -614,7 +631,7 @@ class Utils {
      * @param {number} volume - The volume level for the speech (0.0 to 1.0).
      * @return {void}
      */
-    tts = function(message, volume = 1.0) {
+    tts = function(message = `AtmosphericX`, volume = 1.0) {
         try { 
             if (!("speechSynthesis" in window)) return this.exception("Web Speech API is not supported in this browser.", `${this.name_space}:tts`);
             const speak = () => {
@@ -648,25 +665,25 @@ class Utils {
     getTextFromDirectory = function(data = {}, directory) {
         try {
             if (directory == null || directory === "") return null;
-            if (!directory.includes('%')) {
-                const pathSegments = directory.split('.').filter(Boolean);
+            if (!directory?.includes('%')) {
+                const pathSegments = directory?.split('.').filter(Boolean);
                 let value = data;
                 for (const seg of pathSegments) {
                     value = value?.[seg];
                 }
                 return value != null ? value : null;
             }
-            return directory.replace(/%([^%]+)%/g, (match, propPath) => {
-                const alternatives = propPath.split('??').map(p => p.trim());
+            return directory?.replace(/%([^%]+)%/g, (match, propPath) => {
+                const alternatives = propPath?.split('??').map(p => p?.trim());
                 for (const alt of alternatives) {
-                    const pathSegments = alt.split('.').filter(Boolean);
+                    const pathSegments = alt?.split('.').filter(Boolean);
                     let value = data;
                     for (const seg of pathSegments) {
                         value = value?.[seg];
                     }
                     if (value != null) return value;
                 }
-                if ((directory.match(/%/g) || []).length < 4) {
+                if ((directory?.match(/%/g) || []).length < 4) {
                     return null;
                 }
                 return `---`
@@ -742,15 +759,15 @@ class Utils {
                 generatedString += settings?.global?.setTextPrefix + '&nbsp;';
             }
             if (settings?.global?.setTextThemed) { 
-                generatedString += `<span style="color: ${getEventTheme?.default == false ? getEventTheme.primary : getNumberTheme}">${string}</span>`;
+                generatedString += `<span style="color: ${getEventTheme?.default == false ? getEventTheme?.primary : getNumberTheme}">${string}</span>`;
             } else { 
                 generatedString += string;
             }
             if (settings?.global?.setTextSuffix && !ignorePrefixSuffix && string != (settings?.global?.setTextPlaceholder)) {
                 generatedString += '&nbsp;' + settings?.global?.setTextSuffix;
             }
-            if (generatedString.length > settings?.global?.setTextCharacterLimit) {
-                generatedString = generatedString.substring(0, settings.global.setTextCharacterLimit) + '...';
+            if (generatedString?.length > settings?.global?.setTextCharacterLimit) {
+                generatedString = generatedString?.substring(0, settings?.global?.setTextCharacterLimit) + '...';
             }
             return generatedString;
         } catch (error) {

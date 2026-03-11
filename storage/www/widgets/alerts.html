@@ -138,7 +138,7 @@
             settings.global.setValuePath = get(aSearch, `setValuePath`) ?? `%properties.event% (%properties.agency ?? properties.action_type%)`;
             settings.global.setElementThemed = false;
 
-            utils.isMobileDevice()
+            utils.getMobileDevice()
             utils.socket([`configurations`, `events`, `pulsepoint`, `manual`]).then(() => {
                 document.addEventListener('onUpdate', (event) => {
                     widgets.applyGlobalSettings(settings.setElement, settings);  

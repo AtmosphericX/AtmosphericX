@@ -120,7 +120,7 @@
             settings.setWx = get(aSearch, `setWx`) ?? true;
             settings.setPulsePoint = get(aSearch, `setPulsePoint`) ?? false;
 
-            utils.isMobileDevice()
+            utils.getMobileDevice()
             utils.socket([`configurations`, `events`, `pulsepoint`, `manual`]).then(() => {
                 document.addEventListener('onUpdate', (event) => {
                     widgets.applyGlobalSettings(settings.setElement, settings);  
