@@ -16,14 +16,12 @@
 */
 
 function get(url, param) {
-    if (url.has(param)) {
+    if (!url.has(param)) return null;
         const value = url.get(param);
-        const isBoolean = value === 'true' || value === 'false';
-        const isNumber = !isNaN(value);
-        const isArray = value.startsWith('[') && value.endsWith(']');
-        if (isBoolean) { return value === 'true'; }
-        if (isNumber) { return Number(value); }
-        if (isArray) { 
+        if (value === 'true') return true;
+        if (value === 'false') return false;
+        if (!isNaN(value) && value.trim() !== '') return Number(value);
+        if (value.startsWith('[') && value.endsWith(']')) {
             try {
                 return JSON.parse(value);
             } catch (e) {
@@ -31,9 +29,7 @@ function get(url, param) {
                 return null;
             }
         }
-        return value;
-    }
-    return null;
+    return value;
 }
 
 const aSearch = new URLSearchParams(window.location.search);
