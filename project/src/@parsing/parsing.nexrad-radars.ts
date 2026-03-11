@@ -19,29 +19,27 @@ import * as types from '../@dictionaries/types';
 
 export const parse = (body: Record<string, unknown>) => {
     const structure: types.GeoJSONFeatureCollection = {
-        type: `FeatureCollection`,
+        type: 'FeatureCollection',
         features: []
     };
-    if (Array.isArray(body?.features)) { 
+
+    if (Array.isArray(body.features)) { 
         for (const feature of body.features) {
-            const coordinates = feature?.geometry?.coordinates;
-            const icao = feature?.properties?.id ?? feature?.id ?? feature?.properties?.['@id'];
-            const lon = coordinates?.[0] ?? null;
-            const lat = coordinates?.[1] ?? null;
+            const coordinates = feature.geometry?.coordinates;
+            const icao = feature.properties?.id ?? feature.id ?? feature.properties?.['@id'];
+            if (!coordinates) continue;
+            const lon = coordinates[0];
+            const lat = coordinates[1];
             if (isNaN(lon) || isNaN(lat)) continue;
             if (!icao.startsWith('K') && !icao.startsWith('P') && !icao.startsWith('C')) continue;
             structure.features.push({
-                type: `Feature`,
-                geometry: {
-                    type: `Point`,
-                    coordinates: [lon, lat]
-                },
+                type: 'Feature',
+                geometry: { type: 'Point', coordinates: [lon, lat] },
                 properties: {
-                    id: icao ?? null
+                    id: icao
                 }
             });
         }
     }
     return structure;
 };
-

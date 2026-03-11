@@ -38,7 +38,7 @@ export class Init {
                 return response.sendFile(`${storage}${getRoutes.widgets_direct_path}${getEndpoint}.html`);
             } catch (error) {
                 loader.modules.utilities.exception(error, `${this.name_space}/GET ${getRoutes.get_dashboard_endpoint}`);
-                return response.status(500).sendFile(`${storage}${getRoutes.unknown_direct_path}`);
+                return response.status(404).sendFile(`${storage}${getRoutes.unknown_direct_path}`);
             }
         })
     }

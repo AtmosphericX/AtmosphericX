@@ -58,8 +58,7 @@ export const parse = (body: Record<string, string>) => {
     const summary = {
         total_customers: totalTracked ?? null,
         total_outages: totalOut ?? null,
-        priority: stateWithMostOutages,
+        priority: stateWithMostOutages ?? null,
     };
-    return { summary, data: structure}
+    return { summary, data: structure };
 };
-

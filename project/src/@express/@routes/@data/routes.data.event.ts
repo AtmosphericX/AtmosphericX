@@ -34,30 +34,32 @@ export class Init {
             try {
                 const getTracking = request.params.tracking ?? null;
                 const getAction = request.params.action ?? null;
-                const getEvent = loader.cache.external.events.features.find((evt: types.EventType) => evt?.properties?.details?.tracking === getTracking);
+                const getEvent = loader.cache.external.events.features.find((event: types.EventType) => event.properties?.details?.tracking === getTracking);
                 if (getEvent) { 
                     switch (getAction) { 
-                        case `audio`: 
-                            const audio = await loader.cache.handlers.parser_client.createEasAudio(getEvent?.properties?.description, getEvent?.properties?.details?.header);
+                        case 'audio': {
+                            const audio = await loader.cache.handlers.parser_client.createEasAudio(getEvent.properties.description, getEvent.properties.details?.header);
                             const wavFile = loader.packages.path.basename(audio);
-                            return response.json({file: `/eas/${wavFile}`})
-                        case `polygon`:
-                            const multipolygon = request.query.multipolygon === `false` ? true : false;
+                            return response.json({ file: `/eas/${wavFile}` });
+                        }
+                        case 'polygon': {
+                            const multipolygon = request.query.multipolygon === 'false' ? true : false;
                             const polygon = await loader.cache.handlers.parser_client.getEventPolygon(getEvent, multipolygon);
                             return response.json({ polygon });
-                        case `summary`:
+                        }
+                        case 'summary':
                             return response.json({ summary: getEvent });
-                        default: 
-                            return response.status(400).json({ message: getMessages.response_unknown_endpoint });
+                        default:
+                            return response.status(404).sendFile(`${storage}${getRoutes.unknown_direct_path}`);
                     }
                 } else { 
                     return response.status(404).json({ message: getMessages.resposne_invalid_tracking });
                 }
             } catch (error) {
                 loader.modules.utilities.exception(error, `${this.name_space}/GET ${getRoutes.get_event_action_endpoint}`);
-                return response.status(500).sendFile(`${storage}${getRoutes.unknown_direct_path}`);
+                return response.status(404).sendFile(`${storage}${getRoutes.unknown_direct_path}`);
             }
-        })
+        });
     }
 }
 

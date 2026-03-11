@@ -40,11 +40,11 @@ export class Init {
                         loader.cache.external.manual = {type: "FeatureCollection", features: [event]};
                         return response.json(event);
                     default:
-                        return response.status(400).json({ message: getMessages.response_unknown_endpoint});
+                        return response.status(404).sendFile(`${storage}${getRoutes.unknown_direct_path}`);
                 }
             } catch (error) {
                 loader.modules.utilities.exception(error, `${this.name_space}/POST ${getRoutes.post_create_endpoint}`);
-                return response.status(500).sendFile(`${storage}${getRoutes.unknown_direct_path}`);
+                return response.status(404).sendFile(`${storage}${getRoutes.unknown_direct_path}`);
             }
         })
     }

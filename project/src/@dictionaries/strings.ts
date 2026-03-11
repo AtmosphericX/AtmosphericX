@@ -53,7 +53,6 @@ export const h_strings: Record<string, any> = {
     },
     route_messages: {
         response_generic_error: `An error occurred while processing your request. Please try again later.`,
-        response_unknown_endpoint: `The requested endpoint does not exist.`,
         resposne_invalid_tracking: `Invalid tracking code provided.`,
         response_placefile_disabled: `This placefile endpoint is disabled on the server. Please enable it in the configurations if you are the server administrator.`,
         response_ratelimited: `You are being rate limited. Please try again shortly.`,

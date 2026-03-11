@@ -18,12 +18,12 @@ import * as types from '../@dictionaries/types';
 
 export const parse = (body: Record<string, string>[]) => {
     const structure: types.GeoJSONFeatureCollection = {
-        type: `FeatureCollection`,
+        type: 'FeatureCollection',
         features: []
     };
     for (const feature of body) {
         structure.features.push({
-            type: `Feature`,
+            type: 'Feature',
             properties: {
                 name: feature.name ?? null,
                 discussion: feature.forecast_discussion ?? null,
@@ -34,6 +34,6 @@ export const parse = (body: Record<string, string>[]) => {
             }
         });
     }
+
     return structure;
 };
-

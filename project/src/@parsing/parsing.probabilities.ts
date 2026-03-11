@@ -21,24 +21,39 @@ import * as loader from '../';
 
 export const parse = async (body: string) => {
     const structure: types.GeoJSONFeatureCollection = {
-        type: `FeatureCollection`,
+        type: 'FeatureCollection',
         features: []
     };
     const parsed = await loader.packages.PlacefileManager.parsePlacefile(body) as types.DefaultPlacefileParsingTypes[];
+
     for (const feature of parsed) {
-        if (!feature.line?.text) continue;
-        const tornado = feature.line.text.match(/ProbTor: (\d+)/) ? parseInt(feature.line.text.match(/ProbTor: (\d+)/)[1]) : 0;
-        const severe = feature.line.text.match(/ProbSevere: (\d+)/) ? parseInt(feature.line.text.match(/ProbSevere: (\d+)/)[1]) : 0;
-        const hail = feature.line.text.match(/ProbHail: (\d+)/) ? parseInt(feature.line.text.match(/ProbHail: (\d+)/)[1]) : 0;
-        const wind = feature.line.text.match(/ProbWind: (\d+)/) ? parseInt(feature.line.text.match(/ProbWind: (\d+)/)[1]) : 0;
+        if (!feature.line || !feature.line.text) continue;
+
+        const tornadoMatch = feature.line.text.match(/ProbTor: (\d+)/);
+        const tornado = tornadoMatch ? parseInt(tornadoMatch[1]) : 0;
+
+        const severeMatch = feature.line.text.match(/ProbSevere: (\d+)/);
+        const severe = severeMatch ? parseInt(severeMatch[1]) : 0;
+
+        const hailMatch = feature.line.text.match(/ProbHail: (\d+)/);
+        const hail = hailMatch ? parseInt(hailMatch[1]) : 0;
+
+        const windMatch = feature.line.text.match(/ProbWind: (\d+)/);
+        const wind = windMatch ? parseInt(windMatch[1]) : 0;
+
         const shearMatch = feature.line.text.match(/Max LLAzShear: ([\d.]+)/);
-        const MLCape = feature.line.text.match(/MLCAPE: ([\d.]+)/);
-        const MUCape = feature.line.text.match(/MUCAPE: ([\d.]+)/);
-        const ObjID = feature.line.text.match(/Object ID: (\d+)/) ? parseInt(feature.line.text.match(/Object ID: (\d+)/)[1]) : 0;
         const shear = shearMatch ? parseFloat(shearMatch[1]) : 0;
-        const MLCapeValue = MLCape ? parseFloat(MLCape[1]) : 0;
-        const MUCapeValue = MUCape ? parseFloat(MUCape[1]) : 0;
-        if (tornado > 2 || severe > 15 || hail > 10 || wind > 10) {
+
+        const MLCapeMatch = feature.line.text.match(/MLCAPE: ([\d.]+)/);
+        const MLCapeValue = MLCapeMatch ? parseFloat(MLCapeMatch[1]) : 0;
+
+        const MUCapeMatch = feature.line.text.match(/MUCAPE: ([\d.]+)/);
+        const MUCapeValue = MUCapeMatch ? parseFloat(MUCapeMatch[1]) : 0;
+
+        const objIDMatch = feature.line.text.match(/Object ID: (\d+)/);
+        const ObjID = objIDMatch ? parseInt(objIDMatch[1]) : 0;
+
+        if (tornado > 25 || hail > 50 || wind > 50) {
             structure.features.push({
                 type: 'Feature',
                 geometry: { 
@@ -47,7 +62,11 @@ export const parse = async (body: string) => {
                 },
                 properties: {
                     id: ObjID,
-                    tornado, severe, wind, hail, shear,
+                    tornado,
+                    severe,
+                    wind,
+                    hail,
+                    shear,
                     MLCape: MLCapeValue,
                     MUCape: MUCapeValue,
                     description: feature.line.text.replace(/\\n/g, '<br>') ?? null
@@ -57,4 +76,3 @@ export const parse = async (body: string) => {
     }
     return structure;
 };
-

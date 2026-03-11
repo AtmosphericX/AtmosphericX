@@ -29,7 +29,7 @@ export class Init {
         });
         const getRoutes = loader.strings.route_locations;
         const storage = loader.packages.path.resolve(`..`, `storage`);
-        this.server.get(`/dev`, async (request: types.ExpressRequest, response: types.ExpressResponse) => {
+        this.server.get(`/dev`, async (___: types.ExpressRequest, response: types.ExpressResponse) => {
             const tick = performance.now();
             const configurations = loader.modules.utilities.cfg();
             const documentation = configurations.web_hosting_settings?.documentation_mode ?? false;
@@ -88,7 +88,7 @@ export class Init {
                 });
             } catch (error) {
                 loader.modules.utilities.exception(error, `${this.name_space}/GET ${getRoutes.get_dashboard_endpoint}`);
-                return response.status(500).sendFile(`${storage}${getRoutes.unknown_direct_path}`);
+                return response.status(404).sendFile(`${storage}${getRoutes.unknown_direct_path}`);
             }
         })
     }

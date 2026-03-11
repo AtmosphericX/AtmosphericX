@@ -27,17 +27,16 @@ export class Init {
             title: `${this.ansi_colors.GREEN}${this.name_space}${this.ansi_colors.RESET}`, 
             message: `Successfully initialized`
         });
-        const getMessages = loader.strings.route_messages;
         const getRoutes = loader.strings.route_locations;
         const storage = loader.packages.path.resolve(`..`, `storage`);
         this.server.get(getRoutes.get_data_endpoint, async (request: types.ExpressRequest, response: types.ExpressResponse) => {
             try {
                 const getEndpoint = request.params.endpoint ?? null;
-                if (!loader.cache.external[getEndpoint]) { return response.status(404).json({ message: getMessages.response_unknown_endpoint }); }
+                if (!loader.cache.external[getEndpoint]) { return response.status(404).sendFile(`${storage}${getRoutes.unknown_direct_path}`); }
                 return response.json(loader.cache.external[getEndpoint]);
             } catch (error) {
                 loader.modules.utilities.exception(error, `${this.name_space}/GET ${getRoutes.get_data_endpoint}`);
-                return response.status(500).sendFile(`${storage}${getRoutes.unknown_direct_path}`);
+                return response.status(404).sendFile(`${storage}${getRoutes.unknown_direct_path}`);
             }
         })
     }

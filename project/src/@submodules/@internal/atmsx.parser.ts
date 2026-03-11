@@ -270,7 +270,6 @@ export class ATMSXParser {
             return;
         }
 
-
         const getFeature = featureMap.get(tracking);
         const type = getFeature ? `Updated` : `Created`
         if (!properties?.is_cancelled) {

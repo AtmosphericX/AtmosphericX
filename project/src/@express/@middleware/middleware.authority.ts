@@ -47,7 +47,7 @@ export class Init {
             this.server.use(settings); 
         }
         this.server.set(`trust proxy`, 1);
-        this.server.use((request: types.ExpressRequest, response: types.ExpressResponse, next: types.ExpressNext) => {
+        this.server.use((___: types.ExpressRequest, response: types.ExpressResponse, next: types.ExpressNext) => {
             if (!optionsCache) {
                 for (const key in getMessages.headers) { 
                     response.setHeader(key, getMessages.headers[key]); 

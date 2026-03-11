@@ -17,9 +17,9 @@
 export const parse = (body: Record<string, any>) => {
     return [
         {
-            type: `Feature`,
+            type: 'Feature',
             geometry: {
-                type: `Point`,
+                type: 'Point',
                 coordinates: [body.longitude, body.latitude]
             },
             properties: {
@@ -29,13 +29,13 @@ export const parse = (body: Record<string, any>) => {
                 wind_speed: body.wind_speed ?? null,
                 wind_direction: body.wind_direction ?? null,
                 conditions: body.conditions
-                    ?.split(' ')
-                    ?.map(word => word.charAt(0)
-                                    ?.toUpperCase() + word.slice(1))
-                                    ?.join(' ') ?? null,
-                location: body.location ?? null,
+                    ? body.conditions
+                        .split(' ')
+                        .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+                        .join(' ')
+                    : null,
+                location: body.location ?? null
             }
         }
-    ]
+    ];
 };
-

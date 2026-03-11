@@ -32,23 +32,26 @@ type IoTDeviceFeature = {
 }
 
 export const parse = (body: Record<string, string>) => {
-    const structure: types.GeoJSONFeatureCollection = { type: 'FeatureCollection', features: [] };
+    const structure: types.GeoJSONFeatureCollection = {
+        type: 'FeatureCollection',
+        features: []
+    };
     for (const feature of (body.devices as unknown) as IoTDeviceFeature[]) {
-        const longitude = feature.last_location_lon
-        const latitude = feature.last_location_lat
+        const longitude = feature.last_location_lon;
+        const latitude = feature.last_location_lat;
         if (feature.stream == null) continue;
         structure.features.push({
-            type: `Feature`,
+            type: 'Feature',
             geometry: {
-                type: `Point`,
+                type: 'Point',
                 coordinates: [parseFloat(longitude), parseFloat(latitude)]
             },
             properties: {
                 name: feature.name ?? null,
                 location: feature.last_location_text ?? null,
-                stream_name: feature.stream?.name ?? null,
-                stream_url: feature.stream?.url ?? null,
-                stream_viewiers: feature.stream?.viewers ?? null,
+                stream_name: feature.stream.name,
+                stream_url: feature.stream.url,
+                stream_viewers: feature.stream.viewers,
                 icon_url: feature.icon_url ?? null,
                 model: feature.model ?? null,
                 source: feature.primary_location_source ?? null

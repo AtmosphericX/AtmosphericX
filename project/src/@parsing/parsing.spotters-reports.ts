@@ -37,14 +37,17 @@ type SpotterReports = {
 }
 
 export const parse = (body: Record<string, string>) => {
-    const structure: types.GeoJSONFeatureCollection = { type: 'FeatureCollection', features: [] };
+    const structure: types.GeoJSONFeatureCollection = { 
+        type: 'FeatureCollection', 
+        features: [] 
+    };
     for (const feature of (body.reports as unknown) as SpotterReports[]) {
-        const longitude = feature.lon
-        const latitude = feature.lat
+        const longitude = feature.lon;
+        const latitude = feature.lat;
         structure.features.push({
-            type: `Feature`,
+            type: 'Feature',
             geometry: {
-                type: `Point`,
+                type: 'Point',
                 coordinates: [parseFloat(longitude), parseFloat(latitude)]
             },
             properties: {
@@ -63,13 +66,12 @@ export const parse = (body: Record<string, string>) => {
                     return events.join(', ') || 'Other';
                 })(),
                 email: feature.email ?? null,
-                reporter: (feature.first + ` ` + feature.last),
+                reporter: feature.first + ' ' + feature.last,
                 time: new Date(parseInt(feature.unix) * 1000).toISOString() ?? null,
                 notes: feature.narrative ?? null,
-                sender: "Spotter Network",
+                sender: 'Spotter Network'
             }
         });
     }
     return structure;
 };
-

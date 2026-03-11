@@ -19,27 +19,26 @@ import * as types from '../@dictionaries/types';
 
 export const parse = (body: Record<string, string>) => {
     const structure: types.GeoJSONFeatureCollection = {
-        type: `FeatureCollection`,
+        type: 'FeatureCollection',
         features: []
     };
-    if (Array.isArray(body?.sources)) { 
+    if (Array.isArray(body.sources)) { 
         for (const feature of body.sources) {
             if (isNaN(feature.lon) || isNaN(feature.lat)) continue;
             structure.features.push({
-                type: `Feature`,
+                type: 'Feature',
                 geometry: {
-                    type: `Point`,
+                    type: 'Point',
                     coordinates: [feature.lon, feature.lat]
                 },
                 properties: {
-                    location: feature?.location ?? null,
-                    callsign: feature?.callsign ?? null,
-                    frequency: feature?.frequency ?? null,
-                    stream_url: feature?.listen_url ?? null
+                    location: feature.location ?? null,
+                    callsign: feature.callsign ?? null,
+                    frequency: feature.frequency ?? null,
+                    stream_url: feature.listen_url ?? null
                 }
             });
         }
     }
     return structure;
 };
-

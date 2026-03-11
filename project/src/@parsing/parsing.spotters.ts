@@ -36,17 +36,20 @@ type SpotterNetworkFeature = {
 }
 
 export const parse = (body: Record<string, string>) => {
-    const structure: types.GeoJSONFeatureCollection = { type: 'FeatureCollection', features: [] };
+    const structure: types.GeoJSONFeatureCollection = { 
+        type: 'FeatureCollection', 
+        features: [] 
+    };
     const configurations = loader.modules.utilities.cfg();
-    const settings = configurations?.sources?.location_settings.spotter_network
+    const settings = configurations.sources.location_settings.spotter_network;
     const currentTime = new Date().getTime();
     let tracked: Array<{ name: string } & types.LatitudeLongitude> = [];
-    for (const feature of (body.positions as unknown ) as SpotterNetworkFeature[]) {
-        const longitude = feature.lon
-        const latitude = feature.lat
+    for (const feature of (body.positions as unknown) as SpotterNetworkFeature[]) {
+        const longitude = feature.lon;
+        const latitude = feature.lat;
         const isActiveSpotter = feature.unix >= (currentTime / 1000 - 300) && settings.pins.active;
-        const isIdleSpotter = (feature.unix < (currentTime / 1000 - 300) && feature.unix >= (currentTime / 1000 - 3600)) && settings.pins.idle; 
-        const isNameTracked = settings.pin_by_name.findIndex(name => (feature.first + ` ` + feature.last).includes(name));
+        const isIdleSpotter = feature.unix < (currentTime / 1000 - 300) && feature.unix >= (currentTime / 1000 - 3600) && settings.pins.idle;
+        const isNameTracked = settings.pin_by_name.findIndex(name => (feature.first + ' ' + feature.last).includes(name));
         if (!isActiveSpotter && !isIdleSpotter && (!settings.pins.offline || feature.unix < (currentTime / 1000 - 3600))) continue;
         if (isNameTracked !== -1 && !tracked.find(t => t.name === settings.pin_by_name[isNameTracked])) {
             tracked.push({
@@ -56,9 +59,9 @@ export const parse = (body: Record<string, string>) => {
             });
         }
         structure.features.push({
-            type: `Feature`,
+            type: 'Feature',
             geometry: {
-                type: `Point`,
+                type: 'Point',
                 coordinates: [parseFloat(longitude), parseFloat(latitude)]
             },
             properties: {
@@ -66,7 +69,7 @@ export const parse = (body: Record<string, string>) => {
                 direction: loader.modules.calculations.cardinalDirection(parseInt(feature.dir)) ?? null,
                 eleveation: feature.elev ?? null,
                 email: feature.email ?? null,
-                name: (feature.first + ` ` + feature.last),
+                name: feature.first + ' ' + feature.last,
                 frequency: feature.freq ?? null,
                 ham: feature.ham ?? null,
                 note: feature.note ?? null,
@@ -74,13 +77,14 @@ export const parse = (body: Record<string, string>) => {
                 twitter: feature.twitter ?? null,
                 web: feature.web ?? null,
                 reported_at: new Date(feature.unix * 1000).toISOString() ?? null,
-                status: isActiveSpotter ? 'active' : 'idle',
+                status: isActiveSpotter ? 'active' : 'idle'
             }
         });
     }
-    tracked.sort((a, b) => { return settings.pin_by_name.indexOf(a.name) - settings.pin_by_name.indexOf(b.name); });
+
+    tracked.sort((a, b) => settings.pin_by_name.indexOf(a.name) - settings.pin_by_name.indexOf(b.name));
     for (const spotter of tracked) {
-        loader.modules.tracking.setCurrentCoordinates(spotter.name, { latitude: spotter.latitude, longitude: spotter.longitude }, `SpotterNetwork`);
+        loader.modules.tracking.setCurrentCoordinates(spotter.name, { latitude: spotter.latitude, longitude: spotter.longitude }, 'SpotterNetwork');
     }
     return structure;
 };
