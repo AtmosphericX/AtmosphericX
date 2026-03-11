@@ -135,17 +135,21 @@
                 const container = settings.setElement;
                 container.innerHTML = "";
                 for (const feature of features) {
-                    const event = feature.properties.event;
-                    const issued = feature.properties.issued;
-                    const location = feature.properties.locations ?? feature.properties.address ?? "N/A";
-                    const getMyDistance = Math.round(feature.properties.imported?.spotters[0]?.metadata?.distance);
+                    const properties = feature?.properties;
+                    const getMyDistance = properties.imported?.spotters[0]?.metadata?.distance;
                     const card = document.createElement("div");
                     card.className = "widget-card";
                     card.innerHTML = `
-                        <div class="widget-card-event">${event}</div>
-                        <div class="widget-card-meta">Issued: ${issued}</div>
-                        <div class="widget-card-meta">${location}</div>
-                        <div class="widget-card-meta">Distance: ${getMyDistance.toFixed(2)} mi</div>
+                        <div class="widget-card-event">${properties?.event ?? `--`} (${properties?.action_type ?? ``})</div>
+                        <div class="widget-card-meta"><b>Issued:</b> ${properties?.issued ?? `--`}</div>
+                        <div class="widget-card-meta"><b>Expires:</b> ${properties?.expires ?? `--`}</div>
+                        <div class="widget-card-meta"><b>Hail:</b> ${properties?.parameters?.max_hail_size ?? `--`}</div>
+                        <div class="widget-card-meta"><b>Wind:</b> ${properties?.parameters?.max_wind_gust ?? `--`}</div>
+                        <div class="widget-card-meta"><b>Tornado:</b> ${properties?.parameters?.tornado_detection ?? `--`}</div>
+                        <div class="widget-card-meta"><b>Damage:</b> ${properties?.parameters?.damage_threat ?? `--`}</div>
+                        <div class="widget-card-meta"><b>Flood:</b> ${properties?.parameters?.flood_detection ?? `--`}</div>
+                        <div class="widget-card-meta"><b>Locations:</b> ${properties?.locations ?? `--`}</div>
+                        <div class="widget-card-meta"><b>Distance:</b> ${properties?.imported?.spotters[0]?.metadata?.distance ?? `--`} ${properties?.imported?.spotters[0]?.units ?? ``}</div>
                     `;
                     container.prepend(card);
                     card.addEventListener('click', () => {
