@@ -109,9 +109,8 @@ export type LocalEventProperties = {
     geometry: { type?: string; coordinates?: [number, number][] } | null; 
     spotters?: Record<string, { distance: number; unit: string}>; 
     geocode: { UGC: string[] };
-    client: Record<string, any>;
+    imported?: Record<string, any>;
     hash: string;
-    center?: LatLon;
     details: {
         performance: number;
         tracking: string;

@@ -162,16 +162,16 @@ export class Calling {
                 return Number.isFinite(exp) && exp > clock;
             });
             loader.cache.external.events.features = loader.cache.external.events.features
-                .filter(f => f && !f.properties.client.ignored)
+                .filter(f => f && !f.properties?.imported?.ignored)
                 .filter(f => {
-                    const exp = new Date(f.properties.expires).getTime();
+                    const exp = new Date(f.properties?.expires).getTime();
                     return Number.isFinite(exp) && exp > clock;
                 })
                 .filter(f => {
-                    if (cfg.filters.all_events) return true;
-                    return cfg.filters.listening_events.includes(f.properties.event);
+                    if (cfg?.filters?.all_events) return true;
+                    return cfg?.filters?.listening_events.includes(f.properties?.event);
                 });
-            const { atmosx_parser_settings, ...sources } = cfg.sources;
+            const { atmosx_parser_settings, ...sources } = cfg?.sources;
             await loader.modules.utilities.sleep(200);
             const data: Record<string, string> = {};
             const status: string[] = [];
@@ -204,9 +204,9 @@ export class Calling {
                     }
                 }
             } else {
-                if (cfg.sources.atmosx_parser_settings.noaa_weather_wire_service) return;
+                if (cfg?.sources?.atmosx_parser_settings?.noaa_weather_wire_service) return;
                 const lastFetched = loader.cache.internal.cache_timers["NWS"] ?? 0;
-                if (clock - lastFetched <= atmosx_parser_settings.national_weather_service_settings.interval * 1000) return;
+                if (clock - lastFetched <= cfg?.sources?.atmosx_parser_settings?.national_weather_service_settings?.interval * 1000) return;
                 loader.cache.internal.cache_timers["NWS"] = clock;
                 loader.cache.internal.metrics.total_requests++;
                 status.push(`(${this.ansi_colors.GREEN}OK${this.ansi_colors.RESET}) NWS`);

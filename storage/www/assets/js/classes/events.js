@@ -123,6 +123,7 @@ class Events {
             if (!next) return;
             const event = next.feature;
             const getTheme = this.utils.getEventColor(event?.properties?.event);
+            const getMetadata = this.utils.getEventMetadata(event);
             this.isQueuing = true; next.queued = true;
             switch (next.type) { 
                 case `event`: {
@@ -145,15 +146,15 @@ class Events {
             }
             if (!settings.setPlayback) { return }
             this.utils.sound(settings?.setSfx != null ? settings?.setSfx : configurations.tones.sfx_beep, settings?.setSfxVolume);
-            if (!event?.properties?.client?.only_beep) {
+            if (!event?.properties?.beep_only) {
                 await this.utils.sleep(1_300);
-                if ((configurations.tones.sfx_beep != event.properties.client.sfx) && !event?.properties?.client?.sfx_tts) { 
-                    this.utils.sound(event.properties.client.sfx); 
+                if ((configurations.tones.sfx_beep != getMetadata.sfx) && !getMetadata.sfx_tts) { 
+                    this.utils.sound(getMetadata.sfx); 
                 }
-                if (event?.properties?.client?.sfx_tts) {
+                if (getMetadata.sfx_tts) {
                     const getOutput = this.utils.getTextFromDirectory(
                         event,
-                        event.properties.client.sfx_tts_format ?? `Unknown`
+                        getMetadata.sfx_tts_format ?? `Unknown`
                     );
                     const status = next.type === 'pulsepoint' 
                         ? (event.properties.is_updated ? "updated" : "dispatched")
@@ -163,9 +164,9 @@ class Events {
                     )
                 }
                 await this.utils.sleep(3_800);
-                if (event?.properties?.client?.metadata) { 
-                    for (const key in event?.properties?.client?.metadata) {
-                        if (event?.properties?.client?.metadata?.[key] === true) {
+                if (getMetadata.metadata) { 
+                    for (const key in getMetadata.metadata) {
+                        if (getMetadata.metadata?.[key] === true) {
                             const tone = configurations?.tones?.[`sfx_${key}`];
                             if (tone) this.utils.sound(tone);
                         }
@@ -197,7 +198,7 @@ class Events {
                 title: this.utils.getTextFromDirectory(event, settings.global.setValuePath),
                 fields: [
                     [
-                        { title: "Locations", value: `${event?.properties?.locations?.substring(0, 70)} (x${event?.properties?.geocode?.UGC?.length})`, align: "left" },
+                        { title: "Locations", value: `${event?.properties?.locations?.substring(0, 70) ?? `--`} (x${event?.properties?.geocode?.UGC?.length ?? 0})`, align: "left" },
                         { title: "Issued", value: event?.properties?.issued?.substring(0, 25) ?? `--`, align: "right" },
                     ],
                     [
@@ -212,7 +213,7 @@ class Events {
                     ],
                     [
                         { title: "Office", value: `${event?.properties?.sender_icao ?? `--`}${event?.properties?.sender_icao ? ` (${event?.properties?.sender_name ?? `--`})` : ''}`, align: "left" },
-                        { title: "Tags", value: event?.properties?.tags?.join(", ")?.substring(0, 40) ?? `--`, align: "right" },
+                        { title: "Tags", value: (event?.properties?.tags?.length ?? 0) > 0 ? event?.properties?.tags?.join(", ")?.substring(0, 40) : `--`, align: "right" },
                     ]
                 ],
                 duration: settings.setPauseTime,

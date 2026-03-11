@@ -120,7 +120,7 @@ export class Calculations {
                         };
                         const dist = this.distanceBetweenPoints(point, candidate, unit);
                         if (dist !== null && dist < minDistance) {
-                            minDistance = dist;
+                            minDistance = Number(dist.toFixed(2));
                             closestPoint = candidate;
                         }
                     }

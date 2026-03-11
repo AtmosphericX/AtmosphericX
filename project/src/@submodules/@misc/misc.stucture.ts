@@ -94,50 +94,7 @@ export class Structure {
             loader.modules.utilities.exception(error, this.name_space + `.parse`);
         }
     }
-
-    /**
-     * @private
-     * @production
-     * @error_handling
-     * @function metadata
-     * @description
-     *     This function is responsible for retrieving metadata for events based on configurations.
-     *     It determines the appropriate theme and sound effects for the event.
-     * 
-     * @param {types.EventType} event - The event to retrieve metadata for.
-     * @return {{sfx: string, theme: types.ThemeType, metadata: types.EventMetadataType}} - The event metadata.
-     */
-    private metadata(event: types.EventType | types.PulsePointFeatures) {
-        try {
-            const configurations = loader.modules.utilities.cfg();
-            const theme = configurations.themes[event?.properties?.event]
-                ?? configurations.themes[event?.properties?.parent]
-                ?? configurations.themes[`Default`];
-            const dictionary = configurations.dictionary[event?.properties?.event]
-                ?? configurations.dictionary[event?.properties?.parent]
-                ?? (event.properties?.hash == null ? configurations.dictionary[`Pulse Point`] :
-                configurations.dictionary[`Special Event`]);
-            let sfx = dictionary.sfx_cancel;
-            if (event.properties.is_issued) sfx = dictionary.sfx_issued;
-            else if (event.properties.is_updated) sfx = dictionary.sfx_update;
-            else if (event.properties.is_cancelled) sfx = dictionary.sfx_cancel;
-            return { 
-                sfx,
-                theme,
-                metadata: dictionary.metadata,
-                tts: dictionary.sfx_tts,
-                tts_format: dictionary.sfx_tts_format
-            }
-        } catch (error) {
-            loader.modules.utilities.exception(error, this.name_space + `.metadata`);
-            return {
-                sfx: ``,
-                theme: { background: `#000000`, border: `#FFFFFF`, text: `#FFFFFF` },
-                metadata: { priority: 0, description: `No description available.` }
-            };
-        }
-    }
-    
+ 
     /**
      * @public
      * @production
@@ -153,22 +110,20 @@ export class Structure {
     public register(event: types.EventType) {
         try {
             const configurations = loader.modules.utilities.cfg();
-            const name = event.properties.event;
-            const __metadata = this.metadata(event);
+            const name = event?.properties?.event;
             const isPriority = configurations.filters.priority_events.some(e => e.toLowerCase() === name.toLowerCase());
             const isBeepAuthorizedOnly = configurations.filters.sfx_beep_only;
             const isShowingUpdatesAllowed = configurations.filters.show_updates;
             const isBeepOnly = isBeepAuthorizedOnly && !isPriority;
-            const isIgnored = !isShowingUpdatesAllowed && !isPriority && !event.properties.is_issued;
-            event.properties.client = {
-                metadata: __metadata.metadata,
-                theme: __metadata.theme,
-                sfx: isBeepOnly ? configurations.tones.sfx_beep : __metadata.sfx,
-                sfx_tts: __metadata.tts,
-                sfx_tts_format: __metadata.tts_format,
+            const isIgnored = !isShowingUpdatesAllowed && !isPriority && !event?.properties?.is_issued;
+            const theme = configurations.themes[event?.properties?.event]
+                ?? configurations.themes[event?.properties?.parent]
+                ?? configurations.themes[`Default`];
+            event.properties.imported = { 
                 ignored: isIgnored,
-                only_beep: isBeepOnly
-            };
+                beep_only: isBeepOnly,
+                theme: theme
+            }
             return event;
         } catch (error) {
             loader.modules.utilities.exception(error, this.name_space + `.register`);

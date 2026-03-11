@@ -34,11 +34,11 @@ export class Init {
             try {
                 const getTracking = request.params.tracking ?? null;
                 const getAction = request.params.action ?? null;
-                const getEvent = loader.cache.external.events.features.find((evt: types.EventType) => evt.properties.details.tracking === getTracking);
+                const getEvent = loader.cache.external.events.features.find((evt: types.EventType) => evt?.properties?.details?.tracking === getTracking);
                 if (getEvent) { 
                     switch (getAction) { 
                         case `audio`: 
-                            const audio = await loader.cache.handlers.parser_client.createEasAudio(getEvent.properties.description, getEvent.properties.details.header);
+                            const audio = await loader.cache.handlers.parser_client.createEasAudio(getEvent?.properties?.description, getEvent?.properties?.details?.header);
                             const wavFile = loader.packages.path.basename(audio);
                             return response.json({file: `/eas/${wavFile}`})
                         case `polygon`:

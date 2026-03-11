@@ -90,8 +90,8 @@ export class ATMSXPulsePoint {
             this.mgr.on(`onIncidentUpdate`, async (event) => {
                 const ev = JSON.parse(JSON.stringify(event))
                 const pulse = loader.cache.external.pulsepoint;
-                const index = pulse ? pulse.features.findIndex((f: types.PulsePointFeatures) => f.properties.ID === ev.properties.ID) : -1;
-                const expired = ev.properties.expires != null;
+                const index = pulse ? pulse.features.findIndex((f: types.PulsePointFeatures) => f?.properties?.ID === ev.properties?.ID) : -1;
+                const expired = ev.properties?.expires != null;
                 if (index === -1) { ev.properties.is_issued = true; }
                 if (index !== -1) { 
                     ev.properties.issued = new Date().toLocaleString();
@@ -102,34 +102,34 @@ export class ATMSXPulsePoint {
                     pulse.features.push(register); 
                     loader.modules.utilities.log({ 
                         title: `${this.ansi_colors.YELLOW}PulsePoint${this.ansi_colors.RESET}`, 
-                        message: `[${this.ansi_colors.MAGENTA}New${this.ansi_colors.RESET}] ${this.ansi_colors.GREEN}${ev.properties.event}${this.ansi_colors.RESET} @ ${this.ansi_colors.CYAN}${ev.properties.address}${this.ansi_colors.RESET} (${ev.properties.issued ?? 'N/A'})${this.ansi_colors.RESET}`
+                        message: `[${this.ansi_colors.MAGENTA}New${this.ansi_colors.RESET}] ${this.ansi_colors.GREEN}${ev?.properties?.event}${this.ansi_colors.RESET} @ ${this.ansi_colors.CYAN}${ev?.properties?.address}${this.ansi_colors.RESET} (${ev?.properties?.issued ?? 'N/A'})${this.ansi_colors.RESET}`
                     });
                     await loader.modules.streaming.chatStreamerBot(`${loader.strings.streamber_bot_pulsepoint
                         .replace(`{ACTION}`, `Incoming`)
-                        .replace(`{EVENT}`, ev.properties.event)
-                        .replace(`{LOCATION}`, ev.properties.address)}`
+                        .replace(`{EVENT}`, ev?.properties?.event)
+                        .replace(`{LOCATION}`, ev?.properties?.address)}`
                     , `onPulsePointEvent`);
                 } else { 
                     pulse.features[index] = register;
                     loader.modules.utilities.log({ 
                         title: `${this.ansi_colors.YELLOW}PulsePoint${this.ansi_colors.RESET}`, 
-                        message: `[${this.ansi_colors.MAGENTA}${expired ? `Expired` : `Updated`}${this.ansi_colors.RESET}] ${this.ansi_colors.GREEN}${ev.properties.event}${this.ansi_colors.RESET} @ ${this.ansi_colors.CYAN}${ev.properties.address}${this.ansi_colors.RESET} (${ev.properties.issued ?? 'N/A'})${this.ansi_colors.RESET}`
+                        message: `[${this.ansi_colors.MAGENTA}${expired ? `Expired` : `Updated`}${this.ansi_colors.RESET}] ${this.ansi_colors.GREEN}${ev?.properties?.event}${this.ansi_colors.RESET} @ ${this.ansi_colors.CYAN}${ev?.properties?.address}${this.ansi_colors.RESET} (${ev?.properties?.issued ?? 'N/A'})${this.ansi_colors.RESET}`
                     });
                     await loader.modules.streaming.chatStreamerBot(`${loader.strings.streamber_bot_pulsepoint
                         .replace(`{ACTION}`, expired ? `Expired` : `Updated`)
-                        .replace(`{EVENT}`, ev.properties.event ?? 'N/A')
-                        .replace(`{LOCATION}`, ev.properties.address ?? 'N/A')}`
+                        .replace(`{EVENT}`, ev?.properties?.event ?? 'N/A')
+                        .replace(`{LOCATION}`, ev?.properties?.address ?? 'N/A')}`
                     , `onPulsePointEvent`);
                     loader.modules.websockets.sendUpdateToClients();
                 }
                 pulse.features.sort((a: types.PulsePointFeatures, b: types.PulsePointFeatures) => {
-                    const dateA = new Date(a.properties.issued ?? 0).getTime();
-                    const dateB = new Date(b.properties.issued ?? 0).getTime();
+                    const dateA = new Date(a?.properties?.issued ?? 0).getTime();
+                    const dateB = new Date(b?.properties?.issued ?? 0).getTime();
                     return dateA - dateB;
                 });
                 pulse.features = pulse.features.filter((f: types.PulsePointFeatures) => {
-                    if (!f.properties.expires) { return true; }
-                    const expires = new Date(f.properties.expires).getTime();
+                    if (!f?.properties?.expires) { return true; }
+                    const expires = new Date(f?.properties?.expires).getTime();
                     const now = Date.now();
                     return expires > now;
                 });

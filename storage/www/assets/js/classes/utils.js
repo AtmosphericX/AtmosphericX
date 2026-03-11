@@ -520,6 +520,44 @@ class Utils {
     /**
      * @production
      * @error_handling
+     * @function getEventMetadata
+     * @description
+     *     This function is responsible for retrieving metadata for events based on configurations.
+     *     It determines the appropriate theme and sound effects for the event.
+     * 
+     * @param event
+     * @return {table}
+     */
+    getEventMetadata = function(event) {
+        try {
+            const configurations = this.storage?.configurations;
+            const dictionary = configurations.dictionary[event?.properties?.event]
+                ?? configurations.dictionary[event?.properties?.parent]
+                ?? (event.properties?.hash == null ? configurations.dictionary[`Pulse Point`] :
+                configurations.dictionary[`Special Event`]);
+            let sfx = dictionary.sfx_cancel;
+            if (event.properties.is_issued) sfx = dictionary.sfx_issued;
+            else if (event.properties.is_updated) sfx = dictionary.sfx_update;
+            else if (event.properties.is_cancelled) sfx = dictionary.sfx_cancel;
+            return { 
+                sfx,
+                metadata: dictionary.metadata,
+                tts: dictionary.sfx_tts,
+                tts_format: dictionary.sfx_tts_format
+            }
+        } catch (error) {
+            this.exception(error, `${this.name_space}:getEventMetadata`);
+            return {
+                sfx: ``,
+                theme: { background: `#000000`, border: `#FFFFFF`, text: `#FFFFFF` },
+                metadata: { priority: 0, description: `No description available.` }
+            };
+        }
+    }
+
+    /**
+     * @production
+     * @error_handling
      * @function sound
      * @description
      *      Plays an audio file, managing multiple channels for mobile devices if necessary.

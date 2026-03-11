@@ -165,7 +165,7 @@ export class Init {
         const qLatitude = Number(query.lat ?? 0);
         const qLongitude = Number(query.lon ?? 0);
         const getTrackers = loader.cache.external.tracking.features.map((tracker: TrackingType) => {
-            const index = loader.cache.external.tracking.features.findIndex((t: TrackingType) => t.properties.name === tracker.properties.name);
+            const index = loader.cache.external.tracking.features.findIndex((t: TrackingType) => t.properties?.name === tracker.properties?.name);
             const cLongitude = Number(tracker.geometry.coordinates[0]);
             const cLatitude = Number(tracker.geometry.coordinates[1]);
             const mesonet = loader.cache.external.mesonet.features?.[0] ?? null;
@@ -177,22 +177,22 @@ export class Init {
                 if (distance > (settings?.filters?.filter_by_radius ?? 0)) { return null; }
             }
             let description = [
-                `Name: ${tracker.properties.name ?? `Unknown`}`,
-                `Location: ${tracker.properties.location ?? `Unknown Location`}`,
-                `ICAO: ${tracker.properties.icao ?? `N/A`}`,
-                `Updated: ${new Date(tracker.properties.last_updated ?? '').toLocaleString() ?? `N/A`}`,
+                `Name: ${tracker?.properties?.name ?? `Unknown`}`,
+                `Location: ${tracker?.properties?.location ?? `Unknown Location`}`,
+                `ICAO: ${tracker?.properties?.icao ?? `N/A`}`,
+                `Updated: ${new Date(tracker?.properties?.last_updated ?? '').toLocaleString() ?? `N/A`}`,
             ]
             if (index === 0) {
-                description.push(`Temperature: ${mesonet ? mesonet.properties.temperature + ` °F` : `N/A`}`);
-                description.push(`Dew Point: ${mesonet ? mesonet.properties.dewpoint + ` °F` : `N/A`}`);
-                description.push(`Wind Speed: ${mesonet ? mesonet.properties.wind_speed + ` mph` : `N/A`}`);
-                description.push(`Wind Direction: ${mesonet ? mesonet.properties.wind_direction : `N/A`}`);
-                description.push(`Humidity: ${mesonet ? mesonet.properties.humidity + ` %` : `N/A`}`);
-                description.push(`Conditions: ${mesonet ? mesonet.properties.conditions : `N/A`}`);
+                description.push(`Temperature: ${mesonet ? mesonet?.properties?.temperature + ` °F` : `N/A`}`);
+                description.push(`Dew Point: ${mesonet ? mesonet?.properties?.dewpoint + ` °F` : `N/A`}`);
+                description.push(`Wind Speed: ${mesonet ? mesonet?.properties?.wind_speed + ` mph` : `N/A`}`);
+                description.push(`Wind Direction: ${mesonet ? mesonet?.properties?.wind_direction : `N/A`}`);
+                description.push(`Humidity: ${mesonet ? mesonet?.properties?.humidity + ` %` : `N/A`}`);
+                description.push(`Conditions: ${mesonet ? mesonet?.properties?.conditions : `N/A`}`);
             }
             description.push(`Source: AtmosphericX (RTIRL + Spotter Network)`);
             return { 
-                title: tracker.properties.name ?? 'Unknown', 
+                title: tracker?.properties?.name ?? 'Unknown', 
                 description: description.join('\\n').replace(/;/g, ' -').replace(/,/g, ''),
                 point: [cLongitude, cLatitude], 
                 rgb: '255,0,0,255', 
@@ -231,10 +231,10 @@ export class Init {
                 if (distance > (settings?.filters?.filter_by_radius ?? 0)) { return null; }
             }
             let description = [
-                `Name: ${stream.properties.name ?? `Unknown`}`,
-                `Location: ${stream.properties.location ?? `Unknown Location`}`,
-                `Stream: ${stream.properties.stream_url ?? `N/A`}`,
-                `Model: ${stream.properties.model ?? `N/A`}`,
+                `Name: ${stream?.properties?.name ?? `Unknown`}`,
+                `Location: ${stream?.properties?.location ?? `Unknown Location`}`,
+                `Stream: ${stream?.properties?.stream_url ?? `N/A`}`,
+                `Model: ${stream?.properties?.model ?? `N/A`}`,
                 `Source: AtmosphericX (Radar Omega)`,
             ]
             return { 
@@ -269,9 +269,9 @@ export class Init {
         const configurations = loader.modules.utilities.cfg();
         const isParsingUgc = configurations.sources.atmosx_parser_settings.global_settings.ignore_geometry_parsing;
         const getEvents = loader.cache.external.events.features.map(async (event: types.EventType) => {
-            if (event.properties.center == undefined) { return null; }
-            const cLongitude = Number(event.properties.center.lon);
-            const cLatitude = Number(event.properties.center.lat);
+            if (event?.properties?.imported?.polygon_center == undefined) { return null; }
+            const cLongitude = Number(event?.properties?.imported?.polygon_center?.lon);
+            const cLatitude = Number(event?.properties?.imported?.polygon_center?.lat);
             if (settings?.filters?.enabled) {
                 const distance = loader.modules.calculations.distanceBetweenPoints(
                     { lon: qLongitude, lat: qLatitude }, { lon: cLongitude, lat: cLatitude },
@@ -280,12 +280,17 @@ export class Init {
                 if (distance > (settings?.filters?.filter_by_radius ?? 0)) { return null; }
             }
             const description = [
-                `Event: ${event.properties.event ?? 'Unknown Event'} (${event.properties.action_type ?? 'N/A'})`,
-                `Locations: ${event.properties.locations ?? 'Unknown Locations'}`,
-                `Issued: ${new Date(event.properties.issued ?? '').toLocaleString() ?? 'N/A'}`,
-                `Expires: ${new Date(event.properties.expires ?? '').toLocaleString() ?? 'N/A'}`,
-                `Tags: ${event.properties.tags.join(' - ') ?? 'N/A'}`,
-                `Tracking: ${event.properties.details.tracking ?? 'N/A'}`,
+                `Event: ${event?.properties?.event ?? 'Unknown Event'} (${event?.properties?.action_type ?? '--'})`,
+                `Locations: ${event?.properties?.locations ?? 'Unknown Locations'}`,
+                `Issued: ${new Date(event?.properties?.issued ?? '').toLocaleString() ?? '--'}`,
+                `Expires: ${new Date(event?.properties?.expires ?? '').toLocaleString() ?? '--'}`,
+                `Hail Threat: ${event?.properties?.parameters?.max_hail_size ?? '--'}`,
+                `Wind Threat: ${event?.properties?.parameters?.max_wind_gust ?? '--'}`,
+                `Damage Threat: ${event?.properties?.parameters?.damage_threat ?? '--'}`,
+                `Tornado Threat: ${event?.properties?.parameters?.tornado_detection ?? '--'}`,
+                `Flooding Threat: ${event?.properties?.parameters?.flood_detection ?? '--'}`,
+                `Tags: ${(event?.properties?.tags?.length ?? 0) > 0 ? event?.properties?.tags?.join(" - ") : '--'}`,
+                `Tracking: ${event?.properties?.details?.tracking ?? '--'}`,
                 `Source: AtmosphericX (${loader.cache.internal.source})`
             ].join('\\n').replace(/;/g, ' -').replace(/,/g, '');
             let getPolygon = event.geometry ?? null;
@@ -294,10 +299,10 @@ export class Init {
             }
             if (!getPolygon) return null;
             return {
-                title: `${event.properties.event ?? 'Unknown Event'} (${event.properties.action_type ?? 'N/A'})`,
+                title: `${event?.properties?.event ?? 'Unknown Event'} (${event?.properties?.action_type ?? '--'})`,
                 description,
                 polygon: getPolygon,
-                rgb: (event?.properties?.client?.theme?.primary).replace(/^rgb\(|\)$/g, '') + ',255',
+                rgb: (event?.properties?.imported?.theme?.primary).replace(/^rgb\(|\)$/g, '') + ',255',
             }
         });
         const results = (await Promise.all(getEvents)).filter(Boolean) as Exclude<PlacefileEntry, null>[];
@@ -333,21 +338,21 @@ export class Init {
                 if (distance > (settings?.filters?.filter_by_radius ?? 0)) { return null; }
             }
             const description = [
-                `ID: ${discussion.properties.mesoscale_id ?? `N/A`}`,
-                `Outlook: ${discussion.properties.outlook ?? `N/A`}`,
-                `Issued: ${new Date(discussion.properties.issued ?? '').toLocaleString() ?? `N/A`}`,
-                `Expires: ${new Date(discussion.properties.expires ?? '').toLocaleString() ?? `N/A`}`,
-                `Population: ${discussion.properties.population ?? `N/A`}`,
-                `Homes Affected: ${discussion.properties.homes ?? `N/A`}`,
-                `Locations: ${discussion.properties.locations ?? `N/A`}`,
-                `Tornado Probability: ${discussion.properties.tornado_probability ?? `N/A`}`,
-                `Wind Probability: ${discussion.properties.wind_probability ?? `N/A`}`,
-                `Hail Probability: ${discussion.properties.hail_probability ?? `N/A`}`,
-                `Description: ${discussion.properties.description.replace(/<br\s*\/?>/gi, ' ') ?? `N/A`}`,
+                `ID: ${discussion?.properties?.mesoscale_id ?? `N/A`}`,
+                `Outlook: ${discussion?.properties?.outlook ?? `N/A`}`,
+                `Issued: ${new Date(discussion?.properties?.issued ?? '').toLocaleString() ?? `N/A`}`,
+                `Expires: ${new Date(discussion?.properties?.expires ?? '').toLocaleString() ?? `N/A`}`,
+                `Population: ${discussion?.properties?.population ?? `N/A`}`,
+                `Homes Affected: ${discussion?.properties?.homes ?? `N/A`}`,
+                `Locations: ${discussion?.properties?.locations ?? `N/A`}`,
+                `Tornado Probability: ${discussion?.properties?.tornado_probability ?? `N/A`}`,
+                `Wind Probability: ${discussion?.properties?.wind_probability ?? `N/A`}`,
+                `Hail Probability: ${discussion?.properties?.hail_probability ?? `N/A`}`,
+                `Description: ${discussion?.properties?.description.replace(/<br\s*\/?>/gi, ' ') ?? `N/A`}`,
                 `Source: AtmosphericX (WeatherWise)`
             ].join('\\n').replace(/;/g, ' -').replace(/,/g, '');
             return { 
-                title: `Mesoscale Discussion ${discussion.properties.mesoscale_id ?? 'N/A'}`, 
+                title: `Mesoscale Discussion ${discussion?.properties?.mesoscale_id ?? 'N/A'}`, 
                 description, 
                 polygon: discussion.geometry,
                 rgb: '0,0,255,255', 
@@ -387,14 +392,14 @@ export class Init {
                 if (distance > (settings?.filters?.filter_by_radius ?? 0)) { return null; }
             }
             let description = [
-                `Type: ${pulsepoint.properties.event ?? `Unknown Event`}`,
-                `Address: ${pulsepoint.properties.address ?? `Unknown Address`}`,
-                `Last Updated: ${pulsepoint.properties.issued ?? `N/A`}`,
-                `Responding Units: ${pulsepoint.properties.units.map(u => u.id).join(", ") ?? `N/A`}`,
+                `Type: ${pulsepoint?.properties?.event ?? `Unknown Event`}`,
+                `Address: ${pulsepoint?.properties?.address ?? `Unknown Address`}`,
+                `Last Updated: ${pulsepoint?.properties?.issued ?? `N/A`}`,
+                `Responding Units: ${pulsepoint?.properties?.units?.map(u => u.id).join(", ") ?? `N/A`}`,
             ]
             description.push(`Source: PulsePoint (AtmosphericX)`);
             return { 
-                title: pulsepoint.properties.event ?? 'Unknown', 
+                title: pulsepoint?.properties?.event ?? 'Unknown', 
                 description: description.join('\\n').replace(/;/g, ' -').replace(/,/g, ''),
                 point: [cLongitude, cLatitude], 
                 rgb: '255,0,0,255', 

@@ -106,8 +106,8 @@ export class ATMSXParser {
      */
     private async initQueueService(events: types.EventType[]): Promise<void> {
         const sortByTimestamp = [...events].sort((a, b) => {
-            const aIssued = new Date(a.properties.issued).getTime();
-            const bIssued = new Date(b.properties.issued).getTime();
+            const aIssued = new Date(a?.properties?.issued).getTime();
+            const bIssued = new Date(b?.properties?.issued).getTime();
             if (isNaN(aIssued) && isNaN(bIssued)) return 0;
             if (isNaN(aIssued)) return 1;
             if (isNaN(bIssued)) return -1;
@@ -179,7 +179,7 @@ export class ATMSXParser {
                 const [lon, lat] = spotter?.geometry?.coordinates;
                 const getPoint = loader.modules.calculations.getPolygonClosestPoint(getPolygon, {lon, lat});
                 setSpotters.push({
-                    name: spotter?.properties.name ?? `Unknown Spotter`,
+                    name: spotter?.properties?.name ?? `Unknown Spotter`,
                     metadata: getPoint,
                 })
                 if (getLocationSettings?.enabled && getLocationSettings?.max_distance > getPoint?.distance) { 
@@ -215,15 +215,15 @@ export class ATMSXParser {
         const spotters = [...loader.cache.external.tracking.features];
         const getUpdateWindow = configurations?.sources?.location_settings?.polygon_update_time * 1000;
         await Promise.all(events.map(async (event) => {
-            const updated = event?.properties?.spotters_last_updated ?? null;
+            const updated = event?.properties?.imported?.spotters_last_updated ?? null;
             if ((updated != null) && getUpdateWindow > 0 && updated > 0 && (time - updated) < getUpdateWindow) {
                 return;
             }
             const getDetails = await this.getPolygonMetadata(event, configurations, spotters);
             if (!getDetails) { return }
-            event.properties.center = getDetails.getCenter
-            event.properties.spotters = getDetails.setSpotters;
-            event.properties.spotters_last_updated = time;
+            event.properties.imported.polygon_center = getDetails.getCenter
+            event.properties.imported.spotters = getDetails.setSpotters;
+            event.properties.imported.spotters_last_updated = time;
             processed += 1;
         }));
         if (processed > 0) {
@@ -253,16 +253,16 @@ export class ATMSXParser {
         const getLocationSettings = configurations?.filters?.location_settings
         const featureMap: Map<string, typeof features[0]> = new Map();
         const spotters = [...loader.cache.external.tracking.features];
-        features.forEach(f => f?.properties?.details?.tracking && featureMap.set(f.properties.details.tracking, f));
+        features.forEach(f => f?.properties?.details?.tracking && featureMap.set(f?.properties?.details?.tracking, f));
 
         const register = loader.modules.structure.register(event);
         const { properties } = register;
-        const { tracking, history } = properties.details;
-        const isEntry = loader.cache.external.hashes.find(log => log.tracking === tracking);
-        const isHashed = isEntry?.hashes.includes(properties.hash) ?? false;
-        const isIgnored = register.properties.client.ignored;
+        const { tracking, history } = properties?.details;
+        const isEntry = loader?.cache?.external?.hashes?.find(log => log?.tracking === tracking);
+        const isHashed = isEntry?.hashes?.includes(properties?.hash) ?? false;
+        const isIgnored = register?.properties?.imported?.ignored;
 
-        if (isHashed || isIgnored || properties.is_cancelled) return;
+        if (isHashed || isIgnored || properties?.is_cancelled) return;
 
         this.setHashes(properties, isEntry);
         const getDetails = await this.getPolygonMetadata(event, configurations, spotters);
@@ -273,7 +273,7 @@ export class ATMSXParser {
 
         const getFeature = featureMap.get(tracking);
         const type = getFeature ? `Updated` : `Created`
-        if (!properties.is_cancelled) {
+        if (!properties?.is_cancelled) {
             loader.modules.utilities.log({ 
                 title: `${this.ansi_colors.MAGENTA}${type}${this.ansi_colors.RESET}`,
                 message: this.getEventText(register),
@@ -281,16 +281,16 @@ export class ATMSXParser {
             });
         }
       
-        if (properties.is_updated || properties.is_issued) {
+        if (properties?.is_updated || properties?.is_issued) {
             if (getFeature) {
                 const getIndex = features.indexOf(getFeature);
 
-                const cHistory = getFeature.properties?.details?.history ?? [];
-                const cLocations = getFeature.properties?.locations?.split(";").map((l: string) => l.trim()) ?? [];
-                const cUgc = getFeature.properties?.geocode?.UGC ?? [];
+                const cHistory = getFeature?.properties?.details?.history ?? [];
+                const cLocations = getFeature?.properties?.locations?.split(";").map((l: string) => l.trim()) ?? [];
+                const cUgc = getFeature?.properties?.geocode?.UGC ?? [];
 
-                const iHistory = properties.details?.history ?? [];
-                const iLocations = properties.locations?.split(";").map((l: string) => l.trim()) ?? [];
+                const iHistory = properties?.details?.history ?? [];
+                const iLocations = properties?.locations?.split(";").map((l: string) => l.trim()) ?? [];
                 const iUgc = properties?.geocode?.UGC ?? [];
         
 
@@ -309,12 +309,12 @@ export class ATMSXParser {
                     properties: {
                         ...event.properties,
                         details: {
-                            ...event.properties.details,
+                            ...event?.properties?.details,
                             history: mHistory
                         },
                         locations: mLocations,
                         geocode: {
-                            ...event.properties.geocode,
+                            ...event?.properties?.geocode,
                             UGC: mUgc
                         },
                     }
@@ -347,26 +347,26 @@ export class ATMSXParser {
                 const priority = new Set((configurations?.filters?.priority_events ?? []).map(p => String(p).toLowerCase()));
                 const crticial = configurations?.webhook_settings?.critical_events;
                 const general = configurations?.webhook_settings?.general_events;
-                const title = `${register.properties.event} (${register.properties.action_type})`;
-                const locations = register.properties.locations;
+                const title = `${register?.properties?.event} (${register?.properties?.action_type})`;
+                const locations = register?.properties?.locations;
                 const setBody = [
-                    `**Locations:** ${register.properties.locations.slice(0, 259)}`,
-                    `**Issued:** ${register.properties.issued ?? `--`}`,
-                    `**Expires:** ${register.properties.expires ?? `--`}`,
-                    `**Wind Gusts:** ${register.properties.parameters.max_wind_gust ?? `--`}`,
-                    `**Hail Size:** ${register.properties.parameters.max_hail_size ?? `--`}`,
-                    `**Damage Threat:** ${register.properties.parameters.damage_threat ?? `--`}`,
-                    `**Tornado Threat:** ${register.properties.parameters.tornado_detection ?? `--`}`,
-                    `**Flood Threat:** ${register.properties.parameters.flood_detection ?? `--`}`,
-                    `**Tags:** ${register.properties.tags ? register.properties.tags.join(', ') : 'N/A'}`,
-                    `**Sender:** ${register.properties.sender_name ?? `--`}`,
-                    `**Tracking ID:** ${register.properties.details.tracking ?? `--`}`,
+                    `**Locations:** ${register?.properties?.locations.slice(0, 259)}`,
+                    `**Issued:** ${register?.properties?.issued ?? `--`}`,
+                    `**Expires:** ${register?.properties?.expires ?? `--`}`,
+                    `**Wind Gusts:** ${register?.properties?.parameters?.max_wind_gust ?? `--`}`,
+                    `**Hail Size:** ${register?.properties?.parameters?.max_hail_size ?? `--`}`,
+                    `**Damage Threat:** ${register?.properties?.parameters?.damage_threat ?? `--`}`,
+                    `**Tornado Threat:** ${register?.properties?.parameters?.tornado_detection ?? `--`}`,
+                    `**Flood Threat:** ${register?.properties?.parameters?.flood_detection ?? `--`}`,
+                    `**Tags:** ${register?.properties?.tags ? register?.properties?.tags.join(', ') : 'N/A'}`,
+                    `**Sender:** ${register?.properties?.sender_name ?? `--`}`,
+                    `**Tracking ID:** ${register?.properties?.details?.tracking ?? `--`}`,
                     '```',
-                    register.properties.description.split('\n').map(line => line.trim()).filter(line => line.length > 0).join('\n'),
+                    register?.properties?.description?.split('\n')?.map(line => line.trim())?.filter(line => line.length > 0)?.join('\n') ?? '',
                     '```'
                 ].join('\n');
                 await loader.modules.streaming.chatStreamerBot(`${title} for ${locations}`, `onEvent`);
-                if (priority.has(register.properties.event.toLowerCase())) { 
+                if (priority.has(register?.properties?.event?.toLowerCase())) { 
                     loader.modules.utilities.sendWebhook(crticial, title, setBody);
                 } else { 
                     loader.modules.utilities.sendWebhook(general, title, setBody);
@@ -394,13 +394,13 @@ export class ATMSXParser {
     private async setHashes(properties?: types.LocalEventProperties, isEntry?: setHashesEntry | null): Promise<void> {
         try {
             if (isEntry) {
-                isEntry.hashes.push(properties.hash);
-                isEntry.expires = properties.expires;
+                isEntry.hashes.push(properties?.hash);
+                isEntry.expires = properties?.expires;
             } else {
                 loader.cache.external.hashes.push({
-                    tracking: properties.details.tracking,
-                    hashes: [properties.hash],
-                    expires: properties.expires
+                    tracking: properties?.details?.tracking,
+                    hashes: [properties?.hash],
+                    expires: properties?.expires
                 });
             }
         } catch (error) {

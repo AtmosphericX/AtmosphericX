@@ -33,7 +33,7 @@
 
     */
 {
-    "events:hash": "40cf3d3b7a6449356e8674daad763179072f87614ff22ccc4baa62048dba2654", // DO NOT MODIFY THIS VALUE. THIS IS USED FOR CONFIGURATION INTEGRITY CHECKS.
+    "events:hash": "da84624e44207b7d9bb1cf3cd68220eeccf73f45403769ff1b9964bb57f85f76", // DO NOT MODIFY THIS VALUE. THIS IS USED FOR CONFIGURATION INTEGRITY CHECKS.
     "filters": {
         "listening_events": [ // Events you wish to listen to (ex. Tornado Warnings, Severe Thunderstorm Warnings, etc.)
             "Tornado Emergency", "PDS Tornado Warning",
@@ -200,6 +200,14 @@
         "Severe Thunderstorm Warning": {
             "sfx_issued": "/sfx/severe_sfx/severe-issued.mp3",
             "sfx_update": "/sfx/severe_sfx/severe-updated.mp3",
+            "sfx_cancel": "/sfx/eas_sfx/beep-sfx.mp3",
+            "sfx_tts": false,
+            "sfx_tts_format": "Attention, This %properties.event% has been {STATUS}",
+            "metadata": { "siren": false, "wail": false, "urgent": false, "iphone": false, "uniden": false}
+        },
+        "Tornado Watch": {
+            "sfx_issued": "/sfx/watch_sfx/watch-torado.mp3",
+            "sfx_update": "/sfx/eas_sfx/beep-sfx.mp3",
             "sfx_cancel": "/sfx/eas_sfx/beep-sfx.mp3",
             "sfx_tts": false,
             "sfx_tts_format": "Attention, This %properties.event% has been {STATUS}",
