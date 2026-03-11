@@ -138,8 +138,8 @@
                 const getEvents = utils.storage?.events?.features ?? [];
                 getEvents.filter(async (event) => {
                     const getHash = event?.properties?.hash;
-                    const getQuery = event?.properties?.spotters?.find(tracker => tracker.name?.toLowerCase().includes(String(settings.setSearch)?.toLowerCase()));
-                    const getTracker = getQuery ?? event?.properties?.spotters?.[0];
+                    const getQuery = event?.properties?.imported?.spotters?.find(tracker => tracker.name?.toLowerCase().includes(String(settings.setSearch)?.toLowerCase()));
+                    const getTracker = getQuery ?? event?.properties?.imported?.spotters?.[0];
                     const getEventName = event?.properties?.event;
                     if (!getTracker) { return false }
                     if (cache.hashes.includes(getHash)) { return false }

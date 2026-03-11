@@ -204,10 +204,10 @@
                             const getRadius = get(aSearch, `setRadius`) ?? 50;
                             let getEvent, getMin = Infinity, getUnit, getMax = getRadius;
                             for (const feature of utils.storage?.events?.features ?? []) {
-                                const getSpotters = feature.properties?.spotters ?? [];
+                                const getSpotters = feature.properties?.imported?.spotters ?? [];
                                 if (getSpotters?.length != 0) {
-                                    const getQuery = feature.properties?.spotters.find(spotter => spotter.name?.toLowerCase().includes(String(getSearch)?.toLowerCase()));
-                                    const getSelectedSpotter = getQuery ?? feature.properties?.spotters[0];
+                                    const getQuery = feature.properties?.imported?.spotters.find(spotter => spotter.name?.toLowerCase().includes(String(getSearch)?.toLowerCase()));
+                                    const getSelectedSpotter = getQuery ?? feature.properties?.imported?.spotters[0];
                                     if (getSelectedSpotter.metadata.distance < getMin && getSelectedSpotter.metadata.distance <= getMax) {
                                         getMin = getSelectedSpotter.metadata.distance;
                                         getUnit = getSelectedSpotter.metadata.unit;

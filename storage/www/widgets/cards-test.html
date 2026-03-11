@@ -138,7 +138,7 @@
                     const event = feature.properties.event;
                     const issued = feature.properties.issued;
                     const location = feature.properties.locations ?? feature.properties.address ?? "N/A";
-                    const getMyDistance = Math.round(feature.properties.spotters[0]?.metadata?.distance);
+                    const getMyDistance = Math.round(feature.properties.imported?.spotters[0]?.metadata?.distance);
                     const card = document.createElement("div");
                     card.className = "widget-card";
                     card.innerHTML = `
