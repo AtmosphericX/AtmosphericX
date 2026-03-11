@@ -11,5 +11,6 @@ refactor(structure): remove client data as that can be grabbed directly from the
 refactor(utils): rename isMobileDevice to getMobileDevice for clarity and consistency
 refactor(widgets): enhance applyElementSettings and applyGlobalSettings with error handling
 refactor(events): improve null checks and use optional chaining for safer property access
+fix(middleware): refactor configuration access for web hosting settings
 
 feat(frontend): implement getEventMetadata function to centralize event metadata retrieval

@@ -68,10 +68,10 @@ export class Routes {
         try  {
             this.mgr = loader.cache.handlers.express = this.pkg();
             const configurations = loader.modules.utilities.cfg();
-            const options = configurations.web_hosting_settings;
-            const isHttps = options.settings?.is_https;
-            const getPort = options.settings?.port_number;
-            const isLogonRequired = options.is_login_required;
+            const options = configurations?.web_hosting_settings;
+            const isHttps = options?.settings?.is_https;
+            const getPort = options?.settings?.port_number;
+            const isLogonRequired = options?.is_login_required;
             if (!isLogonRequired) {
                 loader.modules.utilities.log({
                     title: `${this.ansi_colors.RED}Security${this.ansi_colors.RESET}`,
@@ -123,7 +123,7 @@ export class Routes {
      */
     private async modules(): Promise<void> {
         const configurations = loader.modules.utilities.cfg();
-        const options = configurations.web_hosting_settings;
+        const options = configurations?.web_hosting_settings;
         if (!options?.documentation_mode) {
             loader.modules.http_get_cache = new (await import('./@routes/@data/routes.data.cache')).Init();
             loader.modules.http_get_query = new (await import('./@routes/@data/routes.data.query')).Init();
@@ -158,7 +158,7 @@ export class Routes {
     private getCertificates(): Certificates {
         try { 
             const configurations = loader.modules.utilities.cfg();
-            const options = configurations.web_hosting_settings;
+            const options = configurations?.web_hosting_settings;
             const getKey = options?.settings?.certification_paths.private_key_path;
             const getCert = options?.settings?.certification_paths.certificate_path;
             if (!loader.packages.fs.existsSync(getKey) || !loader.packages.fs.existsSync(getCert)) {
@@ -190,7 +190,7 @@ export class Routes {
      * @return {Object} A JSON response indicating success or failure of the session invalidation.
      */
     public invalidateUserSession(response: types.ExpressRequest, session: string, kickMessage?: string): Record<string, string | number> {
-        const getMessages = loader.strings.route_messages;
+        const getMessages = loader?.strings?.route_messages;
         try { 
             loader.cache.internal.http_sessions = loader.cache.internal.http_sessions
                 .filter(sessionItem => sessionItem.session !== session);
@@ -201,13 +201,13 @@ export class Routes {
                 settings: { file: true }
             });
             return response.status(200).json({
-                message: kickMessage ?? getMessages.session_logout_message,
+                message: kickMessage ?? getMessages?.session_logout_message,
                 status: 200
             })
         } catch (error) {
             loader.modules.utilities.exception(error, this.name_space + `.invalidateUserSession`)
             return response.status(500).json({
-                message: getMessages.response_generic_error,
+                message: getMessages?.response_generic_error,
                 status: 500
             });
         }
@@ -234,10 +234,10 @@ export class Routes {
         const getMessages = loader.strings.route_messages;
         try {
             const configurations = loader.modules.utilities.cfg();
-            const options = configurations.web_hosting_settings;
+            const options = configurations?.web_hosting_settings;
             const getSession = loader.cache.internal.http_sessions.find(a => a.username == username) ?? null;
             if (getSession) {
-                if ((options?.settings?.account_protection?.duplicate_session_prevention) && (getSession.address != address || getSession.useragent != useragent)) {
+                if ((options?.settings?.account_protection?.duplicate_session_prevention) && (getSession?.address != address || getSession?.useragent != useragent)) {
                     loader.modules.utilities.log({
                         title: `${this.ansi_colors.YELLOW}${this.name_space}${this.ansi_colors.RESET}`,
                         message: `Duplicate session login attempt for ${this.ansi_colors.CYAN}${username}${this.ansi_colors.RESET} from ${this.ansi_colors.CYAN}${address}${this.ansi_colors.RESET}`,
@@ -247,7 +247,7 @@ export class Routes {
                 }
             }
             response.cookie(`session`, session, {
-                httpOnly: true, secure: configurations?.web_hosting_settings?.settings?.is_https,
+                httpOnly: true, secure: options?.settings?.is_https,
                 sameSite: 'lax', maxAge: 7 * 24 * 60 * 60 * 1_000,
             })
             loader.cache.internal.http_sessions.push({

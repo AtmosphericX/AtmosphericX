@@ -34,12 +34,12 @@ export class Init {
         const getRoutes = loader.strings.route_locations;
         const storage = loader.packages.path.resolve(`..`, `storage`);
         const configurations = loader.modules.utilities.cfg();
-        const options = configurations?.web_hosting_settings?.settings?.ratelimiting;
-        const documentation = configurations?.web_hosting_settings?.settings?.documentation_mode;
-        if (options?.enabled) { 
+        const optionsRatelimit = configurations?.web_hosting_settings?.settings?.ratelimiting;
+        const optionsCache = configurations?.web_hosting_settings?.settings?.enable_cache;
+        if (optionsRatelimit?.enabled) { 
             const settings = this.ratelimit({
-                windowMs: options?.window_ms ?? 30_000,
-                max: options?.max_requests ?? 125,
+                windowMs: optionsRatelimit?.window_ms ?? 30_000,
+                max: optionsRatelimit?.max_requests ?? 125,
                 handler: (__, response) => {
                     return response.status(429).json({ message: getMessages.response_ratelimited });
                 }
@@ -48,7 +48,7 @@ export class Init {
         }
         this.server.set(`trust proxy`, 1);
         this.server.use((request: types.ExpressRequest, response: types.ExpressResponse, next: types.ExpressNext) => {
-            if (!configurations?.web_hosting_settings?.settings?.enable_cache) {
+            if (!optionsCache) {
                 for (const key in getMessages.headers) { 
                     response.setHeader(key, getMessages.headers[key]); 
                 }

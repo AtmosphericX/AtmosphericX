@@ -55,9 +55,10 @@ export class Init {
                 const tick = performance.now();
                 let setPath = `${storage}${getRoutes.dashboard_direct_path}`;
                 const configurations = loader.modules.utilities.cfg();
+                const options = configurations?.web_hosting_settings;
                 const isSetupFinished = loader.cache.external.setup == 0 ? false : true;
-                const isPortal = configurations.web_hosting_settings.is_login_required ?? false;
-                const documentation = configurations.web_hosting_settings?.documentation_mode ?? false;
+                const isPortal = options?.is_login_required ?? false;
+                const documentation = options?.documentation_mode ?? false;
                 if (documentation) {
                     return response.redirect(`/documentation`);
                 }
