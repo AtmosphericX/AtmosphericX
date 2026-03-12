@@ -33,12 +33,12 @@
 
     */
 {
-    "events:hash": "da84624e44207b7d9bb1cf3cd68220eeccf73f45403769ff1b9964bb57f85f76", // DO NOT MODIFY THIS VALUE. THIS IS USED FOR CONFIGURATION INTEGRITY CHECKS.
+    "events:hash": "675e0fa8cd42e5a3eb57d86141766685847780ef95ce451cb82c18ea4fbace0a", // DO NOT MODIFY THIS VALUE. THIS IS USED FOR CONFIGURATION INTEGRITY CHECKS.
     "filters": {
         "listening_events": [ // Events you wish to listen to (ex. Tornado Warnings, Severe Thunderstorm Warnings, etc.)
             "Tornado Emergency", "PDS Tornado Warning",
             "Confirmed Tornado Warning", "Radar Indicated Tornado Warning",
-            "Tornado Warning", "PDS Tornado Watch", "Tornado Watch",
+            "Tornadic Special Marine Warning", "PDS Tornado Watch", "Tornado Watch",
             "EDS Severe Thunderstorm Warning (TPROB)", "EDS Severe Thunderstorm Warning",
             "Destructive Severe Thunderstorm Warning (TPROB)", "Destructive Severe Thunderstorm Warning",
             "Considerable Severe Thunderstorm Warning (TPROB)", "Considerable Severe Thunderstorm Warning",
@@ -63,6 +63,7 @@
             "Destructive Severe Thunderstorm Warning (TPROB)", "Destructive Severe Thunderstorm Warning",
             "Considerable Severe Thunderstorm Warning (TPROB)", "Considerable Severe Thunderstorm Warning",
             "Severe Thunderstorm Warning (TPROB)",
+            "Tornadic Special Marine Warning",
             "Flash Flood Emergency", 
             "Tsunami Warning", "Tsunami Watch",
             "Tsunami Advisory", 
@@ -248,6 +249,14 @@
         "Flash Flood Watch": {
             "sfx_issued": "/sfx/watch_sfx/watch-flash-flood.mp3",
             "sfx_update": "/sfx/eas_sfx/beep-sfx.mp3",
+            "sfx_cancel": "/sfx/eas_sfx/beep-sfx.mp3",
+            "sfx_tts": false,
+            "sfx_tts_format": "Attention, This %properties.event% has been {STATUS}",
+            "metadata": { "siren": false, "wail": false, "urgent": false, "iphone": false, "uniden": false}
+        },
+        "Tornadic Special Marine Warning": {
+            "sfx_issued": "/sfx/severe_sfx/special-marine-issued.mp3",
+            "sfx_update": "/sfx/severe_sfx/special-marine-updated.mp3",
             "sfx_cancel": "/sfx/eas_sfx/beep-sfx.mp3",
             "sfx_tts": false,
             "sfx_tts_format": "Attention, This %properties.event% has been {STATUS}",

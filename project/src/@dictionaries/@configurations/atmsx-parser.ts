@@ -45,12 +45,9 @@ export const getConfigurations = () => {
                 nickname: `AtmosphericX (${displayName}) v${loader.modules.utilities.version()}`,
             },
             cache: {
-                enabled: cacheSettings?.read_cache,
-                max_file_size: cacheSettings?.max_size_mb,
+                enabled: cacheSettings?.enabled,
                 max_db_history: cacheSettings?.max_db_history,
-                use_db_for_cache: cacheSettings?.use_db_cache,
                 max_db_cache_size: cacheSettings?.max_db_cache_size,
-                directory: cacheSettings?.directory,
             },
             preferences: {
                 cap_only: preferenceSettings?.cap_only,

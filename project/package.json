@@ -35,6 +35,8 @@
   },
   "homepage": "https://github.com/AtmosphericX/AtmosphericX#readme",
   "dependencies": {
+    "@firebase/app": "0.14.7",
+    "@firebase/database": "1.1.0",
     "@streamerbot/client": "1.12.2",
     "argon2": "0.44.0",
     "atmosx-nwws-parser": "beta",
@@ -49,8 +51,6 @@
     "express-rate-limit": "8.2.1",
     "express-session": "1.19.0",
     "express-ws": "5.0.2",
-    "@firebase/app": "0.14.7",
-    "@firebase/database": "1.1.0",
     "jsonc-parser": "3.3.1",
     "typescript": "5.9.3"
   },

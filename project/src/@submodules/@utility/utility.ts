@@ -60,7 +60,6 @@ export class Utility {
         `../storage/databases/`,
         `../storage/temporary/`,
         `../storage/temporary/eas/`,
-        `../storage/temporary/events/`,
     ]
     config_directory: string = `../configurations`;
     ansi_colors = loader.statics.ansi_colors;

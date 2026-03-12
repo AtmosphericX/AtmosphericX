@@ -33,7 +33,7 @@
 
     */
 {
-    "sources:hash": "434a92f0b3a15ecd5858e89db2baf1b7eb8b1e558616f67475f525f464c83fc1", // DO NOT MODIFY THIS VALUE. THIS IS USED FOR CONFIGURATION INTEGRITY CHECKS.
+    "sources:hash": "f3ece654546e1278f510544df08cf71bc444313aa01daacc5a95bf2b5288dc7f", // DO NOT MODIFY THIS VALUE. THIS IS USED FOR CONFIGURATION INTEGRITY CHECKS.
     "sources": {
         "atmosx_parser_settings": { // AtmosphericX event parser settings
             "noaa_weather_wire_service": false, // If you want to use NOAA Weather Wire Service, set this to true.
@@ -54,15 +54,12 @@
                     "reconnection_attempt_interval": 60 // How often to attempt reconnections (in seconds)
                 },
                 "client_cache": {
-                    "read_cache": false, // If you want to read from cache on startup. (This may impact performance on initial load)
-                    "max_size_mb": 2, // Max cache size in MB.
+                    "enabled": true, // If you want to read from cache on startup. (This may impact performance on initial load)
                     "max_db_history": 15000, // Max number of events to keep in cache database.
                     "max_db_cache_size": 250, // Max number of events to load into the events cache on startup (Requires use_db_for_cache to be true)
-                    "use_db_cache": true, // If you want to use database for caching instead of flat files. (Recommended for large number of events)
-                    "directory": "../storage/temporary/events" // Directory to store cache files.
                 },
                 "alert_preferences": {
-                    "cap_only": false // If you want to only process CAP formatted events. (THIS IS NOT AS FAST AS TEXT PRODUCTS)
+                    "cap_only": false, // If you want to only process CAP formatted events. (THIS IS NOT AS FAST AS TEXT PRODUCTS)
                 }
             },
             "global_settings": {
@@ -184,7 +181,7 @@
                 "key": "private_key_here", // Private key - you will not be able to access data without this. (Developer permissions needed)
                 "interval": 30, // How often to pull PulsePoint data (in seconds, Default: 30 seconds)
                 "events": [ // Event types to pull (Ex. ["Resedential Structure Fire", "Flood", "Severe Weather"])
-                     "Traffic Collision", "Auto Aid", "Mutual Aid", "Aircraft Crash", "Aircraft Emergency",
+                    "Traffic Collision", "Auto Aid", "Mutual Aid", "Aircraft Crash", "Aircraft Emergency",
                     "Aircraft Emergency Standby", "Fire Alarm", "Waterflow Alarm", "Police Assist", "Public Service", 
                     "Sheared Hydrant", "Explosion", "Pipeline Emergency", "Transformer Explosion", "Appliance Fire", 
                     "Chimney Fire", "Commercial Fire", "Confirmed Structure Fire", "Confirmed Vegetation Fire", "Electrical Fire", 

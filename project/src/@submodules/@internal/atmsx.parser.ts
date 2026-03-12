@@ -456,12 +456,29 @@ export class ATMSXParser {
     public async listener(isRefreshingSettings: boolean = false): Promise<void> {
         try {
             const settings = getConfigurations()
+            const scanning = {
+                "onMesoscaleDiscussion": "Mesoscale Discussion",
+                "onDay1": "SPC Day 1 Update",
+                "onDay2": "SPC Day 2 Update",
+                "onDay3": "SPC Day 3 Update"
+            }
+            
             if (isRefreshingSettings && this.mgr) {
                 this.mgr.setSettings(settings);
                 return;
             }
             loader.cache.internal.source = (settings.is_wire ? `NWWS` : `NWS`);
             this.mgr = loader.cache.handlers.parser_client = new this.pkg(settings)
+            
+            for (const [event, name] of Object.entries(scanning)) {
+                this.mgr.on(event, async (data: any) => {
+                    loader.modules.utilities.log({ 
+                        title: `${this.ansi_colors.YELLOW}${name} Event${this.ansi_colors.RESET}`, 
+                        message: `Recieved`,
+                    });
+                });
+            }
+            
             this.mgr.on(`onExpired`, async (event: types.EventType) => {
                 const getEvent = loader.cache.external.events.features.find(f => f?.properties?.tracking === event?.properties?.details?.tracking);
                 if (getEvent) {
@@ -477,6 +494,7 @@ export class ATMSXParser {
                 }
                 return
             });
+            
             this.mgr.on(`onEvents`, async (events: types.EventType[]) => {
                 this.cache_events.push(...events);
                 if (!this.emitter_processing) {
@@ -489,23 +507,27 @@ export class ATMSXParser {
                     }, 1);
                 }
             });
+            
             this.mgr.on(`onMessage`, (message: onMessage) => {
                 const configurations = loader.modules.utilities.cfg();
                 const misc = configurations.webhook_settings.misc_events;
                 loader.modules.utilities.sendWebhook(misc, `${message?.awipsType?.type}`, `\`\`\`${message?.message.split('\n').map(line => line.trim()).filter(line => line.length > 0).join('\n')}\`\`\``);
             });
+            
             this.mgr.on(`log`, (message: string) => {
                 loader.modules.utilities.log({ 
                     title: `${this.ansi_colors.YELLOW}Parser${this.ansi_colors.RESET}`, 
                     message: message
                 });
             });
+            
             this.mgr.on(`onReconnection`, (data: {lastName: string}) => {
                 loader.modules.utilities.log({ 
                     title: `${this.ansi_colors.YELLOW}Parser${this.ansi_colors.RESET}`, 
                     message: `Reconnected to NOAA Weather Wire Service as ${this.ansi_colors.CYAN}${data.lastName}${this.ansi_colors.RESET}`
                 });
             });
+            
             this.mgr.on(`onConnection`, (nickname: string) => {
                 loader.modules.utilities.log({ 
                     title: `${this.ansi_colors.YELLOW}Parser${this.ansi_colors.RESET}`, 

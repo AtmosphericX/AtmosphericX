@@ -1,16 +1,6 @@
-========= 8.0.0.033 (beta-pre-dashboard-testing) =========
+========= 8.0.0.034 (dashboard-creation-build) =========
 
-fix(calculations): distance is now float(2)
-fix(configurations): tornado watch (events.jsonc) entry
-fix(backend): update property access to use optional chaining for better safety across various modules
-fix(frontend): update filtering logic to handle undefined properties gracefully
-fix(frontend): improve event handling in PulsePoint updates to prevent errors
-fix(parameters): simplify get function logic for parameter retrieval
-
-refactor(structure): remove client data as that can be grabbed directly from the config endpoint
-refactor(utils): rename isMobileDevice to getMobileDevice for clarity and consistency
-refactor(widgets): enhance applyElementSettings and applyGlobalSettings with error handling
-refactor(events): improve null checks and use optional chaining for safer property access
-fix(middleware): refactor configuration access for web hosting settings
-
-feat(frontend): implement getEventMetadata function to centralize event metadata retrieval
+add(nwws-parser): Tornadic Special Marine Warning
+add(configurations): Added SPC / Dicussions configurable options.
+update(nwws-parser): Updated NWWS Parser to v1.0.3178@beta (PLEASE DELETE YOUR SHAPEFILES DB TO USE NEW DATABASE STRUCTURE)
+remove(nwws-parser): Disk cache for NWWS Parsing
