@@ -14,6 +14,8 @@
 
         <!-- Scripts -->
         <script src="/assets/js/static/strings.js"></script>
+        <script src="/assets/js/classes/utils.js"></script>
+        <script src="/assets/js/classes/dashboard.js"></script>
 
         <!-- Apple / PWA -->
         <link rel="manifest" href="/assets/static/manifest.json" />
@@ -25,20 +27,30 @@
     <body>
         <div class="graph-bg"></div>
         <div class="announcement" id="announcement">
-            <p class="text-primary text-neutral header-message">This is a test announcement message</p>
+            <p class="text-primary text-neutral header-message" id="header-message"></p>
         </div>
 
         <aside class="sidebar">
             <img class="logo" src="/assets/images/logo.png" alt="AtmosphericX" />
-            <small class="version text-primary text-neutral"> Version Example Here </small>
-            <small class="footer text-primary text-neutral"> Sidebar Footer Example Here </small>
+            <small class="version text-primary text-neutral" id="sidebar-version"></small>
+            <small class="footer text-primary text-neutral" id="sidebar-footer"> Sidebar Footer Example Here </small>
         </aside>
 
         <main class="container">
             <h1 class="title text-primary text-neutral">Page Title Here</h1>
-
             <div class="container-grid">
                 <div class="grid span-3">
+                    <div class="card span-12 row-2">
+                        <div class="card-header">
+                            <div class="card-title text-neutral">Card Title Example</div>
+                        </div>       
+                    </div>
+                    <div class="card span-6 row-2">
+                        <div class="card-header">
+                            <div class="card-title text-neutral">Card Title Example</div>
+                        </div>       
+                    </div>
+                    
                     <div class="card span-3 row-1">
                         <div class="card-header">
                             <div class="card-title text-neutral">Card Title Example</div>
@@ -84,7 +96,7 @@
                         </div>
                         <div class="content text-primary text-neutral">Card Content Example Text</div>
                     </div>
-                    <div class="card span-3 row-1">
+                    <div class="card span-6 row-3">
                         <div class="card-header">
                             <div class="card-title text-neutral">Card Title Example</div>
                             <div class="card-icon text-neutral">
@@ -138,9 +150,66 @@
                         </div>
                         <div class="content text-primary text-neutral">Card Content Example Text</div>
                     </div>
-                    
+                    <div class="card span-3 row-1">
+                        <div class="card-header">
+                            <div class="card-title text-neutral">Card Title Example</div>
+                            <div class="card-icon text-neutral">
+                                <i class="fas fa-exclamation-triangle"></i>
+                            </div>
+                        </div>
+                        <div class="content text-primary text-neutral">Card Content Example Text</div>
+                    </div>
+                    <div class="card span-3 row-1">
+                        <div class="card-header">
+                            <div class="card-title text-neutral">Card Title Example</div>
+                            <div class="card-icon text-neutral">
+                                <i class="fas fa-exclamation-triangle"></i>
+                            </div>
+                        </div>
+                        <div class="content text-primary text-neutral">Card Content Example Text</div>
+                    </div>
+                    <div class="card span-3 row-1">
+                        <div class="card-header">
+                            <div class="card-title text-neutral">Card Title Example</div>
+                            <div class="card-icon text-neutral">
+                                <i class="fas fa-exclamation-triangle"></i>
+                            </div>
+                        </div>
+                        <div class="content text-primary text-neutral">Card Content Example Text</div>
+                    </div>
+                    <div class="card span-6 row-1">
+                        <div class="card-header">
+                            <div class="card-title text-neutral">Card Title Example</div>
+                            <div class="card-icon text-neutral">
+                                <i class="fas fa-exclamation-triangle"></i>
+                            </div>
+                        </div>
+                        <div class="content text-primary text-neutral">Card Content Example Text</div>
+                    </div>
+                    <div class="card span-6 row-1">
+                        <div class="card-header">
+                            <div class="card-title text-neutral">Card Title Example</div>
+                            <div class="card-icon text-neutral">
+                                <i class="fas fa-exclamation-triangle"></i>
+                            </div>
+                        </div>
+                        <div class="content text-primary text-neutral">Card Content Example Text</div>
+                    </div>
+                    <div class="card span-12 row-1">
+                        <div class="card-header">
+                            <div class="card-title text-neutral">Card Title Example</div>
+                            <div class="card-icon text-neutral">
+                                <i class="fas fa-exclamation-triangle"></i>
+                            </div>
+                        </div>
+                        <div class="content text-primary text-neutral">Card Content Example Text</div>
+                    </div>
                 </div>
             </div>
         </main>
     </body>
+    <script>
+        const utils = new Utils();
+        const dashboard = new Dashboard(utils);
+    </script>
 </html>

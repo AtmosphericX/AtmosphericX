@@ -26,11 +26,10 @@
         <link rel="stylesheet" href="/assets/styles/global.css">
         <link rel="stylesheet" href="/assets/styles/notification.css">
         <!-- JS --> 
-        <script src="/assets/js/classes/utils.js"></script> <!-- Utility Functions -->
-        <script src="/assets/js/classes/wise.js"></script> <!-- WeatherWise Logic -->
-        <script src="/assets/js/classes/events.js"></script> <!-- Events Logic -->
-        <script src="/assets/js/classes/widgets.js"></script> <!-- Widgets Logic -->
-        <script src="/assets/js/static/parameters.js"></script> <!-- URL parameters Logic -->
+        <script src="/assets/js/classes/utils.js" defer></script> <!-- Utility Functions -->
+        <script src="/assets/js/classes/events.js" defer></script> <!-- Events Logic -->
+        <script src="/assets/js/classes/widgets.js" defer></script> <!-- Widgets Logic -->
+        <script src="/assets/js/static/parameters.js" defer></script> <!-- URL parameters Logic -->
 
         <!-- Apple / PWA -->
         <link rel="manifest" href="/assets/static/manifest.json">
@@ -119,7 +118,6 @@
             let cache = {};
             const settings = {global: aGlobalElementSettings};
             const utils = new Utils();
-            const wise = new Wise(utils);
             const widgets = new Widgets(utils);
             const handler = new Events(utils, widgets);
 

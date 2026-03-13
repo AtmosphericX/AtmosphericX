@@ -4,3 +4,18 @@ add(nwws-parser): Tornadic Special Marine Warning
 add(configurations): Added SPC / Dicussions configurable options.
 update(nwws-parser): Updated NWWS Parser to v1.0.3178@beta (PLEASE DELETE YOUR SHAPEFILES DB TO USE NEW DATABASE STRUCTURE)
 remove(nwws-parser): Disk cache for NWWS Parsing
+
+update(dashboard): Improve dashboard behavior and responsiveness
+add(dashboard): Landing page state handling
+add(dashboard): Browser history push support for dashboard navigation
+add(dashboard): Socket onUpdate handler for real-time updates
+add(dashboard): Helper methods for Dashboard state management
+
+update(css): Improve scrolling behavior and mobile responsiveness
+update(css): Mobile grid adjustments (single-column spans for widgets)
+update(css): Header sizing improvements on smaller displays
+
+update(scripts): Defer script loading across multiple pages for improved performance
+add(dev): Include dashboard.js on development page
+
+remove(widgets): Unused Wise instantiation from widget examples
