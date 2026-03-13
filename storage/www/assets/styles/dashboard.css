@@ -112,18 +112,6 @@ body { background: var(--clr-surface-tonal-a10); min-height: 100vh; color: var(-
     line-height: 1.5;
 }
 
-/* ---------------- GRID SPAN UTILITIES ---------------- */
-.span-3 { grid-column: span 3; }
-.span-4 { grid-column: span 4; }
-.span-6 { grid-column: span 6; }
-.span-8 { grid-column: span 8; }
-.span-9 { grid-column: span 9; }
-.span-12 { grid-column: span 12; }
-.row-1 { grid-row: span 1; }
-.row-2 { grid-row: span 2; }
-.row-3 { grid-row: span 3; }
-.row-4 { grid-row: span 4; }
-
 /* ---------------- RESPONSIVE / MOBILE MEDIA ---------------- */
 @media (max-width: 1400px) {
     .grid { grid-template-columns: repeat(8, 1fr); }
