@@ -8,11 +8,13 @@
 
         <!-- Styles -->
         <link rel="stylesheet" href="/assets/styles/global.css" />
+        <link rel="stylesheet" href="/assets/styles/notification.css"/>
         <link rel="stylesheet" href="/assets/styles/app.css" />
         <link rel="stylesheet" href="/assets/styles/dashboard.css" />
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"/>
 
         <!-- Scripts -->
+        <script src="/assets/js/static/layout.js"></script>
         <script src="/assets/js/static/strings.js"></script>
         <script src="/assets/js/classes/utils.js"></script>
         <script src="/assets/js/classes/dashboard.js"></script>
@@ -26,183 +28,41 @@
 
     <body>
         <div class="graph-bg"></div>
+        <div class="notifications"></div>
         <div class="announcement" id="announcement">
-            <p class="text-primary text-neutral header-message" id="header-message"></p>
+            <p class="message text-primary text-neutral" id="message"></p>
         </div>
 
         <aside class="sidebar">
             <img class="logo" src="/assets/images/logo.png" alt="AtmosphericX" />
             <small class="version text-primary text-neutral" id="sidebar-version"></small>
+            
+            <div class="nav">
+                <a href="#home" class="nav-link text-neutral hover-light" onclick="dashboard.onUpdate()">Home</a>
+                <div class="nav-dropdown active">
+                    <div class="nav-dropdown-header text-neutral hover-light">Settings <i class="fas fa-chevron-down"></i></div>
+                    <div class="nav-dropdown-content">
+                        <a href="#profile" class="nav-link text-neutral hover-light" onclick="dashboard.onUpdate()">Profile</a>
+                        <a href="#account" class="nav-link text-neutral hover-light">Account</a>
+                        <a href="#appearance" class="nav-link text-neutral hover-light">Appearance</a>
+                        <a href="#notifications" class="nav-link text-neutral hover-light">Notifications</a>
+                    </div>
+                </div>
+            </div>
+         
+            
             <small class="footer text-primary text-neutral" id="sidebar-footer">Project AtmosphericX</small>
         </aside>
 
-        <main class="container">
+        <main class="container" id="container">
             <h1 class="title text-primary text-neutral">Page Title Here</h1>
             <div class="container-grid">
-                <div class="grid span-3">
-                    <div class="card span-12 row-2">
+                <div class="grid span-4">
+                    <div class="card span-4 row-1">
                         <div class="card-header">
                             <div class="card-title text-neutral">Card Title Example</div>
+                            <div class="card-icon">T</div>
                         </div>       
-                    </div>
-                    <div class="card span-6 row-2">
-                        <div class="card-header">
-                            <div class="card-title text-neutral">Card Title Example</div>
-                        </div>       
-                    </div>
-                    
-                    <div class="card span-3 row-1">
-                        <div class="card-header">
-                            <div class="card-title text-neutral">Card Title Example</div>
-                            <div class="card-icon text-neutral">
-                                <i class="fas fa-exclamation-triangle"></i>
-                            </div>
-                        </div>
-                        <div class="content text-primary text-neutral">Card Content Example Text</div>
-                    </div>
-                    <div class="card span-3 row-1">
-                        <div class="card-header">
-                            <div class="card-title text-neutral">Card Title Example</div>
-                            <div class="card-icon text-neutral">
-                                <i class="fas fa-exclamation-triangle"></i>
-                            </div>
-                        </div>
-                        <div class="content text-primary text-neutral">Card Content Example Text</div>
-                    </div>
-                    <div class="card span-3 row-1">
-                        <div class="card-header">
-                            <div class="card-title text-neutral">Card Title Example</div>
-                            <div class="card-icon text-neutral">
-                                <i class="fas fa-exclamation-triangle"></i>
-                            </div>
-                        </div>
-                        <div class="content text-primary text-neutral">Card Content Example Text</div>
-                    </div>
-                    <div class="card span-3 row-1">
-                        <div class="card-header">
-                            <div class="card-title text-neutral">Card Title Example</div>
-                            <div class="card-icon text-neutral">
-                                <i class="fas fa-exclamation-triangle"></i>
-                            </div>
-                        </div>
-                        <div class="content text-primary text-neutral">Card Content Example Text</div>
-                    </div>
-                    <div class="card span-3 row-2">
-                        <div class="card-header">
-                            <div class="card-title text-neutral">Card Title Example</div>
-                            <div class="card-icon text-neutral">
-                                <i class="fas fa-exclamation-triangle"></i>
-                            </div>
-                        </div>
-                        <div class="content text-primary text-neutral">Card Content Example Text</div>
-                    </div>
-                    <div class="card span-6 row-3">
-                        <div class="card-header">
-                            <div class="card-title text-neutral">Card Title Example</div>
-                            <div class="card-icon text-neutral">
-                                <i class="fas fa-exclamation-triangle"></i>
-                            </div>
-                        </div>
-                        <div class="content text-primary text-neutral">Card Content Example Text</div>
-                    </div>
-                    <div class="card span-3 row-1">
-                        <div class="card-header">
-                            <div class="card-title text-neutral">Card Title Example</div>
-                            <div class="card-icon text-neutral">
-                                <i class="fas fa-exclamation-triangle"></i>
-                            </div>
-                        </div>
-                        <div class="content text-primary text-neutral">Card Content Example Text</div>
-                    </div>
-                    <div class="card span-3 row-1">
-                        <div class="card-header">
-                            <div class="card-title text-neutral">Card Title Example</div>
-                            <div class="card-icon text-neutral">
-                                <i class="fas fa-exclamation-triangle"></i>
-                            </div>
-                        </div>
-                        <div class="content text-primary text-neutral">Card Content Example Text</div>
-                    </div>
-                    <div class="card span-3 row-1">
-                        <div class="card-header">
-                            <div class="card-title text-neutral">Card Title Example</div>
-                            <div class="card-icon text-neutral">
-                                <i class="fas fa-exclamation-triangle"></i>
-                            </div>
-                        </div>
-                        <div class="content text-primary text-neutral">Card Content Example Text</div>
-                    </div>
-                    <div class="card span-3 row-1">
-                        <div class="card-header">
-                            <div class="card-title text-neutral">Card Title Example</div>
-                            <div class="card-icon text-neutral">
-                                <i class="fas fa-exclamation-triangle"></i>
-                            </div>
-                        </div>
-                        <div class="content text-primary text-neutral">Card Content Example Text</div>
-                    </div>
-                    <div class="card span-3 row-1">
-                        <div class="card-header">
-                            <div class="card-title text-neutral">Card Title Example</div>
-                            <div class="card-icon text-neutral">
-                                <i class="fas fa-exclamation-triangle"></i>
-                            </div>
-                        </div>
-                        <div class="content text-primary text-neutral">Card Content Example Text</div>
-                    </div>
-                    <div class="card span-3 row-1">
-                        <div class="card-header">
-                            <div class="card-title text-neutral">Card Title Example</div>
-                            <div class="card-icon text-neutral">
-                                <i class="fas fa-exclamation-triangle"></i>
-                            </div>
-                        </div>
-                        <div class="content text-primary text-neutral">Card Content Example Text</div>
-                    </div>
-                    <div class="card span-3 row-1">
-                        <div class="card-header">
-                            <div class="card-title text-neutral">Card Title Example</div>
-                            <div class="card-icon text-neutral">
-                                <i class="fas fa-exclamation-triangle"></i>
-                            </div>
-                        </div>
-                        <div class="content text-primary text-neutral">Card Content Example Text</div>
-                    </div>
-                    <div class="card span-3 row-1">
-                        <div class="card-header">
-                            <div class="card-title text-neutral">Card Title Example</div>
-                            <div class="card-icon text-neutral">
-                                <i class="fas fa-exclamation-triangle"></i>
-                            </div>
-                        </div>
-                        <div class="content text-primary text-neutral">Card Content Example Text</div>
-                    </div>
-                    <div class="card span-6 row-1">
-                        <div class="card-header">
-                            <div class="card-title text-neutral">Card Title Example</div>
-                            <div class="card-icon text-neutral">
-                                <i class="fas fa-exclamation-triangle"></i>
-                            </div>
-                        </div>
-                        <div class="content text-primary text-neutral">Card Content Example Text</div>
-                    </div>
-                    <div class="card span-6 row-1">
-                        <div class="card-header">
-                            <div class="card-title text-neutral">Card Title Example</div>
-                            <div class="card-icon text-neutral">
-                                <i class="fas fa-exclamation-triangle"></i>
-                            </div>
-                        </div>
-                        <div class="content text-primary text-neutral">Card Content Example Text</div>
-                    </div>
-                    <div class="card span-12 row-1">
-                        <div class="card-header">
-                            <div class="card-title text-neutral">Card Title Example</div>
-                            <div class="card-icon text-neutral">
-                                <i class="fas fa-exclamation-triangle"></i>
-                            </div>
-                        </div>
-                        <div class="content text-primary text-neutral">Card Content Example Text</div>
                     </div>
                 </div>
             </div>

@@ -32,11 +32,20 @@ body { background: var(--clr-surface-tonal-a10); min-height: 100vh; color: var(-
 
 /* ---------------- ANNOUNCEMNT PROPERTIES ---------------- */
 .announcement { 
-    position: fixed; 
-    top: 0; left: var(--sidebar-width);
-    width: calc(100% - var(--sidebar-width));
-    padding: 12px; text-align: center;
-    z-index: 50;
+    margin-left: var(--sidebar-width); /* push content to right of sidebar */
+    padding: 12px 20px;
+    text-align: center;
+    background: var(--clr-surface-tonal-a0);
+    box-shadow: 4px 0 20px rgba(0,0,0,0.25);
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+.announcement .message {
+    display: block;
+    max-width: 100%;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    margin: 0 auto;
 }
 
 /* ---------------- SIDEBAR PROPERTIES ---------------- */
@@ -48,6 +57,7 @@ body { background: var(--clr-surface-tonal-a10); min-height: 100vh; color: var(-
     padding: 32px 20px; display: flex;
     flex-direction: column; align-items: center;
     box-shadow: 4px 0 20px rgba(0,0,0,0.25);
+    border-right: 1px solid rgba(255,255,255,0.1);
 }
 .sidebar .logo {
     width: 110px; height: auto;
@@ -62,6 +72,64 @@ body { background: var(--clr-surface-tonal-a10); min-height: 100vh; color: var(-
     margin-top: auto; font-size: 0.75rem;
     opacity: 0.6; text-align: center;
 }
+
+/* ---------------- NAVIGATION PROPERTIES ---------------- */
+.nav {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    overflow-y: auto;
+}
+
+.nav-link {
+    display: block;
+    padding: 10px 16px;
+    width: 100%;
+    text-decoration: none;
+    color: inherit;
+    border-radius: 6px;
+    transition: background 0.2s ease;
+}
+.nav-dropdown {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+.nav-dropdown-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 16px;
+    cursor: pointer;
+    border-radius: 6px;
+    transition: background 0.2s ease;
+}
+.nav-dropdown-content {
+    max-height: 0;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    transition: max-height 0.3s ease, padding 0.3s ease;
+    border-left: 1px solid rgba(255,255,255,0.1);
+    border-right: 1px solid rgba(255,255,255,0.1);
+}
+.nav-dropdown.active .nav-dropdown-content {
+    max-height: 500px; /* high enough to fit all items */
+    padding-left: 10px;
+}
+.nav-dropdown-header i {
+    transition: transform 0.3s ease;
+}
+.nav-dropdown.active .nav-dropdown-header i {
+    transform: rotate(180deg);
+}
+
+/* ---------------- NAVIGATION SCROLLBAR PROPERTIES ---------------- */
+--webkit-scrollbar { width: 2px; }
+.nav::-webkit-scrollbar { width: 2px; }
+.nav::-webkit-scrollbar-track { background: transparent; }
+.nav::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 4px; }
+.nav::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.2); }
 
 /* ---------------- CONATINER PROPERTIES ---------------- */
 .container {
@@ -88,7 +156,7 @@ body { background: var(--clr-surface-tonal-a10); min-height: 100vh; color: var(-
 .card {
     background: var(--clr-surface-tonal-a0);
     border-radius: 16px; padding: 22px;
-    border: 1px solid rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.1);
     box-shadow: 0 6px 14px rgba(0,0,0,0.28), inset 0 1px 0 rgba(255,255,255,0.03);
     display: flex; flex-direction: column; gap: 14px;
     overflow-y: scroll; scrollbar-width: thin; scrollbar-color: rgba(255,255,255,0.0) transparent;
@@ -117,9 +185,9 @@ body { background: var(--clr-surface-tonal-a10); min-height: 100vh; color: var(-
 /* ---------------- RESPONSIVE / MOBILE MEDIA ---------------- */
 @media (max-width: 1200px) {
     .sidebar { display: none; }
-    .container { margin-left: 0; width: 100%; padding: 80px 24px; }
-    .announcement { left: 0; width: 100%; }
-    .header-message { font-size: 0.5rem; }
+    .container { margin-left: 0; width: 100%; padding: 20px 24px; }
+    .announcement { margin-left: 0; width: 100%; }
+    .announcement .message { font-size: 0.5rem; }
     .grid {
         grid-template-columns: 1fr;
         grid-auto-rows: auto;
