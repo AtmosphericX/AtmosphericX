@@ -15,17 +15,20 @@
 
 */
 
+
+/* ---------------- GLOBAL ROOT PROPERTIES ---------------- */
 @font-face { font-family: 'DefaultFont'; src: url('/assets/fonts/GenericFont.ttf'); }
 * { margin: 0; padding: 0; box-sizing: border-box; touch-action: manipulation; font-family: "DefaultFont"}
 
 :root, .global { 
+    /* ---------------- FONT FAMILY (ALL TEXT) ---------------- */
     --global-font-family: 'DefaultFont';
 
-    /* Basic Colors */
+    /* ---------------- BASIC COLORING (PRIMARILY TEXT) ---------------- */
     --clr-dark-a0: #000000;
     --clr-light-a0: #ffffff;
 
-    /* Primary Colors - Deep Blue-Slate */
+    /* ---------------- PRIMARY COLORS - DEEP BLUE SLATE ---------------- */
     --clr-primary-a0: #1a2332;
     --clr-primary-a10: #2a3547;
     --clr-primary-a20: #3d4a5e;
@@ -36,13 +39,13 @@
     --clr-primary-a70: #bac5df;
     --clr-primary-a80: #d8e0f9;
 
-    /* Primary Transparent */
+    /* ---------------- PRIMARY COLORS - TRANSPARENT ---------------- */
     --clr-primary-a0-t50: #1a233280;
     --clr-primary-a10-t50: #2a354780;
     --clr-primary-a20-t50: #3d4a5e80;
     --clr-primary-a30-t50: #52607780;
 
-    /* Surface Colors - Rich Dark */
+    /* ---------------- SURFACE COLORS - RICH DARK(S) ---------------- */
     --clr-surface-a0: #0a0c10;
     --clr-surface-a10: #12151c;
     --clr-surface-a20: #1c2028;
@@ -52,13 +55,13 @@
     --clr-surface-a60: #545c6c;
     --clr-surface-a70: #686f81;
 
-    /* Surface Transparent */
+    /* ---------------- SURFACE COLORS - TRANSPARENT  ---------------- */
     --clr-surface-a0-t80: #0a0c10cc;
     --clr-surface-a10-t60: #12151c99;
     --clr-surface-a20-t40: #1c202866;
     --clr-surface-a30-t20: #272c3633;
 
-    /* Surface Tonal Colors - Warm Dark */
+    /* ---------------- SURFACE TONAL COLORS - WARM DARK(S) ---------------- */
     --clr-surface-tonal-a0: #0f0f14;
     --clr-surface-tonal-a10: #1a1b23;
     --clr-surface-tonal-a20: #252730;
@@ -68,71 +71,68 @@
     --clr-surface-tonal-a60: #656774;
     --clr-surface-tonal-a70: #7a7c89;
 
-    /* Surface Tonal Transparent */
+    /* ---------------- SURFACE TONAL - TRANSPARENT ---------------- */
     --clr-surface-tonal-a0-t70: #0f0f14b3;
     --clr-surface-tonal-a10-t50: #1a1b2380;
     --clr-surface-tonal-a20-t30: #2527304d;
 
-    /* Success Colors - Vibrant Cyan-Green */
+    /* ---------------- SUCCESS COLORS - VIBRANT "GREENISH" ---------------- */
     --clr-success-a0: #00d9a0;
     --clr-success-a10: #2effc4;
     --clr-success-a20: #8affe1;
 
-    /* Success Transparent */
+    /* ---------------- SUCCESS COLORS - TRANSPARENT ---------------- */
     --clr-success-a0-t60: #00d9a099;
     --clr-success-a10-t30: #2effc44d;
 
-    /* Warning Colors - Electric Amber */
+    /* ---------------- WARNING COLORS - AMBER ---------------- */
     --clr-warning-a0: #ff9f0a;
     --clr-warning-a10: #ffc247;
     --clr-warning-a20: #ffe08f;
 
-    /* Warning Transparent */
+    /* ---------------- WARNING COLORS - TRANSPARENT ---------------- */
     --clr-warning-a0-t50: #ff9f0a80;
     --clr-warning-a10-t20: #ffc24733;
 
-    /* Danger Colors - Neon Red */
+    /* ---------------- DANGER COLORS - RED ---------------- */
     --clr-danger-a0: #ff3b3b;
     --clr-danger-a5: #ff2d2d;
     --clr-danger-a10: #ff6b6b;
     --clr-danger-a20: #ffb3b3;
 
-    /* Danger Transparent */
+    /* ---------------- DANGER COLORS - TRANSPARENT ---------------- */
     --clr-danger-a0-t40: #ff3b3b66;
     --clr-danger-a10-t20: #ff6b6b33;
 
-    /* Info Colors - Electric Blue */
+    /* ---------------- INFO COLORS - BLUE ---------------- */
     --clr-info-a0: #0a84ff;
     --clr-info-a10: #4da6ff;
     --clr-info-a20: #99cbff;
 
-    /* Info Transparent */
+    /* ---------------- INFO COLORS - TRANSPARENT ---------------- */
     --clr-info-a0-t50: #0a84ff80;
     --clr-info-a10-t30: #4da6ff4d;
 
-    /* Additional Neutrals */
+    /* ---------------- NEUTRAL COLORS - GRAY ---------------- */
     --clr-neutral-a0: #6b6b6b;
     --clr-neutral-a10: #9e9e9e;
     --clr-neutral-a20: #d4d4d4;
 
-    /* Neutral Transparent */
+    /* ---------------- NEUTRAL COLORS - TRANSPARENT ---------------- */
     --clr-neutral-a0-t60: #6b6b6b99;
     --clr-neutral-a10-t20: #9e9e9e33;
 }
 
+/* ---------------- ANIMATED GRAPH BACKGROUND ("CHECKERBOARD") ---------------- */
 .graph-bg { 
-    content: "";
-    position: fixed;
-    inset: 0;
-    pointer-events: none;
-    z-index: -1;
-    background-image:
-        linear-gradient(0deg, rgba(255, 255, 255, 0.034) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255, 255, 255, 0.034) 1px, transparent 1px);
+    content: ""; position: fixed; inset: 0;
+    pointer-events: none; z-index: -1;
+    background-image: linear-gradient(0deg, rgba(255, 255, 255, 0.034) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, 0.034) 1px, transparent 1px);
     background-size: 40px 40px;
     animation: anim_grid 4s linear infinite;
 }
 
+/* ---------------- WIDGET CONTRAINER PROPERTIES ---------------- */
 .widget-container {
     position: absolute; 
     bottom: 0%; 
@@ -143,6 +143,7 @@
     flex-direction: column;
 }
 
+/* ---------------- MOBILE AUDIO CONFIRM BUTTON (getMobileDevice) ---------------- */
 .mobile-confirm { 
     position: fixed;
     top: 50%;
@@ -158,6 +159,7 @@
     font-size: 20px;
 }
 
+/* ---------------- GLOBAL ANIMATIONS ---------------- */
 @keyframes anim_shrink { from { width: 100%; } to { width: 0%; } }
 @keyframes anim_slide_in { to {opacity: 1; transform: translateY(0) scale(1); } }
 @keyframes anim_grid { from { background-position: 0 0, 0 0; } to { background-position: 40px 40px, 40px 40px; } }

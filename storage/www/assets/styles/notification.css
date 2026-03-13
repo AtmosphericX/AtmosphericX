@@ -15,46 +15,44 @@
 
 */
 
+/* ---------------- NOTIFICATION PROPERTIES ---------------- */
 .notifications {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    display: flex;
+    position: fixed; bottom: 20px;
+    right: 20px; display: flex;
     flex-direction: column-reverse;
-    gap: 12px;
-    z-index: 9999;
+    gap: 12px; z-index: 9999;
     pointer-events: none;
-} .notification {
-    position: relative;
-    max-width: 300px;
-    width: auto;
-    padding: 16px 20px;
-    border-radius: 8px;
-    background-color: var(--clr-surface-a10);
+} 
+.notification {
+    position: relative; max-width: 300px;
+    width: auto; padding: 16px 20px;
+    border-radius: 8px; background-color: var(--clr-surface-a10);
     color: var(--clr-light-a0);
     box-shadow: 0 6px 18px rgba(0,0,0,0.35);
-    overflow: hidden;
-    opacity: 0;
+    overflow: hidden; opacity: 0;
     transform: translateY(20px) scale(0.95);
     pointer-events: auto;
     font-family: var(--global-font-family);
-} .notification-title {
+} 
+.notification-title {
     font-size: 1.2em;
     margin-bottom: 6px;
-} .notification-message {
+} 
+.notification-message {
     font-size: 0.95em;
 }
 
+/* ---------------- NOTIFICATION ANIMATION PROPERTIES ---------------- */
 .notification-progress.progress-animate { animation: anim_shrink linear forwards; }
 .notification.enter { animation: anim_slide_in 0.4s forwards ease-out; }
 .notification.fade-out { animation: anim_fade_out 0s forwards ease-in; }
 
+/* ---------------- NOTIFICATION BACKGROUND COLOR TYPES ---------------- */
 .notification.info { background-color: var(--clr-info-a0); }
 .notification.success { background-color: var(--clr-success-a0); }
 .notification.error { background-color: var(--clr-danger-a0); }
 
+/* ---------------- RESPONSIVE / MOBILE MEDIA ---------------- */
 @media (max-width: 480px) {
-    .notifications {
-        zoom: 0.8;
-    }
+    .notifications { zoom: 0.8; }
 }

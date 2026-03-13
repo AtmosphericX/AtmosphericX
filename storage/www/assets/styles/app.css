@@ -15,60 +15,31 @@
 
 */
 
-
-/* Inputs */
-.input-primary { 
-    width: 100%; padding: 12px 16px;
-    border: 1.5px solid var(--clr-surface-a20);
-    background: var(--clr-surface-a10-t60);
-    color: var(--clr-light-a0); font-size: 12px;
-    outline: none; transition: all 0.5s ease;
-}
-
-/* Links */
-.a-primary { 
-    text-decoration: none;
-    font-size: 12px; padding: 6px 10px;
-    transition: all 0.5s ease;
-}
-
-/* Text */
-.text-primary { 
-    width: 100%; transition: all 0.5s ease;
-}
-
-/* Divs */
-.div-primary { 
-    width: 100%; border-radius: 16px;
-    background: var(--clr-surface-a0-t80);
-    padding: 40px; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
-    border: 1px solid var(--clr-surface-a20);
-    transition: all 0.5s ease;
-}
-
-/* Buttons */
-.btn-primary { 
-    width: 100%; padding: 12px 12px;
-    border: none; border-radius: 12px;
-    background: var(--clr-info-a0-t50);
-    color: var(--clr-light-a0); cursor: pointer;
-    transition: all 0.5s ease;
-}
+/* ---------------- PRIMARY ELEMENT UTILITIES ---------------- */
+.input-primary { width: 100%; padding: 12px 16px; border: 1.5px solid var(--clr-surface-a20); background: var(--clr-surface-a10-t60); color: var(--clr-light-a0); font-size: 12px; outline: none; transition: all 0.5s ease; }
+.a-primary { text-decoration: none; font-size: 12px; padding: 6px 10px; transition: all 0.5s ease; }
+.text-primary { width: 100%; transition: all 0.5s ease; }
+.div-primary { width: 100%; border-radius: 16px; background: var(--clr-surface-a0-t80); padding: 40px; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15); border: 1px solid var(--clr-surface-a20); transition: all 0.5s ease; }
+.btn-primary { width: 100%; padding: 12px 12px; border: none; border-radius: 12px; background: var(--clr-info-a0-t50); color: var(--clr-light-a0); cursor: pointer; transition: all 0.5s ease; }
 
 
-/* Schemes */
+/* ---------------- BACKGROUND COLOR UTILITIES ---------------- */
 .bg-danger { background: var(--clr-danger-a0-t40); }
 .bg-success { background: var(--clr-success-a0-t60); }
 .bg-warning { background: var(--clr-warning-a0-t50); }
 .bg-neutral { background: var(--clr-neutral-a0-t60); }
+.bg-generic { background: var(--clr-surface-tonal-a0); }
 .bg-info { background: var(--clr-info-a0-t50); }
 
+/* ---------------- TEXT COLOR UTILITIES ---------------- */
 .text-danger { color: var(--clr-danger-a0); }
 .text-success { color: var(--clr-success-a0); }
 .text-warning { color: var(--clr-warning-a0); }
 .text-neutral { color: var(--clr-neutral-a10); }
 .text-info { color: var(--clr-info-a0); }
 
+
+/* ---------------- ELEMENT RADIUS UTILITIES ---------------- */
 .radius-5 { border-radius: 5px; }
 .radius-10 { border-radius: 10px; }
 .radius-50 { border-radius: 50px; }
@@ -76,7 +47,7 @@
 .glassy { backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); background: transparent}
 
 
-/* Interactions */
+/* ---------------- INTERACTION UTILITIES ---------------- */
 .hover { transition: all 0.5s ease-in-out; } .hover:hover { transform: translateY(-3px); }
 .hover-light { transition: all 0.5s ease-in-out; filter: brightness(1) } .hover-light:hover { filter: brightness(2); }
 .hover-pointer { cursor: pointer; }

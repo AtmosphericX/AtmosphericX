@@ -15,6 +15,7 @@
 
 */
 
+/* ---------------- PORTAL ROOT PROPERTIES ---------------- */
 body { 
     color: var(--clr-light-a0); margin: 0;
     box-sizing: border-box; display: flex;
@@ -22,105 +23,98 @@ body {
     min-height: 100vh; padding: 20px;
     position: relative; user-select: none;
     -webkit-user-drag: none;
-} .background { 
+} 
+
+/* ---------------- BACKGROUND (IMAGE) PROPERTIES ---------------- */
+.background { 
     background-image: url('https://weather.cod.edu/data/satellite/background/background.truecolor.jpg');
     background-color: var(--clr-surface-tonal-a0);
     background-size: cover; background-position: center;
     position: fixed; inset: 0; z-index: -1;
 }
 
+/* ---------------- ANNOUCNEMENT PROPERTIES ---------------- */
 .header-announcement { 
     display: none; position: fixed; top: 0%; left: 50%; transform: translateX(-50%);
     width: 100%; justify-content: center;
     border-bottom: 1px solid var(--clr-surface-a20);
     background-color: var(--clr-surface-a0-t80);
     padding: 5px 20px; z-index: 20;
-    animation: anim_intro 0.5s ease-out;
-} .header-message { 
+    animation: anim_fade_in 0.5s ease-out;
+} 
+.header-message { 
     padding: 1px 1px;
     text-align: center;
 }
 
-
+/* ---------------- CONTAINER PROPERTIES ---------------- */
 .container { 
-    max-width: 400px;
-    position: relative;
-    display: none;
-    text-align: center;
-} .input-group { 
-    text-align: left;
-    margin-bottom: 18px;
-} .input-primary {
+    max-width: 400px; position: relative;
+    display: none; text-align: center;
+} 
+.input-group { 
+    text-align: left; margin-bottom: 18px;
+} 
+.input-primary {
     font-size: 15px;
-} .label { 
-    display: block;
-    font-size: 14px;
-    margin-bottom: 8px;
-    font-weight: 500;
-    opacity: 0.85;
-    letter-spacing: 0.4px;
-} .logo { 
+} 
+.label { 
+    display: block; font-size: 14px;
+    margin-bottom: 8px; font-weight: 500;
+    opacity: 0.85; letter-spacing: 0.4px;
+} 
+.logo { 
     width: 125px;
-} .extra { 
-    margin-top: 20px;
-    padding-top: 16px;
-    font-size: 13px;
-    display: flex;
+} 
+.extra { 
+    margin-top: 20px; padding-top: 16px;
+    font-size: 13px; display: flex;
     justify-content: space-between;
     align-items: center;
     border-top: 1px solid var(--clr-surface-a20);
-} .version {
-    position: absolute;
-    left: 0;
-    width: 100%;
-    bottom: 12px;
+} 
+.version {
+    position: absolute; left: 0;
+    width: 100%; bottom: 12px;
     font-size: 11px;
-} small { 
-    display: block;
-    margin-top: 8px;
-    font-size: 11px;
-    color: var(--clr-light-a0);
-    opacity: 0.5;
-    letter-spacing: 0.3px;
-} .btn-primary {
-    padding: 11px 14px;
-    font-size: 15px;
+} 
+small { 
+    display: block; margin-top: 8px;
+    font-size: 11px; color: var(--clr-light-a0);
+    opacity: 0.5; letter-spacing: 0.3px;
+} 
+.btn-primary {
+    padding: 11px 14px; font-size: 15px;
     margin-top: 12px;
-} .extra:has(:only-child) {
+} 
+.extra:has(:only-child) {
     justify-content: center;
 }
 
 
-
+/* ---------------- FOOTER PROPERTIES ---------------- */
 footer { 
     position: fixed;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    padding: 0px 20px;
+    bottom: 0; left: 0;
+    width: 100%; padding: 0px 20px;
     background-color: var(--clr-surface-a0-t80);
     backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
-    display: flex;
-    border-top: 1px solid var(--clr-surface-a20);
+    display: flex; border-top: 1px solid var(--clr-surface-a20);
     align-items: center;
- 
-} .footer-cc {
+} 
+.footer-cc {
     opacity: 0.6;
     font-size: 11px;
     flex: 1;
     text-align: left;
-} .footer-links {
+} 
+.footer-links {
     display: flex;
     gap: 3px;
     margin-left: auto;
 }
 
-
-@keyframes anim_intro {
-    from { opacity: 0; }
-    to { opacity: 1; }
-}
-
+/* ---------------- RESPONSIVE / MOBILE MEDIA ---------------- */
 @media (max-width: 768px) {
     .container { zoom: 0.8 }
     .header-announcement { zoom: 0.5 }

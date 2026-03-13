@@ -13,71 +13,47 @@
     Ko-Fi: https://ko-fi.com/k3yomi
     Documentation: http://localhost/documentation | https://atmosphericx.scriptkitty.cafe/documentation
 
+    Everything is commented in here to ensure that you can easily understand this absolute clusterf*ck of a stylesheet.
+    If you have any optimizations or suggestions, please let @k3yomi know in the DISCORD server or create a PR on GitHub!
+    If you are looking for global styles, see global.css. 
+    If you want predefined elements, check app.css.
 */
 
-* { 
-    margin: 0; 
-    padding: 0; 
-    box-sizing: border-box; 
-}
+/* ---------------- 404 ROOT PROPERTIES ---------------- */
+* { margin: 0; padding: 0; box-sizing: border-box; }
 
 body { 
     font-family: var(--global-font-family), -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     background: linear-gradient(135deg, var(--clr-surface-a0) 0%, var(--clr-surface-a20) 100%);
-    color: var(--clr-light-a0); 
-    display: flex;
-    align-items: center;
-    justify-content: center; 
-    min-height: 100vh;
-    padding: 20px; 
+    color: var(--clr-light-a0); display: flex;
+    align-items: center; justify-content: center; 
+    min-height: 100vh; padding: 20px; 
 }
 
+/* ---------------- CONTAINER PROPERTIES ---------------- */
 .container { 
-    text-align: center;
-    max-width: 600px;
-    animation: fadeIn 0.6s ease-out;
+    text-align: center; max-width: 600px;
+    animation: anim_fade_in 0.6s ease-out;
 }
 
-@keyframes fadeIn {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
-}
-
+/* ---------------- ERROR PROPERTIES ---------------- */
 .error-title { 
-    font-size: clamp(28px, 6vw, 48px);
-    font-weight: 700;
-    margin-bottom: 16px;
-    letter-spacing: -0.5px;
+    font-size: clamp(28px, 6vw, 48px); font-weight: 700;
+    margin-bottom: 16px; letter-spacing: -0.5px;
 }
-
 .error-message { 
-    font-size: clamp(14px, 3vw, 16px);
-    margin-bottom: 32px;
-    line-height: 1.6; 
-    opacity: 0.9;
+    font-size: clamp(14px, 3vw, 16px); margin-bottom: 32px;
+    line-height: 1.6; opacity: 0.9;
 }
-
 .error-image { 
-    height: 320px;
-    width: 100%; 
-    max-width: 220px;
-    object-fit: cover;
+    height: 320px; width: 100%; 
+    max-width: 220px; object-fit: cover;
     object-position: center 40%;
-    border-radius: 16px;
-    margin-bottom: 32px;
+    border-radius: 16px; margin-bottom: 32px;
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3), 0 0 0 1px var(--clr-surface-a30-t20);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-.error-image:hover {
-    transform: translateY(-8px);
-    box-shadow: 0 12px 48px rgba(0, 0, 0, 0.4);
-}
 
-.a-primary { 
-    font-size: 35px;
-}
-
-.btn-primary { 
-    width: 25%;
-}
+/* ---------------- PREDEFINED ELEMENT PROPERTIES ---------------- */
+.btn-primary { width: 25%; }
