@@ -100,20 +100,20 @@ Below are default / optional parameters you can use with the `polywarn` widget. 
 
 ## Examples
 ::: details Example 1
-- Prompt: Use the theme color for the `event text color` and use the `boom2` sfx sound effect.
+Use the theme color for the `event text color` and use the `boom2` sfx sound effect.
 ```
 /widgets/polywarn?setSfx=/sfx/dash_sfx/boom2.mp3&setTextThemed=true
 ```
 :::
 
 ::: details Example 2
-- Prompt: Use a `custom animation duration` with a subtitle showing the `locations impacted rather than the issued date`.
+Use a `custom animation duration` with a subtitle showing the `locations impacted rather than the issued date`.
 ```
 /widgets/polywarn?setAnimationStartDuration=5.0&setAnimationEndDuration=2.0&setValuePathSecondary=Locations impacted: %properties.locations%
 :::
 
 ::: details Example 3
-- Prompt: Set the `tracking node to John Doe` so we can easily get polywarn updates from them
+Set the `tracking node to John Doe` so we can easily get polywarn updates from them
 ```
 /widgets/polywarn?setSearch=John Doe
 ```

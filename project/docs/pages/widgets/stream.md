@@ -102,28 +102,28 @@ Below are default / optional parameters you can use with the `streams` widget. P
 
 ## Examples
 ::: details Example 1
-- Prompt: Create a feed that specifically looks for all `USER (Storm Chasing) feeds` and `disable feed data`.
+Create a feed that specifically looks for all `USER (Storm Chasing) feeds` and `disable feed data`.
 ```
 /widgets/streams?setStreamSource=USER&setTextComponents=false
 ```
 :::
 
 ::: details Example 2
-- Prompt: Find a feed `by name` and only display that.
+Find a feed `by name` and only display that.
 ```
 /widgets/streams?setSearch=Feed Name
 ```
 :::
 
 ::: details Example 3
-- Prompt: `Mute` a stream and have a `buffer delay of 4` to have minimal buffering issues.
+`Mute` a stream and have a `buffer delay of 4` to have minimal buffering issues.
 ```
 /widgets/streams?setStreamMuted=true&setStreamBufferDelay=4
 ```
 :::
 
 ::: details Example 4
-- Prompt: Find a `camera located at 40.7128, -74.0060` with a radius of `25 miles` and display it with a `custom prefix of 🔴` to indicate it's a live feed.
+Find a `camera located at 40.7128, -74.0060` with a radius of `25 miles` and display it with a `custom prefix of 🔴` to indicate it's a live feed.
 ```
 /widgets/streams?setLatitude=40.7128&setLongitude=-74.0060&setRadius=25&setTextPrefix=🔴
 ```

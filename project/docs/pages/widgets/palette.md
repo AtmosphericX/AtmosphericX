@@ -47,14 +47,14 @@ There are currently **NO** local parameters for this widget.
 ## Examples
 
 ::: details Example 1
-- Prompt: Make a `rounded box with about 125px of roundness` that has a `smooth color changing animation` and `animates for 3.5 seconds`.
+Make a `rounded box with about 125px of roundness` that has a `smooth color changing animation` and `animates for 3.5 seconds`.
 ```
 /widgets/palette?setBorderRadius=125&setBackgroundAnimated=true&setAnimationStartDuration=3.5
 ```
 :::
 
 ::: details Example 2
-- Prompt: Make a `palette` widget that uses the `secondary` color in the theme.
+Make a `palette` widget that uses the `secondary` color in the theme.
 ```
 /widgets/palette?setThemeType=secondary
 ```

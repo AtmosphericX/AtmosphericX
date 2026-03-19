@@ -122,3 +122,53 @@ Below are default / optional parameters you can use with the `strings` widget. P
 - Widget Types: `getNearbySpotters`, `getNearbyEvents`
 - Default (`int`): `50`
 - Example: `/widgets/strings?setType=getNearbySpotters&setRadius=5`
+
+
+## Examples
+::: details Example 1
+Create a widget that `shows the time` in `Eastern Standard Time` and updates every `5 seconds`.
+```
+/widgets/strings?setType=getClock&setTimezone=America/New_York&setRefreshTime=5
+``` 
+:::
+
+::: details Example 2
+Create a widget that `counts all warnings` in the `watchdog` and `displays the count`.
+```
+/widgets/strings?setType=getWatchdog&setWatchdogList=[* Warning]
+```
+:::
+
+::: details Example 3
+Create a widget that `searches for nearby spotters` within a `10 mi/km radius` from the node `John Doe`.
+```
+/widgets/strings?setType=getNearbySpotters&setRadius=10&setSearch=John Doe
+```
+:::
+
+::: details Example 4
+Create a widget that `searches for nearby events` within a `20 mi/km radius` from the node `John Doe`.
+```
+/widgets/strings?setType=getNearbyEvents&setRadius=20&setSearch=John Doe
+```
+:::
+
+::: details Example 5
+Create a widget that `fetches the intensity` at the location of the node `John Doe`.
+```
+/widgets/strings?setType=getDbzIntensity&setSearch=John Doe
+```
+:::
+
+::: details Example 6
+Create a widget that `searches for a tracking node` named `John Doe` and `displays all the information` about that node relating to his `current location`.
+```
+/widgets/strings?setType=getTracking&setSearch=John Doe&setValuePath=properties.location
+```
+:::
+
+::: details Example 7
+Create a widget that gets a `random event` from the server and `displays the title` of that event.
+```
+/widgets/strings?setType=getRandomEvent&setValuePath=properties.event
+```

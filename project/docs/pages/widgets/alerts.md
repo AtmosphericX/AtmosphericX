@@ -114,28 +114,28 @@ Please make sure that your volume level is between `0.0-1.0` as going any lower 
 
 ## Examples
 ::: details Example 1
-- Prompt: Make an `alert` that holds the event for `15` seconds, has a max event history of `25` minutes and sets the route header message to something like **Severe Thunderstorm Warning (Grand Junction, CO)** yet if not available default to the action type (`Updated/Issued/Upgraded`)
+Make an `alert` that holds the event for `15` seconds, has a max event history of `25` minutes and sets the route header message to something like **Severe Thunderstorm Warning (Grand Junction, CO)** yet if not available default to the action type (`Updated/Issued/Upgraded`)
 ```
 /widgets/alerts?setPauseTime=15&setMaxHistory=25&setValuePath=%properties.event% (%properties.sender_name ?? properties.action_type%)
 ```
 :::
 
 ::: details Example 2
-- Prompt: Make an `alert` widget that has `no box shadow`, sets a `custom sfx to a siren` instead of the default beep, and has a `longer animation start duration of 3 seconds`
+Make an `alert` widget that has `no box shadow`, sets a `custom sfx to a siren` instead of the default beep, and has a `longer animation start duration of 3 seconds`
 ```
 /widgets/alerts?setAnimationStartDuration=3.0&setSfx=/sfx/eas_sfx/siren-eas.mp3&setBoxShadow=false
 ```
 :::
 
 ::: details Example 3
-- Prompt: Make an `alert` widget that sets the `text alignment of the header to the center`, doesn't contain `event status`, and changes the `border radius to 1px`
+Make an `alert` widget that sets the `text alignment of the header to the center`, doesn't contain `event status`, and changes the `border radius to 1px`
 ```
 /widgets/alerts?setTextAlignment=center&setValuePath=%properties.event%&setBorderRadius=1
 ```
 :::
 
 ::: details Example 4
-- Prompt: Make an `alert` widget that is `muted`.
+Make an `alert` widget that is `muted`.
 ```
 /widgets/alerts?setPlayback=false
 ```
