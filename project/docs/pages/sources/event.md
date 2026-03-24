@@ -14,6 +14,8 @@ prev:
 
 # Event Sources
 ---
+> Configurations: `sources.atmosx_parser_settings`
+
 AtmosphericX offers **two methods** for getting events parsed by the [`atmosx-nwws-parser`](/pages/packages/atmosx-nwws-parser) package, which handles parsing of National Weather Service (NWS) products. Both methods provide access to NWS alerts and forecasts, but they differ in **reliability** and **speed**.
 
 ## National Weather Service API (Default)

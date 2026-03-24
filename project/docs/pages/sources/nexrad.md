@@ -1,7 +1,7 @@
 ---
 layout: doc
 next: 
-    text: 'WxRadio (WeatherUSA)'
+    text: 'NOAA Weather Radio (NWR)'
     link: /pages/sources/nwr
 prev:
     text: 'CIMSS Probability'
@@ -14,6 +14,8 @@ prev:
 
 # Nexrad Locations
 ---
+> Configurations: `sources.miscellaneous_settings.nexrad_radars`
+
 This data provides a **GeoJSON representation** of Nexrad radar station locations, including each station's **longitude and latitude** coordinates as well as its unique **ID**. The data can be used for mapping, storm tracking, and integration with other geospatial weather products.
 
 ## Data Structure

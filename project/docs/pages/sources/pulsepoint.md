@@ -14,6 +14,8 @@ prev:
 
 # PulsePoint Respond
 ---
+> Configurations: `sources.miscellaneous_settings.pulse_point`
+
 Sourced from `pulsepoint.org`, this feed provides realtime emergency incident data including `Fire` and `EMS` responses across participating jurisdictions in the United States. This requires a private decryption key to use. This data is also integrated within the [Alerts Widget](/pages/widgets/alerts) to provide local emergency incident information alongside official weather alerts.
 
 ## Prerequisites

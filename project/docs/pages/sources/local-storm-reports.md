@@ -14,6 +14,8 @@ prev:
 
 # Local Storm Reports (LSRs)
 ---
+> Configurations: `sources.local_storm_report_settings`
+
 Local Storm Reports (LSRs) are a critical component of AtmosphericX's data ecosystem, providing near realtime information on severe weather events as they occur. LSRs are sourced from two primary providers: `SpotterNetwork` and `GibsonRidge`. Each source offers unique insights and data points, allowing users to choose the one that best fits their needs. In the future, there are plans to add `NWS` and `IEM` LSRs as additional sources, further expanding the range of local storm data.
 
 ::: danger Source Contradictions

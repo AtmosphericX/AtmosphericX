@@ -14,6 +14,8 @@ prev:
 
 # CIMSS Probability (PSv3)
 ---
+> Configurations: `sources.miscellaneous_settings.probability`
+
 AtmosphericX incorporates data from the `CIMSS (Cooperative Institute for Mesoscale Meteorological Studies)` for `PSv3`. These probabilistic severe weather products are developed collaboratively by researchers at the NOAA National Severe Storms Laboratory and CIMSS. Designed as experimental forecasting tools, PSv3 help meteorologists estimate the likelihood that a storm will produce severe weather, hail, wind, or tornadoes, providing early guidance for situational awareness and decision making during active weather events.
 
 > Journal: https://journals.ametsoc.org/view/journals/wefo/39/12/WAF-D-24-0076.1.xml

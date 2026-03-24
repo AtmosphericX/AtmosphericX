@@ -1,10 +1,10 @@
 ---
 layout: doc
 next: 
-    text: 'IoT Streams (RadarOmega/SDSWeather)'
+    text: 'RadarOmega Streams'
     link: /pages/sources/streams
 prev:
-    text: 'WxRadio (WeatherUSA)'
+    text: 'NOAA Weather Radio (NWR)'
     link: /pages/sources/nwr
 ---
 
@@ -12,8 +12,10 @@ prev:
 <small class="page-author">Written By: <b>KiyoWx</b></small><br/>
 <small class="last-updated">Last Updated: <b>Mar 23rd, 2026</b></small><br><br><br>
 
-# Power Outages (SDSWeather)
+# Power Outages
 ---
+> Configurations: `sources.miscellaneous_settings.power_outages`
+
 Powered by `sdsweather`, this feature retrieves power outage information across the United States and US Territories.
 
 ## Data Structure

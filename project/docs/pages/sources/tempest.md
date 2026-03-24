@@ -4,7 +4,7 @@ next:
     text: 'PulsePoint Respond'
     link: /pages/sources/pulsepoint
 prev:
-    text: 'IoT Streams (RadarOmega/SDSWeather)'
+    text: 'RadarOmega Streams'
     link: /pages/sources/streams
 ---
 
@@ -14,6 +14,8 @@ prev:
 
 # Tempest Weather Station
 ---
+> Configurations: `sources.miscellaneous_settings.tempest_station`
+
 Integration with TempestWx stations provides weather observations including temperature, humidity, wind speed, pressure, and precipitation data. When combined with location tracking, AtmosphericX can prioritize data from the nearest or primary weather station for improved accuracy in your coverage area.
 
 ## Prerequisites

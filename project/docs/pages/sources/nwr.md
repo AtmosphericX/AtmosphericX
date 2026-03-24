@@ -1,7 +1,7 @@
 ---
 layout: doc
 next: 
-    text: 'Outages (SDSWeather)'
+    text: 'Power Outages'
     link: /pages/sources/outages
 prev:
     text: 'Nexrad Locations'
@@ -14,6 +14,8 @@ prev:
 
 # NOAA Weather Radio (WeatherUSA)
 ---
+> Configurations: `sources.miscellaneous_settings.wx_radio`
+
 Provided by [weatherusa.net](https://weatherusa.net/radio), WxRadio allows access to community based streams of `NOAA Weather Radio` feeds across the United States. This enables near realtime listening to official weather alerts, forecasts, and emergency broadcasts from local NOAA stations.
 
 ## Data Structure

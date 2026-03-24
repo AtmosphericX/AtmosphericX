@@ -4,7 +4,7 @@ next:
     text: 'Tempest Weather Station'
     link: /pages/sources/tempest
 prev:
-    text: 'Outages (SDSWeather)'
+    text: 'Power Outages'
     link: /pages/sources/outages
 ---
 
@@ -12,8 +12,10 @@ prev:
 <small class="page-author">Written By: <b>KiyoWx</b></small><br/>
 <small class="last-updated">Last Updated: <b>Mar 23rd, 2026</b></small><br><br><br>
 
-# IoT Streams (RadarOmega/SDSWeather)
+# RadarOmega Streams (IoT)
 ---
+> Configurations: `sources.miscellaneous_settings.iot_streams`
+
 Provided by `sdsweather` and `RadarOmega`, this feature offers access to various Internet of Things (IoT) data streams.
 
 ::: danger Rebroadcasting Policy

@@ -14,6 +14,8 @@ prev:
 
 # Discussions (Mesoscale / Tropical)
 ---
+> Configurations: `sources.dicussion_settings`
+
 Sourced from `weatherwise.app`, these discussions cover topics such as mesoscale and tropical storms. Currently, there are no configurable settings or alerting capabilities for these discussions. In future updates, we plan to enable integration with the `alerts` widget so that relevant discussions can trigger notifications.
 
 
