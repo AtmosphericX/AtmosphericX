@@ -27,7 +27,7 @@ This allows storm chasers and streamers to quickly see and display when they mov
 
 Polywarn is particularly useful for live broadcasts, as it can notify both the chaser and their viewers the moment they enter a significant weather alert area.
 
-See more on [Tracking](/configurations/sources#tracking) with **Spotter Network** and **RealtimeIRL**.
+See more on [Location Tracking Nodes](/pages/sources/location-tracking-nodes) with **Spotter Network** and **RealtimeIRL**.
 
 ::: info Parameter Rules
 
@@ -93,7 +93,7 @@ Below are default / optional parameters you can use with the `polywarn` widget. 
 - Example: `/widgets/polywarn?setAwaitPeriod=15`
 
 ### setSearch
-- Description: What tracker node you want to use. (See: [Location Tracking](/configurations/sources.html#location-tracking))
+- Description: What tracker node you want to use. (See: [Location Tracking Nodes](/pages/sources/location-tracking-nodes)
 - Default (`string/null`): `null`
 - Example: `/widgets/polywarn?setSearch=First Last Name`
 

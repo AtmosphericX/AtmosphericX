@@ -172,32 +172,34 @@ export class Tracking {
             const state = address.state ?? "";
             target.properties.location = `${county}, ${state}`.trim().replace(/^,|,$/g, "");
             target.properties.icao = this.getNearestICAO({ latitude: lat, longitude: lon });
-            if (!cfg.sources.miscellaneous_settings.tempest_station.enabled) {
-                const getMesodata = await loader.modules.utilities.httpRequest(weatherUrl);
-                const main = getMesodata?.message?.main;
-                const wind = getMesodata?.message?.wind;
-                const wx = getMesodata?.message?.weather?.[0];
-                loader.cache.external.mesonet.features = parse({
-                    longitude: lon,
-                    latitude: lat,
-                    temperature: typeof main?.temp === "number"
-                        ? Math.round(((main.temp - 273.15) * 9/5 + 32)) : null,
-                    dewpoint: typeof main?.humidity === "number" && typeof main?.temp === "number"
-                        ? Math.round(((main.temp - ((100 - main.humidity) / 5)) - 273.15) * 9/5 + 32) : null,
-                    humidity: typeof main?.humidity === "number" ? Math.round(main.humidity) : null,
-                    wind_speed: typeof wind?.speed === "number" ? Math.round(wind.speed) : null,
-                    wind_direction: typeof wind?.deg === "number"
-                        ? loader.modules.calculations.cardinalDirection(wind.deg) : null,
-                    conditions: wx?.description ?? null,
-                    location: `${county}, ${state}`,
-                });
-            } else if (cfg.sources.miscellaneous_settings.tempest_station.location_based) {
-                const station = await loader.cache.handlers.tempest_client.getClosestStation({ lat, lon });
-                if (station) {
-                    loader.cache.handlers.tempest_client.setSettings({
-                        stationId: station.id,
-                        deviceId: station?.properties?.devices?.[0] ?? null
+            if (cfg?.sources?.location_settings?.fetch_mesonet_data) {
+                if (!cfg?.sources?.miscellaneous_settings?.tempest_station?.enabled) {
+                    const getMesodata = await loader.modules.utilities.httpRequest(weatherUrl);
+                    const main = getMesodata?.message?.main;
+                    const wind = getMesodata?.message?.wind;
+                    const wx = getMesodata?.message?.weather?.[0];
+                    loader.cache.external.mesonet.features = parse({
+                        longitude: lon,
+                        latitude: lat,
+                        temperature: typeof main?.temp === "number"
+                            ? Math.round(((main.temp - 273.15) * 9/5 + 32)) : null,
+                        dewpoint: typeof main?.humidity === "number" && typeof main?.temp === "number"
+                            ? Math.round(((main.temp - ((100 - main.humidity) / 5)) - 273.15) * 9/5 + 32) : null,
+                        humidity: typeof main?.humidity === "number" ? Math.round(main.humidity) : null,
+                        wind_speed: typeof wind?.speed === "number" ? Math.round(wind.speed) : null,
+                        wind_direction: typeof wind?.deg === "number"
+                            ? loader.modules.calculations.cardinalDirection(wind.deg) : null,
+                        conditions: wx?.description ?? null,
+                        location: `${county}, ${state}`,
                     });
+                } else if (cfg?.sources?.miscellaneous_settings?.tempest_station?.location_based) {
+                    const station = await loader.cache.handlers.tempest_client.getClosestStation({ lat, lon });
+                    if (station) {
+                        loader.cache.handlers.tempest_client.setSettings({
+                            stationId: station.id,
+                            deviceId: station?.properties?.devices?.[0] ?? null
+                        });
+                    }
                 }
             }
         } catch (error) {

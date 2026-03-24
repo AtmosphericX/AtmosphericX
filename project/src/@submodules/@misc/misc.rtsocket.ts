@@ -48,7 +48,7 @@ export class RtIrlSocket {
      * @production
      * @error_handling
      * @description
-     *      This function is responsible for listening to the Real-Time IRL Firebase Realtime Database.
+     *      This function is responsible for listening to the realtime IRL Firebase Realtime Database.
      *      It sets up a listener on the specified pull key to monitor for location updates.
      * 
      * @returns {void}

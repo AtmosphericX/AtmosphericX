@@ -33,12 +33,12 @@
 
     */
 {
-    "sources:hash": "f3ece654546e1278f510544df08cf71bc444313aa01daacc5a95bf2b5288dc7f", // DO NOT MODIFY THIS VALUE. THIS IS USED FOR CONFIGURATION INTEGRITY CHECKS.
+    "sources:hash": "505ca037e0d03593d6763ba5c4e997a22196cd08336c0d24cf5882568475430c", // DO NOT MODIFY THIS VALUE. THIS IS USED FOR CONFIGURATION INTEGRITY CHECKS.
     "sources": {
         "atmosx_parser_settings": { // AtmosphericX event parser settings
             "noaa_weather_wire_service": false, // If you want to use NOAA Weather Wire Service, set this to true.
             "journal": false, // Not recommenedend to enable this as this may screw up the window on custom v2 displays.
-            "database": "../storage/databases/shapefiles.db", // Path to the shapefile database.
+            "database": "../storage/databases/shapefiles.db", // Path to the shapefile/event database.
             "national_weather_service_settings": {
                 "interval": 30, // How often to pull NWS alerts (in seconds, Default: 60 seconds)
                 "endpoint": "https://api.weather.gov/alerts/active" // Endpoint for NWS Alerts
@@ -73,6 +73,7 @@
         "location_settings": {
             "expiry_time": 500, // How long to keep location data before getting remove for no recent updates (in seconds, Default: 500 seconds)
             "polygon_update_time": 60, // How often to update polygon tracking (in seconds, Default: 60 seconds)
+            "fetch_mesonet_data": true, // If you want to fetch mesonet data for tracking nodes.
             "realtime_irl": { // RealtimeIRL GPS tracking implementation (See: https://rtirl.com/)
                 "enabled": false,
                 "pull_key": "pull_key_here", // Your RealtimeIRL Pull Key
@@ -173,8 +174,8 @@
                 "enabled": false,
                 "api": "api_key_here",
                 "location_based": true, // If you want to use a chasers location by lon/lat instead of station/device ID.
-                "station": 1, // Your Tempest Station ID (MUST BE CONNECTED TO THE INTERNET)
-                "device": 1 // Your Tempest Device ID (MUST BE CONNECTED TO THE INTERNET)
+                "station": 0, // Your Tempest Station ID (MUST BE CONNECTED TO THE INTERNET) (Default: 0, ignored if location_based is true)
+                "device": 0 // Your Tempest Device ID (MUST BE CONNECTED TO THE INTERNET) (Default: 0, ignored if location_based is true)
             },
             "pulse_point": { // PulsePoint Integration (See: https://www.pulsepoint.org/)
                 "enabled": false,

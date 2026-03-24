@@ -148,7 +148,7 @@ Save your current scene collection before importing to avoid losing custom setti
 :::
 
 ## Importing Widgets (OBS / Streamlabs)
-To import widgets, add a `Browser Source` in your current `scene` and point it to the widget's URL. This allows you to customize your stream's appearance and functionality with real time data integration.
+To import widgets, add a `Browser Source` in your current `scene` and point it to the widget's URL. This allows you to customize your stream's appearance and functionality with realtime data integration.
 
 ### Widget didn't load at all?
 Ensure your URL points to a valid AtmosphericX widget to getting a 404. Each critical update of AtmosphericX will have updated documentation for that specific version. Please ensure no changes have been made to the said widget.

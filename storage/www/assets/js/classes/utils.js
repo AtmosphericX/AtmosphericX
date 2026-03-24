@@ -70,7 +70,7 @@ class Utils {
      * @error_handling
      * @function socket
      * @description 
-     *       Establishes a socket connection to the server for real-time updates.
+     *       Establishes a socket connection to the server for realtime updates.
      * 
      * @param {Array} types - An array of event types to subscribe to.
      * @return {Promise} A promise that resolves when the socket connection is established.

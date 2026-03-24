@@ -1,4 +1,4 @@
-========= 8.0.0.034 (dashboard-creation-build) =========
+========= 8.0.0.035 (beta-testing) =========
 
 add(nwws-parser): Tornadic Special Marine Warning
 add(configurations): Added SPC / Dicussions configurable options.
@@ -8,8 +8,9 @@ remove(nwws-parser): Disk cache for NWWS Parsing
 update(dashboard): Improve dashboard behavior and responsiveness
 add(dashboard): Landing page state handling
 add(dashboard): Browser history push support for dashboard navigation
-add(dashboard): Socket onUpdate handler for real-time updates
+add(dashboard): Socket onUpdate handler for realtime updates
 add(dashboard): Helper methods for Dashboard state management
+add(documentation) Added sources documentation
 
 update(css): Improve scrolling behavior and mobile responsiveness
 update(css): Mobile grid adjustments (single-column spans for widgets)

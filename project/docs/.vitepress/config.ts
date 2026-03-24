@@ -29,6 +29,7 @@ export default defineConfig({
 			{ text: "Home", link: "/" },
 			{ text: "Installation", link: "/pages/installation/index" },
 			{ text: "Configurations", link: "/pages/configurations/index" },
+			{ text: "Widgets", link: "/pages/widgets/index" },
 		],
 		sidebar: [
 			{
@@ -50,6 +51,23 @@ export default defineConfig({
 					{ text: "Events.jsonc", link: "/pages/configurations/events" },
 					{ text: "Display.jsonc", link: "/pages/configurations/display" },
 					{ text: "Placefiles.jsonc", link: "/pages/configurations/placefiles" },
+				],
+			},
+			{
+				text: "Sources",
+				items: [
+					{ text: "Ingestion Sources", link: "/pages/sources/ingestion" },
+					{ text: "Location Tracking Nodes", link: "/pages/sources/location-tracking-nodes" },
+					{ text: "Local Storm Reports", link: "/pages/sources/local-storm-reports" },
+					{ text: "Discussions", link: "/pages/sources/discussions" },
+					{ text: "Sonde (Rise26)", link: "/pages/sources/sonde" },
+					{ text: "CIMSS Probabilitiy", link: "/pages/sources/cimss" },
+					{ text: "Nexrad Locations", link: "/pages/sources/nexrad" },
+					{ text: "WxRadio (WeatherUSA)", link: "/pages/sources/nwr" },
+					{ text: "Outages (SDSWeather)", link: "/pages/sources/outages" },
+					{ text: "IoT Streams (SDSWeather)", link: "/pages/sources/streams" },
+					{ text: "Tempest Weather Station", link: "/pages/sources/tempest" },
+					{ text: "PulsePoint Respond", link: "/pages/sources/pulsepoint" },
 				],
 			},
 			{
