@@ -12,15 +12,15 @@ prev:
 <small class="page-author">Written By: <b>KiyoWx</b></small><br/>
 <small class="last-updated">Last Updated: <b>Mar 23rd, 2026</b></small><br><br><br>
 
-# Event Sources (Events)
+# Event Sources
 ---
-AtmosphericX offers **two methods** for ingesting events parsed by the [`atmosx-nwws-parser`](/pages/packages/atmosx-nwws-parser) package, which handles parsing of National Weather Service (NWS) products. Both methods provide access to NWS alerts and forecasts, but they differ in **reliability** and **speed**.
+AtmosphericX offers **two methods** for getting events parsed by the [`atmosx-nwws-parser`](/pages/packages/atmosx-nwws-parser) package, which handles parsing of National Weather Service (NWS) products. Both methods provide access to NWS alerts and forecasts, but they differ in **reliability** and **speed**.
 
 ## National Weather Service API (Default)
-This data source is the **most reliable**, as it comes directly from official NWS products. However, it is also the **slowest**, because it relies on a **REST API** for data retrieval. For faster access to alerts and forecasts, consider using the [NOAA Weather Wire Service](/sources/nwws). It offers a **near realtime** solution for ingesting NWS products, making it better suited for **time critical applications and uses**.
+This data source is the **most reliable**, as it comes directly from official NWS products. However, it is also the **slowest**, because it relies on a **REST API** for data retrieval. For faster access to alerts and forecasts, consider using the [NOAA Weather Wire Service](/sources/nwws). It offers a **near realtime** solution for getting NWS products, making it better suited for **time critical applications and uses**.
 
 ## NOAA Weather Wire Service (Recommended)
-This data source is by far the **fastest**, using [XMPP](https://en.wikipedia.org/wiki/XMPP) to provide **near realtime** access to NWS products. It is the recommended method for ingesting NWS products, especially when timely alerts and forecasts are critical. 
+This data source is by far the **fastest**, using [XMPP](https://en.wikipedia.org/wiki/XMPP) to provide **near realtime** access to NWS products. It is the recommended method for getting NWS products, especially when timely alerts and forecasts are critical. 
 
 However, note that it parses **raw text** products into a structured format, so it may contain occasional parsing bugs and may not be as reliable as the NWS API method. If you encounter issues with parsing or event generation, please submit a [PR Request](https://github.com/AtmosphericX/atmosx-nwws-parser/issues). But for the most part, it's a great and stable option as of lately.
 
@@ -55,7 +55,7 @@ CAP (Common Alerting Protocol) products are structured in XML format and provide
 The global settings handle how polygon generation and event creation is handled between the NWS API and NOAA Weather Wire Service data sources. This is important for ensuring that events are generated consistently across both data sources, regardless of which one is enabled. The global settings allow you to configure how polygons are generated from NWS products, as well as how events are created and structured based on the parsed data.
 
 ## Conclusion
-In summary, AtmosphericX provides two methods for ingesting products parsed by the `atmosx-nwws-parser` package: the NWS API method, which is more reliable but slower, and the NOAA Weather Wire Service method, which is faster but may have occasional parsing issues. Depending on your needs for reliability and speed, you can choose the data source that best fits your use case. For time critical applications, the NOAA Weather Wire Service method is recommended, while for applications where reliability is paramount, the NWS API method may be more suitable.
+In summary, AtmosphericX provides two methods for getting products parsed by the `atmosx-nwws-parser` package: the NWS API method, which is more reliable but slower, and the NOAA Weather Wire Service method, which is faster but may have occasional parsing issues. Depending on your needs for reliability and speed, you can choose the data source that best fits your use case. For time critical applications, the NOAA Weather Wire Service method is recommended, while for applications where reliability is paramount, the NWS API method may be more suitable.
 
 ::: info NOAA WEATHER WIRE SERVICE RELIABILITY
 While the NOAA Weather Wire Service method is generally faster, it may occasionally encounter parsing issues due to the nature of raw text products. If you experience any issues with event generation or parsing, please consider submitting a PR request to the [`atmosx-nwws-parser`](/pages/packages/atmosx-nwws-parser) repository to help improve the reliability of this data source.
