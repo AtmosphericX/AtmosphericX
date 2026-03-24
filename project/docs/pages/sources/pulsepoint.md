@@ -1,8 +1,8 @@
 ---
 layout: doc
 next: 
-    text: 'Widget Introduction'
-    link: /pages/widgets/index
+    text: 'Event Configurations'
+    link: /pages/events/index
 prev:
     text: 'Tempest Weather Station'
     link: /pages/sources/tempest

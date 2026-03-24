@@ -4,7 +4,6 @@ databases
 logs
 backups
 eas
-events
 documentation
 cache
 dist

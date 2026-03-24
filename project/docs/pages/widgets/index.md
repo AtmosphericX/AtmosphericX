@@ -4,8 +4,8 @@ next:
     text: 'Alert Widget'
     link: /pages/widgets/alerts
 prev:
-    text: 'Placefiles.jsonc'
-    link: /pages/configurations/placefiles
+    text: 'Placefile Configurations'
+    link: /pages/placefiles/index
 ---
 
 <img src="/logo.png" alt="AtmosphericX Logo" width="200" style="display: block; margin: 0 auto;" />

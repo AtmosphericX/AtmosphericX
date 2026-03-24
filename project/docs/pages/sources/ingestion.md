@@ -4,8 +4,8 @@ next:
     text: 'Location Tracking Nodes'
     link: /pages/sources/location-tracking-nodes
 prev:
-    text: 'Placfiles.jsonc'
-    link: /pages/configurations/placefiles
+    text: 'Source Configurations'
+    link: /pages/sources/index
 ---
 
 <img src="/logo.png" alt="AtmosphericX Logo" width="200" style="display: block; margin: 0 auto;" />

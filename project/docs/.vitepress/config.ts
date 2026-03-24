@@ -40,12 +40,12 @@ export default defineConfig({
 					{ text: "Post Installation", link: "/pages/installation/post-installation" },
 					{ text: "Updating AtmosphericX", link: "/pages/installation/updating-atmosphericx" },
 					{ text: "Troubleshooting", link: "/pages/installation/troubleshooting" },
+					{ text: "Configurations", link: "/pages/installation/configurations" },
 				],
 			},
 			{
 				text: "Configurations",
 				items: [
-					{ text: "Configurations Introduction", link: "/pages/configurations/index" },
 					{ text: "Core.jsonc", link: "/pages/configurations/core" },
 					{ text: "Sources.jsonc", link: "/pages/configurations/sources" },
 					{ text: "Events.jsonc", link: "/pages/configurations/events" },
@@ -54,8 +54,26 @@ export default defineConfig({
 				],
 			},
 			{
-				text: "Sources",
+				text: "Core Configurations",
 				items: [
+				    { text: "Introduction", link: "/pages/core/index" },
+					//{ text: "Webhosting [todo]", link: "/pages/core/webhosting" },
+					//{ text: "Internal [todo]", link: "/pages/core/internal" },
+					//{ text: "Websockets [todo]", link: "/pages/core/websockets" },
+					//{ text: "Webhooks [todo]", link: "/pages/core/webhooks" },
+                    //{ text: "Streamber Bot [todo]", link: "/pages/core/streamber-bot" },
+                    //{ text: "Forecasting [todo]", link: "/pages/core/forecasting" },
+                    //{ text: "Third Party Services [todo]", link: "/pages/core/services" },
+                    //{ text: "Slideshow [todo]", link: "/pages/core/slideshow" },
+                    //{ text: "dBZ Intensity Colortables [todo]", link: "/pages/core/dbz_color_tables" },
+                    //{ text: "Generic Colortables [todo]", link: "/pages/core/generic_color_tables" },
+                    //{ text: "Dynamic Widgets [todo]", link: "/pages/core/dynamic_widgets" },
+				],
+			},
+			{
+				text: "Source Configurations",
+				items: [
+				    { text: "Introduction", link: "/pages/sources/index" },
 					{ text: "Ingestion Sources", link: "/pages/sources/ingestion" },
 					{ text: "Location Tracking Nodes", link: "/pages/sources/location-tracking-nodes" },
 					{ text: "Local Storm Reports", link: "/pages/sources/local-storm-reports" },
@@ -68,6 +86,28 @@ export default defineConfig({
 					{ text: "IoT Streams (SDSWeather)", link: "/pages/sources/streams" },
 					{ text: "Tempest Weather Station", link: "/pages/sources/tempest" },
 					{ text: "PulsePoint Respond", link: "/pages/sources/pulsepoint" },
+				],
+			},
+			{
+				text: "Event Configurations",
+				items: [
+				    { text: "Introduction", link: "/pages/events/index" },
+					//{ text: "Event Ingestion Filtering [todo]", link: "/pages/events/filtering" },
+					//{ text: "Event Tones [todo]", link: "/pages/events/tones" },
+					//{ text: "Event Dictionary [todo]", link: "/pages/events/dictionary" },
+					//{ text: "Event Themes [todo]", link: "/pages/events/themes" },
+				],
+			},
+			{
+				text: "Display Configurations",
+				items: [
+				    { text: "Introduction", link: "/pages/display/index" },
+				],
+			},
+			{
+				text: "Placefile Configurations",
+				items: [
+				    { text: "Introduction", link: "/pages/placefiles/index" },
 				],
 			},
 			{
@@ -99,7 +139,7 @@ export default defineConfig({
 				]
 			},
 			{
-				text: "Frontend Codebase",
+				text: "Frontend",
 				items: [
 					{ text: "Frontend Introduction [todo]", link: "/pages/frontend/index" },
 					{ text: "Classes [todo]", link: "/pages/frontend/classes" },
@@ -107,13 +147,21 @@ export default defineConfig({
 				]
 			},
 			{
+				text: "Backend",
+				items: [
+					{ text: "Backend Introduction [todo]", link: "/pages/backend/index" },
+					{ text: "Classes [todo]", link: "/pages/backend/classes" },
+					{ text: "Static [todo]", link: "/pages/backend/static" },
+				]
+			},
+			{
 				text: "Internal Packages",
 				items: [
-					{ text: "Internal Packages Introduction [todo]", link: "/pages/packages/index"},
-					{ text: "ATMOSX-NWWS-PARSER [todo]", link: "/pages/packages/nwws-parser"},
-					{ text: "ATMOSX-PULSE-POINT [todo]", link: "/pages/packages/pulse-point"},
-					{ text: "ATMOSX-PLACEFILE-PARSER [todo]", link: "/pages/packages/placefile-parser"},
-					{ text: "ATMOSX-TEMPEST-STATION [todo]", link: "/pages/packages/tempest-station"},
+					{ text: "Packages Introduction [todo]", link: "/pages/packages/index"},
+					{ text: "atmosx-nwws-parser [todo]", link: "/pages/packages/nwws-parser"},
+					{ text: "atmosx-pulse-point [todo]", link: "/pages/packages/pulse-point"},
+					{ text: "atmosx-placefile-parser [todo]", link: "/pages/packages/placefile-parser"},
+					{ text: "atmosx-tempest-station [todo]", link: "/pages/packages/tempest-station"},
 				]
 			},
 		],
