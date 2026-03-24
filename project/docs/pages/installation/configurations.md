@@ -1,8 +1,8 @@
 ---
 layout: doc
 next: 
-    text: 'Core.jsonc'
-    link: /pages/configurations/core
+    text: 'Core Configurations'
+    link: /pages/core/index
 prev:
     text: 'Troubleshooting'
     link: /pages/installation/troubleshooting

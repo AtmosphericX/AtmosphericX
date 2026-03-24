@@ -1,16 +1,16 @@
 ---
 layout: doc
 next: 
-    text: 'Placefiles.jsonc'
-    link: /pages/configurations/placefiles
+    text: 'Placefile Configurations'
+    link: /pages/placefiles/index
 prev:
-    text: 'Events.jsonc'
-    link: /pages/configurations/events
+    text: 'Event Configurations'
+    link: /pages/events/index
 ---
 
 <img src="/logo.png" alt="AtmosphericX Logo" width="200" style="display: block; margin: 0 auto;" />
-<small class="page-author">Written By: <b>KiyoWx</b> & <b>StarflightWx</b></small><br/>
-<small class="last-updated">Last Updated: <b>Mar 9th, 2026</b></small><br><br><br>
+<small class="page-author">Written By: <b>KiyoWx</b></small><br/>
+<small class="last-updated">Last Updated: <b>Mar 23rd, 2026</b></small><br><br><br>
 
 # Display Configurations
 ---

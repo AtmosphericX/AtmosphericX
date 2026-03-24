@@ -44,16 +44,6 @@ export default defineConfig({
 				],
 			},
 			{
-				text: "Configurations",
-				items: [
-					{ text: "Core.jsonc", link: "/pages/configurations/core" },
-					{ text: "Sources.jsonc", link: "/pages/configurations/sources" },
-					{ text: "Events.jsonc", link: "/pages/configurations/events" },
-					{ text: "Display.jsonc", link: "/pages/configurations/display" },
-					{ text: "Placefiles.jsonc", link: "/pages/configurations/placefiles" },
-				],
-			},
-			{
 				text: "Core Configurations",
 				items: [
 				    { text: "Introduction", link: "/pages/core/index" },
