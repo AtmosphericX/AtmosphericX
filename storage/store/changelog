@@ -1,9 +1,10 @@
 ========= 8.0.0.035 (beta-testing) =========
+Unqiue Version Hash: Purple-Cat-Tom-Jerry
 
 add(node-tracking): Ability to disable/enable mesonet information gathering from node-tracking.
-
 update(documentation): Improved documentation
 update(node-tracking): `pin_by_name` is no longer case sensitive
 update(node-tracking): Lon/Lat checks are now implemented to prevent tracking spam for stationary nodes.
-
 refactor(node-tracking): refactored node tracking for better maintainability by adding a string reference `tracking_node_message` 
+future(atmosx-tempest-station): Refactor and redo codebase for maintainability.
+future(atmosx-placefile-parser): Refactor and redo codebase for maintainability.
