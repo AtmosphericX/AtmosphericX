@@ -83,7 +83,29 @@ export class Tracking {
                         last_updated: new Date()
                     }
                 });
+                loader.modules.utilities.log({
+                    title: `${this.ansi_colors.GREEN}${this.name_space}${this.ansi_colors.RESET}`,
+                    message: loader.strings.tracking_node_message
+                        .replace("{TYPE}", "Created")
+                        .replace("{NAME}", this.ansi_colors.CYAN + name + this.ansi_colors.RESET)
+                        .replace("{LON}", this.ansi_colors.YELLOW + coordinates.longitude + this.ansi_colors.RESET)
+                        .replace("{LAT}", this.ansi_colors.YELLOW + coordinates.latitude + this.ansi_colors.RESET)
+                        .replace("{SOURCE}", source)
+                });
             } else {
+                const existingLon = existing.geometry?.coordinates?.[0] ?? null;
+                const existingLat = existing.geometry?.coordinates?.[1] ?? null;
+                if (existingLon != coordinates.longitude || existingLat !== coordinates.latitude) {
+                    loader.modules.utilities.log({
+                        title: `${this.ansi_colors.GREEN}${this.name_space}${this.ansi_colors.RESET}`,
+                        message: loader.strings.tracking_node_message
+                            .replace("{TYPE}", "Updated")
+                            .replace("{NAME}", this.ansi_colors.CYAN + name + this.ansi_colors.RESET)
+                            .replace("{LON}", this.ansi_colors.YELLOW + coordinates.longitude + this.ansi_colors.RESET)
+                            .replace("{LAT}", this.ansi_colors.YELLOW + coordinates.latitude + this.ansi_colors.RESET)
+                            .replace("{SOURCE}", source)
+                    });
+                }
                 existing.geometry.coordinates = [coordinates.longitude, coordinates.latitude];
                 existing.properties.icao = icao;
                 existing.properties.last_updated = new Date();
@@ -91,10 +113,6 @@ export class Tracking {
             loader.cache.external.tracking.features = features.filter((node: LocationFilter) => {
                 const updated = new Date(node?.properties?.last_updated).getTime();
                 return now - updated < expiryMs;
-            });
-            loader.modules.utilities.log({
-                title: `${this.ansi_colors.GREEN}${this.name_space}${this.ansi_colors.RESET}`,
-                message: `Updated coordinates for ${this.ansi_colors.CYAN}${name}${this.ansi_colors.RESET} @ [${this.ansi_colors.YELLOW}${coordinates.longitude}, ${coordinates.latitude}${this.ansi_colors.RESET}] via ${source}`
             });
             this.getTrackingInformation();
         } catch (error) {

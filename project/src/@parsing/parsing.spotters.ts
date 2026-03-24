@@ -49,7 +49,7 @@ export const parse = (body: Record<string, string>) => {
         const latitude = feature.lat;
         const isActiveSpotter = feature.unix >= (currentTime / 1000 - 300) && settings.pins.active;
         const isIdleSpotter = feature.unix < (currentTime / 1000 - 300) && feature.unix >= (currentTime / 1000 - 3600) && settings.pins.idle;
-        const isNameTracked = settings.pin_by_name.findIndex(name => (feature.first + ' ' + feature.last).includes(name));
+        const isNameTracked = settings.pin_by_name.findIndex(name => (feature.first.toLowerCase() + ' ' + feature.last.toLowerCase()).includes(name.toLowerCase()));
         if (!isActiveSpotter && !isIdleSpotter && (!settings.pins.offline || feature.unix < (currentTime / 1000 - 3600))) continue;
         if (isNameTracked !== -1 && !tracked.find(t => t.name === settings.pin_by_name[isNameTracked])) {
             tracked.push({

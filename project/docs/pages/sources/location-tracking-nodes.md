@@ -28,9 +28,7 @@ When using RealTimeIRL, you can set a `nickname` in the configuration. This nick
 :::
 
 ## Spotter Network Settings
-All spotters listed in `pin_by_name` are **case sensitive**. Be sure to use the exact casing when entering SpotterNetwork first and last names to `track`, otherwise the project may not recognize the spotter.
-
-You can also configure which spotter statuses should be included. For example, you may choose to filter spotters based on whether they are `active`, `idle`, or `offline`, allowing you to display only the statuses that are relevant to your use case.
+You can pin spotters with the `pin_by_name` setting, which allows you to specify the names of spotters you want to track. This is useful for focusing on specific individuals or groups within Spotter Network, ensuring that you only receive updates from those you are interested in. You can also configure which spotter statuses should be included. For example, you may choose to filter spotters based on whether they are `active`, `idle`, or `offline`, allowing you to display only the statuses that are relevant to your use case.
 
 
 ## Node Priority

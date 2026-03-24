@@ -82,7 +82,7 @@
             },
             "spotter_network": { // Spotter Network Feed settings (See: https://www.spotternetwork.org/)
                 "enabled": true,
-                "pin_by_name": [], // You can pin spotters by their name (Case Sensitive)
+                "pin_by_name": [], // You can pin spotters by their names. (Ex. ["John Smith", "John Doe"])
                 "pins": {
                     "offline": false, // If you want to see offline spotters. (If not seen for an extended period of time, they will be removed)
                     "idle": true, // If you want to see idle spotters. (If not moving for an extended period of time, they will be marked as idle)

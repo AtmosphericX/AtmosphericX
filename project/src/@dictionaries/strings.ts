@@ -17,11 +17,11 @@
 
 
 export const h_strings: Record<string, any> = {
-    log_file_placeholder: `; THIS IS THE START OF YOUR LOG FILE\n; IF YOU HAVE ANY ISSUES WITH ATMOSPHERICX - PLEASE SUBMIT YOUR LOG FILE (FEEL FREE TO REDACT) TO THE ISSUE\n; I WILL NOT TAKE A LOOK AT YOUR ISSUE WITHOUT THE LOG FILE, THANK YOU!\n\n`,
     configuration_changed: `Configuration has been changed, you may need to restart AtmosphericX for changes to take full effect.`,
     display_unsupported_terminal: `Fancy display features have been disabled due to unsupported terminal type. Please use a different terminal for full functionality or change your configuration settings.`,
     portal_disabled_warning: `The web login portal is disabled. This may expose your AtmosphericX instance to unauthorized users. It's strongly recommended to enable the login portal in the configuration settings.`,
     update_available: `A new version of AtmosphericX is available to fetch. Current Version: {CURRENT} | Branch Version: {LATEST}`,
+    tracking_node_message: `{TYPE} tracking node for {NAME} | {LON}, {LAT} via {SOURCE}`,
     fancy_display_system_info: `{bold}Uptime:{/bold} {UPTIME}\n{bold}Memory Usage:{/bold} {MEMORY} GB\n{bold}Heap Usage:{/bold} {HEAP} MB\n{bold}Events Processed:{/bold} {TOTAL_PROCESSED}\n{bold}Requests Processed:{/bold} {TOTAL_REQUESTS}\n`,
     streamer_bot_connection_success: `AtmosphericX has successfully connected to Streamer.bot!`,
     streamer_bot_mesonet_update: `Mesonet Update: {CONDITIONS}, Temp: {TEMPERATURE}°F, Dew Point: {DEW_POINT}°F, Humidity: {HUMIDITY}%, Wind: {WIND} mph`,
@@ -94,12 +94,12 @@ export const h_strings: Record<string, any> = {
     },
     tooltips: [
         `Press 'Esc' or 'Ctrl + C' to exit AtmosphericX at any time.`,
-        `Visit our Discord server for support: https://atmosphericx-discord.scriptkitty.cafe`,
+        `Discord Server: https://atmosphericx-discord.scriptkitty.cafe`,
         `Consider supporting the project on Ko-Fi: https://ko-fi.com/k3yomi`,
-        `You can configure alert tones in the configuration files!`,
-        `AtmosphericX can integrate with Streamer.bot for your stream chats!`,
-        `Customize your experience with various display settings!`,
-        `AtmosphericX supports multiple data sources for weather information!`,
-        `Check out the documentation @ http://localhost/documentation`
+        `Documentation: http://localhost/documentation | https://atmosphericx.scriptkitty.cafe/documentation`,
+        `AtmosphericX is created and maintained by the AtmosphericX Team (KiyoWx, StarflightWx, Everwatch1, & CJ Ziegler)`,
+        `Fun fact: AtmosphericX v8 took 9 months to develop!`,
+        `CJ, turn off your ambers >:) it hurts my eyes.`,
+        `AtmosphericX is designed to be modular and extensible. If you have ideas for new features or want to contribute, check out our GitHub repository!`,
     ]
 };
