@@ -4,8 +4,8 @@ next:
     text: 'Local Storm Reports'
     link: /pages/sources/local-storm-reports
 prev:
-    text: 'Ingestion Sources'
-    link: /pages/sources/ingestion
+    text: 'Event Sources'
+    link: /pages/sources/event
 ---
 
 <img src="/logo.png" alt="AtmosphericX Logo" width="200" style="display: block; margin: 0 auto;" />

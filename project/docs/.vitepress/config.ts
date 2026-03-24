@@ -64,7 +64,7 @@ export default defineConfig({
 				text: "Source Configurations",
 				items: [
 				    { text: "Introduction", link: "/pages/sources/index" },
-					{ text: "Ingestion Sources", link: "/pages/sources/ingestion" },
+					{ text: "Event Sources", link: "/pages/sources/event" },
 					{ text: "Location Tracking Nodes", link: "/pages/sources/location-tracking-nodes" },
 					{ text: "Local Storm Reports", link: "/pages/sources/local-storm-reports" },
 					{ text: "Discussions", link: "/pages/sources/discussions" },
@@ -82,7 +82,7 @@ export default defineConfig({
 				text: "Event Configurations",
 				items: [
 				    { text: "Introduction", link: "/pages/events/index" },
-					//{ text: "Event Ingestion Filtering [todo]", link: "/pages/events/filtering" },
+					//{ text: "Event Filtering [todo]", link: "/pages/events/filtering" },
 					//{ text: "Event Tones [todo]", link: "/pages/events/tones" },
 					//{ text: "Event Dictionary [todo]", link: "/pages/events/dictionary" },
 					//{ text: "Event Themes [todo]", link: "/pages/events/themes" },

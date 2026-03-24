@@ -1,8 +1,8 @@
 ---
 layout: doc
 next: 
-    text: 'Ingestion Sources (Events)'
-    link: /pages/sources/ingestion
+    text: 'Event Sources (Events)'
+    link: /pages/sources/event
 prev:
     text: 'Configurations Introduction'
     link: /pages/installation/configurations
@@ -14,7 +14,7 @@ prev:
 
 # Source Configurations
 ---
-The `sources.jsonc` file defines how AtmosphericX **collects, caches, and processes live weather and emergency data**. This includes settings for data retrieval, update frequencies, and source specific parameters. See [sources](/pages/sources/ingestion) for detailed information on each data source.
+The `sources.jsonc` file defines how AtmosphericX **collects, caches, and processes live weather and emergency data**. This includes settings for data retrieval, update frequencies, and source specific parameters. See [sources](/pages/sources/event) for detailed information on each data source.
 
 ## Configuration Map
 ```
