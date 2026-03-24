@@ -14,11 +14,7 @@ prev:
 
 # Source Configurations
 ---
-The `sources.jsonc` file defines how AtmosphericX **collects, caches, and processes live weather and emergency data**.  
-
-## Data Sources
-The **Data Sources** feature integrates with multiple meteorological systems and APIs to provide comprehensive data. These integrations include the National Weather Service (NWS) API and the NOAA Weather Wire Service, which deliver official forecasts, warnings, and operational weather information in near realtime. Additional data feeds include Local Storm Reports (LSRs), storm track data, probability products, and official forecast outlooks.
-
+The `sources.jsonc` file defines how AtmosphericX **collects, caches, and processes live weather and emergency data**. This includes settings for data retrieval, update frequencies, and source specific parameters. See [sources](/pages/sources/ingestion) for detailed information on each data source.
 
 ## Configuration Map
 ```
