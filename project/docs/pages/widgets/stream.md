@@ -86,7 +86,7 @@ Below are default / optional parameters you can use with the `streams` widget. P
 - Example: `/widgets/streams?setStreamMuted=true/false`
 
 ### setSearch
-- Description: What tracker node you want to use. (See: [Location Tracking Nodes](/pages/sources/location-tracking-nodes)
+- Description: What tracker node you want to use. (See: [Location Tracking Nodes](/pages/sources/location-tracking-nodes))
 - Default (`string/null`): `null`
 - Example: `/widgets/streams?setSearch=First Last Name`
 

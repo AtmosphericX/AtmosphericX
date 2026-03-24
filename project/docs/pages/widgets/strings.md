@@ -112,7 +112,7 @@ Below are default / optional parameters you can use with the `strings` widget. P
 - Example: `/widgets/strings?setType=getWatchdog&setWatchdogList=[* Warning]`
 
 ### setSearch
-- Description: Searches for a specific `tracking node` (See: [Location Tracking Nodes](/pages/sources/location-tracking-nodes). If not set, it will default to `priority`.
+- Description: Searches for a specific `tracking node` (See: [Location Tracking Nodes](/pages/sources/location-tracking-nodes)). If not set, it will default to `priority`.
 - Widget Types: `getTracking`, `getNearbyEvents`, `getDbzIntensity`
 - Default (`string`): `null`
 - Example: `/widgets/strings?setType=getNearbyEvents&setSearch=John Doe`
