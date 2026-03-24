@@ -32,6 +32,7 @@ sources.jsonc
     ├── location_settings
     │   ├── expiry_time
     │   ├── polygon_update_time
+    │   ├── fetch_mesonet_data
     │   ├── realtime_irl
     │   └── spotter_network
     │
