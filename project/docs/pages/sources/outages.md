@@ -14,7 +14,7 @@ prev:
 
 # Power Outages
 ---
-> Configurations: `sources.miscellaneous_settings.power_outages`
+> Configurations: `sources.miscellaneous_settings.sds_outages`
 
 Powered by `sdsweather`, this feature retrieves power outage information across the United States and US Territories.
 

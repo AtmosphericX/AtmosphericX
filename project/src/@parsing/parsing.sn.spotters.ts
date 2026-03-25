@@ -15,7 +15,7 @@
 */
 
 import * as types from '../@dictionaries/types';
-import * as loader from '../';
+import * as loader from '..';
 
 type SpotterNetworkFeature = {
     lat: string;

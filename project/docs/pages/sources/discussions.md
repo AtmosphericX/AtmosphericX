@@ -50,9 +50,9 @@ Data can be requested at `/data/discussions` and is returned in the following Ge
 ```
 
 ## Tropical Discussions
-Tropical discussions are also sourced from `WeatherWise` and are refreshed every `20 minutes` by default. Similar to mesoscale discussions, you can modify the refresh interval for tropical discussions in `dicussion_settings.tropical_discussions.cache_time` if you want to receive updates more or less frequently.
+Tropical discussions are also sourced from `WeatherWise` and are refreshed every `20 minutes` by default. Similar to mesoscale discussions, you can modify the refresh interval for tropical discussions in `dicussion_settings.tropical_storms.cache_time` if you want to receive updates more or less frequently.
 
-Data can be requested at `/data/tropical` and is returned in the following GeoJSON format:
+Data can be requested at `/data/tropical_storms` and is returned in the following GeoJSON format:
 ```geojson
 {
     "type": "Feature",

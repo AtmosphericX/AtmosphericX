@@ -14,12 +14,12 @@ prev:
 
 # NOAA Weather Radio (WeatherUSA)
 ---
-> Configurations: `sources.miscellaneous_settings.wx_radio`
+> Configurations: `sources.miscellaneous_settings.weather_radio`
 
 Provided by [weatherusa.net](https://weatherusa.net/radio), WxRadio allows access to community based streams of `NOAA Weather Radio` feeds across the United States. This enables near realtime listening to official weather alerts, forecasts, and emergency broadcasts from local NOAA stations.
 
 ## Data Structure
-Data can be requested at `/data/radio` and is returned in the following GeoJSON:
+Data can be requested at `/data/weather_radio` and is returned in the following GeoJSON:
 ```geojson
 {
     "type": "Feature",

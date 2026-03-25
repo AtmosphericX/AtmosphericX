@@ -33,7 +33,7 @@
 
     */
 {
-    "sources:hash": "505ca037e0d03593d6763ba5c4e997a22196cd08336c0d24cf5882568475430c", // DO NOT MODIFY THIS VALUE. THIS IS USED FOR CONFIGURATION INTEGRITY CHECKS.
+    "sources:hash": "45ef0d7036c9d8b120ab5ec8073d11c2c3ddf28d71968a1b059c2b7d0bbea092", // DO NOT MODIFY THIS VALUE. THIS IS USED FOR CONFIGURATION INTEGRITY CHECKS.
     "sources": {
         "atmosx_parser_settings": { // AtmosphericX event parser settings
             "noaa_weather_wire_service": false, // If you want to use NOAA Weather Wire Service, set this to true.
@@ -125,7 +125,7 @@
                 "fallbacks": ["https://data1.weatherwise.app/mesoscale-discussions/USA.geojson", "https://data.weatherwise.app/mesoscale-discussions/USA.geojson"],
                 "contradictions": [] // Ignore
             },
-            "tropical_storm_tracks": { // Tropical Storm Tracks (WeatherWise Implementation)
+            "tropical_storms": { // Tropical Storms (WeatherWise Implementation)
                 "enabled": true,
                 "cache_time": 1200, // How often to pull tropical storm tracks (in seconds, Default: 20 minutes)
                 "endpoint": "https://data2.weatherwise.app/tropical/USA/NHC/storms.json?",
@@ -134,37 +134,46 @@
             }
         },
         "miscellaneous_settings": {
-            "probability": { // Severe Thunderstorm Probability (CIMSS Implementation)
+            "cimss_psv3": { // Severe Thunderstorm Probability (CIMSS Implementation)
                 "enabled": true,
                 "cache_time": 119, // How often to pull severe thunderstorm probabilities (in seconds, Default: 119 seconds)
+                "thresholds": {
+                    "shear": 40, // Threshold for shear probabilities (in percentage, Default: 40%)
+                    "severe": 30, // Threshold for severe probabilities (in percentage, Default: 30%)
+                    "tornado": 30, // Threshold for tornado probabilities (in percentage, Default: 30%)
+                    "hail": 40, // Threshold for hail probabilities (in percentage, Default: 40%)
+                    "wind": 40, // Threshold for wind probabilities (in percentage, Default: 40%)
+                    "mucape": 3000, // Threshold for MUCAPE probabilities (in J/kg, Default: 3000 J/kg)
+                    "mlcape": 3000, // Threshold for MLCAPE probabilities (in J/kg, Default: 3000 J/kg)
+                },
                 "endpoint": "https://cimss.ssec.wisc.edu/severe_conv/NOAACIMSS_PSv3_LOOP",
                 "contradictions": [] // Ignore
             },
-            "sonde_project_weather_eye": { // Sonde Project Weather Eye implementation (See: https://www.wxeye.org/)
+            "sonde_rise26": { // Resolution Intelligence into Storm Environments (See: https://www.wxeye.org/rise26)
                 "enabled": false,
-                "cache_time": 2500, // How often to pull Sonde Project Weather Eye data (in seconds, Default: 2500 seconds)
+                "cache_time": 2500, // How often to pull sonde data (in seconds, Default: 2500 seconds)
                 "endpoint": "https://sonde.projectweathereye.org/data",
                 "contradictions": [] // Ignore
             },
-            "nexrad_radars": { // NEXRAD Radar Stations (NWS API Implementation) (REQUIRED FOR dBZ information)
+            "icao_locations": { // NEXRAD (WSR-88) Radar Locations (NWS API Implementation) (REQUIRED FOR dBZ information)
                 "enabled": true,
                 "cache_time": 1440,
                 "endpoint": "https://api.weather.gov/radar/stations",
                 "contradictions": [] // Ignore
             },
-            "wx_radio": { // Weather Radio Stations (WeatherUSA Implementation) (See: https://weatherusa.net/)
+            "weather_radio": { // Weather Radio Stations (WeatherUSA Implementation) (See: https://weatherusa.net/)
                 "enabled": true,
                 "cache_time": 3600,
                 "endpoint": "https://api.weatherusa.net/v1/wxradio",
                 "contradictions": [] // Ignore
             },
-            "power_outages": { // Power Outage Data
+            "sds_outages": { // Power outage statistics from SDSweather
                 "enabled": true,
-                "cache_time": 120,
+                "cache_time": 3600,
                 "endpoint": "https://www.sdsweather.com/poweroutage/states.php",
                 "contradictions": [] // Ignore
             },
-            "iot_streams": { // IoT Live streams
+            "sds_streams": { // Live Radar Omega / SDSWeather Streams (IoT)
                 "enabled": true,
                 "cache_time": 120,
                 "endpoint": "https://www.sdsweather.com/php/iot/device/devices.php",

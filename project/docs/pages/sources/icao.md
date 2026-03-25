@@ -12,14 +12,14 @@ prev:
 <small class="page-author">Written By: <b>KiyoWx</b></small><br/>
 <small class="last-updated">Last Updated: <b>Mar 23rd, 2026</b></small><br><br><br>
 
-# Nexrad Locations
+# ICAO Locations
 ---
-> Configurations: `sources.miscellaneous_settings.nexrad_radars`
+> Configurations: `sources.miscellaneous_settings.icao_locations`
 
 This data provides a **GeoJSON representation** of Nexrad radar station locations, including each station's **longitude and latitude** coordinates as well as its unique **ID**. The data can be used for mapping, storm tracking, and integration with other geospatial weather products.
 
 ## Data Structure
-Data can be requested at `/data/radars` and is returned in the following GeoJSON:
+Data can be requested at `/data/icao_locations` and is returned in the following GeoJSON:
 ```geojson
 {
     "type": "Feature",

@@ -16,7 +16,7 @@
 */
 
 import * as loader from '../..';
-import { parse } from '../../@parsing/parsing.weather-station';
+import { parse } from '../../@parsing/parsing.data.mesonet';
 import * as types from '../../@dictionaries/types';
 
 type Site = { 
@@ -132,7 +132,7 @@ export class Tracking {
      */
     public getNearestICAO(coordinates: types.LatitudeLongitude): string | null {
         try {
-            const features = loader.cache.external.radars.features;
+            const features = loader.cache.external.icao_locations.features;
             if (!Array.isArray(features) || features.length === 0) return null;
             const distances = features.map((nexrad: Site) => {
                 const [lon, lat] = nexrad?.geometry?.coordinates ?? [];

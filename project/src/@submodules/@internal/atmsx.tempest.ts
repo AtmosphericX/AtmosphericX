@@ -17,7 +17,7 @@
 
 import * as loader from '../..';
 import { getConfigurations } from '../../@dictionaries/@configurations/atmsx-tempest';
-import { parse } from '../../@parsing/parsing.weather-station';
+import { parse } from '../../@parsing/parsing.data.mesonet';
 
 export class ATMSXTempest {
     name_space: string = `Internal.Atmsx.Tempest`;

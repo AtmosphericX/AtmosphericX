@@ -28,17 +28,15 @@ export default defineConfig({
 		nav: [
 			{ text: "Home", link: "/" },
 			{ text: "Installation", link: "/pages/installation/index" },
-			{ text: "Configurations", link: "/pages/configurations/index" },
-			{ text: "Widgets", link: "/pages/widgets/index" },
 		],
 		sidebar: [
 			{
 				text: "Installation",
 				items: [
-					{ text: "What is AtmosphericX?", link: "/pages/installation/index" },
+					{ text: "Introduction", link: "/pages/installation/index" },
 					{ text: "Installation", link: "/pages/installation/installation" },
 					{ text: "Post Installation", link: "/pages/installation/post-installation" },
-					{ text: "Updating AtmosphericX", link: "/pages/installation/updating-atmosphericx" },
+					{ text: "Updating", link: "/pages/installation/updating-atmosphericx" },
 					{ text: "Troubleshooting", link: "/pages/installation/troubleshooting" },
 					{ text: "Configurations", link: "/pages/installation/configurations" },
 				],
@@ -70,7 +68,7 @@ export default defineConfig({
 					{ text: "Discussions", link: "/pages/sources/discussions" },
 					{ text: "Sonde (Rise26)", link: "/pages/sources/sonde" },
 					{ text: "CIMSS Probabilitiy", link: "/pages/sources/cimss" },
-					{ text: "Nexrad Locations", link: "/pages/sources/nexrad" },
+					{ text: "ICAO Locations", link: "/pages/sources/icao" },
 					{ text: "NOAA Weather Radio (NWR)", link: "/pages/sources/nwr" },
 					{ text: "Power Outages", link: "/pages/sources/outages" },
 					{ text: "RadarOmega Streams", link: "/pages/sources/streams" },
@@ -103,7 +101,7 @@ export default defineConfig({
 			{
 				text: "Widgets",
 				items: [
-					{ text: "Widget Introduction", link: "/pages/widgets/index" },
+					{ text: "Introduction", link: "/pages/widgets/index" },
 					{ text: "Alert Widget", link: "/pages/widgets/alerts" },
 					{ text: "Palette Widget", link: "/pages/widgets/palette" },
 					{ text: "Polywarn Widget", link: "/pages/widgets/polywarn" },
@@ -114,7 +112,7 @@ export default defineConfig({
 			{
 				text: "RESTful API",
 				items: [
-					{ text: "API Introduction [todo]", link: "/pages/restful-api/index" },
+					{ text: "Introduction [todo]", link: "/pages/restful-api/index" },
 					{ text: "/data [todo]", link: "/pages/restful-api/data" },
 					{ text: "/placefiles [todo]", link: "/pages/restful-api/placefiles" },
 					{ text: "/api [todo]", link: "/pages/restful-api/api" },
@@ -131,7 +129,7 @@ export default defineConfig({
 			{
 				text: "Frontend",
 				items: [
-					{ text: "Frontend Introduction [todo]", link: "/pages/frontend/index" },
+					{ text: "Introduction [todo]", link: "/pages/frontend/index" },
 					{ text: "Classes [todo]", link: "/pages/frontend/classes" },
 					{ text: "Static [todo]", link: "/pages/frontend/static" },
 				]
@@ -139,7 +137,7 @@ export default defineConfig({
 			{
 				text: "Backend",
 				items: [
-					{ text: "Backend Introduction [todo]", link: "/pages/backend/index" },
+					{ text: "Introduction [todo]", link: "/pages/backend/index" },
 					{ text: "Classes [todo]", link: "/pages/backend/classes" },
 					{ text: "Static [todo]", link: "/pages/backend/static" },
 				]
@@ -147,7 +145,7 @@ export default defineConfig({
 			{
 				text: "Internal Packages",
 				items: [
-					{ text: "Packages Introduction [todo]", link: "/pages/packages/index"},
+					{ text: "Introduction [todo]", link: "/pages/packages/index"},
 					{ text: "atmosx-nwws-parser [todo]", link: "/pages/packages/nwws-parser"},
 					{ text: "atmosx-pulse-point [todo]", link: "/pages/packages/pulse-point"},
 					{ text: "atmosx-placefile-parser [todo]", link: "/pages/packages/placefile-parser"},

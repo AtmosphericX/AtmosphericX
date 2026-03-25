@@ -39,7 +39,7 @@ export const parse = (body: string) => {
         type: 'FeatureCollection',
         features: []
     };
-    loader.packages.PlacefileManager.parseTable(body).then(parsed => {
+    loader.packages.PlacefileManager.parseTable(body).then(parsed=> {
         parsed as GibsonRidgeReportTypes[];
         for (const feature of parsed) {
             const longitude = parseFloat(feature.lon);

@@ -18,17 +18,33 @@
 import * as types from '../../@dictionaries/types';
 import * as loader from '../..';
 
-import * as mesoscaleDiscussions from '../../@parsing/parsing.discussions';
-import * as tropicalStorms from '../../@parsing/parsing.tropical-storms';
-import * as spotterNetwork from '../../@parsing/parsing.spotters';
-import * as spotterReports from '../../@parsing/parsing.spotters-reports';
-import * as wxEye from '../../@parsing/parsing.sonde-wxeye';
-import * as wxRadio from '../../@parsing/parsing.radio';
-import * as svrProbabilties from '../../@parsing/parsing.probabilities';
-import * as nexradRadars from '../../@parsing/parsing.nexrad-radars';
-import * as gibsonReports from '../../@parsing/parsing.gibson-reports';
-import * as powerOutages from '../../@parsing/parsing.outages';
-import * as iotStreams from '../../@parsing/parsing.iot-devices';
+
+import * as sn_s_parser from '../../@parsing/parsing.sn.spotters';
+import * as sn_r_parser from '../../@parsing/parsing.sn.reports';
+import * as gibx_r_parser from '../../@parsing/parsing.gibsonx.reports';
+import * as sds_o_parser from '../../@parsing/parsing.sds.outages';
+import * as sds_s_parser from '../../@parsing/parsing.sds.streams';
+import * as meso_d_parser from '../../@parsing/parsing.events.mesoscale';
+import * as trop_d_parser from '../../@parsing/parsing.events.tropical_storms';
+import * as sonde_parser from '../../@parsing/parsing.data.sonde-rise26';
+import * as nwr_parser from '../../@parsing/parsing.data.weather_radio';
+import * as cimss_parser from '../../@parsing/parsing.data.cimss';
+import * as wsr_parser from '../../@parsing/parsing.data.icao_locations';
+
+
+const cache_keys = [
+    { key: 'spotter_network', cache: 'spotters', parser: sn_s_parser },
+    { key: 'spotter_reports', cache: 'reports', parser: sn_r_parser },
+    { key: 'grlevelx_reports', cache: 'reports', parser: gibx_r_parser },
+    { key: 'sds_outages', cache: 'outages', parser: sds_o_parser },
+    { key: 'sds_streams', cache: 'streams', parser: sds_s_parser },
+    { key: 'mesoscale_discussions', cache: 'discussions', parser: meso_d_parser },
+    { key: 'tropical_storms', cache: 'tropical_storms', parser: trop_d_parser },
+    { key: 'cimss_psv3', cache: 'cimss', parser: cimss_parser },
+    { key: 'sonde_rise26', cache: 'sonde', parser: sonde_parser },
+    { key: 'icao_locations', cache: 'icao_locations', parser: wsr_parser },
+    { key: 'weather_radio', cache: 'weather_radio', parser: nwr_parser },
+];
 
 export class Structure {
     name_space: string = `Misc.Structure`;
@@ -52,48 +68,17 @@ export class Structure {
      * @param {string} type - The type of data to be parsed.
      * @return {Promise<unknown>} - The parsed data.
      */
-    private async parse(body?: unknown, type?: string): Promise<unknown> {
-        try {
-            switch (type) {
-                case 'spotter_network': { 
-                    return spotterNetwork.parse(body as Record<string,string>)
-                }
-                case 'spotter_reports': { 
-                    return spotterReports.parse(body as Record<string, string>); 
-                }
-                case 'iot_streams': { 
-                    return iotStreams.parse(body as Record<string, string>); 
-                }
-                case 'power_outages': { 
-                    return powerOutages.parse(body as Record<string, string>); 
-                }
-                case 'grlevelx_reports': { 
-                    return gibsonReports.parse(body as string); 
-                }
-                case 'mesoscale_discussions': { 
-                    return mesoscaleDiscussions.parse(body as Record<string, string>[]) 
-                }
-                case 'tropical_storm_tracks': {
-                    return tropicalStorms.parse(body as Record<string, string>[]);
-                }
-                case 'nexrad_radars': { 
-                    return nexradRadars.parse(body as Record<string, string>); 
-                }
-                case 'wx_radio': { 
-                    return wxRadio.parse(body as Record<string, string>); 
-                }
-                case 'probability': { 
-                    return await svrProbabilties.parse(body as string); }
-
-                case 'sonde_project_weather_eye': { 
-                    return await wxEye.parse(body as Record<string, string>[]);
-                }
-                default: return [];
-            }
-        } catch (error) {
-            loader.modules.utilities.exception(error, this.name_space + `.parse`);
-        }
-    }
+     private async parse(body?: unknown, type?: string): Promise<unknown> {
+         try {
+             const redirect = cache_keys.find(d => d.key === type);
+             if (!redirect) return [];
+             if (!redirect.parser?.parse) { return []; }
+             return await redirect.parser.parse(body as any);
+         } catch (error) {
+             loader.modules.utilities.exception(error, this.name_space + `.parse`);
+             return [];
+         }
+     }
  
     /**
      * @public
@@ -147,7 +132,7 @@ export class Structure {
         try {
             const clean = loader.modules.utilities.sanatizeWeb(data);
             if (typeof clean !== "object" || clean === null) return; 
-            for (const { key, cache } of loader.statics.default_redirects) {
+            for (const { key, cache } of cache_keys) {
                 const value = (clean as string)[key];
                 if (value !== undefined) { loader.cache.external[cache] = await this.parse(value, key); }
             }

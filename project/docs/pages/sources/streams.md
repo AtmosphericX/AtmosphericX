@@ -14,7 +14,7 @@ prev:
 
 # RadarOmega Streams (IoT)
 ---
-> Configurations: `sources.miscellaneous_settings.iot_streams`
+> Configurations: `sources.miscellaneous_settings.sds_streams`
 
 Provided by `sdsweather` and `RadarOmega`, this feature offers access to various Internet of Things (IoT) data streams.
 

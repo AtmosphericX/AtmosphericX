@@ -14,7 +14,7 @@ prev:
 
 # Sonde (ProjectWxEye / RISE-26)
 ---
-> Configurations: `sources.miscellaneous_settings.sonde_project_weather_eye`
+> Configurations: `sources.miscellaneous_settings.sonde_rise26`
 
 RISE-26 (Resolution Intelligence into Storm Environments) is a research mission  for providing radiosonde data. Learn more about the project [here](https://www.wxeye.org/rise26).
 
