@@ -42,15 +42,15 @@ sources.jsonc
     │
     ├── dicussion_settings
     │   ├── mesoscale_discussions
-    │   └── tropical_storm_tracks
+    │   └── tropical_storms
     │
     └── miscellaneous_settings
-        ├── sonde_project_weather_eye
-        ├── probability
-        ├── nexrad_radars
-        ├── wx_radio
-        ├── power_outages
-        ├── iot_streams
+        ├── cimss_psv3
+        ├── sonde_rise26
+        ├── icao_locations
+        ├── weather_radio
+        ├── sds_outages
+        ├── sds_streams
         ├── tempest_station
         └── pulse_point
 ```
