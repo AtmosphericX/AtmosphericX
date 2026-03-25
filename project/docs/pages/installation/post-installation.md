@@ -1,10 +1,10 @@
 ---
 layout: doc
 next: 
-    text: 'Updating AtmosphericX'
+    text: 'Updating'
     link: /pages/installation/updating-atmosphericx
 prev:
-    text: 'Installation Guide'
+    text: 'Installation'
     link: /pages/installation/installation
 ---
 

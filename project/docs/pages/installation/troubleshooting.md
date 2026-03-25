@@ -1,10 +1,10 @@
 ---
 layout: doc
 next: 
-    text: 'Configuration Introduction'
-    link: /pages/configurations/index
+    text: 'Configurations'
+    link: /pages/installation/configurations
 prev:
-    text: 'Updating AtmosphericX'
+    text: 'Updating'
     link: /pages/installation/updating-atmosphericx
 ---
 
