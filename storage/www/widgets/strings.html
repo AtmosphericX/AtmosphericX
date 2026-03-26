@@ -48,12 +48,16 @@
         body { 
             overflow: hidden; 
         }
-        .widget { 
-            color: var(--widget-color); 
-            font-size: var(--widget-font-size); 
-            text-shadow: var(--widget-text-shadow); 
-            height: auto; 
-            overflow-wrap: none;
+        .widget {
+            display: block;
+            width: 100%;
+            max-width: 100%;
+            color: var(--widget-color);
+            font-size: var(--widget-font-size);
+            text-shadow: var(--widget-text-shadow);
+            height: auto;
+            overflow-wrap: normal;
+            text-align: center;
             word-break: normal;
             white-space: nowrap;
             overflow: hidden;
