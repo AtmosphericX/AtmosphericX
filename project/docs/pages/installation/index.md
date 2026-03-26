@@ -21,7 +21,7 @@ AtmosphericX is a modern, modular, and powerful weather dashboard and widget pro
 
 
 ::: danger Dashboard Notice
-AtmosphericX currently doesn't have a fully featured dashboard like v7 and other previous versions. However, the [widget framework](/pages/widgets/index) and API framework are fully complete and ready for production use. The dashboard is currently being redesigned and refactored to be more use friendly, performant, and generally better than previous versions. If you want to help contribute or give ideas for the dashboard, please join the [Discord](atmosphericx-discord.scriptkitty.cafe) and share your thoughts in the `#suggestions` channel!
+AtmosphericX currently doesn't have a fully featured dashboard like v7 and other previous versions. However, the [widget framework](/pages/widgets/index) and API framework are fully complete and ready for production use. The dashboard is currently being redesigned and refactored to be more use friendly, performant, and generally better than previous versions. If you want to help contribute or give ideas for the dashboard, please join the [Discord](https://atmosphericx-discord.scriptkitty.cafe) and share your thoughts in the `#suggestions` channel!
 :::
 
 ## Supported Features
