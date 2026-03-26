@@ -1,17 +1,18 @@
 ========= 8.0.0.035 (beta-testing) =========
 Unqiue Version Hash: Blue-Dog-Jane-Cat
 
-add(node-tracking): Ability to disable/enable mesonet information gathering from node-tracking.
-add(cimss): Added threshold settings for CIMSS data.
+add(node-tracking): Ability to disable/enable mesonet information gathering from node-tracking
+add(cimss): Added threshold settings for CIMSS data
 
 update(documentation): Improved documentation
+update(documentation): arranged and colored documentation elements
 update(node-tracking): `pin_by_name` is no longer case sensitive
-update(node-tracking): Lon/Lat checks are now implemented to prevent tracking spam for stationary nodes.
+update(node-tracking): Lon/Lat checks are now implemented to prevent tracking spam for stationary nodes
 
 refactor(node-tracking): refactored node tracking for better maintainability by adding a string reference `tracking_node_message` 
-refactor(parsing-utils): Refactored all parsing file names to be more consistent and easier to understand.
-refactor(structure.parse): Refactored `structure.parse` to be more maintainable and easier to understand with a defined `cache_keys` list.
+refactor(parsing-utils): Refactored all parsing file names to be more consistent and easier to understand
+refactor(structure.parse): Refactored `structure.parse` to be more maintainable and easier to understand with a defined `cache_keys` list
 
 
-future(atmosx-tempest-station): Refactor and redo codebase for maintainability.
-future(atmosx-placefile-parser): Refactor and redo codebase for maintainability.
+future(atmosx-tempest-station): Refactor and redo codebase for maintainability
+future(atmosx-placefile-parser): Refactor and redo codebase for maintainability

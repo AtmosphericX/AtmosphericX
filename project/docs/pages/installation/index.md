@@ -10,13 +10,19 @@ prev:
 
 <img src="/logo.png" alt="AtmosphericX Logo" width="200" style="display: block; margin: 0 auto;" />
 <small class="page-author">Written By: <b>KiyoWx</b></small><br/>
-<small class="last-updated">Last Updated: <b>Mar 9th, 2026</b></small><br>
+<small class="last-updated">Last Updated: <b>Mar 25th, 2026</b></small><br>
 <small class="version-made">Version: <b>8.0.0.035 (beta-testing)</b></small><br><br><br>
 
-# AtmosphericX Introduction
+# AtmosphericX
 ---
 
+
 AtmosphericX is a modern, modular, and powerful weather dashboard and widget project designed to be self hosted for live streaming, storm spotting, storm chasing, meteorologists, first responders, and weather enthusiasts who want better visibility into current conditions and severe weather events.
+
+
+::: danger Dashboard Notice
+AtmosphericX currently doesn't have a fully featured dashboard like v7 and other previous versions. However, the [widget framework](/pages/widgets/index) and API framework are fully complete and ready for production use. The dashboard is currently being redesigned and refactored to be more use friendly, performant, and generally better than previous versions. If you want to help contribute or give ideas for the dashboard, please join the [Discord](atmosphericx-discord.scriptkitty.cafe) and share your thoughts in the `#suggestions` channel!
+:::
 
 ## Supported Features
 - [NOAA Weather Wire Service Open-Interface](https://www.weather.gov/nwws/) (Parser)
@@ -62,7 +68,7 @@ Special thanks to [CJ Ziegler](https://www.youtube.com/@CJZiegler), [James Pettu
 A special note to **StarflightWx**, your encouragement since **AtmosphericX v4** has given me hope and motivation to keep improving this project, and I couldn’t be happier with the progress since then. See you on the road and on to the next storm. <3
 
 
-## Disclaimer
+## Disclaimer / Terms of Use
 > AtmosphericX is an independent, open source project and is **not** affiliated with, endorsed by, or sponsored by any government agency, meteorological organization, emergency management service, or official weather provider. This project may reference, parse, or process publicly available weather data, including but **not** limited to services operated by the National Weather Service (NWS) and the National Oceanic and Atmospheric Administration (NOAA). All trademarks, service marks, and data rights remain the property of their respective owners. AtmosphericX is provided "as is", without warranty of any kind, express or implied, including but **not** limited to:
 > - Accuracy or completeness of parsed weather data
 > - Fitness for a particular purpose

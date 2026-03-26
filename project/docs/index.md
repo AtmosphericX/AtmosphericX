@@ -9,17 +9,22 @@ hero:
   actions:
     - theme: brand
       text: Documentation
-      link: /pages/installation/index
-    - theme: alt
-      text: GitHub
-      link: https://github.com/AtmosphericX
-    - theme: alt
-      text: Discord
+      link: /pages/installation
+    - theme: brand
+      text: Discord Server
       link: https://atmosphericx-discord.scriptkitty.cafe
-    - theme: alt
-      text: Development Board
+    - theme: brand
+      text: Repositories
+      link: https://github.com/AtmosphericX
+    - theme: brand
+      text: External Packages
+      link: https://www.npmjs.com/~k3y0mi
+    - theme: brand
+      text: Activity Board
       link: https://github.com/users/AtmosphericX/projects/2
+footer: MIT Licensed | Copyright © 2022-present Alex Wei | Powered by VitePress
 --- 
+
 
 <script setup>
 	import { VPTeamPage, VPTeamPageTitle, VPTeamMembers } from 'vitepress/theme'
@@ -85,11 +90,6 @@ hero:
 	}
 </script>
 
-<VPTeamPageTitle>
-  <template #lead>
-	AtmosphericX is a modern, modular, and powerful weather dashboard and widget project designed to be self hosted for live streaming, storm spotting, storm chasing, meteorologists, first responders, and weather enthusiasts who want better visibility into current conditions and severe weather events.
-  </template>
-</VPTeamPageTitle>
 
 
 <div class="gallery-container">
@@ -109,9 +109,6 @@ hero:
 
 <VPTeamPageTitle>
   <template #title>AtmosphericX's History (2023-2026)</template>
-  <template #lead>
-    AtmosphericX has evolved significantly since its creation in late 2023, growing from a simple weather project into a comprehensive solution for weather enthusiasts and professionals alike.
-  </template>
 </VPTeamPageTitle>
 
 <div class="gallery-container">
@@ -133,8 +130,5 @@ hero:
 
 <VPTeamPageTitle>
   <template #title>Meet the people behind the project</template>
-  <template #lead>
-    AtmosphericX is powered by a dedicated community that works tirelessly to create the best streaming experience possible. From beta testers and developers to documentation writers, every contributor helps move the project forward.
-  </template>
 </VPTeamPageTitle>
 <VPTeamMembers :members />

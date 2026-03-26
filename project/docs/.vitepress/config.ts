@@ -11,6 +11,7 @@ export default defineConfig({
 	base: "/documentation",
 	title: "AtmosphericX",
 	description: description,
+	appearance: false,
 	head: [
 		['link', { rel: 'icon', href: '/assets/images/favicon.ico' }],
 		['meta', { property: 'og:type', content: 'website' }],
@@ -25,9 +26,27 @@ export default defineConfig({
 	themeConfig: {
 		search: { provider: "local" },
 		logo: "/logo.png",
+		socialLinks: [
+		    { icon: "github", link: "https://github.com/atmosphericX" },
+		],
 		nav: [
 			{ text: "Home", link: "/" },
-			{ text: "Installation", link: "/pages/installation/index" },
+			{ 
+			    text: "Sections", items: [
+                    { text: "Installation", link: "/pages/installation/index" },
+                    { text: "Core Configurations", link: "/pages/core/index" },
+                    { text: "Source Configurations", link: "/pages/sources/index" },
+                    { text: "Event Configurations", link: "/pages/events/index" },
+                    { text: "Display Configurations", link: "/pages/display/index" },
+                    { text: "Placefile Configurations", link: "/pages/placefiles/index" },
+                    { text: "Widgets", link: "/pages/widgets/index" },
+                    { text: "RESTful API", link: "/pages/restful-api/index" },
+                    { text: "Contributing", link: "/pages/contributing/creating-widgets" },
+                    { text: "Frontend", link: "/pages/frontend/index" },
+                    { text: "Backend", link: "/pages/backend/index" },
+                    { text: "Internal Packages", link: "/pages/packages/index" },
+				], 
+			},
 		],
 		sidebar: [
 			{
