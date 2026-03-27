@@ -599,7 +599,7 @@ export class Utility {
               this.exception(error, this.name_space + `.getTimeRelative`);
               return "--";
           }
-     };
+    };
 
 }
 

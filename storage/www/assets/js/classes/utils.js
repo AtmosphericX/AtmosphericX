@@ -171,7 +171,7 @@ class Utils {
      *      Converts a date into a human-readable relative time format (e.g., "5 minutes ago" or "in 2 hours").
      *
      * @param {number} date - The date to convert, in milliseconds since the Unix epoch.
-     * @return {string} A human-readable relative time string.
+     * @return {string} A string representing the relative time (e.g., "5 minutes ago" or "in 2 hours").
      */
     getTimeRelative = function(date) {
          try {
