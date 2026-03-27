@@ -562,6 +562,38 @@ export class Utility {
             this.exception(error, this.name_space + `.sendWebhook`);
         }
     }
+    
+    /**
+     * @public
+     * @error_handling
+     * @production
+     * @function getTimeRelative
+     * @description
+     *    Converts a timestamp into a human-readable relative time format.
+     *
+     * @param {number} date - The timestamp to convert (in milliseconds).
+     * @returns {string} - A string representing the relative time (e.g., "5 minutes ago" or "in 2 hours").
+     */
+    public getTimeRelative(date: number): string {
+        try {
+            const seconds = Math.floor((Date.now() - date) / 1000);
+            const absSeconds = Math.abs(seconds);
+            let interval = Math.floor(absSeconds / 31536000);
+            if (interval > 1) return seconds > 0 ? `${interval} years ago` : `in ${interval} years`;
+            interval = Math.floor(absSeconds / 2592000);
+            if (interval > 1) return seconds > 0 ? `${interval} months ago` : `in ${interval} months`;
+            interval = Math.floor(absSeconds / 86400);
+            if (interval > 1) return seconds > 0 ? `${interval} days ago` : `in ${interval} days`;
+            interval = Math.floor(absSeconds / 3600);
+            if (interval > 1) return seconds > 0 ? `${interval} hours ago` : `in ${interval} hours`;
+            interval = Math.floor(absSeconds / 60);
+            if (interval > 1) return seconds > 0 ? `${interval} minutes ago` : `in ${interval} minutes`;
+            return seconds > 0 ? `${absSeconds} seconds ago` : `in ${absSeconds} seconds`;
+        } catch (error) {
+            this.exception(error, this.name_space + `.getTimeRelative`);
+            return "--";
+        }
+    }
 }
 
 export default Utility

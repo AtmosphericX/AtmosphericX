@@ -41,6 +41,7 @@ const aGlobalElementSettings = {
     setTextThemed: get(aSearch, `setTextThemed`) ?? false, // Applies theme to text color
     setElementZoomLevel: get(aSearch, `setElementZoomLevel`) ?? null, // Sets element zoom level
     setTextColor: get(aSearch, `setTextColor`) ?? null, // Sets custom text color
+    setTextTimeRelative: get(aSearch, `setTextTimeRelative`) ?? false, // Displays time values as relative time (e.g., "5 minutes ago")
     setTextSize: get(aSearch, `setTextSize`) ?? null, // Sets custom text size
     setTextFont: get(aSearch, `setTextFont`) ?? null, // Sets custom text font
     setTextShadow: get(aSearch, `setTextShadow`) ?? true, // Enables/disables text shadow

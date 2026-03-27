@@ -51,8 +51,8 @@ export const parse = (body: Record<string, string>[]) => {
                 geometry: { type: 'Polygon', coordinates: feature.coordinates },
                 properties: {
                     mesoscale_id: feature.properties.number ?? null,
-                    expires: feature.properties.expires_at_ms ? new Date(feature.properties.expires_at_ms).toLocaleString() : null,
-                    issued: feature.properties.issued_at_ms ? new Date(feature.properties.issued_at_ms).toLocaleString() : null,
+                    expires: feature.properties.expires_at_ms ? new Date(feature.properties.expires_at_ms).toISOString() : null,
+                    issued: feature.properties.issued_at_ms ? new Date(feature.properties.issued_at_ms).toISOString() : null,
                     description: loader.packages.TextParser.textProductToDescription(feature.properties.text).replace(/\n/g, '<br>') ?? null,
                     locations: feature.properties.tags?.AREAS_AFFECTED?.join(', ') ?? null,
                     outlook: feature.properties.tags?.CONCERNING?.join(', ') ?? null,

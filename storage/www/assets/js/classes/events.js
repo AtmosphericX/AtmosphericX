@@ -42,7 +42,7 @@ class Events {
     hSyncEvents = async function(settings) {
         try {
             return new Promise(resolve => {
-                const now = Date.now();
+                const now = Date.now()
                 const events = this.storage?.events?.features ?? [];
                 const manual = this.storage?.manual?.features ?? [];
                 const pulsepoint = this.storage?.pulsepoint?.features ?? [];
@@ -198,7 +198,7 @@ class Events {
                         },
                         { 
                             title: "Issued", 
-                            value: event?.properties?.issued?.substring(0, 25) ?? "--", 
+                            value: new Date(event?.properties?.issued)?.toLocaleString()?.substring(0, 25) ?? "--", 
                             align: "right" 
                         }
                     ],
@@ -215,7 +215,7 @@ class Events {
                         },
                         { 
                             title: "Expires", 
-                            value: event?.properties?.expires ?? "--", 
+                            value: new Date(event?.properties?.expires)?.toLocaleString()?.substring(0, 25) ?? "--",  
                             align: "right" 
                         }
                     ],
@@ -286,7 +286,7 @@ class Events {
                         },
                         { 
                             title: "Received", 
-                            value: event?.properties?.issued ?? "--", 
+                            value: new Date(event?.properties?.issued)?.toLocaleString()?.substring(0, 25) ?? "--",  
                             align: "right" 
                         }
                     ],

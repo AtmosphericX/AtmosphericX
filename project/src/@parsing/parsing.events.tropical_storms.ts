@@ -30,7 +30,7 @@ export const parse = (body: Record<string, string>[]) => {
                 classification: feature.classification ?? null,
                 pressure: feature.pressure ?? null,
                 wind_speed: feature.wind_speed_mph ?? null,
-                last_updated: feature.last_update_at ? new Date(feature.last_update_at).toLocaleString() : null
+                last_updated: feature.last_update_at ? new Date(feature.last_update_at).toISOString() : null
             }
         });
     }

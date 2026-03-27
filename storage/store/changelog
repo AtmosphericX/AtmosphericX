@@ -3,16 +3,20 @@ Unqiue Version Hash: Blue-Dog-Jane-Cat
 
 add(node-tracking): Ability to disable/enable mesonet information gathering from node-tracking
 add(cimss): Added threshold settings for CIMSS data
+add(widgets-global): setTextTimeRelative to use a more human readable format for times (e.g. "5 minutes ago" instead of "2026-01-01 12:00:00")
+add(getTimeRelative): Added `getTimeRelative` function to calculate relative time differences in a human-readable format for both backend and frontend use
 
 update(documentation): Improved documentation
 update(documentation): arranged and colored documentation elements
 update(node-tracking): `pin_by_name` is no longer case sensitive
 update(node-tracking): Lon/Lat checks are now implemented to prevent tracking spam for stationary nodes
+update(atmosx-nwws-parser): Parser now fully works in UTC rather than local time
 
 refactor(node-tracking): refactored node tracking for better maintainability by adding a string reference `tracking_node_message` 
 refactor(parsing-utils): Refactored all parsing file names to be more consistent and easier to understand
 refactor(structure.parse): Refactored `structure.parse` to be more maintainable and easier to understand with a defined `cache_keys` list
 
+fix: Mobile device detection using useragent strings instead of device window size for better accuracy
 
 future(atmosx-tempest-station): Refactor and redo codebase for maintainability
 future(atmosx-placefile-parser): Refactor and redo codebase for maintainability

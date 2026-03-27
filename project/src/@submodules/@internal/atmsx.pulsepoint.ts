@@ -94,7 +94,7 @@ export class ATMSXPulsePoint {
                 const expired = ev.properties?.expires != null;
                 if (index === -1) { ev.properties.is_issued = true; }
                 if (index !== -1) { 
-                    ev.properties.issued = new Date().toLocaleString();
+                    ev.properties.issued = new Date().toISOString();
                     ev.properties.is_updated = true; 
                 }
                 const register = loader.modules.structure.register(ev);

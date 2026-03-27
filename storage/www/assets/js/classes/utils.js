@@ -162,6 +162,37 @@ class Utils {
             this.exception(error, `${this.name_space}:notify`);
         }
     };
+    
+    /**
+     * @production
+     * @error_handling
+     * @function getTimeRelative
+     * @description 
+     *      Converts a date into a human-readable relative time format (e.g., "5 minutes ago" or "in 2 hours").
+     *
+     * @param {number} date - The date to convert, in milliseconds since the Unix epoch.
+     * @return {string} A human-readable relative time string.
+     */
+    getTimeRelative = function(date) {
+        try {
+            const seconds = Math.floor((Date.now() - date) / 1000);
+            const absSeconds = Math.abs(seconds);
+            let interval = Math.floor(absSeconds / 31536000);
+            if (interval > 1) return seconds > 0 ? `${interval} years ago` : `in ${interval} years`;
+            interval = Math.floor(absSeconds / 2592000);
+            if (interval > 1) return seconds > 0 ? `${interval} months ago` : `in ${interval} months`;
+            interval = Math.floor(absSeconds / 86400);
+            if (interval > 1) return seconds > 0 ? `${interval} days ago` : `in ${interval} days`;
+            interval = Math.floor(absSeconds / 3600);
+            if (interval > 1) return seconds > 0 ? `${interval} hours ago` : `in ${interval} hours`;
+            interval = Math.floor(absSeconds / 60);
+            if (interval > 1) return seconds > 0 ? `${interval} minutes ago` : `in ${interval} minutes`;
+            return seconds > 0 ? `${absSeconds} seconds ago` : `in ${absSeconds} seconds`;
+        } catch (error) {
+            this.exception(error, this.name_space + `.getTimeRelative`);
+            return "--";
+        }
+    }
 
     /**
      * @production
@@ -399,7 +430,9 @@ class Utils {
      */
     getMobileDevice = function() {
         try {
-            if (window?.innerWidth <= 1270) {
+            const UAs = [/Android/i, /webOS/i, /iPhone/i, /iPad/i, /iPod/i, /BlackBerry/i, /Windows Phone/i];
+            const isMobileUA = UAs.some(ua => navigator.userAgent.match(ua));
+            if (isMobileUA) {
                 this.notify({ 
                     type: 'info',
                     title: "Permissions", 
@@ -662,37 +695,38 @@ class Utils {
      * @param {string} directory - The directory string with placeholders in the format %property.path%.
      * @return {string} The formatted directory string with placeholders replaced by actual values.
      */
-    getTextFromDirectory = function(data = {}, directory) {
-        try {
-            if (directory == null || directory === "") return null;
-            if (!directory?.includes('%')) {
-                const pathSegments = directory?.split('.').filter(Boolean);
-                let value = data;
-                for (const seg of pathSegments) {
-                    value = value?.[seg];
-                }
-                return value != null ? value : null;
-            }
-            return directory?.replace(/%([^%]+)%/g, (match, propPath) => {
-                const alternatives = propPath?.split('??').map(p => p?.trim());
-                for (const alt of alternatives) {
-                    const pathSegments = alt?.split('.').filter(Boolean);
-                    let value = data;
-                    for (const seg of pathSegments) {
-                        value = value?.[seg];
-                    }
-                    if (value != null) return value;
-                }
-                if ((directory?.match(/%/g) || []).length < 4) {
-                    return null;
-                }
-                return `---`
-            });
-        } catch (error) {
-            this.exception(error, `${this.name_space}:aOutputDirectory`);
-            return null
-        }
-    }
+     getTextFromDirectory = function(data = {}, directory) {
+         try {
+             if (directory == null || directory === "") return null;
+             if (!directory?.includes('%')) {
+                 const pathSegments = directory?.split('.').filter(Boolean);
+                 let value = data;
+                 for (const seg of pathSegments) {
+                     value = value?.[seg];
+                 }
+                 return value != null ? value : null;
+             }
+     
+             return directory?.replace(/%([^%]+)%/g, (match, propPath) => {
+                 const alternatives = propPath?.split('??').map(p => p?.trim());
+                 for (const alt of alternatives) {
+                     const pathSegments = alt?.split('.').filter(Boolean);
+                     let value = data;
+                     for (const seg of pathSegments) {
+                         value = value?.[seg];
+                     }
+                     if (value != null) return value;
+                 }
+                 if ((directory?.match(/%/g) || []).length < 4) {
+                     return null;
+                 }
+                 return `---`;
+             });
+         } catch (error) {
+             this.exception(error, `${this.name_space}:aOutputDirectory`);
+             return null;
+         }
+     };
 
     /**
      * @production
@@ -793,10 +827,22 @@ class Utils {
         function normalize(str) {
             return str.replace(/&nbsp;/g, ' ').replace(/\u00A0/g, ' ').trim();
         }
+        const relative = (val) => {
+            if (typeof val !== 'string') return val;
+            const isoRegex = /\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d+)?Z/g;
+            if (!val.match(isoRegex)) return val;
+            return val.replace(isoRegex, (dateStr) => {
+                const date = new Date(dateStr);
+                if (settings?.global?.setTextTimeRelative) {
+                    return this.getTimeRelative(date.getTime());
+                }
+                return date.toLocaleString();
+            });
+        };
         if (string == 'null' || string == null) {
             string = settings?.global?.setTextPlaceholder ?? '---'
         }
-        let startingString = String(string);
+        let startingString = String(relative(string));
         const getCurrentContent = element.innerHTML;
         const getFutureContent = this.buildString(startingString, settings, ignorePrefixSuffix);
         const isTextTheSameAsBefore = normalize(getCurrentContent) == normalize(getFutureContent);

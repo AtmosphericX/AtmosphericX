@@ -428,7 +428,7 @@ export class ATMSXParser {
                 ? props.details.tracking.substring(0, 18) : "N/A";
             const eventName = props.event ?? "Unknown";
             const action = props.action_type ?? "Unknown";
-            const issued = props.issued?.toString() ?? "N/A";
+            const issued = new Date(props.issued).toLocaleString()?.toString() ?? "N/A";
             return loader.strings.event_output
                 .replace("{EVENT}", `${this.ansi_colors.GREEN}${eventName}${this.ansi_colors.RESET}`)
                 .replace("{STATUS}", `${statusColor}${action}${this.ansi_colors.RESET}`)
