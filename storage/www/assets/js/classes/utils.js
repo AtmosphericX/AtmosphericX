@@ -174,25 +174,31 @@ class Utils {
      * @return {string} A human-readable relative time string.
      */
     getTimeRelative = function(date) {
-        try {
-            const seconds = Math.floor((Date.now() - date) / 1000);
-            const absSeconds = Math.abs(seconds);
-            let interval = Math.floor(absSeconds / 31536000);
-            if (interval > 1) return seconds > 0 ? `${interval} years ago` : `in ${interval} years`;
-            interval = Math.floor(absSeconds / 2592000);
-            if (interval > 1) return seconds > 0 ? `${interval} months ago` : `in ${interval} months`;
-            interval = Math.floor(absSeconds / 86400);
-            if (interval > 1) return seconds > 0 ? `${interval} days ago` : `in ${interval} days`;
-            interval = Math.floor(absSeconds / 3600);
-            if (interval > 1) return seconds > 0 ? `${interval} hours ago` : `in ${interval} hours`;
-            interval = Math.floor(absSeconds / 60);
-            if (interval > 1) return seconds > 0 ? `${interval} minutes ago` : `in ${interval} minutes`;
-            return seconds > 0 ? `${absSeconds} seconds ago` : `in ${absSeconds} seconds`;
-        } catch (error) {
-            this.exception(error, this.name_space + `.getTimeRelative`);
-            return "--";
-        }
-    }
+         try {
+             const now = Date.now();
+             const then = typeof date === "number" ? date : date.getTime();
+             const seconds = Math.floor((now - then) / 1000);
+             const absSeconds = Math.abs(seconds);
+             const isPast = seconds > 0;
+             const units = [
+                 ["year", 31536000], ["month", 2592000],
+                 ["day", 86400], ["hour", 3600],
+                 ["minute", 60], ["second", 1],
+             ];
+             for (const [name, value] of units) {
+                 const interval = Math.floor(absSeconds / value);
+                 if (interval >= 1) {
+                     return isPast
+                         ? `${interval} ${name}${interval > 1 ? "s" : ""} ago`
+                         : `in ${interval} ${name}${interval > 1 ? "s" : ""}`;
+                 }
+             }
+             return "just now";
+         } catch (error) {
+             this.exception(error, this.name_space + `.getTimeRelative`);
+             return "--";
+         }
+    };
 
     /**
      * @production

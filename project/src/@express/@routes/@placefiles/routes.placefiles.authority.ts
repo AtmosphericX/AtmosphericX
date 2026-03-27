@@ -169,6 +169,7 @@ export class Init {
             const cLongitude = Number(tracker.geometry.coordinates[0]);
             const cLatitude = Number(tracker.geometry.coordinates[1]);
             const mesonet = loader.cache.external.mesonet.features?.[0] ?? null;
+            const gTR = loader.modules.utilities.getTimeRelative(new Date(tracker?.properties?.last_updated ?? '').getTime());
             if (settings?.filters?.enabled) {
                 const distance = loader.modules.calculations.distanceBetweenPoints(
                     { lon: qLongitude, lat: qLatitude }, { lon: cLongitude, lat: cLatitude },
@@ -180,7 +181,7 @@ export class Init {
                 `Name: ${tracker?.properties?.name ?? `Unknown`}`,
                 `Location: ${tracker?.properties?.location ?? `Unknown Location`}`,
                 `ICAO: ${tracker?.properties?.icao ?? `N/A`}`,
-                `Updated: ${new Date(tracker?.properties?.last_updated ?? '').toISOString()} (${loader.modules.utilities.getTimeRelative(new Date(tracker?.properties?.last_updated ?? '').getTime())})`
+                `Updated: ${new Date(tracker?.properties?.last_updated ?? '').toISOString()} (${gTR})`
             ]
             if (index === 0) {
                 description.push(`Temperature: ${mesonet ? mesonet?.properties?.temperature + ` °F` : `N/A`}`);
@@ -272,6 +273,8 @@ export class Init {
             if (event?.properties?.imported?.polygon_center == undefined) { return null; }
             const cLongitude = Number(event?.properties?.imported?.polygon_center?.lon);
             const cLatitude = Number(event?.properties?.imported?.polygon_center?.lat);
+            const gTRI = loader.modules.utilities.getTimeRelative(new Date(event?.properties?.issued ?? '').getTime());
+            const gTRE = loader.modules.utilities.getTimeRelative(new Date(event?.properties?.expires ?? '').getTime());
             if (settings?.filters?.enabled) {
                 const distance = loader.modules.calculations.distanceBetweenPoints(
                     { lon: qLongitude, lat: qLatitude }, { lon: cLongitude, lat: cLatitude },
@@ -282,8 +285,8 @@ export class Init {
             const description = [
                 `Event: ${event?.properties?.event ?? 'Unknown Event'} (${event?.properties?.action_type ?? '--'})`,
                 `Locations: ${event?.properties?.locations ?? 'Unknown Locations'}`,
-                `Issued: ${new Date(event?.properties?.issued ?? '').toISOString()} (${loader.modules.utilities.getTimeRelative(new Date(event?.properties?.issued ?? '').getTime())})`,
-                `Expires: ${new Date(event?.properties?.expires ?? '').toISOString() } (${loader.modules.utilities.getTimeRelative(new Date(event?.properties?.expires ?? '').getTime())})`,
+                `Issued: ${new Date(event?.properties?.issued ?? '').toISOString()} (${gTRI})`,
+                `Expires: ${new Date(event?.properties?.expires ?? '').toISOString() } (${gTRE})`,
                 `Hail Threat: ${event?.properties?.parameters?.max_hail_size ?? '--'}`,
                 `Wind Threat: ${event?.properties?.parameters?.max_wind_gust ?? '--'}`,
                 `Damage Threat: ${event?.properties?.parameters?.damage_threat ?? '--'}`,
@@ -330,6 +333,8 @@ export class Init {
         const getDiscussions = loader.cache.external.discussions.features.map((discussion: DiscussionType) => {
             const cLongitude = Number(discussion.geometry.coordinates[0]);
             const cLatitude = Number(discussion.geometry.coordinates[1]);
+            const gTRI = loader.modules.utilities.getTimeRelative(new Date(discussion?.properties?.issued ?? '').getTime());
+            const gTRE = loader.modules.utilities.getTimeRelative(new Date(discussion?.properties?.expires ?? '').getTime());
             if (settings?.filters?.enabled) {
                 const distance = loader.modules.calculations.distanceBetweenPoints(
                     { lon: qLongitude, lat: qLatitude }, { lon: cLongitude, lat: cLatitude },
@@ -340,8 +345,8 @@ export class Init {
             const description = [
                 `ID: ${discussion?.properties?.mesoscale_id ?? `N/A`}`,
                 `Outlook: ${discussion?.properties?.outlook ?? `N/A`}`,
-                `Issued: ${new Date(discussion?.properties?.issued ?? '').toISOString()} (${loader.modules.utilities.getTimeRelative(new Date(discussion?.properties?.issued ?? '').getTime())})`,
-                `Expires: ${new Date(discussion?.properties?.expires ?? '').toISOString()} (${loader.modules.utilities.getTimeRelative(new Date(discussion?.properties?.expires ?? '').getTime())})`,
+                `Issued: ${new Date(discussion?.properties?.issued ?? '').toISOString()} (${gTRI})`,
+                `Expires: ${new Date(discussion?.properties?.expires ?? '').toISOString()} (${gTRE})`,
                 `Population: ${discussion?.properties?.population ?? `N/A`}`,
                 `Homes Affected: ${discussion?.properties?.homes ?? `N/A`}`,
                 `Locations: ${discussion?.properties?.locations ?? `N/A`}`,
@@ -391,10 +396,11 @@ export class Init {
                 )
                 if (distance > (settings?.filters?.filter_by_radius ?? 0)) { return null; }
             }
+            const gTR = loader.modules.utilities.getTimeRelative(new Date(pulsepoint?.properties?.issued ?? '').getTime());
             let description = [
                 `Type: ${pulsepoint?.properties?.event ?? `Unknown Event`}`,
                 `Address: ${pulsepoint?.properties?.address ?? `Unknown Address`}`,
-                `Last Updated: ${new Date(pulsepoint?.properties?.issued ?? '').toISOString()} (${loader.modules.utilities.getTimeRelative(new Date(pulsepoint?.properties?.issued ?? '').getTime())})`,
+                `Last Updated: ${new Date(pulsepoint?.properties?.issued ?? '').toISOString()} (${gTR})`,
                 `Responding Units: ${pulsepoint?.properties?.units?.map(u => u.id).join(", ") ?? `N/A`}`,
             ]
             description.push(`Source: PulsePoint (AtmosphericX)`);

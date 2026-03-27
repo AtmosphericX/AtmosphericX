@@ -146,12 +146,14 @@
                 for (const feature of features) {
                     const properties = feature?.properties;
                     const getMyDistance = properties.imported?.spotters[0]?.metadata?.distance;
+                    const gTRI = utils.getTimeRelative(new Date(properties?.issued))
+                    const gTRE = utils.getTimeRelative(new Date(properties?.expires))
                     const card = document.createElement("div");
                     card.className = "widget-card";
                     card.innerHTML = `
                         <div class="widget-card-event">${properties?.event ?? `--`} (${properties?.action_type ?? ``})</div>
-                        <div class="widget-card-meta"><b>Issued:</b> ${new Date(properties?.issued).toLocaleString() ?? `--`} (${utils.getTimeRelative(new Date(properties?.issued)) ?? `--`})</div>
-                        <div class="widget-card-meta"><b>Expires:</b> ${new Date(properties?.expires).toLocaleString() ?? `--`} (${utils.getTimeRelative(new Date(properties?.expires)) ?? `--`})</div>
+                        <div class="widget-card-meta"><b>Issued:</b> ${new Date(properties?.issued).toLocaleString() ?? `--`} (${gTRI ?? `--`})</div>
+                        <div class="widget-card-meta"><b>Expires:</b> ${new Date(properties?.expires).toLocaleString() ?? `--`} (${gTRE ?? `--`})</div>
                         <div class="widget-card-meta"><b>Hail:</b> ${properties?.parameters?.max_hail_size ?? `--`}</div>
                         <div class="widget-card-meta"><b>Wind:</b> ${properties?.parameters?.max_wind_gust ?? `--`}</div>
                         <div class="widget-card-meta"><b>Tornado:</b> ${properties?.parameters?.tornado_detection ?? `--`}</div>
