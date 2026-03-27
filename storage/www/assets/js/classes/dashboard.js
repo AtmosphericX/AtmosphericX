@@ -51,7 +51,6 @@ class Dashboard {
         const getVersionText = document.getElementById(`sidebar-version`);
         const getHeaderText = document.getElementById(`message`);
         const getCurrentPage = window.location.hash;
-        console.log(getCurrentPage)
         if (getVersionText) { getVersionText.innerText = this?.storage?.version ?? `AtmosphericX {Invalid Version}`; }
         if (getHeaderText) { if (this?.storage?.announcement) { getHeaderText.innerText = this?.storage?.announcement; } else { getHeaderText.innerText = `There are currently no announcements.`; } }
         this.renderPage(getCurrentPage);
