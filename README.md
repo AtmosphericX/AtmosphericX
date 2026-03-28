@@ -23,8 +23,10 @@ AtmosphericX is a modern, modular, and powerful weather dashboard and widget pro
 
 ## Disclaimer
 > AtmosphericX is an independent, open source project and is **not** affiliated with, endorsed by, or sponsored by any government agency, meteorological organization, emergency management service, or official weather provider. This project may reference, parse, or process publicly available weather data, including but **not** limited to services operated by the National Weather Service (NWS) and the National Oceanic and Atmospheric Administration (NOAA). All trademarks, service marks, and data rights remain the property of their respective owners. AtmosphericX is provided "as is", without warranty of any kind, express or implied, including but **not** limited to:
+>
 > - Accuracy or completeness of parsed weather data
 > - Fitness for a particular purpose
+> - Protection against sources and data retrieval
 > - Availability or reliability of upstream data sources
 > - Protection against service interruptions or data delays
 >
@@ -32,6 +34,14 @@ AtmosphericX is a modern, modular, and powerful weather dashboard and widget pro
 
 
 ## Important Links
-[Project Board](https://github.com/users/AtmosphericX/projects/2)\
-[Latest Documentation (v8)](https://atmosphericx.scriptkitty.cafe/documentation)\
-[Discord](https://atmosphericx-discord.scriptkitty.cafe)
+[PROJECT BOARD](https://github.com/users/AtmosphericX/projects/2)\
+[DISCORD](https://atmosphericx-discord.scriptkitty.cafe)
+
+
+## Repository Documentation
+[DOCUMENTATION](https://atmosphericx.scriptkitty.cafe/documentation)\
+[CODE OF CONDUCT](/CODE_OF_CONDUCT.md)
+[CONTRIBUTING](/CONTRIBUTING.md)
+[LICENSE](/LICENSE)
+[SECURITY](/SECURITY.md)
+[CHANGELOGS](/CHANGELOGS.md)

@@ -1,7 +1,7 @@
 # Security Policy
 
 ## Reporting Vulnerabilities
-If you discover a security vulnerability or issue in this repository such as exposed sensitive data, misconfigurations, or content that could cause harm. {lease report it **immediately and responsibly**.  
+If you discover a security vulnerability or issue in this repository such as exposed sensitive data, misconfigurations, or content that could cause harm. Please report it **immediately and responsibly**.  
 
 **Do not report security issues publicly.**  
 Instead, report privately by emailing **antimal@scriptkitty.cafe**, clearly describing the vulnerability.

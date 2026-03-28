@@ -3,6 +3,7 @@ AtmosphericX is an independent, open source project and is **not** affiliated wi
 
 - Accuracy or completeness of parsed weather data
 - Fitness for a particular purpose
+- Protection against sources and data retrieval
 - Availability or reliability of upstream data sources
 - Protection against service interruptions or data delays
 
