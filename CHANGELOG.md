@@ -4,6 +4,10 @@
 
 ** ALPHA RELEASED **
 
+**Updating**
+- express-rate-limit: Update to `8.2.2` due to security vulnerabilities in previous versions
+- axios: Update to `1.13.5` due to security vulnerabilities in previous versions
+
 ------------------------------------------------------------------------------------------------------------------------
 
 ## Mar 27, 2026 - 8.0.0.035 (beta-testing)
