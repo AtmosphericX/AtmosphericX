@@ -14,6 +14,7 @@
 - atmosx-nwws-parser: Parser now fully works in UTC rather than local time
 - atmsx.tempest: Removed "OBS" text from the reporting line.
 - misc.streaming: Hardcoded the streamer.bot to use `youtube`
+- changelogs: Changelogs are now located in `CHANGELOGS.md` for better visibility and accessibility rather than being burried in the storage store.
 
 **Documentation**
 - generic: Improved documentation
