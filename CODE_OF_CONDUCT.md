@@ -1,4 +1,4 @@
-## Code of Conduct
+# Code of Conduct
 AtmosphericX is an independent, open source project and is **not** affiliated with, endorsed by, or sponsored by any government agency, meteorological organization, emergency management service, or official weather provider. This project may reference, parse, or process publicly available weather data, including but **not** limited to services operated by the National Weather Service (NWS) and the National Oceanic and Atmospheric Administration (NOAA). All trademarks, service marks, and data rights remain the property of their respective owners. AtmosphericX is provided "as is", without warranty of any kind, express or implied, including but **not** limited to:
 
 - Accuracy or completeness of parsed weather data

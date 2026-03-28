@@ -34,10 +34,10 @@ AtmosphericX is a modern, modular, and powerful weather dashboard and widget pro
 
 ## Repository Information
 [DOCUMENTATION](https://atmosphericx.scriptkitty.cafe/documentation)\
-[DISCORD](https://atmosphericx-discord.scriptkitty.cafe)
+[DISCORD](https://atmosphericx-discord.scriptkitty.cafe)\
 [PROJECT BOARD](https://github.com/users/AtmosphericX/projects/2)\
-[CODE OF CONDUCT](/CODE_OF_CONDUCT.md)
-[CONTRIBUTING](/CONTRIBUTING.md)
-[LICENSE](/LICENSE)
-[SECURITY](/SECURITY.md)
+[CODE OF CONDUCT](/CODE_OF_CONDUCT.md) |
+[CONTRIBUTING](/CONTRIBUTING.md) |
+[LICENSE](/LICENSE) | 
+[SECURITY](/SECURITY.md) | 
 [CHANGELOGS](/CHANGELOGS.md)

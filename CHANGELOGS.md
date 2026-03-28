@@ -1,4 +1,4 @@
-# Changelog
+# Changelogs
 
 This file will be updated every repository update along with `/storage/store/changelog`.
 
