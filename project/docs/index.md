@@ -18,7 +18,7 @@ hero:
       link: https://github.com/AtmosphericX
     - theme: brand
       text: External Packages
-      link: https://www.npmjs.com/~k3y0mi
+      link: https://www.npmjs.com/package/@atmosx
     - theme: brand
       text: Activity Board
       link: https://github.com/users/AtmosphericX/projects/2

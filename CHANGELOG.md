@@ -1,6 +1,6 @@
 # Changelogs
 
-## Mar 27, 2026 - 8.0.0.1 (release)
+## Mar 28, 2026 - 8.0.0.1 (release)
 
 ** ALPHA RELEASED **
 
@@ -16,6 +16,7 @@
 - CONTRIBUTING: Updated contributing guide with new information about the project and how to contribute
 - CODE_OF_CONDUCT: Updated code of conduct with new information about the project and how to contribute
 - SECURITY: Updated security policy with new information about the project and how to report security vulnerabilities
+- HOME: Set npm link to @atmosx org.
 
 ------------------------------------------------------------------------------------------------------------------------
 
