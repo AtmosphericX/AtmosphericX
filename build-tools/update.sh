@@ -147,7 +147,7 @@ get_user_update_confirmation() {
 get_repository_information() {
     local api_base="https://api.github.com/repos/$repository/contents"
     local path_version="storage/store/version"
-    local path_changelog="CHANGELOGS.md"
+    local path_changelog="CHANGELOG.md"
 
     if [[ -n "$git_hub_token" ]]; then
         remote_version=$(curl -fsSL -H "Authorization: token $git_hub_token" -H "Accept: application/vnd.github.v3.raw" "$api_base/$path_version?ref=$branch") || return 1
