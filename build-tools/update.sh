@@ -3,7 +3,7 @@
 configurations_directory="../configurations"
 current_version=$(cat ../storage/store/version)
 repository="AtmosphericX/AtmosphericX"
-branch="beta"
+branch="main"
 git_hub_token="$1"
 
 version_lt() {

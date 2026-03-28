@@ -63,7 +63,7 @@
         "global_update": "*/5 * * * * *",  // Default 5 seconds (This updates the global cache but websocket settings will be primary guide)
         "random_update": "*/30 * * * * *",  // Default is 60 seconds (Updates rng event data)
         "update_check": "0 */1 * * *", // Default: 6 hours (Checks for AtmosphericX updates and logs to console if outdated)
-        "version_url": "AtmosphericX/AtmosphericX/beta/storage/store/version",
+        "version_url": "AtmosphericX/AtmosphericX/main/storage/store/version",
         "feed_url": "https://scriptkitty.cafe/status/atmosx-feed",
         "request_timeout": 10
     },

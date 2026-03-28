@@ -2,7 +2,7 @@
 layout: home
 hero:
   name: "AtmosphericX"
-  tagline: "8.0.0.035 (beta-testing)"
+  tagline: "8.0.0.1 (release)"
   image:
     src: /logo.png
     alt: AtmosphericX Logo

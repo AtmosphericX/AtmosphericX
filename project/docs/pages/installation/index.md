@@ -11,7 +11,7 @@ prev:
 <img src="/logo.png" alt="AtmosphericX Logo" width="200" style="display: block; margin: 0 auto;" />
 <small class="page-author">Written By: <b>KiyoWx</b></small><br/>
 <small class="last-updated">Last Updated: <b>Mar 25th, 2026</b></small><br>
-<small class="version-made">Version: <b>8.0.0.035 (beta-testing)</b></small><br><br><br>
+<small class="version-made">Version: <b>8.0.0.1 (release)</b></small><br><br><br>
 
 # AtmosphericX
 ---
