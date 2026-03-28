@@ -164,11 +164,11 @@ export default defineConfig({
 			{
 				text: "Internal Packages",
 				items: [
-					{ text: "Introduction [todo]", link: "/pages/packages/index"},
-					{ text: "event-product-parser [todo]", link: "/pages/packages/event-parser"},
-					{ text: "pulse-point-wrapper [todo]", link: "/pages/packages/pulse-point"},
-					{ text: "placefile-parser [todo]", link: "/pages/packages/placefile-parser"},
-					{ text: "tempest-station-wrapper [todo]", link: "/pages/packages/tempest-station"},
+					{ text: "Introduction", link: "/pages/packages/index"},
+					{ text: "event-product-parser", link: "/pages/packages/event-parser"},
+					{ text: "pulse-point-wrapper", link: "/pages/packages/pulse-point"},
+					{ text: "placefile-parser", link: "/pages/packages/placefile-parser"},
+					{ text: "tempest-station-wrapper", link: "/pages/packages/tempest-station"},
 				]
 			},
 		],

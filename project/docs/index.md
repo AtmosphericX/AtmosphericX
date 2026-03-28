@@ -17,9 +17,6 @@ hero:
       text: Repositories
       link: https://github.com/AtmosphericX
     - theme: brand
-      text: External Packages
-      link: https://www.npmjs.com/package/@atmosx
-    - theme: brand
       text: Activity Board
       link: https://github.com/users/AtmosphericX/projects/2
 footer: MIT Licensed | Copyright © 2022-present Alex Wei | Powered by VitePress
