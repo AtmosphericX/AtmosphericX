@@ -30,10 +30,10 @@ import atmsxtempest from '../@submodules/@internal/atmsx.tempest';
 import routing from '../@express/express.routes';
     
 // AtmosphericX Custom Packages
-import { Manager, TextParser } from 'atmosx-nwws-parser';
-import { PulsePoint } from 'atmosx-pulse-point';
-import { PlacefileManager } from 'atmosx-placefile-parser';
-import { TempestStation } from 'atmosx-tempest-station';
+import { Manager, TextParser } from '@atmosx/event-product-parser';
+import { PulsePoint } from '@atmosx/pulse-point';
+import { PlacefileManager } from '@atmosx/placefile-parser';
+import { TempestStation } from '@atmosx/tempest-station';
 
 // Third Party Packages
 import { StreamerbotClient } from '@streamerbot/client';
