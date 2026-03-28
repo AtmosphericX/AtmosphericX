@@ -33,7 +33,7 @@
 
     */
 {
-    "core:hash": "753b0625fbb21a2b7e409258e4e55ffc9f5c0880a8a9d3176904c3159f261f71", // DO NOT MODIFY THIS VALUE. THIS IS USED FOR CONFIGURATION INTEGRITY CHECKS.
+    "core:hash": "cc999a3f21dfd2c2c6a66049209e1e2ed199247940c4888406fb4063180ec3cc", // DO NOT MODIFY THIS VALUE. THIS IS USED FOR CONFIGURATION INTEGRITY CHECKS.
     "web_hosting_settings": {
         "documentation_mode": false,
         "is_login_required": true, // No account creation required for ATMOSX (Not secure) (Requires admin to be created in the setup process)

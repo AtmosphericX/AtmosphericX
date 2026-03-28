@@ -165,10 +165,10 @@ export default defineConfig({
 				text: "Internal Packages",
 				items: [
 					{ text: "Introduction [todo]", link: "/pages/packages/index"},
-					{ text: "atmosx-nwws-parser [todo]", link: "/pages/packages/nwws-parser"},
-					{ text: "atmosx-pulse-point [todo]", link: "/pages/packages/pulse-point"},
-					{ text: "atmosx-placefile-parser [todo]", link: "/pages/packages/placefile-parser"},
-					{ text: "atmosx-tempest-station [todo]", link: "/pages/packages/tempest-station"},
+					{ text: "event-product-parser [todo]", link: "/pages/packages/event-parser"},
+					{ text: "pulse-point-wrapper [todo]", link: "/pages/packages/pulse-point"},
+					{ text: "placefile-parser [todo]", link: "/pages/packages/placefile-parser"},
+					{ text: "tempest-station-wrapper [todo]", link: "/pages/packages/tempest-station"},
 				]
 			},
 		],

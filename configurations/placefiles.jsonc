@@ -33,7 +33,7 @@
 
     */
 {
-    "placefiles:hash": "3c3794b9eb08ccecb25a67b763261a33adfe072a120fdc68a8afedd09253af4c", // DO NOT MODIFY THIS VALUE. THIS IS USED FOR CONFIGURATION INTEGRITY CHECKS.
+    "placefiles:hash": "9d881ad4816a6456d780068fe0292f9251c59fc46a4eddcb2eed301b9f0d81e9", // DO NOT MODIFY THIS VALUE. THIS IS USED FOR CONFIGURATION INTEGRITY CHECKS.
     "placefile_settings": { // This will handle placefile settings for various placefile endpoints
         "cache_duration": 60, // Duration in secodns to cache placefiles before regenerating them
         "events": {

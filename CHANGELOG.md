@@ -7,6 +7,15 @@
 **Updating**
 - express-rate-limit: Update to `8.2.2` due to security vulnerabilities in previous versions
 - axios: Update to `1.13.5` due to security vulnerabilities in previous versions
+- configurations: Hash update
+- configurations: Change `beta` -> `main` branch for stable release
+
+**Documentation**
+- README: Updated README with new features and information about the project
+- README: Switch Nodei badges and docs sidebar entries to new scoped/wrapper
+- CONTRIBUTING: Updated contributing guide with new information about the project and how to contribute
+- CODE_OF_CONDUCT: Updated code of conduct with new information about the project and how to contribute
+- SECURITY: Updated security policy with new information about the project and how to report security vulnerabilities
 
 ------------------------------------------------------------------------------------------------------------------------
 
