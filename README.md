@@ -12,10 +12,10 @@
 		<img alt="GitHub pull requests" src="https://img.shields.io/github/issues-pr/AtmosphericX/AtmosphericX">
 	</div>
 	<div align="center" style="border: none;">
-		<a href="https://nodei.co/npm/atmosx-nwws-parser/"><img src="https://nodei.co/npm/@atmosx/event-product-parser.svg?style=shields&data=n&color=red"></a>
-		<a href="https://nodei.co/npm/atmosx-tempest-station/"><img src="https://nodei.co/npm/@atmosx/tempest-station-wrapper.svg?style=shields&data=n&color=red"></a>
-		<a href="https://nodei.co/npm/atmosx-pulse-point/"><img src="https://nodei.co/npm/@atmosx/pulse-point-wrapper.svg?style=shields&data=n&color=red"></a>
-		<a href="https://nodei.co/npm/atmosx-placefile-parser/"><img src="https://nodei.co/npm/@atmosx-placefile-parser.svg?style=shields&data=n&color=red"></a>
+		<a href="https://nodei.co/npm/@atmosx/placefile-parser/"><img src="https://nodei.co/npm/@atmosx/placefile-parser.svg?style=flat&data=n,v,s"></a>
+		<a href="https://nodei.co/npm/@atmosx/tempest-station-wrapper/"><img src="https://nodei.co/npm/@atmosx/tempest-station-wrapper.svg?style=flat&data=n,v,s"></a>
+		<a href="https://nodei.co/npm/@atmosx/event-product-parser/"><img src="https://nodei.co/npm/@atmosx/event-product-parser.svg?style=flat&data=n,v,s"></a>
+		<a href="https://nodei.co/npm/@atmosx/pulse-point-wrapper/"><img src="https://nodei.co/npm/@atmosx/pulse-point-wrapper.svg?style=flat&data=n,v,s"></a>
 	</div>
 </div>
 <br>
