@@ -31,9 +31,9 @@ import routing from '../@express/express.routes';
     
 // AtmosphericX Custom Packages
 import { Manager, TextParser } from '@atmosx/event-product-parser';
-import { PulsePoint } from '@atmosx/pulse-point';
+import { PulsePoint } from '@atmosx/pulse-point-wrapper';
 import { PlacefileManager } from '@atmosx/placefile-parser';
-import { TempestStation } from '@atmosx/tempest-station';
+import { TempestStation } from '@atmosx/tempest-station-wrapper';
 
 // Third Party Packages
 import { StreamerbotClient } from '@streamerbot/client';
