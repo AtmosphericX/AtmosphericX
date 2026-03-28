@@ -49,7 +49,6 @@ type LocalHttpMethod = 'GET' | 'POST' | 'PUT' | 'DELETE'
 export class Utility {
     name_space: string = `Utility`;
     version_path: string = `../storage/store/version`;
-    changelogs_path: string = `../storage/store/changelog`;
     logo_path: string = `../storage/store/current`;
     logo_legacy_path: string = `../storage/store/legacy`;
     logs_directory: string = `../storage/logs/`;
@@ -76,7 +75,6 @@ export class Utility {
         this.getLatestUpdate()
         this.validateConfigurations();
         loader.cache.external.version = this.version();
-        loader.cache.external.changelogs = this.changelogs();
         this.log({ 
             title: `${this.ansi_colors.GREEN}${this.name_space}${this.ansi_colors.RESET}`, 
             message: `Successfully initialized`
@@ -310,27 +308,6 @@ export class Utility {
         } catch (error) {
             this.exception(error, this.name_space + `.version`);
             return `vUnknown`;
-        }
-    }
-
-    /**
-     * @public
-     * @production
-     * @error_handling
-     * @function changelogs
-     * @description
-     *     Retrieves the changelogs of the application from the changelog file.
-     * 
-     * @return {string} - The changelogs content.
-     */
-    public changelogs(): string {
-        try { 
-            const getChangelogs = loader.packages.fs.existsSync(this.changelogs_path) ? loader.packages.fs.readFileSync(this.changelogs_path, 'utf-8')
-                : `No changelogs available.`;
-            return getChangelogs;
-        } catch (error) {
-            this.exception(error, this.name_space + `.changelogs`);
-            return `No changelogs available.`;
         }
     }
 

@@ -30,7 +30,6 @@ export const h_static: Record<string, any> = {
 export const h_cache: Record<string, any> = {
     external: {
         configurations: null,
-        changelogs: null,
         announcement: null,
         version: null,
         hashes: [],

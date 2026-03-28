@@ -1,7 +1,5 @@
 # Changelogs
 
-This file will be updated every repository update along with `/storage/store/changelog`.
-
 ## Mar 27, 2026 - 8.0.0.035 (beta-testing)
 
 **Features**
