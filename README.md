@@ -32,12 +32,12 @@ AtmosphericX is a modern, modular, and powerful weather dashboard and widget pro
 >
 > AtmosphericX should **not** be relied upon for life safety decisions, emergency response coordination, aviation, marine navigation, or other critical applications. Always consult official sources for authoritative weather information. By using this software, you acknowledge and agree that the maintainers and contributors are **not** liable for any damages, losses, or consequences resulting from its use.
 
-## Repository Information
-[DOCUMENTATION](https://atmosphericx.scriptkitty.cafe/documentation)\
-[DISCORD](https://atmosphericx-discord.scriptkitty.cafe)\
-[PROJECT BOARD](https://github.com/users/AtmosphericX/projects/2)\
-[CODE OF CONDUCT](/CODE_OF_CONDUCT.md) |
-[CONTRIBUTING](/CONTRIBUTING.md) |
-[LICENSE](/LICENSE) | 
-[SECURITY](/SECURITY.md) | 
-[CHANGELOGS](/CHANGELOGS.md)
+## References
+[Documentation](https://atmosphericx.scriptkitty.cafe/documentation) |
+[Discord Server](https://atmosphericx-discord.scriptkitty.cafe) |
+[Project Board](https://github.com/users/AtmosphericX/projects/2) |\
+[Code of Conduct](/CODE_OF_CONDUCT.md) |
+[Contributing](/CONTRIBUTING.md) |
+[License](/LICENSE) | 
+[Security](/SECURITY.md) | 
+[Changelogs](/CHANGELOGS.md) |
