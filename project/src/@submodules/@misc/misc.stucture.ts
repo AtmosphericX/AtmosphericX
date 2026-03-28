@@ -92,7 +92,7 @@ export class Structure {
      * @param {types.EventType} event - The event to be registered.
      * @return {types.EventType} - The registered event with client properties.
      */
-    public register(event: types.EventType) {
+    public register(event: types.EventType): types.EventType {
         try {
             const configurations = loader.modules.utilities.cfg();
             const name = event?.properties?.event;

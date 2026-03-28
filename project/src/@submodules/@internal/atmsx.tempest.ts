@@ -55,7 +55,7 @@ export class ATMSXTempest {
             const settings = getConfigurations()
             if (settings == null) { return; }
             this.mgr = loader.cache.handlers.tempest_client = new this.pkg(settings)
-            this.mgr.on(`onObservation`, async (event) => {
+            this.mgr.on(`onObservation`, async (event: Record<string, string[]>) => {
                 this.DATA.observation = event;
                 const forecast = this.DATA?.forecast?.features?.[0];
                 const rapid = this.DATA?.rapid_wind?.features?.[0];
@@ -78,21 +78,21 @@ export class ATMSXTempest {
                     .replace(`{WIND}`, rapid?.properties?.speed ?? '--');
                 loader.modules.utilities.log({ 
                     title: `${this.ansi_colors.YELLOW}Tempest${this.ansi_colors.RESET}`,
-                    message: `[${this.ansi_colors.MAGENTA}OBS${this.ansi_colors.RESET}] ${string}`
+                    message: string
                 });
                 await loader.modules.streaming.chatStreamerBot(string, `onMesonet`);
                 loader.modules.websockets.sendUpdateToClients();
             });
-            this.mgr.on(`onForecast`, (event) => {
+            this.mgr.on(`onForecast`, (event: Record<string, string[]>) => {
                 this.DATA.forecast = event;
             });
-            this.mgr.on(`onRapidWind`, (event) => {
+            this.mgr.on(`onRapidWind`, (event: Record<string, string[]>) => {
                 this.DATA.rapid_wind = event;
             });
-            this.mgr.on(`onLightning`, (event) => {
+            this.mgr.on(`onLightning`, (event: Record<string, string[]>) => {
                 this.DATA.lightning = event;
             });
-            this.mgr.on(`log`, (event) => {
+            this.mgr.on(`log`, (event: string) => {
                 loader.modules.utilities.log({ 
                     title: `${this.ansi_colors.YELLOW}Tempest${this.ansi_colors.RESET}`, 
                     message: event

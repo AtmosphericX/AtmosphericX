@@ -30,7 +30,7 @@ import atmsxtempest from '../@submodules/@internal/atmsx.tempest';
 import routing from '../@express/express.routes';
     
 // AtmosphericX Custom Packages
-import { AlertManager, TextParser } from 'atmosx-nwws-parser';
+import { Manager, TextParser } from 'atmosx-nwws-parser';
 import { PulsePoint } from 'atmosx-pulse-point';
 import { PlacefileManager } from 'atmosx-placefile-parser';
 import { TempestStation } from 'atmosx-tempest-station';
@@ -66,7 +66,7 @@ import * as buffer from 'buffer';
 
 
 export const h_packages = { 
-    AlertManager, TextParser, PulsePoint, PlacefileManager, TempestStation,
+    Manager, TextParser, PulsePoint, PlacefileManager, TempestStation,
     StreamerbotClient, sqlite3, express, rateLimit, axios,
     gui, events, path, fs, crypto, http, https, process, xmpp, os,
     xml2js, shapefile, ws, firebase_app, firebase_database, jobs,

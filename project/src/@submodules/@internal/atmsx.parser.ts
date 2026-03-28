@@ -40,7 +40,7 @@ type polygonMetadata = {
 export class ATMSXParser {
     name_space: string = `Internal.Atmsx.Parser`;
     ansi_colors = loader.modules.utilities.ansi_colors;
-    pkg = loader.packages.AlertManager;
+    pkg = loader.packages.Manager;
     mgr = null;
     cache_events: types.EventType[] = [];
     event_queue: types.EventType[] = [];
