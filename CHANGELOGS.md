@@ -15,6 +15,8 @@ This file will be updated every repository update along with `/storage/store/cha
 - node-tracking: `pin_by_name` is no longer case sensitive
 - node-tracking: Lon/Lat checks are now implemented to prevent tracking spam for stationary nodes
 - atmosx-nwws-parser: Parser now fully works in UTC rather than local time
+- atmsx.tempest: Removed "OBS" text from the reporting line.
+- misc.streaming: Hardcoded the streamer.bot to use `youtube`
 
 **Documentation**
 - generic: Improved documentation
@@ -24,6 +26,7 @@ This file will be updated every repository update along with `/storage/store/cha
 node-tracking: refactored node tracking for better maintainability by adding a string reference `tracking_node_message` 
 parsing-utils: Refactored all parsing file names to be more consistent and easier to understand
 structure.parse: Refactored `structure.parse` to be more maintainable and easier to understand with a defined `cache_keys` list
+generic: Improved type safety in the backend and type issues.
 
 **Bug Fixes**
 fix: Mobile device detection using useragent strings instead of device window size for better accuracy
