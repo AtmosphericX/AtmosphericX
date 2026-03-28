@@ -43,7 +43,7 @@
     "@atmosx/placefile-parser": "latest",
     "@atmosx/pulse-point-wrapper": "latest",
     "@atmosx/tempest-station-wrapper": "latest",
-    "axios": "1.13.4",
+    "axios": "1.13.5",
     "better-sqlite3": "12.6.2",
     "blessed": "0.1.81",
     "croner": "10.0.1",
