@@ -82,7 +82,7 @@ export class Streaming {
             loader.cache.handlers.bot_client = await new this.pkg({...settings,
                 onConnect: async () => {
                     const broadcaster = await loader.cache.handlers.bot_client.getBroadcaster();
-                    this.service = broadcaster?.connected?.[0] ?? null;
+                    this.service = broadcaster?.connected?.find((service) => service.toLowerCase() === `youtube`) ?? null;
                     this.is_bot_account = settings.is_bot;
                     this.events = settings.events;
                     if (this.service) { 
