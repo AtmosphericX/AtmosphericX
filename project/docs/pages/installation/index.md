@@ -63,7 +63,7 @@ Throughout the documentation, you may see words that are commonly used. So we've
 
 
 ## Honorable Mentions
-Special thanks to [CJ Ziegler](https://www.youtube.com/@CJZiegler), [James Pettus](https://x.com/PettusWX), [TylerWxCorner](https://x.com/TylersWXcorner), [CarsonGrayWX](https://x.com/CarsonGrayWX), [MesoHunter](https://www.youtube.com/channel/UCCbcwQgGkci3CRffdrCKFbg), [Connor's Climate Corner](https://www.youtube.com/channel/UCLxyjHhUz9MpfntbRMvNpbw), [Chief Meteorologist (WYFF 4) Chris Justus](https://x.com/ChrisWYFF4), and [StarflightWx](https://x.com/starflightVR) for inspiring me to continue this project.  
+Special thanks to [CJ Ziegler](https://www.youtube.com/@CJZiegler), [James Pettus](https://x.com/PettusWX), [TylerWxCorner](https://x.com/TylersWXcorner), [CarsonGrayWX](https://x.com/CarsonGrayWX), [Connor's Climate Corner](https://www.youtube.com/channel/UCLxyjHhUz9MpfntbRMvNpbw), [Chief Meteorologist (WYFF 4) Chris Justus](https://x.com/ChrisWYFF4), and [StarflightWx](https://x.com/starflightVR) for inspiring me to continue this project.  
 
 A special note to **StarflightWx**, your encouragement since **AtmosphericX v4** has given me hope and motivation to keep improving this project, and I couldn’t be happier with the progress since then. See you on the road and on to the next storm. <3
 
