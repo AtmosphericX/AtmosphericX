@@ -143,6 +143,8 @@
                 ];
                 const container = settings.setElement;
                 container.innerHTML = "";
+                // sort features by issued date
+                features.sort((a, b) => new Date(a?.properties?.issued) - new Date(b?.properties?.issued));
                 for (const feature of features) {
                     const properties = feature?.properties;
                     const getMyDistance = properties.imported?.spotters[0]?.metadata?.distance;

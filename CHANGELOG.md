@@ -9,6 +9,10 @@
 - axios: Update to `1.13.5` due to security vulnerabilities in previous versions
 - configurations: Hash update
 - configurations: Change `beta` -> `main` branch for stable release
+- Set packages.json for `atmosx` packages to be first published under the `@atmosx` org for better organization and future scalability.
+
+**Fixes**
+- cards: Fix card sorting by issued data (Latest first)
 
 **Documentation**
 - README: Updated README with new features and information about the project
