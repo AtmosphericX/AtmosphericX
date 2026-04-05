@@ -507,6 +507,27 @@ class Utils {
             return `#ffffff`;
         }
     }
+    
+    /**
+    * @production
+    * @error_handling
+    * @function getEventPriority
+    * @description
+    *      Retrieves the priority of an event based on its type from the configuration scheme.
+    *
+    * @param {string} event - The event type to get the priority for.
+    * @return {number} The priority of the event, where a lower number indicates higher priority. Returns -1 if the event is not found.
+    */
+    getEventPriority = function(eventType = `Tornado Warning`) { 
+        try {
+            const events = this?.storage?.configurations?.themes ?? [];
+            const priority = Object.keys(events).indexOf(eventType);
+            return priority >= 0 ? priority : 999;
+        } catch (error) {
+            this.exception(error, `${this.name_space}:getEventPriority`);
+            return -1;
+        }
+    }
 
     /**
      * @production

@@ -1,5 +1,13 @@
 # Changelogs
 
+## Apr 4th, 2026 - 8.0.0.2
+
+**Updating**
+- widgets-strings: getNearbyEvents now uses the `getEventPriority` utility function to determine event priority by index (order) in the theme configuration array. This allows for more flexible and dynamic event prioritization based on the configuration rather than relying on hardcoded logic.
+- widgets-strings: getNearbyEvents now has "Entered" if within the event polygon instead of showing 0.0 distance.
+
+------------------------------------------------------------------------------------------------------------------------
+
 ## Mar 28, 2026 - 8.0.0.1 (release)
 
 ** ALPHA RELEASED **
