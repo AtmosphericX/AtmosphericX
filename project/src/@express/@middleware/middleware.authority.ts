@@ -56,6 +56,7 @@ export class Init {
             next();
         })
         this.server.use(`/documentation`, this.pkg.static(`${storage}/../storage/www/documentation/`));
+        this.server.use(`/docs`, this.pkg.static(`${storage}/../storage/www/documentation/`));
         this.server.use(`/assets`, this.pkg.static(`${storage}/www/assets`));
         this.server.use(`/eas`, this.pkg.static(`${storage}/temporary/eas/output`));
         this.server.all(/.*/, (___, response) => {

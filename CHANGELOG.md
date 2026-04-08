@@ -5,6 +5,8 @@
 **Updating**
 - widgets-strings: getNearbyEvents now uses the `getEventPriority` utility function to determine event priority by index (order) in the theme configuration array. This allows for more flexible and dynamic event prioritization based on the configuration rather than relying on hardcoded logic.
 - widgets-strings: getNearbyEvents now has "Entered" if within the event polygon instead of showing 0.0 distance.
+- middleware: Add `/docs` to routing list
+
 
 ------------------------------------------------------------------------------------------------------------------------
 
