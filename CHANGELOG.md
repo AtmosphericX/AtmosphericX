@@ -7,6 +7,9 @@
 - widgets-strings: getNearbyEvents now has "Entered" if within the event polygon instead of showing 0.0 distance.
 - middleware: Add `/docs` to routing list
 
+**Documentation**
+- index: Replace `kiyowx` with `atmosx_wx`
+
 
 ------------------------------------------------------------------------------------------------------------------------
 

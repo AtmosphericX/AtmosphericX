@@ -36,7 +36,7 @@ footer: MIT Licensed | Copyright © 2022-present Alex Wei | Powered by VitePress
 			title: 'Project Developer & President @ ATMSX Storm Chasing',
 			links: [
 				{ icon: 'github', link: 'https://github.com/k3yomi' },
-				{ icon: 'twitter', link: 'https://twitter.com/KiyomiWx' }
+				{ icon: 'twitter', link: 'https://twitter.com/atmosx_wx' }
 			]
 		},
 		{
