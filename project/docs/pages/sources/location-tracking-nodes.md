@@ -82,7 +82,9 @@ Data can be requested at `/data/tracking` and is returned in the following GeoJS
     "properties": {
         "name": "John Smith",
         "source": "RealTimeIRL",
-        "location": "Some County, Some State",
+        "county": "Some County",
+        "state": "Some State",
+        "address": "Some Address",
         "icao": "KXYZ",
         "last_updated": "2026-03-23T18:45:00Z
     }

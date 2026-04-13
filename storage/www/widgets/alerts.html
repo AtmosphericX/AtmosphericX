@@ -40,24 +40,6 @@
         <script src="/assets/js/static/subscriptions.js" defer></script>
     </head>
     <style>
-        :root {
-            --widget-text-color: white;
-            --widget-header-size: 1.9em;
-            --widget-header-weight: bold;
-            --widget-header-align: left;
-            --widget-header-bg: rgba(0, 0, 0, 0.86);
-            --widget-body-bg: rgba(0, 0, 0, 0.1);
-            --widget-row-light-bg: #000000;
-            --widget-row-dark-bg: #000000;
-            --widget-bg-gradient: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
-            --widget-border-radius: 15px;
-            --widget-box-shadow: 0 5px 12px rgb(0, 0, 0);
-            --widget-header-padding: 16px;
-            --widget-row-padding: 8px 16px;
-            --widget-gap: 6px;
-            --widget-max-width: 900px;
-            --widget-margin-top: 50px;
-        }
         * {
             margin: 0;
             padding: 0;
@@ -65,33 +47,33 @@
             touch-action: manipulation;
         }
         .widget-container { 
-            display: none; background: var(--widget-bg-gradient); 
-            border-radius: var(--widget-border-radius); 
-            color: var(--widget-text-color); max-width: var(--widget-max-width); 
-            margin: var(--widget-margin-top) auto 0 auto; overflow: hidden; 
-            box-shadow: var(--widget-box-shadow); position: relative;
+            display: none; background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            border-radius: 15px;
+            color: white; max-width: 900px;
+            margin: 50px auto 0 auto; overflow: hidden; 
+            box-shadow: 0 5px 12px rgb(0, 0, 0); position: relative;
             padding: 0px; width: 100vw;
         }
         .widget-child-header { 
-            background: var(--widget-header-bg); text-align: var(--widget-header-align); 
-            font-size: var(--widget-header-size); font-weight: var(--widget-header-weight); 
-            padding: var(--widget-header-padding); 
+            background: rgba(0, 0, 0, 0.86); text-align: left;
+            font-size: 1.9em; font-weight: bold; 
+            padding: 16px;
         }
         .widget-row-1 { 
-            background: var(--widget-row-light-bg); display: flex; 
+            background: #000000; display: flex; 
             align-items: center; justify-content: space-between; 
-            width: 100%; padding: var(--widget-row-padding); 
+            width: 100%; padding: 8px 16px;
             box-sizing: border-box; 
         }
         .widget-row-2 { 
-            background: var(--widget-row-dark-bg); display: flex; 
+            background: #000000; display: flex; 
             align-items: center; justify-content: space-between; 
-            width: 100%; padding: var(--widget-row-padding); 
+            width: 100%; padding: 8px 16px;
             box-sizing: border-box; 
         }
         .widget-row-3, .widget-row-4 {
             display: flex; align-items: center;
-            gap: var(--widget-gap);
+            gap: 6px;
         }
     </style>
     <body>

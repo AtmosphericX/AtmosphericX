@@ -170,7 +170,7 @@ Create a widget that `fetches the intensity` at the location of the node `John D
 ::: details Example 6
 Create a widget that `searches for a tracking node` named `John Doe` and `displays all the information` about that node relating to his `current location`.
 ```
-/widgets/strings?setType=getTracking&setSearch=John Doe&setValuePath=properties.location
+/widgets/strings?setType=getTracking&setSearch=John Doe&setValuePath=%properties.county%, %properties.state%
 ```
 :::
 

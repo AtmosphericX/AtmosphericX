@@ -40,20 +40,11 @@
         <script src="/assets/js/static/subscriptions.js" defer></script> 
     </head>
     <style>
-        :root {
-            --widget-font-size: 50px;
-            --widget-color: var(--clr-light-a0);
-            --widget-text-shadow: 0 0 8px var(--clr-dark-a0);
-            --widget-top: 0px;
-            --widget-right: 0px;
-        }
-        body { 
-            overflow: hidden; 
-        }
+        body { overflow: hidden;}
         .widget {
             display: block; width: 100%;
-            max-width: 100%; color: var(--widget-color);
-            font-size: var(--widget-font-size); text-shadow: var(--widget-text-shadow);
+            max-width: 100%; color: var(--clr-light-a0);
+            font-size: 50px; text-shadow: 0 0 8px var(--clr-dark-a0);
             height: auto; overflow-wrap: normal;
             text-align: center; word-break: normal;
             white-space: nowrap; overflow: hidden;
@@ -176,7 +167,7 @@
                                 const trackerLat = getTracker.geometry.coordinates[1];
                                 const trackerLon = getTracker.geometry.coordinates[0];
                                 const distance = utils.getDistance({lat: centerLat, lon: centerLon}, {lat: trackerLat, lon: trackerLon});
-                                return distance <= getRadius;
+                                return distance <= getRadius
                             });
                             const getHighestParameter = getCellsWithinDistance.reduce((max, cell) => {
                                 const value = cell.properties?.[getParameter] ?? -Infinity;
@@ -185,7 +176,7 @@
                             if (getHighestParameter === -Infinity) { 
                                 return utils.setString(settings.setElement, settings?.global?.setTextPlaceholder ?? `---`, settings);
                             }
-                            return utils.setString(settings.setElement, getHighestParameter.toString(), settings);
+                            return utils.setString(settings.setElement, getHighestParameter, settings);
                         }
                         case `getWatchdog`: {
                             let count = 0;

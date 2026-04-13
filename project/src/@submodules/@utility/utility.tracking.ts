@@ -78,7 +78,9 @@ export class Tracking {
                     properties: {
                         name,
                         source,
-                        location: null,
+                        county: null,
+                        state: null,
+                        address: null,
                         icao,
                         last_updated: new Date()
                     }
@@ -111,7 +113,7 @@ export class Tracking {
                 existing.properties.last_updated = new Date();
             }
             loader.cache.external.tracking.features = features.filter((node: LocationFilter) => {
-                const updated = new Date(node?.properties?.last_updated).getTime();
+                const updated = new Date(node?.properties?.last_updated ?? new Date()).getTime(); 
                 return now - updated < expiryMs;
             });
             this.getTrackingInformation();
@@ -188,7 +190,10 @@ export class Tracking {
             const address = getAddress?.message?.address ?? {};
             const county = address.county ?? "";
             const state = address.state ?? "";
-            target.properties.location = `${county}, ${state}`.trim().replace(/^,|,$/g, "");
+            const addr = address.road ?? "";
+            target.properties.county = (`${county}`).trim().replace(/^,|,$/g, "");
+            target.properties.state = (`${state}`).trim().replace(/^,|,$/g, "");
+            target.properties.address = (`${addr}`).trim().replace(/^,|,$/g, "");
             target.properties.icao = this.getNearestICAO({ latitude: lat, longitude: lon });
             if (cfg?.sources?.location_settings?.fetch_mesonet_data) {
                 if (!cfg?.sources?.miscellaneous_settings?.tempest_station?.enabled) {

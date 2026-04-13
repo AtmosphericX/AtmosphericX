@@ -39,14 +39,6 @@
         <script src="/assets/js/static/subscriptions.js" defer></script>
     </head>
     <style>
-        :root { 
-            --widget-font-size: 5vw;
-            --widget-subtext-font-size: 3vw;
-            --widget-color: var(--clr-light-a0);
-            --widget-subtext-color: var(--clr-light-a0);
-            --widget-text-shadow: 0 0 18px var(--clr-dark-a0);
-            --widget-padding: 25px;
-        }
         html, body {
             height: 100%; width: 100%;
             margin: 0; padding: 0;
@@ -59,8 +51,8 @@
             justify-content: flex-end; align-items: center;
         }
         .widget-child-1 {
-            padding: var(--widget-padding); font-size: var(--widget-font-size);
-            color: var(--widget-color); text-shadow: var(--widget-text-shadow);
+            padding: 25px; font-size: 5vw;
+            color: var(--clr-light-a0); text-shadow: 0 0 18px var(--clr-dark-a0);
             display: flex; flex-direction: row; flex-wrap: wrap;
             justify-content: center; text-align: center;
             width: 100%; line-height: 1.4em; word-break: break-word;
@@ -69,8 +61,8 @@
             word-break: break-word;
         }
         .widget-child-2 {
-            font-size: var(--widget-subtext-font-size);color: var(--widget-subtext-color);
-            text-shadow: var(--widget-text-shadow); position: static;
+            font-size: 3vw; color: var(--clr-light-a0);
+            text-shadow: 0 0 18px var(--clr-dark-a0); position: static;
             width: 100%; text-align: center;
             pointer-events: none;
         }

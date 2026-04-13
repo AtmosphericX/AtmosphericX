@@ -1,6 +1,6 @@
 {
   "name": "atmosphericx",
-  "version": "8.0.0",
+  "version": "8.0.0.3",
   "description": "Project AtmosphericX is a web based platform and widget manager tailored for amateur weather enthusiasts, storm chasers, and anyone passionate about understanding and tracking severe weather events. It provides near realtime alerts and updates, ensuring users stay informed about critical weather conditions as they unfold.",
   "main": "dist/index.cjs",
   "type": "module",

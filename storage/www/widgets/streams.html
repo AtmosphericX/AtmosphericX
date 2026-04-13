@@ -40,19 +40,6 @@
         <script src="/assets/js/static/subscriptions.js" defer></script> 
     </head>
     <style>
-        :root {
-            --widget-offset: 2.5rem;
-            --widget-z: 100;
-            --widget-font-size: 1.9rem;
-            --widget-font-weight: 600;
-            --widget-text-color: #ffffff;
-            --widget-bg: rgba(34, 40, 49, 0.92);
-            --widget-radius: 18px;
-            --widget-padding: 10px;
-            --widget-blur: blur(8px);  
-            --widget-shadow: 0 10px 40px rgba(0, 0, 0, 0.45);
-            --video-shadow: 0 8px 32px rgba(0, 0, 0, 0.35);
-        }
         html, body {
             height: 100%;
             margin: 0;
@@ -63,7 +50,7 @@
         }
         .widget-container {
             position: fixed; inset: 0;
-            display: flex; padding: var(--widget-offset);
+            display: flex; padding: 2.5rem;
             pointer-events: none; align-items: flex-start;
             justify-content: flex-start;
         }
@@ -71,16 +58,16 @@
             position: fixed; inset: 0;
             width: 100%; height: 100%;
             object-fit: cover; z-index: 1;
-            box-shadow: var(--video-shadow);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.35);
             transition: opacity 0.7s ease;
         }
         .widget-child-2 {
             display: flex; align-items: center;
             justify-content: center; text-align: center;
-            background-color: var(--widget-bg); font-size: var(--widget-font-size); 
-            font-weight: var(--widget-font-weight); color: var(--widget-text-color);
-            border-radius: var(--widget-radius); padding: var(--widget-padding);
-            border: none; z-index: var(--widget-z);
+            background-color: rgba(34, 40, 49, 0.92); font-size: 1.9rem;
+            font-weight: 600; color: #ffffff;
+            border-radius: 18px; padding: 10px;
+            border: none; z-index: 100;
         }
         .widget-child-3 { 
             position: fixed; top: 90%;

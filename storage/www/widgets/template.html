@@ -27,78 +27,46 @@
         <link rel="manifest" href="/assets/static/manifest.json">
         <link rel="apple-touch-icon" href="/assets/images/manifest.png">
         <title>AtmosphericX - Widgets</title>
-
+        
         <!-- CSS -->
         <link rel="stylesheet" href="/assets/styles/global.css">
         <link rel="stylesheet" href="/assets/styles/notification.css">
-
+        
         <!-- JS --> 
         <script src="/assets/js/classes/utils.js" defer></script>
+        <script src="/assets/js/classes/events.js" defer></script> 
         <script src="/assets/js/classes/widgets.js" defer></script>
-        <script src="/assets/js/static/parameters.js" defer></script>
+        <script src="/assets/js/static/parameters.js" defer></script> 
         <script src="/assets/js/static/subscriptions.js" defer></script>
     </head>
     <style>
-        html, body {
-            height: 100%; margin: 0;
-        }
-        .widget-container {
-            position: fixed; inset: 0;
-            display: flex; padding: 2.5rem;
-            pointer-events: none; align-items: flex-start;
-            justify-content: flex-start;
-        }
-        .widget-child-1 {
-            position: fixed; inset: 0;
-            width: 100%; height: 100%;
-            object-fit: cover; z-index: 1;
-            transition: opacity 0.7s ease;
-            border: none;
+        body { overflow: hidden; }
+        .widget {
+            display: block; width: 100%;
+            max-width: 100%; color: var(--clr-light-a0);
+            font-size: 50px; text-shadow: 0 0 8px var(--clr-dark-a0);
+            height: auto; overflow-wrap: normal;
+            text-align: center; word-break: normal;
+            white-space: nowrap; overflow: hidden;
+            text-overflow: ellipsis;
         }
     </style>
-    <body> 
+    <body>
         <div class="notifications"></div>
         <div class="widget-container" id="widget-container">
-            <iframe class="widget-child-1" id="widget-child-1"></iframe>
+            <span class="widget" id="widget"></span>
         </div>
     </body>
     <script>
         window.addEventListener('DOMContentLoaded', () => {
-            let cache = { init: false, index: 0 };
+            let cache = {};
             const settings = {global: aGlobalElementSettings};
             const utils = new Utils();
             const widgets = new Widgets(utils);
-            
-            settings.setElement = document.getElementById('widget-container')
-            settings.setIframe = document.getElementById('widget-child-1')
-
+            settings.setElement = document.getElementById('widget')
+            utils.getMobileDevice()
             utils.socket([SUB.CONFIGURATIONS]).then(() => {
-                document.addEventListener('onUpdate', async (event) => {
-                    try {
-                        settings.getDynamicWidgets = utils?.storage?.configurations?.dynamic_widgets;
-                        if (cache.init) { return }
-                        cache.init = true;
-                        const getNextWidget = async () => {
-                            if (cache.index >= settings.getDynamicWidgets?.length) {
-                                cache.index = 0;
-                            }
-                            const getWidgetSettings = settings.getDynamicWidgets?.[cache.index];
-                            const getUri = getWidgetSettings.uri;
-                            const getWaitPeriod = getWidgetSettings.wait;
-                            settings.setIframe.style.opacity = '0';
-                            await utils.sleep(700)
-                                settings.setIframe.src = getUri;
-                            await utils.sleep(1350)
-                                settings.setIframe.style.opacity = '1';
-                            await utils.sleep(getWaitPeriod * 1000)
-                                cache.index++;
-                                getNextWidget();
-                        }
-                        getNextWidget();
-                    } catch (error) {
-                        utils.exception(error, `widgets:dynamic`);
-                    }
-                })
+                document.addEventListener('onUpdate', async (event) => {})
             })
         })
     </script>

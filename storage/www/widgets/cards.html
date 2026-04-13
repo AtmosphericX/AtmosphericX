@@ -40,13 +40,6 @@
         <script src="/assets/js/static/subscriptions.js" defer></script>
     </head>
     <style>
-        :root {
-            --widget-text-color: #fff;
-            --widget-max-width: 1800px;
-            --widget-gap: 14px;
-            --widget-padding: 14px 18px;
-            --widget-radius: 12px;
-        }
         * {
             margin: 0; padding: 0;
             box-sizing: border-box;
@@ -56,16 +49,16 @@
             display: flex; justify-content: center;
         }
         .widget-container {
-            width: 95%; max-width: var(--widget-max-width);
+            width: 95%; max-width: 1800px;
             margin: 40px auto; display: grid;
             grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
-            gap: var(--widget-gap); max-height: 85vh;
+            gap: 14px; max-height: 85vh;
             overflow-y: auto; padding: 10px;
         } 
         .widget-card {
-            padding: var(--widget-padding); border-radius: var(--widget-radius);
+            padding: 14px 18px; border-radius: 12px;
             border: 1px solid rgba(255,255,255,0.15); background: #0d0d0d;
-            color: var(--widget-text-color); display: flex;
+            color: #fff; display: flex;
             flex-direction: column; gap: 6px;
             transition: 0.2s ease;
         }

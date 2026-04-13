@@ -4,12 +4,15 @@
 
 **Features**
 - widget(strings): Added `getCIMSS` string widget type to get values from the CIMSS data. This allows users to get highest value from the CIMSS ProbSevere data within a specified radius of a tracking node. The widget can be customized with the `setParameter` parameter to specify which CIMSS parameter to obtain (e.g. tornado, hail, wind, etc.) and the `setRadius` parameter to specify the radius for searching nearby cells.
-- subscriptions: Added `CIMSS` subscription topic for real-time updates related to CIMSS data.
+- frontend(subscriptions.js): Added `CIMSS` subscription topic for real-time updates related to CIMSS data.
+- vscode(settings): Force TS version to the node_modules version instead of using default VSCode version.
 
 **Updating**
+- widgets(global): Remove `:root` from all widgets as it wasn't needed.
 - widgets(global): Added `subscriptions.js` static script to easily get subscription value types.
 - widgets(watchdog): Instead of specifying a list for `setWatchdogList` do comma seperated.
 - pages(global): Update metadata and formatting for PWA and settings.
+- tracking(data): Seperate county, state, and address (road) in the location tracking field.
 
 **Refactoring**
 - widgets(global): Redo all widget code (html only).
