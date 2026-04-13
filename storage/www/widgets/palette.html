@@ -18,34 +18,36 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
+        <!-- Metadata -->
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-        <title>AtmosphericX - Widgets</title>
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="yes">
         <link rel="icon" href="/assets/images/favicon.ico" type="image/x-icon"/>
+        <link rel="manifest" href="/assets/static/manifest.json">
+        <link rel="apple-touch-icon" href="/assets/images/manifest.png">
+        <title>AtmosphericX - Widgets</title>
+
         <!-- CSS -->
         <link rel="stylesheet" href="/assets/styles/global.css">
         <link rel="stylesheet" href="/assets/styles/notification.css">
-        <!-- JS --> 
-        <script src="/assets/js/classes/utils.js" defer></script> <!-- Utility Functions -->
-        <script src="/assets/js/classes/widgets.js" defer></script> <!-- Widgets Logic -->
-        <script src="/assets/js/static/parameters.js" defer></script> <!-- URL parameters Logic -->
 
-        <!-- Apple / PWA -->
-        <link rel="manifest" href="/assets/static/manifest.json">
-        <link rel="apple-touch-icon" href="/assets/images/manifest.png">
-        <meta name="apple-mobile-web-app-capable" content="yes">
-        <meta name="apple-mobile-web-app-status-bar-style" content="yes">
+        <!-- JS --> 
+        <script src="/assets/js/classes/utils.js" defer></script>
+        <script src="/assets/js/classes/widgets.js" defer></script>
+        <script src="/assets/js/static/parameters.js" defer></script>
+        <script src="/assets/js/static/subscriptions.js" defer></script>
     </head>
     <style>
+        :root { 
+            --widget-flex: flex-start
+            --widget-padding: 2.5rem;
+        }
         .widget-container {
-            position: fixed;
-            inset: 0;
-            display: flex;
-            width: 100vw; 
-            height: 100vh; 
-            pointer-events: none;
-            align-items: flex-start;
-            justify-content: flex-start;
+            position: fixed; inset: 0;
+            display: flex; width: 100vw; 
+            height: 100vh;  pointer-events: none;
+            align-items: var(--widget-flex); justify-content: var(--widget-flex);
         }
     </style>
     <body> 
@@ -58,19 +60,15 @@
             const settings = {global: aGlobalElementSettings};
             const utils = new Utils();
             const widgets = new Widgets(utils);
+
             settings.setElement = document.getElementById('widget-container')
             settings.global.setElementThemed = true;
            
-            utils.socket([`configurations`, `events`, `pulsepoint`, `manual`]).then(() => {
+            utils.socket([SUB.CONFIGURATIONS, ...iEventSubscriptions()]).then(() => {
                 document.addEventListener('onUpdate', (event) => {
                     widgets.applyGlobalSettings(settings.setElement, settings);  
-                    cb()
                 })
             })
-
-            function cb() { 
-                return 
-            }
         })
     </script>
 </html>

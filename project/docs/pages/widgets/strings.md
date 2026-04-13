@@ -108,8 +108,8 @@ Below are default / optional parameters you can use with the `strings` widget. P
 ### setWatchdogList
 - Description: What events we would like to count for in `getWatchdog`. This supports wildcard statements such as `* Watch` or multiple event types.
 - Widget Types: `getWatchdog`
-- Default (`array`): `[* Warning]`
-- Example: `/widgets/strings?setType=getWatchdog&setWatchdogList=[* Warning]`
+- Default (`string`): `tornado warning,severe thunderstorm warning`
+- Example: `/widgets/strings?setType=getWatchdog&setWatchdogList=* Warning
 
 ### setSearch
 - Description: Searches for a specific `tracking node` (See: [Location Tracking Nodes](/pages/sources/location-tracking-nodes)). If not set, it will default to `priority`.
@@ -133,9 +133,9 @@ Create a widget that `shows the time` in `Eastern Standard Time` and updates eve
 :::
 
 ::: details Example 2
-Create a widget that `counts all warnings` in the `watchdog` and `displays the count`.
+Create a widget that `counts all warnings` in the `watchdog` and `displays the count` and has a text prefix of "Active Warnings".
 ```
-/widgets/strings?setType=getWatchdog&setWatchdogList=[* Warning]
+/widgets/strings?setType=getWatchdog&setWatchdogList=* Warning&setTextPrefix=Active Warnings
 ```
 :::
 

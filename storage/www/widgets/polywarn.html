@@ -18,31 +18,27 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
+        <!-- Metadata -->
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-        <title>AtmosphericX - Widgets</title>
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="yes">
         <link rel="icon" href="/assets/images/favicon.ico" type="image/x-icon"/>
+        <link rel="manifest" href="/assets/static/manifest.json">
+        <link rel="apple-touch-icon" href="/assets/images/manifest.png">
+        <title>AtmosphericX - Widgets</title>
+
         <!-- CSS -->
         <link rel="stylesheet" href="/assets/styles/global.css">
         <link rel="stylesheet" href="/assets/styles/notification.css">
+        
         <!-- JS --> 
-        <script src="/assets/js/classes/utils.js" defer></script> <!-- Utility Functions -->
-        <script src="/assets/js/classes/widgets.js" defer></script> <!-- Widgets Logic -->
-        <script src="/assets/js/static/parameters.js" defer></script> <!-- URL parameters Logic -->
-
-        <!-- Apple / PWA -->
-        <link rel="manifest" href="/assets/static/manifest.json">
-        <link rel="apple-touch-icon" href="/assets/images/manifest.png">
-        <meta name="apple-mobile-web-app-capable" content="yes">
-        <meta name="apple-mobile-web-app-status-bar-style" content="yes">
+        <script src="/assets/js/classes/utils.js" defer></script> 
+        <script src="/assets/js/classes/widgets.js" defer></script>
+        <script src="/assets/js/static/parameters.js" defer></script>
+        <script src="/assets/js/static/subscriptions.js" defer></script>
     </head>
     <style>
-        html, body {
-            height: 100%;
-            width: 100%;
-            margin: 0;
-            padding: 0;
-        }
         :root { 
             --widget-font-size: 5vw;
             --widget-subtext-font-size: 3vw;
@@ -51,43 +47,31 @@
             --widget-text-shadow: 0 0 18px var(--clr-dark-a0);
             --widget-padding: 25px;
         }
-        body { 
+        html, body {
+            height: 100%; width: 100%;
+            margin: 0; padding: 0;
             overflow: hidden; 
         }
         .widget-container-isolated { 
-            position: absolute;
-            height: 100%;
-            bottom: 0; 
-            width: 100%;
-            display: flex;
-            flex-direction: column;
-            justify-content: flex-end;
-            align-items: center;
+            position: absolute; height: 100%;
+            bottom: 0;  width: 100%;
+            display: flex; flex-direction: column;
+            justify-content: flex-end; align-items: center;
         }
         .widget-child-1 {
-            padding: var(--widget-padding);
-            font-size: var(--widget-font-size);
-            color: var(--widget-color);
-            text-shadow: var(--widget-text-shadow);
-            display: flex;
-            flex-direction: row;
-            flex-wrap: wrap;
-            justify-content: center;
-            text-align: center;
-            width: 100%;
-            line-height: 1.4em;
-            word-break: break-word;
+            padding: var(--widget-padding); font-size: var(--widget-font-size);
+            color: var(--widget-color); text-shadow: var(--widget-text-shadow);
+            display: flex; flex-direction: row; flex-wrap: wrap;
+            justify-content: center; text-align: center;
+            width: 100%; line-height: 1.4em; word-break: break-word;
         }
         .widget-child-1 > span {
             word-break: break-word;
         }
         .widget-child-2 {
-            font-size: var(--widget-subtext-font-size);
-            color: var(--widget-subtext-color);
-            text-shadow: var(--widget-text-shadow);
-            position: static;
-            width: 100%;
-            text-align: center;
+            font-size: var(--widget-subtext-font-size);color: var(--widget-subtext-color);
+            text-shadow: var(--widget-text-shadow); position: static;
+            width: 100%; text-align: center;
             pointer-events: none;
         }
     </style>
@@ -100,10 +84,7 @@
     </body>
     <script>
         window.addEventListener('DOMContentLoaded', () => {
-            let cache = {
-                hashes: [],
-                running: false
-            };
+            let cache = { hashes: [], running: false };
             const settings = {global: aGlobalElementSettings};
             const utils = new Utils();
             const widgets = new Widgets(utils);
@@ -114,7 +95,6 @@
             settings.setSfx = get(aSearch, `setSfx`) ??  `/sfx/dash_sfx/boom3.mp3`;
             settings.setAwaitPeriod = get(aSearch, `setAwaitPeriod`) ?? 20;
             settings.setSearch = get(aSearch, `setSearch`) ?? null;
-
             settings.global.setAnimationStartDuration = get(aSearch, `setAnimationStartDuration`) ?? 3;
             settings.global.setAnimationEndDuration = get(aSearch, `setAnimationEndDuration`) ?? 3;
             settings.global.setAnimationHasEnding = get(aSearch, `setAnimationHasEnding`) ?? true;
@@ -124,41 +104,41 @@
             settings.global.setValuePathSecondary = get(aSearch, `setValuePathSecondary`) ??  `Issued at %properties.issued%`
             settings.global.setElementThemed = false;
             
-
-            utils.socket([`configurations`, `events`]).then(() => {
+            
+            utils.socket([SUB.CONFIGURATIONS, SUB.EVENTS]).then(() => {
                 document.addEventListener('onUpdate', (event) => {
-                    widgets.applyGlobalSettings(settings.setElement, settings);  
-                    cb()
-                })
-            })
-
-            function cb() { 
-                const getEvents = utils.storage?.events?.features ?? [];
-                getEvents.filter(async (event) => {
-                    const getHash = event?.properties?.hash;
-                    const getQuery = event?.properties?.imported?.spotters?.find(tracker => tracker.name?.toLowerCase().includes(String(settings.setSearch)?.toLowerCase()));
-                    const getTracker = getQuery ?? event?.properties?.imported?.spotters?.[0];
-                    const getEventName = event?.properties?.event;
-                    if (!getTracker) { return false }
-                    if (cache.hashes.includes(getHash)) { return false }
-                    if (getTracker.metadata.inside && !cache.running) {
-                        cache.running = true;
-                        cache.hashes.push(getHash);
-                        const getTheme = utils.getEventColor(getEventName)
-                        const getOutputTitle = utils.getTextFromDirectory(event, settings.global.setValuePath);
-                        const getOutputSubtitle = utils.getTextFromDirectory(event, settings.global.setValuePathSecondary);
-                        utils.setString(settings.setElementTitle, getOutputTitle, settings)
-                        utils.setString(settings.setElementSubtitle, getOutputSubtitle, settings, true)
-                        utils.sound(settings.setSfx)
-                        settings.setElement.style.display = `block`
-                        await utils.sleep(settings.setAwaitPeriod * 1000);
-                            settings.setElementSubtitle.textContent = ``;
-                            settings.setElementTitle.textContent = ``;
-                            settings.setElement.style.display = `none`
-                            cache.running = false;
+                    try {
+                        widgets.applyGlobalSettings(settings.setElement, settings);  
+                        const getEvents = utils.storage?.events?.features ?? [];
+                        getEvents.filter(async (event) => {
+                            const getHash = event?.properties?.hash;
+                            const getQuery = event?.properties?.imported?.spotters?.find(tracker => tracker.name?.toLowerCase().includes(String(settings.setSearch)?.toLowerCase()));
+                            const getTracker = getQuery ?? event?.properties?.imported?.spotters?.[0];
+                            const getEventName = event?.properties?.event;
+                            if (!getTracker) { return false }
+                            if (cache.hashes.includes(getHash)) { return false }
+                            if (getTracker.metadata.inside && !cache.running) {
+                                cache.running = true;
+                                cache.hashes.push(getHash);
+                                const getTheme = utils.getEventColor(getEventName)
+                                const getOutputTitle = utils.getTextFromDirectory(event, settings.global.setValuePath);
+                                const getOutputSubtitle = utils.getTextFromDirectory(event, settings.global.setValuePathSecondary);
+                                utils.setString(settings.setElementTitle, getOutputTitle, settings)
+                                utils.setString(settings.setElementSubtitle, getOutputSubtitle, settings, true)
+                                utils.sound(settings.setSfx)
+                                settings.setElement.style.display = `block`
+                                await utils.sleep(settings.setAwaitPeriod * 1000);
+                                    settings.setElementSubtitle.textContent = ``;
+                                    settings.setElementTitle.textContent = ``;
+                                    settings.setElement.style.display = `none`
+                                    cache.running = false;
+                            }
+                        })
+                    } catch (error) {
+                        utils.exception(error, `widgets:polywarn`);
                     }
                 })
-            }
+            })
         })
     </script>
 </html>

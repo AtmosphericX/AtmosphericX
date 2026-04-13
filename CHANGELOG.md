@@ -1,5 +1,21 @@
 # Changelogs
 
+## Apr 12th, 2026 - 8.0.0.3
+
+**Updating**
+- widgets(global): Added `subscriptions.js` static script to easily get subscription value types.
+- widgets(watchdog): Instead of specifying a list for `setWatchdogList` do comma seperated.
+- pages(global): Update metadata and formatting for PWA and settings.
+
+**Refactoring**
+- widgets(global): Redo all widget code (html only).
+
+**Fixes**
+- configuration(sources): Fix trailing commas (Optional config update)
+
+**Soon**
+- widget(cimss): Ability to view most favorable cells/environments based on tracking node coordinates.
+
 ## Apr 4th, 2026 - 8.0.0.2
 
 **Updating**

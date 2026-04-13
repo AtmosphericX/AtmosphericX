@@ -18,49 +18,44 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
+        <!-- Metadata -->
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-        <title>AtmosphericX - Widgets</title>
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="yes">
         <link rel="icon" href="/assets/images/favicon.ico" type="image/x-icon"/>
+        <link rel="manifest" href="/assets/static/manifest.json">
+        <link rel="apple-touch-icon" href="/assets/images/manifest.png">
+        <title>AtmosphericX - Widgets</title>
+
         <!-- CSS -->
         <link rel="stylesheet" href="/assets/styles/global.css">
         <link rel="stylesheet" href="/assets/styles/notification.css">
-        <!-- JS --> 
-        <script src="/assets/js/classes/utils.js" defer></script> <!-- Utility Functions -->
-        <script src="/assets/js/classes/widgets.js" defer></script> <!-- Widgets Logic -->
-        <script src="/assets/js/static/parameters.js" defer></script> <!-- URL parameters Logic -->
 
-        <!-- Apple / PWA -->
-        <link rel="manifest" href="/assets/static/manifest.json">
-        <link rel="apple-touch-icon" href="/assets/images/manifest.png">
-        <meta name="apple-mobile-web-app-capable" content="yes">
-        <meta name="apple-mobile-web-app-status-bar-style" content="yes">
+        <!-- JS --> 
+        <script src="/assets/js/classes/utils.js" defer></script>
+        <script src="/assets/js/classes/widgets.js" defer></script>
+        <script src="/assets/js/static/parameters.js" defer></script>
+        <script src="/assets/js/static/subscriptions.js" defer></script>
     </head>
     <style>
         :root {
             --widget-flex: flex-start
+            --widget-padding: 2.5rem;
         }
-        html,
-        body {
-            height: 100%;
-            margin: 0;
+        html, body {
+            height: 100%; margin: 0;
         }
         .widget-container {
-            position: fixed;
-            inset: 0;
-            display: flex;
-            padding: 2.5rem;
-            pointer-events: none;
-            align-items: var(--widget-flex);
+            position: fixed; inset: 0;
+            display: flex; padding: var(--widget-padding);
+            pointer-events: none; align-items: var(--widget-flex);
             justify-content: var(--widget-flex);
         }
         .widget-child-1 {
-            position: fixed;
-            inset: 0;
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            z-index: 1;
+            position: fixed; inset: 0;
+            width: 100%; height: 100%;
+            object-fit: cover; z-index: 1;
             transition: opacity 0.7s ease;
             border: none;
         }
@@ -73,45 +68,42 @@
     </body>
     <script>
         window.addEventListener('DOMContentLoaded', () => {
-            let cache = {
-                init: false,
-                index: 0
-            };
+            let cache = { init: false, index: 0 };
             const settings = {global: aGlobalElementSettings};
             const utils = new Utils();
             const widgets = new Widgets(utils);
+            
             settings.setElement = document.getElementById('widget-container')
             settings.setIframe = document.getElementById('widget-child-1')
 
-           
-            utils.socket([`configurations`]).then(() => {
-                document.addEventListener('onUpdate', (event) => {
-                    settings.getDynamicWidgets = utils?.storage?.configurations?.dynamic_widgets;
-                    cb()
+            utils.socket([SUB.CONFIGURATIONS]).then(() => {
+                document.addEventListener('onUpdate', async (event) => {
+                    try {
+                        settings.getDynamicWidgets = utils?.storage?.configurations?.dynamic_widgets;
+                        if (cache.init) { return }
+                        cache.init = true;
+                        const getNextWidget = async () => {
+                            if (cache.index >= settings.getDynamicWidgets?.length) {
+                                cache.index = 0;
+                            }
+                            const getWidgetSettings = settings.getDynamicWidgets?.[cache.index];
+                            const getUri = getWidgetSettings.uri;
+                            const getWaitPeriod = getWidgetSettings.wait;
+                            settings.setIframe.style.opacity = '0';
+                            await utils.sleep(700)
+                                settings.setIframe.src = getUri;
+                            await utils.sleep(1350)
+                                settings.setIframe.style.opacity = '1';
+                            await utils.sleep(getWaitPeriod * 1000)
+                                cache.index++;
+                                getNextWidget();
+                        }
+                        getNextWidget();
+                    } catch (error) {
+                        utils.exception(error, `widgets:dynamic`);
+                    }
                 })
             })
-
-            function cb() { 
-                if (cache.init) { return }
-                cache.init = true;
-                const getNextWidget = async () => {
-                    if (cache.index >= settings.getDynamicWidgets?.length) {
-                        cache.index = 0;
-                    }
-                    const getWidgetSettings = settings.getDynamicWidgets?.[cache.index];
-                    const getUri = getWidgetSettings.uri;
-                    const getWaitPeriod = getWidgetSettings.wait;
-                    settings.setIframe.style.opacity = '0';
-                    await utils.sleep(700)
-                        settings.setIframe.src = getUri;
-                    await utils.sleep(1350)
-                        settings.setIframe.style.opacity = '1';
-                    await utils.sleep(getWaitPeriod * 1000)
-                        cache.index++;
-                        getNextWidget();
-                }
-                getNextWidget();
-            }
         })
     </script>
 </html>

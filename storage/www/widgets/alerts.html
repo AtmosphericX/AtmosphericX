@@ -18,24 +18,26 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
+        <!-- Metadata -->
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-        <title>AtmosphericX - Widgets</title>
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="yes">
         <link rel="icon" href="/assets/images/favicon.ico" type="image/x-icon"/>
+        <link rel="manifest" href="/assets/static/manifest.json">
+        <link rel="apple-touch-icon" href="/assets/images/manifest.png">
+        <title>AtmosphericX - Widgets</title>
+        
         <!-- CSS -->
         <link rel="stylesheet" href="/assets/styles/global.css">
         <link rel="stylesheet" href="/assets/styles/notification.css">
+        
         <!-- JS --> 
-        <script src="/assets/js/classes/utils.js" defer></script> <!-- Utility Functions -->
-        <script src="/assets/js/classes/events.js" defer></script> <!-- Events Logic -->
-        <script src="/assets/js/classes/widgets.js" defer></script> <!-- Widgets Logic -->
-        <script src="/assets/js/static/parameters.js" defer></script> <!-- URL parameters Logic -->
-
-        <!-- Apple / PWA -->
-        <link rel="manifest" href="/assets/static/manifest.json">
-        <link rel="apple-touch-icon" href="/assets/images/manifest.png">
-        <meta name="apple-mobile-web-app-capable" content="yes">
-        <meta name="apple-mobile-web-app-status-bar-style" content="yes">
+        <script src="/assets/js/classes/utils.js" defer></script>
+        <script src="/assets/js/classes/events.js" defer></script> 
+        <script src="/assets/js/classes/widgets.js" defer></script>
+        <script src="/assets/js/static/parameters.js" defer></script> 
+        <script src="/assets/js/static/subscriptions.js" defer></script>
     </head>
     <style>
         :root {
@@ -63,46 +65,32 @@
             touch-action: manipulation;
         }
         .widget-container { 
-            display: none;
-            background: var(--widget-bg-gradient); 
+            display: none; background: var(--widget-bg-gradient); 
             border-radius: var(--widget-border-radius); 
-            color: var(--widget-text-color); 
-            max-width: var(--widget-max-width); 
-            margin: var(--widget-margin-top) auto 0 auto; 
-            overflow: hidden; 
-            box-shadow: var(--widget-box-shadow);
-            position: relative;
-            padding: 0px;
-            width: 100vw;
+            color: var(--widget-text-color); max-width: var(--widget-max-width); 
+            margin: var(--widget-margin-top) auto 0 auto; overflow: hidden; 
+            box-shadow: var(--widget-box-shadow); position: relative;
+            padding: 0px; width: 100vw;
         }
         .widget-child-header { 
-            background: var(--widget-header-bg); 
-            text-align: var(--widget-header-align); 
-            font-size: var(--widget-header-size); 
-            font-weight: var(--widget-header-weight); 
+            background: var(--widget-header-bg); text-align: var(--widget-header-align); 
+            font-size: var(--widget-header-size); font-weight: var(--widget-header-weight); 
             padding: var(--widget-header-padding); 
         }
         .widget-row-1 { 
-            background: var(--widget-row-light-bg); 
-            display: flex; 
-            align-items: center; 
-            justify-content: space-between; 
-            width: 100%; 
-            padding: var(--widget-row-padding); 
+            background: var(--widget-row-light-bg); display: flex; 
+            align-items: center; justify-content: space-between; 
+            width: 100%; padding: var(--widget-row-padding); 
             box-sizing: border-box; 
         }
         .widget-row-2 { 
-            background: var(--widget-row-dark-bg); 
-            display: flex; 
-            align-items: center; 
-            justify-content: space-between; 
-            width: 100%; 
-            padding: var(--widget-row-padding); 
+            background: var(--widget-row-dark-bg); display: flex; 
+            align-items: center; justify-content: space-between; 
+            width: 100%; padding: var(--widget-row-padding); 
             box-sizing: border-box; 
         }
         .widget-row-3, .widget-row-4 {
-            display: flex;
-            align-items: center;
+            display: flex; align-items: center;
             gap: var(--widget-gap);
         }
     </style>
@@ -130,23 +118,23 @@
             settings.setSfxVolume = get(aSearch, `setSfxVolume`) ?? 0.5;
             settings.setWx = get(aSearch, `setWx`) ?? true;
             settings.setPulsePoint = get(aSearch, `setPulsePoint`) ?? false;
-            
             settings.global.setAnimationStartDuration = get(aSearch, `setAnimationStartDuration`) ?? 1.0;
             settings.global.setAnimationEndDuration = get(aSearch, `setAnimationEndDuration`) ?? 0.5;
             settings.global.setValuePath = get(aSearch, `setValuePath`) ?? `%properties.event% (%properties.agency ?? properties.action_type%)`;
             settings.global.setElementThemed = false;
 
             utils.getMobileDevice()
-            utils.socket([`configurations`, `events`, `pulsepoint`, `manual`]).then(() => {
-                document.addEventListener('onUpdate', (event) => {
-                    widgets.applyGlobalSettings(settings.setElement, settings);  
-                    cb()
+            utils.socket([SUB.CONFIGURATIONS, ...iEventSubscriptions()]).then(() => {
+                document.addEventListener('onUpdate', async (event) => {
+                    try {
+                        widgets.applyGlobalSettings(settings.setElement, settings);  
+                        await handler.hSyncEvents(settings);
+                        await handler.hSyncQueue(settings);
+                    } catch (error) {
+                        utils.exception(error, `widgets:alerts`);
+                    }
                 })
             })
-            async function cb() { 
-                await handler.hSyncEvents(settings);
-                await handler.hSyncQueue(settings);
-            }
         })
     </script>
 </html>

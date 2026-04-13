@@ -18,24 +18,26 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
+        <!-- Metadata -->
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-        <title>AtmosphericX - Widgets</title>
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="yes">
         <link rel="icon" href="/assets/images/favicon.ico" type="image/x-icon"/>
+        <link rel="manifest" href="/assets/static/manifest.json">
+        <link rel="apple-touch-icon" href="/assets/images/manifest.png">
+        <title>AtmosphericX - Widgets</title>
+
         <!-- CSS -->
         <link rel="stylesheet" href="/assets/styles/global.css">
         <link rel="stylesheet" href="/assets/styles/notification.css">
+
         <!-- JS --> 
         <script src="https://cdn.jsdelivr.net/npm/hls.js@latest" defer></script>
-        <script src="/assets/js/classes/utils.js" defer></script> <!-- Utility Functions -->
-        <script src="/assets/js/classes/widgets.js" defer></script> <!-- Widgets Logic -->
-        <script src="/assets/js/static/parameters.js" defer></script> <!-- URL parameters Logic -->
-
-        <!-- Apple / PWA -->
-        <link rel="manifest" href="/assets/static/manifest.json">
-        <link rel="apple-touch-icon" href="/assets/images/manifest.png">
-        <meta name="apple-mobile-web-app-capable" content="yes">
-        <meta name="apple-mobile-web-app-status-bar-style" content="yes">
+        <script src="/assets/js/classes/utils.js" defer></script>
+        <script src="/assets/js/classes/widgets.js" defer></script> 
+        <script src="/assets/js/static/parameters.js" defer></script>
+        <script src="/assets/js/static/subscriptions.js" defer></script> 
     </head>
     <style>
         :root {
@@ -51,74 +53,48 @@
             --widget-shadow: 0 10px 40px rgba(0, 0, 0, 0.45);
             --video-shadow: 0 8px 32px rgba(0, 0, 0, 0.35);
         }
-        html,
-        body {
+        html, body {
             height: 100%;
             margin: 0;
         }
         body {
-            overflow: hidden;
-            min-height: 100vh;
+            overflow: hidden; min-height: 100vh;
             background: black;
-            font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
         }
         .widget-container {
-            position: fixed;
-            inset: 0;
-            display: flex;
-            padding: var(--widget-offset);
-            pointer-events: none;
-            align-items: flex-start;
+            position: fixed; inset: 0;
+            display: flex; padding: var(--widget-offset);
+            pointer-events: none; align-items: flex-start;
             justify-content: flex-start;
         }
         .widget-child-1 {
-            position: fixed;
-            inset: 0;
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            z-index: 1;
+            position: fixed; inset: 0;
+            width: 100%; height: 100%;
+            object-fit: cover; z-index: 1;
             box-shadow: var(--video-shadow);
             transition: opacity 0.7s ease;
         }
         .widget-child-2 {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            background-color: var(--widget-bg);
-            font-size: var(--widget-font-size);
-            font-weight: var(--widget-font-weight);
-            color: var(--widget-text-color);
-            border-radius: var(--widget-radius);
-            padding: var(--widget-padding);
-            border: none;
-            z-index: var(--widget-z);
+            display: flex; align-items: center;
+            justify-content: center; text-align: center;
+            background-color: var(--widget-bg); font-size: var(--widget-font-size); 
+            font-weight: var(--widget-font-weight); color: var(--widget-text-color);
+            border-radius: var(--widget-radius); padding: var(--widget-padding);
+            border: none; z-index: var(--widget-z);
         }
         .widget-child-3 { 
-            position: fixed;
-            top: 90%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            text-align: center;
-            color: rgba(255, 255, 255, 0.357);
-            font-size: 45px;
-            z-index: 9999;
-            text-wrap: nowrap;
-            pointer-events: none;
+            position: fixed; top: 90%;
+            left: 50%; transform: translate(-50%, -50%);
+            text-align: center; color: rgba(255, 255, 255, 0.357);
+            font-size: 45px; z-index: 9999;
+            text-wrap: nowrap; pointer-events: none;
         }
         .widget-child-4 { 
-            display: none;
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            text-align: center;
-            color: rgba(255, 255, 255, 0.357);
-            font-size: 45px;
-            z-index: 9999;
-            text-wrap: nowrap;
-            pointer-events: none;
+            display: none; position: fixed;
+            top: 50%; left: 50%; transform: translate(-50%, -50%);
+            text-align: center; color: rgba(255, 255, 255, 0.357);
+            font-size: 45px; z-index: 9999;
+            text-wrap: nowrap; pointer-events: none;
         }
     </style>
     <body> 
@@ -132,11 +108,7 @@
     </body>
     <script>
         window.addEventListener('DOMContentLoaded', () => {
-            let cache = {
-                running: false,
-                isbuffering: false,
-                previous: null
-            };
+            let cache = { running: false, isbuffering: false, previous: null };
             const settings = {global: aGlobalElementSettings};
             const utils = new Utils();
             const widgets = new Widgets(utils);
@@ -154,133 +126,130 @@
             settings.setLatitude = get(aSearch, `setLatitude`) ?? null;
             settings.setLongitude = get(aSearch, `setLongitude`) ?? null;
             settings.setRadius = get(aSearch, `setRadius`) ?? 125;
-            
             settings.global.setTextPlaceholder = get(aSearch, `setTextPlaceholder`) ?? `No streams available`;
             settings.global.setValuePath = get(aSearch, `setValuePath`) ??  `%properties.name% (%properties.location ?? properties.source%)`
             
-
             if (!settings.setTextComponenets) { 
                 settings.setElementTitle.style.display = `none`;
             }
-           
-            utils.socket([`configurations`, `streams`, `events`, `pulsepoint`]).then(() => {
-                document.addEventListener('onUpdate', (event) => {
-                    if (settings.global.setElementThemed) {
-                        widgets.applyGlobalTheme(settings.setElementTitle, settings);
-                    }
-                    cb()
-                })
-            })
 
-            function cb() { 
-                if (cache.running) { return }
-                let HLS;
-                getActiveStreams = () => {
-                    const getPlaceholder = settings.global.setTextPlaceholder;
-                    const getStreams = utils?.storage?.streams?.features ?? [];
-                    let getFilteredStreams = getStreams.filter(stream => {
-                        if (settings.setStreamSource !== `*` && stream.properties.source?.toLowerCase() !== settings.setStreamSource.toLowerCase()) {
-                            return false
+            utils.socket([SUB.CONFIGURATIONS, SUB.STREAMS, ...iEventSubscriptions()]).then(() => {
+                document.addEventListener('onUpdate', (event) => {
+                    try {
+                        if (settings.global.setElementThemed) {
+                            widgets.applyGlobalTheme(settings.setElementTitle, settings);
                         }
-                        return true
-                    })
-                    if (settings.setLatitude && settings.setLongitude) {
-                        getFilteredStreams = getFilteredStreams.filter(stream => {
-                            const [lon, lat] = stream.geometry.coordinates;
-                            const dist = utils.getDistance(
-                                { lat: parseFloat(settings.setLatitude), lon: parseFloat(settings.setLongitude) },
-                                { lat, lon }
-                            );
-                            if (dist <= settings.setRadius) {
-                                return true;
-                            }
-                            return false;
-                        })
-                    }
-                    if (settings.setSearch) {
-                        getFilteredStreams = getFilteredStreams.filter(stream => {
-                            const getStreamName = stream.properties.name?.toLowerCase() ?? ``;
-                            const getLocationName = stream.properties.location?.toLowerCase() ?? ``;
-                            const setSearch = String(settings.setSearch).toLowerCase();
-                            return getStreamName.includes(setSearch) || getLocationName.includes(setSearch);
-                        })
-                    }
-                    if (getFilteredStreams.length === 0) {
-                        settings.setElementTitle.textContent = getPlaceholder;
-                        return 
-                    } 
-                    const getRandomStream = getFilteredStreams[Math.floor(Math.random() * getFilteredStreams.length)] ?? null;
-                    const getOutput = utils.getTextFromDirectory(getRandomStream, settings.global.setValuePath);
-                    utils.setString(settings.setElementTitle,getOutput,settings);
-                    if (cache.previous == getRandomStream.properties.stream_url) { 
-                        return;
-                    }
-                    settings.setElementVideo.style.transition = "opacity 1.0s";
-                    settings.setElementVideo.style.opacity = "0";
-                    const connect = async () => {
-                        const video=settings.setElementVideo;
-                        settings.setElementBuffering.style.display="none";
-                        if(HLS){HLS.destroy(); HLS=null;}
-                        HLS=new Hls({
-                            maxBufferLength:15,
-                            maxMaxBufferLength:30,
-                            liveSyncDurationCount: settings.setStreamBufferDelay,
-                            liveMaxLatencyDurationCount:3,
-                            backBufferLength:10,
-                            lowLatencyMode:false
-                        });
-                        HLS.attachMedia(video);
-                        HLS.loadSource(getRandomStream.properties.stream_url);
-                        cache.previous=getRandomStream.properties.stream_url;
-                        cache.reconnecting=false;
-                        HLS.on(Hls.Events.MANIFEST_PARSED,async()=>{
-                            if(settings.setStreamMuted){video.muted=true;}
-                            const buf=video.buffered;
-                            if(buf.length){video.currentTime=buf.end(buf.length-1)-0.05;}
-                            try{await video.play();}catch{}
-                            cache.isbuffering=false;
-                            settings.setElementBuffering.style.display="none";
-                            cache.reconnecting=false;
-                            video.style.transition="opacity 3s"; video.style.opacity="1";
-                        });
-                        HLS.on(Hls.Events.ERROR,async(event,data)=>{
-                            if(!data.fatal){
-                                if(data.details==="bufferStalledError"){
-                                    const buf=video.buffered;
-                                    if(buf.length){
-                                        settings.setElementBuffering.style.display="block";
-                                        cache.isbuffering=true;
-                                        video.currentTime=buf.end(buf.length-1)-0.05;
-                                        try{await video.play();}catch{}
-                                        cache.isbuffering=false;
-                                        settings.setElementBuffering.style.display="none";
-                                    }
+                        if (cache.running) { return }
+                        let HLS;
+                        getActiveStreams = () => {
+                            const getPlaceholder = settings.global.setTextPlaceholder;
+                            const getStreams = utils?.storage?.streams?.features ?? [];
+                            let getFilteredStreams = getStreams.filter(stream => {
+                                if (settings.setStreamSource !== `*` && stream.properties.source?.toLowerCase() !== settings.setStreamSource.toLowerCase()) {
+                                    return false
                                 }
-                                if(data.details==="fragLoadCanceled") return;
+                                return true
+                            })
+                            if (settings.setLatitude && settings.setLongitude) {
+                                getFilteredStreams = getFilteredStreams.filter(stream => {
+                                    const [lon, lat] = stream.geometry.coordinates;
+                                    const dist = utils.getDistance(
+                                        { lat: parseFloat(settings.setLatitude), lon: parseFloat(settings.setLongitude) },
+                                        { lat, lon }
+                                    );
+                                    if (dist <= settings.setRadius) {
+                                        return true;
+                                    }
+                                    return false;
+                                })
+                            }
+                            if (settings.setSearch) {
+                                getFilteredStreams = getFilteredStreams.filter(stream => {
+                                    const getStreamName = stream.properties.name?.toLowerCase() ?? ``;
+                                    const getLocationName = stream.properties.location?.toLowerCase() ?? ``;
+                                    const setSearch = String(settings.setSearch).toLowerCase();
+                                    return getStreamName.includes(setSearch) || getLocationName.includes(setSearch);
+                                })
+                            }
+                            if (getFilteredStreams.length === 0) {
+                                settings.setElementTitle.textContent = getPlaceholder;
+                                return 
+                            } 
+                            const getRandomStream = getFilteredStreams[Math.floor(Math.random() * getFilteredStreams.length)] ?? null;
+                            const getOutput = utils.getTextFromDirectory(getRandomStream, settings.global.setValuePath);
+                            utils.setString(settings.setElementTitle,getOutput,settings);
+                            if (cache.previous == getRandomStream.properties.stream_url) { 
                                 return;
                             }
-
-                            if(cache.reconnecting) return;
-                            cache.reconnecting=true;
-                            cache.isbuffering=true;
-                            settings.setElementBuffering.style.display="block";
-                            await utils.sleep(700);
-                            switch(data.type){
-                                case Hls.ErrorTypes.NETWORK_ERROR: 
-                                case Hls.ErrorTypes.MEDIA_ERROR: 
-                                default:
-                                    HLS.destroy(); HLS=null;
-                                    await utils.sleep(500);
-                                    connect();
-                                    break;
-                            }
-                        });
-                    };
-                    connect()
-                }
-                getActiveStreams()
-                cache.running = setInterval(() => { getActiveStreams() }, settings.setRefreshTime * 1e3)
-            }
+                            settings.setElementVideo.style.transition = "opacity 1.0s";
+                            settings.setElementVideo.style.opacity = "0";
+                            const connect = async () => {
+                                const video=settings.setElementVideo;
+                                settings.setElementBuffering.style.display="none";
+                                if(HLS){HLS.destroy(); HLS=null;}
+                                HLS=new Hls({
+                                    maxBufferLength:15,
+                                    maxMaxBufferLength:30,
+                                    liveSyncDurationCount: settings.setStreamBufferDelay,
+                                    liveMaxLatencyDurationCount:3,
+                                    backBufferLength:10,
+                                    lowLatencyMode:false
+                                });
+                                HLS.attachMedia(video);
+                                HLS.loadSource(getRandomStream.properties.stream_url);
+                                cache.previous=getRandomStream.properties.stream_url;
+                                cache.reconnecting=false;
+                                HLS.on(Hls.Events.MANIFEST_PARSED,async()=>{
+                                    if(settings.setStreamMuted){video.muted=true;}
+                                    const buf=video.buffered;
+                                    if(buf.length){video.currentTime=buf.end(buf.length-1)-0.05;}
+                                    try{await video.play();}catch{}
+                                    cache.isbuffering=false;
+                                    settings.setElementBuffering.style.display="none";
+                                    cache.reconnecting=false;
+                                    video.style.transition="opacity 3s"; video.style.opacity="1";
+                                });
+                                HLS.on(Hls.Events.ERROR,async(event,data)=>{
+                                    if(!data.fatal){
+                                        if(data.details==="bufferStalledError"){
+                                            const buf=video.buffered;
+                                            if(buf.length){
+                                                settings.setElementBuffering.style.display="block";
+                                                cache.isbuffering=true;
+                                                video.currentTime=buf.end(buf.length-1)-0.05;
+                                                try{await video.play();}catch{}
+                                                cache.isbuffering=false;
+                                                settings.setElementBuffering.style.display="none";
+                                            }
+                                        }
+                                        if(data.details==="fragLoadCanceled") return;
+                                        return;
+                                    }
+                                    if(cache.reconnecting) return;
+                                    cache.reconnecting=true;
+                                    cache.isbuffering=true;
+                                    settings.setElementBuffering.style.display="block";
+                                    await utils.sleep(700);
+                                    switch(data.type){
+                                        case Hls.ErrorTypes.NETWORK_ERROR: 
+                                        case Hls.ErrorTypes.MEDIA_ERROR: 
+                                        default:
+                                            HLS.destroy(); HLS=null;
+                                            await utils.sleep(500);
+                                            connect();
+                                            break;
+                                    }
+                                });
+                            };
+                            connect()
+                        }
+                        getActiveStreams()
+                        cache.running = setInterval(() => { getActiveStreams() }, settings.setRefreshTime * 1e3)    
+                    } catch (error) {
+                        utils.exception(error, `widgets:streams`);
+                    }    
+                })    
+            })
         })
     </script>
 </html>

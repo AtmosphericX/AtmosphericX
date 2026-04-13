@@ -18,24 +18,26 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
+        <!-- Metadata -->
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-        <title>AtmosphericX - Widgets</title>
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="yes">
         <link rel="icon" href="/assets/images/favicon.ico" type="image/x-icon"/>
+        <link rel="manifest" href="/assets/static/manifest.json">
+        <link rel="apple-touch-icon" href="/assets/images/manifest.png">
+        <title>AtmosphericX - Widgets</title>
+
         <!-- CSS -->
         <link rel="stylesheet" href="/assets/styles/global.css">
         <link rel="stylesheet" href="/assets/styles/notification.css">
-        <!-- JS --> 
-        <script src="/assets/js/classes/utils.js" defer></script> <!-- Utility Functions -->
-        <script src="/assets/js/classes/wise.js" defer></script> <!-- WeatherWise Logic -->
-        <script src="/assets/js/classes/widgets.js" defer></script> <!-- Widgets Logic -->
-        <script src="/assets/js/static/parameters.js" defer></script> <!-- URL parameters Logic -->
 
-        <!-- Apple / PWA -->
-        <link rel="manifest" href="/assets/static/manifest.json">
-        <link rel="apple-touch-icon" href="/assets/images/manifest.png">
-        <meta name="apple-mobile-web-app-capable" content="yes">
-        <meta name="apple-mobile-web-app-status-bar-style" content="yes">
+        <!-- JS --> 
+        <script src="/assets/js/classes/utils.js" defer></script>
+        <script src="/assets/js/classes/wise.js" defer></script>
+        <script src="/assets/js/classes/widgets.js" defer></script>
+        <script src="/assets/js/static/parameters.js" defer></script>
+        <script src="/assets/js/static/subscriptions.js" defer></script> 
     </head>
     <style>
         :root {
@@ -49,18 +51,12 @@
             overflow: hidden; 
         }
         .widget {
-            display: block;
-            width: 100%;
-            max-width: 100%;
-            color: var(--widget-color);
-            font-size: var(--widget-font-size);
-            text-shadow: var(--widget-text-shadow);
-            height: auto;
-            overflow-wrap: normal;
-            text-align: center;
-            word-break: normal;
-            white-space: nowrap;
-            overflow: hidden;
+            display: block; width: 100%;
+            max-width: 100%; color: var(--widget-color);
+            font-size: var(--widget-font-size); text-shadow: var(--widget-text-shadow);
+            height: auto; overflow-wrap: normal;
+            text-align: center; word-break: normal;
+            white-space: nowrap; overflow: hidden;
             text-overflow: ellipsis;
         }
     </style>
@@ -81,17 +77,21 @@
             settings.setElement = document.getElementById('widget');
             settings.setType = get(aSearch, `setType`) ?? null;
             settings.setTextWrapping = get(aSearch, `setTextWrapping`) ?? false;
-
             settings.global.setAnimationStartDuration = get(aSearch, `setAnimationStartDuration`) ?? 2;
             settings.global.setAnimationEndDuration = get(aSearch, `setAnimationEndDuration`) ?? 2;
 
-            const subscriptionServices = { 
-                text: [`/`, `configurations`],
-                getRandomEvent: [`random_event`, `configurations`], getClock: [`/`, `configurations`], getWatchdog: [`events`, `configurations`],
-                getRandomPulsePoint: [`random_pulsepoint`, `configurations`],
-                getTracking: [`tracking`, `configurations`], getOutages: [`outages`, `configurations`],
-                getNearbySpotters: [`spotters`, `tracking`, `configurations`], getNearbyEvents: [`events`, `tracking`, `configurations`],
-                getDbzIntensity: [`tracking`, `configurations`], getMesonet: [`mesonet`, `configurations`],
+            const services = { 
+                text: [SUB.CONFIGURATIONS],
+                getRandomEvent: [SUB.CONFIGURATIONS, SUB.RNG_EVENT], 
+                getClock: [SUB.CONFIGURATIONS], 
+                getWatchdog: [SUB.CONFIGURATIONS, SUB.EVENTS],
+                getRandomPulsePoint: [SUB.CONFIGURATIONS, SUB.RNG_PULSEPOINT],
+                getTracking: [SUB.CONFIGURATIONS, SUB.TRACKING], 
+                getOutages: [SUB.CONFIGURATIONS, SUB.OUTAGES],
+                getNearbySpotters: [SUB.CONFIGURATIONS, SUB.TRACKING, SUB.SPOTTERS], 
+                getNearbyEvents: [SUB.CONFIGURATIONS, SUB.TRACKING, SUB.EVENTS],
+                getDbzIntensity: [SUB.CONFIGURATIONS, SUB.TRACKING], 
+                getMesonet: [SUB.CONFIGURATIONS, SUB.MESONET],
             }
 
             if (settings.setType == null) { 
@@ -102,17 +102,13 @@
                     duration: 15e3
                 })
             }
-            if (subscriptionServices[settings.setType] == null) { 
+            if (services[settings.setType] == null) { 
                 return utils.notify({
                     type: "error",
                     title: "Widget Error",
                     message: `Invalid widget type specified, please consult to the documentation for widget types.`,
                     duration: 15e3
                 })
-            }
-            if (settings?.global?.setElementThemed) {
-                subscriptionServices[settings.setType].push(`events`)
-                subscriptionServices[settings.setType].push(`pulsepoint`)
             }
 
             if (settings.setTextWrapping) {
@@ -121,8 +117,7 @@
                 settings.setElement.style.whiteSpace = 'normal';
             }
 
-            utils.socket(subscriptionServices[settings.setType]).then(() => {
-                document.addEventListener('onUpdate', (event) => {
+            utils.socket([SUB.CONFIGURATIONS, ...services[settings.setType], ...(settings.global?.setElementThemed ? iEventSubscriptions() : [])]).then(() => {                document.addEventListener('onUpdate', (event) => {
                     switch (settings.setType) {
                         case `getClock`: cb(`cb.time`); break;
                         case `getMesonet`: cb(`cb.string`, utils?.storage?.mesonet?.features?.[0]); break;
@@ -165,12 +160,12 @@
                     switch (settings.setType) {
                         case `getWatchdog`: {
                             let count = 0;
-                            const getWatchdogList = (get(aSearch, `setWatchdogList`) ?? [`* Warning`]).map(e => e.trim().toLowerCase())
+                            const getWatchdogList = (get(aSearch, `setWatchdogList`) ?? `* Warning`).split(',').map(e => e.trim()); 
                             const getFeatures = utils.storage?.events?.features ?? [];
                             const getMatches = getWatchdogList.filter(e => !e.startsWith("*"));
-                            const getWildcards = getWatchdogList.filter(e => e.startsWith("*")).map(e => e.slice(1));
+                            const getWildcards = getWatchdogList.filter(e => e.startsWith("*")).map(e => e.replace(/\*/g, '').trim().toLowerCase());
                             for (const feature of getFeatures) {
-                                const getEventName = feature.properties.event.toLowerCase();
+                                const getEventName = feature.properties.parent.toLowerCase();
                                 if (getMatches.includes(getEventName)) { count++; } else {
                                     for (const wc of getWildcards) {
                                         if (wc && getEventName.includes(wc)) { count++; break; }
@@ -185,7 +180,7 @@
                                 if (getLoweredEvent === "statement") return "Statements";
                                 return ev.trim().toUpperCase();
                             })
-                            return utils.setString(settings.setElement, `${getFiltered.join(", ")}: ${count}`, settings);
+                            return utils.setString(settings.setElement, count, settings);
                         }
                         case `getNearbySpotters`: {
                             const getSearch = get(aSearch, `setSearch`) ?? null;

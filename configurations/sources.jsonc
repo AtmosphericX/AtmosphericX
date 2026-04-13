@@ -56,10 +56,10 @@
                 "client_cache": {
                     "enabled": true, // If you want to read from cache on startup. (This may impact performance on initial load)
                     "max_db_history": 15000, // Max number of events to keep in cache database.
-                    "max_db_cache_size": 250, // Max number of events to load into the events cache on startup (Requires use_db_for_cache to be true)
+                    "max_db_cache_size": 250 // Max number of events to load into the events cache on startup (Requires use_db_for_cache to be true)
                 },
                 "alert_preferences": {
-                    "cap_only": false, // If you want to only process CAP formatted events. (THIS IS NOT AS FAST AS TEXT PRODUCTS)
+                    "cap_only": false // If you want to only process CAP formatted events. (THIS IS NOT AS FAST AS TEXT PRODUCTS)
                 }
             },
             "global_settings": {
@@ -144,7 +144,7 @@
                     "hail": 40, // Threshold for hail probabilities (in percentage, Default: 40%)
                     "wind": 40, // Threshold for wind probabilities (in percentage, Default: 40%)
                     "mucape": 3000, // Threshold for MUCAPE probabilities (in J/kg, Default: 3000 J/kg)
-                    "mlcape": 3000, // Threshold for MLCAPE probabilities (in J/kg, Default: 3000 J/kg)
+                    "mlcape": 3000 // Threshold for MLCAPE probabilities (in J/kg, Default: 3000 J/kg)
                 },
                 "endpoint": "https://cimss.ssec.wisc.edu/severe_conv/NOAACIMSS_PSv3_LOOP",
                 "contradictions": [] // Ignore

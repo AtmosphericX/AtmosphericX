@@ -18,94 +18,73 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
+        <!-- Metadata -->
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-        <title>AtmosphericX - Widgets</title>
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="yes">
         <link rel="icon" href="/assets/images/favicon.ico" type="image/x-icon"/>
+        <link rel="manifest" href="/assets/static/manifest.json">
+        <link rel="apple-touch-icon" href="/assets/images/manifest.png">
+        <title>AtmosphericX - Widgets</title>
+
         <!-- CSS -->
         <link rel="stylesheet" href="/assets/styles/global.css">
         <link rel="stylesheet" href="/assets/styles/notification.css">
-        <!-- JS --> 
-        <script src="/assets/js/classes/utils.js" defer></script> <!-- Utility Functions -->
-        <script src="/assets/js/classes/events.js" defer></script> <!-- Events Logic -->
-        <script src="/assets/js/classes/widgets.js" defer></script> <!-- Widgets Logic -->
-        <script src="/assets/js/static/parameters.js" defer></script> <!-- URL parameters Logic -->
 
-        <!-- Apple / PWA -->
-        <link rel="manifest" href="/assets/static/manifest.json">
-        <link rel="apple-touch-icon" href="/assets/images/manifest.png">
-        <meta name="apple-mobile-web-app-capable" content="yes">
-        <meta name="apple-mobile-web-app-status-bar-style" content="yes">
+        <!-- JS --> 
+        <script src="/assets/js/classes/utils.js" defer></script> 
+        <script src="/assets/js/classes/events.js" defer></script> 
+        <script src="/assets/js/classes/widgets.js" defer></script> 
+        <script src="/assets/js/static/parameters.js" defer></script>
+        <script src="/assets/js/static/subscriptions.js" defer></script>
     </head>
     <style>
-      :root {
-        --widget-text-color: #fff;
-        --widget-max-width: 1800px;
-        --widget-gap: 14px;
-        --widget-padding: 14px 18px;
-        --widget-radius: 12px;
-    }
-
-    * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-    }
-
-    body {
-        background: black;
-        min-height: 100vh;
-        display: flex;
-        justify-content: center;
-    }
-
-    .widget-container {
-        width: 95%;
-        max-width: var(--widget-max-width);
-        margin: 40px auto;
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
-        gap: var(--widget-gap);
-        max-height: 85vh;
-        overflow-y: auto;
-        padding: 10px;
-    } .widget-container::-webkit-scrollbar { width: 3px; }
-      .widget-container::-webkit-scrollbar-track { background: #1a1a1a; }
-      .widget-container::-webkit-scrollbar-thumb { background: #555; border-radius: 4px; }
-
-    .widget-card {
-        padding: var(--widget-padding);
-        border-radius: var(--widget-radius);
-        border: 1px solid rgba(255,255,255,0.15);
-        background: #0d0d0d;
-        color: var(--widget-text-color);
-        display: flex;
-        flex-direction: column;
-        gap: 6px;
-        transition: 0.2s ease;
-    }
-
-    .widget-card:hover {
-        transform: translateY(-3px);
-        border-color: rgba(255,255,255,0.25);
-    }
-
-    .widget-card-event {
-        font-weight: 600;
-        font-size: 1rem;
-    }
-
-    .widget-card-meta {
-        font-size: 0.85rem;
-        opacity: 0.75;
-        line-height: 1.4;
-    }
-
-    @media (max-width: 700px) {
-        .widget-container { grid-template-columns: 1fr; max-height: 90vh; }
-        .widget-card-event { font-size: 0.95rem; }
-        .widget-card-meta { font-size: 0.8rem; }
-    }
+        :root {
+            --widget-text-color: #fff;
+            --widget-max-width: 1800px;
+            --widget-gap: 14px;
+            --widget-padding: 14px 18px;
+            --widget-radius: 12px;
+        }
+        * {
+            margin: 0; padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            background: black; min-height: 100vh;
+            display: flex; justify-content: center;
+        }
+        .widget-container {
+            width: 95%; max-width: var(--widget-max-width);
+            margin: 40px auto; display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+            gap: var(--widget-gap); max-height: 85vh;
+            overflow-y: auto; padding: 10px;
+        } 
+        .widget-card {
+            padding: var(--widget-padding); border-radius: var(--widget-radius);
+            border: 1px solid rgba(255,255,255,0.15); background: #0d0d0d;
+            color: var(--widget-text-color); display: flex;
+            flex-direction: column; gap: 6px;
+            transition: 0.2s ease;
+        }
+        .widget-card-event {
+            font-weight: 600; font-size: 1rem;
+        }
+        .widget-card-meta {
+            font-size: 0.85rem; opacity: 0.75;
+            line-height: 1.4;
+        }
+        .widget-card:hover { transform: translateY(-3px); border-color: rgba(255,255,255,0.25); }
+        .widget-container::-webkit-scrollbar { width: 3px; }
+        .widget-container::-webkit-scrollbar-track { background: #1a1a1a; }
+        .widget-container::-webkit-scrollbar-thumb { background: #555; border-radius: 4px; }
+        @media (max-width: 700px) {
+            .widget-container { grid-template-columns: 1fr; max-height: 90vh; }
+            .widget-card-event { font-size: 0.95rem; }
+            .widget-card-meta { font-size: 0.8rem; }
+        }
     </style>
     <body>
         <div class="notifications"></div>
@@ -130,57 +109,57 @@
             settings.setPulsePoint = get(aSearch, `setPulsePoint`) ?? false;
 
             utils.getMobileDevice()
-            utils.socket([`configurations`, `events`, `pulsepoint`, `manual`]).then(() => {
-                document.addEventListener('onUpdate', (event) => {
-                    widgets.applyGlobalSettings(settings.setElement, settings);  
-                    cb()
+            utils.socket([SUB.CONFIGURATIONS, ...iEventSubscriptions()]).then(() => {
+                document.addEventListener('onUpdate', async (event) => {
+                    try { 
+                        widgets.applyGlobalSettings(settings.setElement, settings);  
+                        await handler.hSyncEvents(settings);
+                        const features = [
+                            ...Object.values(utils?.storage?.events?.features || {}),
+                        ];
+                        const container = settings.setElement;
+                        container.innerHTML = "";
+                        features.sort((a, b) => new Date(a?.properties?.issued) - new Date(b?.properties?.issued));
+                        for (const feature of features) {
+                            const properties = feature?.properties;
+                            const getMyDistance = properties.imported?.spotters[0]?.metadata?.distance;
+                            const gTRI = utils.getTimeRelative(new Date(properties?.issued))
+                            const gTRE = utils.getTimeRelative(new Date(properties?.expires))
+                            const card = document.createElement("div");
+                            card.className = "widget-card";
+                            card.innerHTML = `
+                                <div class="widget-card-event">${properties?.event ?? `--`} (${properties?.action_type ?? ``})</div>
+                                <div class="widget-card-meta"><b>Issued:</b> ${new Date(properties?.issued).toLocaleString() ?? `--`} (${gTRI ?? `--`})</div>
+                                <div class="widget-card-meta"><b>Expires:</b> ${new Date(properties?.expires).toLocaleString() ?? `--`} (${gTRE ?? `--`})</div>
+                                <div class="widget-card-meta"><b>Hail:</b> ${properties?.parameters?.max_hail_size ?? `--`}</div>
+                                <div class="widget-card-meta"><b>Wind:</b> ${properties?.parameters?.max_wind_gust ?? `--`}</div>
+                                <div class="widget-card-meta"><b>Tornado:</b> ${properties?.parameters?.tornado_detection ?? `--`}</div>
+                                <div class="widget-card-meta"><b>Damage:</b> ${properties?.parameters?.damage_threat ?? `--`}</div>
+                                <div class="widget-card-meta"><b>Flood:</b> ${properties?.parameters?.flood_detection ?? `--`}</div>
+                                <div class="widget-card-meta"><b>Locations:</b> ${properties?.locations ?? `--`}</div>
+                                <div class="widget-card-meta"><b>Distance:</b> ${properties?.imported?.spotters[0]?.metadata?.distance ?? `--`} ${properties?.imported?.spotters[0]?.metadata?.unit ?? ``}</div>
+                            `;
+                            container.prepend(card);
+                            card.addEventListener('click', () => {
+                                const { lon, lat } = feature?.properties?.imported?.polygon_center;
+                                if (!lon || !lat) {
+                                    return utils.notify({
+                                        type: "error",
+                                        title: "Widget Error",
+                                        message: `Lon/Lat are invalid`,
+                                        duration: 15e3
+                                    })
+                                }
+                                const url = `https://www.google.com/maps/dir/?api=1&origin=current+location&destination=${lat},${lon}`;
+                                window.location.href = url;
+                            });
+                        }
+                        await handler.hSyncQueue(settings);
+                    } catch (error) { 
+                        utils.exception(error, `widgets:cards`);
+                    }
                 })
             })
-            async function cb() { 
-                await handler.hSyncEvents(settings);
-                const features = [
-                    ...Object.values(utils?.storage?.events?.features || {}),
-                ];
-                const container = settings.setElement;
-                container.innerHTML = "";
-                // sort features by issued date
-                features.sort((a, b) => new Date(a?.properties?.issued) - new Date(b?.properties?.issued));
-                for (const feature of features) {
-                    const properties = feature?.properties;
-                    const getMyDistance = properties.imported?.spotters[0]?.metadata?.distance;
-                    const gTRI = utils.getTimeRelative(new Date(properties?.issued))
-                    const gTRE = utils.getTimeRelative(new Date(properties?.expires))
-                    const card = document.createElement("div");
-                    card.className = "widget-card";
-                    card.innerHTML = `
-                        <div class="widget-card-event">${properties?.event ?? `--`} (${properties?.action_type ?? ``})</div>
-                        <div class="widget-card-meta"><b>Issued:</b> ${new Date(properties?.issued).toLocaleString() ?? `--`} (${gTRI ?? `--`})</div>
-                        <div class="widget-card-meta"><b>Expires:</b> ${new Date(properties?.expires).toLocaleString() ?? `--`} (${gTRE ?? `--`})</div>
-                        <div class="widget-card-meta"><b>Hail:</b> ${properties?.parameters?.max_hail_size ?? `--`}</div>
-                        <div class="widget-card-meta"><b>Wind:</b> ${properties?.parameters?.max_wind_gust ?? `--`}</div>
-                        <div class="widget-card-meta"><b>Tornado:</b> ${properties?.parameters?.tornado_detection ?? `--`}</div>
-                        <div class="widget-card-meta"><b>Damage:</b> ${properties?.parameters?.damage_threat ?? `--`}</div>
-                        <div class="widget-card-meta"><b>Flood:</b> ${properties?.parameters?.flood_detection ?? `--`}</div>
-                        <div class="widget-card-meta"><b>Locations:</b> ${properties?.locations ?? `--`}</div>
-                        <div class="widget-card-meta"><b>Distance:</b> ${properties?.imported?.spotters[0]?.metadata?.distance ?? `--`} ${properties?.imported?.spotters[0]?.metadata?.unit ?? ``}</div>
-                    `;
-                    container.prepend(card);
-                    card.addEventListener('click', () => {
-                        const { lon, lat } = feature?.properties?.imported?.polygon_center;
-                        if (!lon || !lat) {
-                            return utils.notify({
-                                type: "error",
-                                title: "Widget Error",
-                                message: `Lon/Lat are invalid`,
-                                duration: 15e3
-                            })
-                        }
-                        const url = `https://www.google.com/maps/dir/?api=1&origin=current+location&destination=${lat},${lon}`;
-                        window.location.href = url;
-                    });
-                }
-                await handler.hSyncQueue(settings);
-            }
         })
     </script>
 </html>
