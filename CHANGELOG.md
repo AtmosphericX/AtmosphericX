@@ -17,8 +17,8 @@
 **Fixes**
 - configuration(sources): Fix trailing commas (Optional config update)
 
-**Soon**
-- widget(cimss): Ability to view most favorable cells/environments based on tracking node coordinates.
+------------------------------------------------------------------------------------------------------------------------
+
 
 ## Apr 4th, 2026 - 8.0.0.2
 
