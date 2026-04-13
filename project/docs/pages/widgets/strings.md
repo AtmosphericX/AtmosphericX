@@ -72,6 +72,7 @@ Below are default / optional parameters you can use with the `strings` widget. P
     - getClock
     - getWatchdog
     - getOutages
+    - getCIMSS
     - getNearbyEvents
     - getMesonet
 - Example: `/widgets/strings?setType=getMesonet`
@@ -113,15 +114,21 @@ Below are default / optional parameters you can use with the `strings` widget. P
 
 ### setSearch
 - Description: Searches for a specific `tracking node` (See: [Location Tracking Nodes](/pages/sources/location-tracking-nodes)). If not set, it will default to `priority`.
-- Widget Types: `getTracking`, `getNearbyEvents`, `getDbzIntensity`
+- Widget Types: `getTracking`, `getNearbyEvents`, `getDbzIntensity`, `getCIMSS`
 - Default (`string`): `null`
 - Example: `/widgets/strings?setType=getNearbyEvents&setSearch=John Doe`
 
 ### setRadius
 - Description: Sets the radius for searching nearby events or spotters using the `priority` or `setSearch` parameter.
-- Widget Types: `getNearbySpotters`, `getNearbyEvents`
+- Widget Types: `getNearbySpotters`, `getNearbyEvents`, `getCIMSS`
 - Default (`int`): `50`
 - Example: `/widgets/strings?setType=getNearbySpotters&setRadius=5`
+
+### setParameter
+- Description: Used for the `getCIMSS` string widget which allows you to specify what CIMSS paramter you want to obtain (Highest value)
+- Widget Types: `getCIMSS`
+- Default (`string`): `tornado`
+- Example: `/widgets/strings?setType=getCIMSS&setParameter=severe`
 
 
 ## Examples
@@ -172,3 +179,11 @@ Create a widget that gets a `random event` from the server and `displays the tit
 ```
 /widgets/strings?setType=getRandomEvent&setValuePath=properties.event
 ```
+:::
+
+::: details Example 8
+Create a widget that gets the highest `tornado` value from the `CIMSS` data within a `50 mi/km radius` of the node `John Doe`.
+```
+/widgets/strings?setType=getCIMSS&setParameter=tornado&setSearch=John Doe&setRadius=50
+```
+:::

@@ -28,6 +28,7 @@ const SUB = {
     MANUAL: `manual`,
     PULSEPOINT: `pulsepoint`,
     SPOTTERS: `spotters`,
+    CIMSS: `cimss`,
 }
 
 function iEventSubscriptions() {
