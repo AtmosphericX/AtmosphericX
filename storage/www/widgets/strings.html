@@ -163,7 +163,7 @@
                             const getCIMSS = utils.storage?.cimss?.features;
                             const getSearch = get(aSearch, `setSearch`) ?? null;
                             const getParameter = get(aSearch, `setParameter`) ?? `tornado`;
-                            const getRadius = get(aSearch, `setRadius`) ?? setTextCharacterLimit50;
+                            const getRadius = get(aSearch, `setRadius`) ?? 50;
                             const getQuery = utils.storage?.tracking?.features.find(tracker => tracker.properties?.name?.toLowerCase().includes(String(getSearch)?.toLowerCase()));
                             const getTracker = getQuery ?? utils.storage?.tracking?.features[0];
                             if (!getTracker) { 
