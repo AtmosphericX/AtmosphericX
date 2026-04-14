@@ -17,6 +17,7 @@
 
 **Refactoring**
 - widgets(global): Redo all widget code (html only).
+- placefiles(tracking): Refactor TrackingType properties to replace location with county and state in description formatting
 
 **Fixes**
 - configuration(sources): Fix trailing commas (Optional config update)

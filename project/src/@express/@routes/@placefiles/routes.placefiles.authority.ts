@@ -51,7 +51,8 @@ type TrackingType = {
     geometry: Record<string, number>; 
     properties: { 
         name: string;
-        location: string;
+        county: string;
+        state: string;
         icao: string;
         last_updated: string;
     };
@@ -179,7 +180,7 @@ export class Init {
             }
             let description = [
                 `Name: ${tracker?.properties?.name ?? `Unknown`}`,
-                `Location: ${tracker?.properties?.location ?? `Unknown Location`}`,
+                `Location: ${tracker?.properties?.county ?? `---`}, ${tracker?.properties?.state ?? `---`}`,
                 `ICAO: ${tracker?.properties?.icao ?? `N/A`}`,
                 `Updated: ${new Date(tracker?.properties?.last_updated ?? '').toISOString()} (${gTR})`
             ]
