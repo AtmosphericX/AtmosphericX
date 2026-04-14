@@ -852,7 +852,7 @@ class Utils {
      */
     setString = async function(element, string, settings, ignorePrefixSuffix=false) {
         function normalize(str) {
-            return str.replace(/&nbsp;/g, ' ').replace(/\u00A0/g, ' ').trim();
+            return str.replace(/&nbsp;/g, ' ').replace(/&gt;/g, '>').replace(/\u00A0/g, ' ').trim();
         }
         const relative = (val) => {
             if (typeof val !== 'string') return val;

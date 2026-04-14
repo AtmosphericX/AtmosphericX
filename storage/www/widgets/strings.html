@@ -241,7 +241,7 @@
                             if (!getEvent) { 
                                 return utils.setString(settings.setElement, settings?.global?.setTextPlaceholder ?? `No Events Found`, settings);
                             }
-                            return utils.setString(settings.setElement, `${getEvent}: ${getMin == 0.0 ? `Entered` : `${getMin.toFixed(1)}`}`, settings);
+                            return utils.setString(settings.setElement, `${getEvent}: ${getMin == 0.0 ? `> 0` : `${getMin.toFixed(1)}`}`, settings);
                         }
                         case `getDbzIntensity`: {
                             let key = null;

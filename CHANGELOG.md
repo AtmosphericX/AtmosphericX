@@ -8,6 +8,7 @@
 - vscode(settings): Force TS version to the node_modules version instead of using default VSCode version.
 
 **Updating**
+- frontend(utils.js): Fix and replace `&gt` for animation rendering. 
 - widgets(global): Remove `:root` from all widgets as it wasn't needed.
 - widgets(global): Added `subscriptions.js` static script to easily get subscription value types.
 - widgets(watchdog): Instead of specifying a list for `setWatchdogList` do comma seperated.
