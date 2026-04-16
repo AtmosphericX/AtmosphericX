@@ -868,10 +868,7 @@ class Utils {
                 return date.toLocaleString();
             });
         };
-        if (string == 'null' || string == null) {
-            string = settings?.global?.setTextPlaceholder ?? '---'
-        }
-        let startingString = String(relative(string));
+        let startingString = String(relative(string))?.replace('null', settings?.global?.setTextPlaceholder ?? '---');
         const getCurrentContent = element.innerHTML;
         const getFutureContent = this.buildString(startingString, settings, ignorePrefixSuffix);
         const isTextTheSameAsBefore = normalize(getCurrentContent) == normalize(getFutureContent);
