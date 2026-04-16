@@ -29,6 +29,10 @@
 - event-product-parser(events): Fixed `Special Marine Warnings` showing Tornadic when it's not `tornadic`
 - widgets(cards): Fixed invalid spotter data from erroring out the widget. 
 
+**Current Bugs**
+- frontend(audio-context): iOS likes to suspend all context and hault all operations when not focused. (Not shocked)
+- widget(parameters): setValuePath likes to spit out `null` when the value doesn't exist.
+
 ------------------------------------------------------------------------------------------------------------------------
 
 
