@@ -49,15 +49,15 @@ class Events {
                 if (manual.length > 0 && settings?.setWx) {
                     for (let feature of manual) {
                         const duplicate = this.eventQueue?.some(e => e?.hash === JSON.stringify(feature));
-                        const issuedTime = new Date(feature?.properties?.issued).getTime();
+                        const issuedTime = new Date().getTime()
                         if (!duplicate) {
                             this.eventQueue?.push({
                                 type: 'event',
                                 hash: JSON.stringify(feature),
                                 issued: now,
-                                expires: issuedTime + (settings?.setMaxHistory ?? 0) * 60,
+                                expires: now + 31536000000,
                                 feature,
-                                queued: true
+                                queued: false
                             });
                         }
                     }
@@ -134,38 +134,39 @@ class Events {
             switch (next?.type) {
                 case 'event':
                     if (settings?.setStreaming) this.aWeatherCard(event, theme, settings);
-                    this.utils.sleep((settings?.setPauseTime ?? 3) * 1000).then(() => { this.isQueuing = false; });
                     break;
                 case 'pulsepoint':
                     if (settings?.setStreaming) this.aPulsePointCard(event, theme, settings);
-                    this.utils.sleep((settings?.setPauseTime ?? 3) * 1000).then(() => { this.isQueuing = false; });
                     break;
             }
 
-            if (!settings?.setPlayback) return;
-            this.utils.sound(settings?.setSfx ?? configurations?.tones?.sfx_beep, settings?.setSfxVolume);
-            if (!event?.properties?.beep_only) {
-                await this.utils.sleep(1300);
-                if (configurations?.tones?.sfx_beep !== metadata?.sfx && !metadata?.sfx_tts) {
-                    this.utils.sound(metadata?.sfx);
-                }
-                if (metadata?.sfx_tts) {
-                    const output = this.utils.getTextFromDirectory(event, metadata?.sfx_tts_format ?? 'Unknown');
-                    const status = next.type === 'pulsepoint'
-                        ? (event?.properties?.is_updated ? 'updated' : 'dispatched')
-                        : (event?.properties?.is_updated ? 'updated' : event?.properties?.is_issued ? 'issued' : 'cancelled');
-                    this.utils.tts(output.replace('{STATUS}', status));
-                }
-                await this.utils.sleep(3800);
-                if (metadata?.metadata) {
-                    for (const key in metadata.metadata) {
-                        if (metadata.metadata[key] === true) {
-                            const tone = configurations?.tones?.[`sfx_${key}`];
-                            if (tone) this.utils.sound(tone);
+            if (settings?.setPlayback) {
+                this.utils.sound(settings?.setSfx ?? configurations?.tones?.sfx_beep, settings?.setSfxVolume);
+                if (!event?.properties?.beep_only) {
+                    await this.utils.sleep(1300);
+                    if (configurations?.tones?.sfx_beep !== metadata?.sfx && !metadata?.sfx_tts) {
+                        this.utils.sound(metadata?.sfx);
+                    }
+                    if (metadata?.sfx_tts) {
+                        const output = this.utils.getTextFromDirectory(event, metadata?.sfx_tts_format ?? 'Unknown');
+                        const status = next.type === 'pulsepoint'
+                            ? (event?.properties?.is_updated ? 'updated' : 'dispatched')
+                            : (event?.properties?.is_updated ? 'updated' : event?.properties?.is_issued ? 'issued' : 'cancelled');
+                        this.utils.tts(output.replace('{STATUS}', status));
+                    }
+                    await this.utils.sleep(3800);
+                    if (metadata?.metadata) {
+                        for (const key in metadata.metadata) {
+                            if (metadata.metadata[key] === true) {
+                                const tone = configurations?.tones?.[`sfx_${key}`];
+                                if (tone) this.utils.sound(tone);
+                            }
                         }
                     }
                 }
             }
+            await this.utils.sleep((settings?.setPauseTime ?? 3) * 1000);
+            this.isQueuing = false;
         } catch (error) {
             this.utils.exception(error, `${this.name_space}:hSyncQueue`);
         }

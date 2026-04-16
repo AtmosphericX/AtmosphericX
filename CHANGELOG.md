@@ -14,6 +14,7 @@
 - widgets(watchdog): Instead of specifying a list for `setWatchdogList` do comma seperated.
 - pages(global): Update metadata and formatting for PWA and settings.
 - tracking(data): Seperate county, state, and address (road) in the location tracking field.
+- widgets(cards): Switching to gps route now requires a `double click`.
 
 **Refactoring**
 - widgets(global): Redo all widget code (html only).
@@ -21,6 +22,12 @@
 
 **Fixes**
 - configuration(sources): Fix trailing commas (Optional config update)
+- frontend(events.js): Improve audio context for iOS devices (Semifix)
+- api(create_event): Added the ability to remove manual events
+- frontend(themes): Fixed theme not using manual events.
+- frontend(events.js): Fixed event queue process for manual events
+- event-product-parser(events): Fixed `Special Marine Warnings` showing Tornadic when it's not `tornadic`
+- widgets(cards): Fixed invalid spotter data from erroring out the widget. 
 
 ------------------------------------------------------------------------------------------------------------------------
 

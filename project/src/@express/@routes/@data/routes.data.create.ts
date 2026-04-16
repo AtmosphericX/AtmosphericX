@@ -36,7 +36,10 @@ export class Init {
                 switch (getType) { 
                     case `manual_event`:
                         const { event } = await loader.modules.routing.getRequestBody(request);
-                        if (!event) return response.status(400).json({ message: getMessages.response_generic_error});
+                        if (!event) {
+                            loader.cache.external.manual = {type: "FeatureCollection", features: []};
+                            return response.json(loader.cache.external.manual);
+                        }
                         loader.cache.external.manual = {type: "FeatureCollection", features: [event]};
                         return response.json(event);
                     default:

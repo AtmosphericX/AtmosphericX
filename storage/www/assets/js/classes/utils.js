@@ -547,9 +547,11 @@ class Utils {
             if (getCurrentTheme) {
                 const events = this.storage?.events?.features ?? [];
                 const pulsepoint = this.storage?.pulsepoint?.features ?? [];
+                const manual = this.storage?.manual?.features ?? [];
                 const themes = Object.keys(scheme).filter(name =>
                     events.some(f => f?.properties?.event?.trim().toLowerCase() === name?.trim().toLowerCase()) ||
-                    pulsepoint.some(f => f?.properties?.event?.trim().toLowerCase() === name?.trim().toLowerCase())
+                    pulsepoint.some(f => f?.properties?.event?.trim().toLowerCase() === name?.trim().toLowerCase()) ||
+                    manual.some(f => f?.properties?.event?.trim().toLowerCase() === name?.trim().toLowerCase())
                 );
                 if (themes.length) {
                     const selected = scheme[themes[0]] ?? {};

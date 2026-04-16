@@ -109,13 +109,14 @@
                         await handler.hSyncEvents(settings);
                         const features = [
                             ...Object.values(utils?.storage?.events?.features || {}),
+                            ...Object.values(utils?.storage?.manual?.features || {}),
                         ];
                         const container = settings.setElement;
                         container.innerHTML = "";
                         features.sort((a, b) => new Date(a?.properties?.issued) - new Date(b?.properties?.issued));
                         for (const feature of features) {
                             const properties = feature?.properties;
-                            const getMyDistance = properties.imported?.spotters[0]?.metadata?.distance;
+                            const getMyDistance = properties.imported?.spotters?.[0]?.metadata?.distance;
                             const gTRI = utils.getTimeRelative(new Date(properties?.issued))
                             const gTRE = utils.getTimeRelative(new Date(properties?.expires))
                             const card = document.createElement("div");
@@ -130,10 +131,10 @@
                                 <div class="widget-card-meta"><b>Damage:</b> ${properties?.parameters?.damage_threat ?? `--`}</div>
                                 <div class="widget-card-meta"><b>Flood:</b> ${properties?.parameters?.flood_detection ?? `--`}</div>
                                 <div class="widget-card-meta"><b>Locations:</b> ${properties?.locations ?? `--`}</div>
-                                <div class="widget-card-meta"><b>Distance:</b> ${properties?.imported?.spotters[0]?.metadata?.distance ?? `--`} ${properties?.imported?.spotters[0]?.metadata?.unit ?? ``}</div>
+                                <div class="widget-card-meta"><b>Distance:</b> ${properties?.imported?.spotters?.[0]?.metadata?.distance ?? `--`} ${properties?.imported?.spotters?.[0]?.metadata?.unit ?? ``}</div>
                             `;
                             container.prepend(card);
-                            card.addEventListener('click', () => {
+                            card.addEventListener('dblclick', () => {
                                 const { lon, lat } = feature?.properties?.imported?.polygon_center;
                                 if (!lon || !lat) {
                                     return utils.notify({
