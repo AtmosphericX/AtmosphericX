@@ -139,7 +139,9 @@ class Events {
                     if (settings?.setStreaming) this.aPulsePointCard(event, theme, settings);
                     break;
             }
-
+            this.utils.sleep((settings?.setPauseTime ?? 3) * 1000).then(() => {
+                this.isQueuing = false;
+            });
             if (settings?.setPlayback) {
                 this.utils.sound(settings?.setSfx ?? configurations?.tones?.sfx_beep, settings?.setSfxVolume);
                 if (!event?.properties?.beep_only) {
@@ -165,8 +167,6 @@ class Events {
                     }
                 }
             }
-            await this.utils.sleep((settings?.setPauseTime ?? 3) * 1000);
-            this.isQueuing = false;
         } catch (error) {
             this.utils.exception(error, `${this.name_space}:hSyncQueue`);
         }
