@@ -6,6 +6,7 @@
 - widget(strings): Added `getCIMSS` string widget type to get values from the CIMSS data. This allows users to get highest value from the CIMSS ProbSevere data within a specified radius of a tracking node. The widget can be customized with the `setParameter` parameter to specify which CIMSS parameter to obtain (e.g. tornado, hail, wind, etc.) and the `setRadius` parameter to specify the radius for searching nearby cells.
 - frontend(subscriptions.js): Added `CIMSS` subscription topic for real-time updates related to CIMSS data.
 - vscode(settings): Force TS version to the node_modules version instead of using default VSCode version.
+- backend(websockets): Added hash checks to make sure we aren't sending duplicated data to the clients to reduce unnecessary traffic.
 
 **Updating**
 - frontend(utils.js): Fix and replace `&gt` for animation rendering. 

@@ -23,7 +23,12 @@ interface WebSocketClient {
     address: string; 
     requests: Record<string, any>; 
     hasSubscribed: boolean; 
+    hashes: {
+        [key: string]: string;
+    }
 }
+
+
 export class Init { 
     name_space: string = `Websockets.Authority`;
     ansi_colors = loader.modules.utilities.ansi_colors;
@@ -59,7 +64,7 @@ export class Init {
                 client.send(JSON.stringify({ type: this.types.onConnection, message: `${getMessages.websocket_connection_closed} (${maxConnections}).` }));
                 return client.close(4001, getMessages.websocket_connection_closed);
             }
-            this.clients.push({ client, unix: Date.now() - 1_000, address, requests: {}, hasSubscribed: false });
+            this.clients.push({ client, unix: Date.now() - 1_000, address, requests: {}, hasSubscribed: false, hashes: {} });
             client.on(`message`, (message: any) => this.onClientMessage(client, message));
             client.on(`close`, () => { this.clients = this.clients.filter(c => c.client !== client) });
         });
@@ -141,6 +146,7 @@ export class Init {
             data.forEach((request: string) => {
                 if (!client.requests[request]) client.requests[request] = { unix: 0 };
                 const cache = loader.cache.external[request as keyof typeof loader.cache.external] || null;
+                const hash = loader.packages.crypto.createHash('md5').update(JSON.stringify(cache)).digest('hex');
                 const isPriority = options.priority_sockets.sockets.includes(request);
                 const isSecondary = options.secondary_sockets.sockets.includes(request);
                 const timeout = isPriority
@@ -150,6 +156,10 @@ export class Init {
                 if (currentTime - client.requests[request].unix < ms) {
                     return 
                 }
+                if (client.hashes[request] === hash) {
+                    return;
+                }
+                client.hashes[request] = hash;
                 isDataAwaiting = true;
                 client.requests[request].unix = currentTime;
                 try { 
