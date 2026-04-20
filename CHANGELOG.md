@@ -16,6 +16,7 @@
 - pages(global): Update metadata and formatting for PWA and settings.
 - tracking(data): Seperate county, state, and address (road) in the location tracking field.
 - widgets(cards): Switching to gps route now requires a `double click`.
+- event-product-parser(shapefiles): Updated to 2026 shapefiles for missing UGC queries.
 
 **Refactoring**
 - widgets(global): Redo all widget code (html only).
