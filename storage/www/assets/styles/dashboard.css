@@ -406,12 +406,10 @@ body { background: var(--clr-surface-tonal-a10); min-height: 100vh; color: var(-
     .row-1, .row-2, .row-3, .row-4 {
         grid-row: auto !important;
     }
-
     .prompt-window {
         width: min(100vw - 20px, 540px);
         max-height: calc(100vh - 20px);
     }
-
     .prompt-content,
     .prompt-actions {
         padding-left: 14px;

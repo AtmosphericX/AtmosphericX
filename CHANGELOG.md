@@ -7,6 +7,9 @@
 - frontend(subscriptions.js): Added `CIMSS` subscription topic for real-time updates related to CIMSS data.
 - vscode(settings): Force TS version to the node_modules version instead of using default VSCode version.
 - backend(websockets): Added hash checks to make sure we aren't sending duplicated data to the clients to reduce unnecessary traffic.
+- dashboard(dev): Added `createPrompt`
+- dashboard(dev): Added `home`
+- dashboard(dev): Status code `200` checks for page switching (`/dashboard`)
 
 **Updating**
 - frontend(utils.js): Fix and replace `&gt` for animation rendering. 
@@ -17,6 +20,8 @@
 - tracking(data): Seperate county, state, and address (road) in the location tracking field.
 - widgets(cards): Switching to gps route now requires a `double click`.
 - event-product-parser(shapefiles): Updated to 2026 shapefiles for missing UGC queries.
+- dashboard(dev): Using `boilerplate` html feature.
+- dashboard(css): Modified `css` file for prompts and cards.
 
 **Refactoring**
 - widgets(global): Redo all widget code (html only).
@@ -32,7 +37,7 @@
 - widgets(cards): Fixed invalid spotter data from erroring out the widget. 
 
 **Current Bugs**
-- frontend(audio-context): iOS likes to suspend all context and hault all operations when not focused. (Not shocked)
+- frontend(audio-context): iOS likes to suspend all context and hault all operations when not focused.
 - ~~widget(parameters): setValuePath likes to spit out `null` when the value doesn't exist.~~ [Fixed]
 
 ------------------------------------------------------------------------------------------------------------------------

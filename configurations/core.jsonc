@@ -68,7 +68,7 @@
         "request_timeout": 10
     },
     "websocket_settings": {
-        "maximum_connections_per_ip": 25, // Max connections to a websocket address. (Default: 25 connections)
+        "maximum_connections_per_ip": 50, // Max connections to a websocket address. (Default: 50 connections)
         "priority_sockets": {
             "timeout": 0, // How often websocket cache shouldn't be sent to the clients. (Default: 0 seconds)
             "sockets": [ // Type(s) of websocket subscriptions to put in the priority sockets.
