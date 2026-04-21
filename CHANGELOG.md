@@ -1,6 +1,6 @@
 # Changelogs
 
-## Apr 12th, 2026 - 8.0.0.3
+## Apr 20th, 2026 - 8.0.0.3
 
 **Features**
 - widget(strings): Added `getCIMSS` string widget type to get values from the CIMSS data. This allows users to get highest value from the CIMSS ProbSevere data within a specified radius of a tracking node. The widget can be customized with the `setParameter` parameter to specify which CIMSS parameter to obtain (e.g. tornado, hail, wind, etc.) and the `setRadius` parameter to specify the radius for searching nearby cells.
