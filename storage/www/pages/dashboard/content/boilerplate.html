@@ -23,33 +23,27 @@
         <script src="/assets/js/classes/utils.js"></script>
         <script src="/assets/js/classes/dashboard.js"></script>
     </head>
-
     <body>
         <div class="graph-bg"></div>
         <div class="notifications"></div>
         <div class="announcement" id="announcement">
             <p class="message text-primary text-neutral" id="message"></p>
         </div>
-
         <aside class="sidebar">
             <img class="logo" src="/assets/images/logo.png" alt="AtmosphericX" />
             <small class="version text-primary text-neutral" id="sidebar-version"></small>
-            
             <div class="nav">
                 <a href="#home" class="nav-link text-neutral hover-light" onclick="dashboard.onUpdate()">Home</a>
                 <div class="nav-dropdown active">
-                    <div class="nav-dropdown-header text-neutral hover-light">Settings <i class="fas fa-chevron-down"></i></div>
+                    <div class="nav-dropdown-header text-neutral hover-light">TBD <i class="fas fa-chevron-down"></i></div>
                     <div class="nav-dropdown-content">
-                        <a href="#profile" class="nav-link text-neutral hover-light" onclick="dashboard.onUpdate()">Profile</a>
+                        <a href="#TBD" class="nav-link text-neutral hover-light" onclick="dashboard.onUpdate()">TBD</a>
                     </div>
                 </div>
             </div>
-            <small class="footer text-primary text-neutral" id="sidebar-footer">Project AtmosphericX</small>
+            <small class="footer text-primary text-neutral" id="sidebar-footer">Created with ❤️ by the AtmosphericX Team</small>
         </aside>
-
-        <main class="container" id="container">
-            
-        </main>
+        <main class="container" id="container"></main>
     </body>
     <script>
         const utils = new Utils();

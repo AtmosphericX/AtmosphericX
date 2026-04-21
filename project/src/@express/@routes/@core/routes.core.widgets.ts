@@ -33,7 +33,7 @@ export class Init {
             try {
                 const getEndpoint  = request.params.endpoint ?? null;
                 if (!getEndpoint || !loader.packages.fs.existsSync(`${storage}${getRoutes.widgets_direct_path}${getEndpoint}.html`)) {
-                    return response.sendFile(`${storage}${getRoutes.unknown_direct_path}`);
+                    return response.status(404).sendFile(`${storage}${getRoutes.unknown_direct_path}`);
                 }
                 return response.sendFile(`${storage}${getRoutes.widgets_direct_path}${getEndpoint}.html`);
             } catch (error) {

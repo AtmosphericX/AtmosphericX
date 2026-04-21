@@ -24,27 +24,27 @@
 
 
 /* ---------------- BACKGROUND COLOR UTILITIES ---------------- */
-.bg-danger { background: var(--clr-danger-a0-t40); }
-.bg-success { background: var(--clr-success-a0-t60); }
-.bg-warning { background: var(--clr-warning-a0-t50); }
-.bg-neutral { background: var(--clr-neutral-a0-t60); }
-.bg-generic { background: var(--clr-surface-tonal-a0); }
-.bg-info { background: var(--clr-info-a0-t50); }
+.bg-danger { background: var(--clr-danger-a0-t40) !important; }
+.bg-success { background: var(--clr-success-a0-t60) !important; }
+.bg-warning { background: var(--clr-warning-a0-t50) !important; }
+.bg-neutral { background: var(--clr-neutral-a0-t60) !important; }
+.bg-generic { background: var(--clr-surface-tonal-a0) !important; }
+.bg-info { background: var(--clr-info-a0-t50) !important; }
 
 /* ---------------- TEXT COLOR UTILITIES ---------------- */
-.text-danger { color: var(--clr-danger-a0); }
-.text-success { color: var(--clr-success-a0); }
-.text-warning { color: var(--clr-warning-a0); }
-.text-neutral { color: var(--clr-neutral-a10); }
-.text-info { color: var(--clr-info-a0); }
+.text-danger { color: var(--clr-danger-a0) !important; }
+.text-success { color: var(--clr-success-a0) !important; }
+.text-warning { color: var(--clr-warning-a0) !important; }
+.text-neutral { color: var(--clr-neutral-a10) !important; }
+.text-info { color: var(--clr-info-a0) !important; }
 
 
 /* ---------------- ELEMENT RADIUS UTILITIES ---------------- */
-.radius-5 { border-radius: 5px; }
-.radius-10 { border-radius: 10px; }
-.radius-50 { border-radius: 50px; }
-.radius-100 { border-radius: 100px; }
-.glassy { backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); background: transparent}
+.radius-5 { border-radius: 5px !important; }
+.radius-10 { border-radius: 10px !important; }
+.radius-50 { border-radius: 50px !important; }
+.radius-100 { border-radius: 100px !important; }
+.glassy { backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); background: transparent;}
 
 
 /* ---------------- INTERACTION UTILITIES ---------------- */

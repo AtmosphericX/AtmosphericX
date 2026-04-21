@@ -7,4 +7,4 @@ eas
 documentation
 cache
 dist
-project/documentation/.vitepress/cacheconfigurations/
+project/documentation/.vitepress/cache
