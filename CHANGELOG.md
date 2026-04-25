@@ -13,6 +13,8 @@
 - dict(strings): Changed dashboard direction for both dev and home routes.
 - frontend(login): Upon a successful login, the `session_username` storage key is set to the username used.
 - frontend(dashboard): Updated dashboard navigation logic.
+- frontend(styles): `app.css` now includes additional `span` and `row` values
+- frontend(utils): `getEventColor` now includes the event name in the table.
 
 **To Do**
 - dashboard(global): Work on other dashboard sections and use a similar design style for all.
