@@ -80,6 +80,7 @@ footer: MIT Licensed | Copyright © 2022-present Alex Wei | Powered by VitePress
 		{ src: '/assets/images/history/c8.png', alt: '', caption: 'AtmosphericX v7 Interface (Released May. 2025)' },
 		{ src: '/assets/images/history/c9.png', alt: '', caption: 'AtmosphericX v8 (beta) (Released March. 2026)' },
 		{ src: '/assets/images/demos/d8.gif', alt: '', caption: 'AtmosphericX v8 (beta) Widgets (Released March. 2026)' },
+		{ src: '/assets/images/demos/d4.png', alt: '', caption: 'AtmosphericX v8 Dashboard (Released April. 2026)' },
 	]
 
 	const Gallery = { props: ['items'],
