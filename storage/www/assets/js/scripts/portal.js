@@ -84,6 +84,7 @@ window.addEventListener('DOMContentLoaded', () => {
                     title: "Authentication Success",
                     message: result.message || 'Operation successful! Redirecting...'
                 });
+                window.localStorage.setItem("session_username", data.username);
                 setTimeout(() => { window.location.reload(); }, 100);
             } catch (error) {
                 utils.notify({

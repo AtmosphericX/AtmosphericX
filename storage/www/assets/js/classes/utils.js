@@ -558,6 +558,7 @@ class Utils {
                     return {
                         primary: selected.primary ?? defColors.primary,
                         secondary: selected.secondary ?? defColors.secondary,
+                        event: themes[0],
                         default: false
                     };
                 }
@@ -565,6 +566,7 @@ class Utils {
                 return {
                     primary: defaultTheme.primary ?? defColors.primary,
                     secondary: defaultTheme.secondary ?? defColors.secondary,
+                    event: `---`,
                     default: true
                 };
             }
@@ -573,6 +575,7 @@ class Utils {
                 return {
                     primary: selected.primary ?? defColors.primary,
                     secondary: selected.secondary ?? defColors.secondary,
+                    event: eventType,
                     default: false
                 };
             }
@@ -580,6 +583,7 @@ class Utils {
             return {
                 primary: defaultTheme.primary ?? defColors.primary,
                 secondary: defaultTheme.secondary ?? defColors.secondary,
+                event: `Miscellaneous`,
                 default: true
             };
         } catch (error) {

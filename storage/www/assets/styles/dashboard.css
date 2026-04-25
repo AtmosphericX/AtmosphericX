@@ -23,21 +23,65 @@
 /* ---------------- DASHBOARD ROOT PROPERTIES ---------------- */
 :root { 
     --sidebar-width: 280px;
+    --dash-gap: 16px;
+    --dash-radius: 14px;
+    --dash-radius-lg: 18px;
+    --dash-border: 1px solid rgba(255,255,255,0.1);
+    --dash-shadow: 0 6px 16px rgba(0,0,0,0.24), inset 0 1px 0 rgba(255,255,255,0.03);
 }
 
 /* ---------------- GLOBAL / GENERIC PROPERTIES  ---------------- */
 * { margin: 0;  padding: 0; box-sizing: border-box; }
 
+html {
+    scrollbar-gutter: stable;
+}
+
 body { background: var(--clr-surface-tonal-a10); min-height: 100vh; color: var(--clr-neutral-a0); }
+
+/* ---------------- MAIN PAGE SCROLLBAR ---------------- */
+html,
+body {
+    scrollbar-width: thin;
+    overflow-x: hidden;
+    scrollbar-color: rgba(255,255,255,0.34) transparent;
+}
+html::-webkit-scrollbar,
+body::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+}
+html::-webkit-scrollbar-track,
+body::-webkit-scrollbar-track {
+    background: transparent;
+    border-radius: 999px;
+}
+html::-webkit-scrollbar-thumb,
+body::-webkit-scrollbar-thumb {
+    background: rgba(255,255,255,0.3);
+    border-radius: 999px;
+    border: 2px solid rgba(0,0,0,0);
+    background-clip: content-box;
+}
+html::-webkit-scrollbar-thumb:hover,
+body::-webkit-scrollbar-thumb:hover {
+    background: rgba(255,255,255,0.5);
+    background-clip: content-box;
+}
+html::-webkit-scrollbar-corner,
+body::-webkit-scrollbar-corner {
+    background: transparent;
+}
 
 /* ---------------- ANNOUNCEMNT PROPERTIES ---------------- */
 .announcement { 
-    margin-left: var(--sidebar-width); /* push content to right of sidebar */
+    margin-left: var(--sidebar-width);
     padding: 12px 20px;
     text-align: center;
     background: var(--clr-surface-tonal-a0);
     box-shadow: 4px 0 20px rgba(0,0,0,0.25);
     border-bottom: 1px solid rgba(255,255,255,0.1);
+    transition: margin 0.6s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
 .announcement .message {
     display: block;
@@ -46,6 +90,7 @@ body { background: var(--clr-surface-tonal-a10); min-height: 100vh; color: var(-
     white-space: nowrap;
     text-overflow: ellipsis;
     margin: 0 auto;
+    
 }
 
 /* ---------------- SIDEBAR PROPERTIES ---------------- */
@@ -58,7 +103,43 @@ body { background: var(--clr-surface-tonal-a10); min-height: 100vh; color: var(-
     flex-direction: column; align-items: center;
     box-shadow: 4px 0 20px rgba(0,0,0,0.25);
     border-right: 1px solid rgba(255,255,255,0.1);
+    z-index: 1300;
+    transition: transform 0.6s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
+.sidebar-open-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 35px;
+    border: none;
+    background: transparent;
+    height: 35px;
+    border-radius: 10px;
+    color: var(--clr-neutral-a20);
+    cursor: pointer;
+    position: fixed;
+    top: 5px;
+    left: 12px;
+    z-index: 1600;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+    transition: left 0.6s cubic-bezier(0.25, 0.8, 0.25, 1), transform 0.5s cubic-bezier(0.25, 0.8, 0.25, 1), background 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+body.sidebar-collapsed .sidebar {
+    transform: translateX(-100%);
+    transition: transform 0.6s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+body.sidebar-collapsed .announcement {
+    margin-left: 0;
+    width: 100%;
+    transition: margin-left 0.6s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+body.sidebar-collapsed .container {
+    margin-left: 0;
+    width: 100%;
+    transition: margin-left 0.6s cubic-bezier(0.25, 0.8, 0.25, 1), width 0.6s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
 .sidebar .logo {
     width: 110px; height: auto;
     margin-bottom: 14px;
@@ -71,6 +152,18 @@ body { background: var(--clr-surface-tonal-a10); min-height: 100vh; color: var(-
 .sidebar .footer {
     margin-top: auto; font-size: 0.75rem;
     opacity: 0.6; text-align: center;
+}
+
+/* ---------------- INPUT PROPERTIES ---------------- */
+.input-search {
+    outline: none;
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 25px;
+}
+
+.form-input:focus {
+    outline: none;
+    border-color: var(--clr-primary-a20);
 }
 
 /* ---------------- NAVIGATION PROPERTIES ---------------- */
@@ -88,6 +181,7 @@ body { background: var(--clr-surface-tonal-a10); min-height: 100vh; color: var(-
     text-decoration: none;
     color: inherit;
     border-radius: 6px;
+    font-size: 0.9rem;
     transition: background 0.2s ease;
 }
 .nav-dropdown {
@@ -100,8 +194,14 @@ body { background: var(--clr-surface-tonal-a10); min-height: 100vh; color: var(-
     justify-content: space-between;
     align-items: center;
     padding: 10px 16px;
+    width: 100%;
+    border: 0;
+    background: transparent;
+    color: inherit;
+    text-align: left;
     cursor: pointer;
     border-radius: 6px;
+    font-size: 0.9rem;
     transition: background 0.2s ease;
 }
 .nav-dropdown-content {
@@ -109,12 +209,11 @@ body { background: var(--clr-surface-tonal-a10); min-height: 100vh; color: var(-
     overflow: hidden;
     display: flex;
     flex-direction: column;
-    transition: max-height 0.3s ease, padding 0.3s ease;
+    transition: max-height 0.25s ease, padding 0.25s ease;
     border-left: 1px solid rgba(255,255,255,0.1);
     border-right: 1px solid rgba(255,255,255,0.1);
 }
 .nav-dropdown.active .nav-dropdown-content {
-    max-height: 500px; /* high enough to fit all items */
     padding-left: 10px;
 }
 .nav-dropdown-header i {
@@ -122,6 +221,10 @@ body { background: var(--clr-surface-tonal-a10); min-height: 100vh; color: var(-
 }
 .nav-dropdown.active .nav-dropdown-header i {
     transform: rotate(180deg);
+}
+.nav-dropdown-header:focus-visible {
+    outline: 2px solid rgba(255,255,255,0.35);
+    outline-offset: 2px;
 }
 
 /* ---------------- NAVIGATION SCROLLBAR PROPERTIES ---------------- */
@@ -134,14 +237,18 @@ body { background: var(--clr-surface-tonal-a10); min-height: 100vh; color: var(-
 /* ---------------- CONATINER PROPERTIES ---------------- */
 .container {
     margin-left: var(--sidebar-width);
-    padding: 80px 48px 48px; width: calc(100% - var(--sidebar-width));
+    transition: margin-left 0.6s cubic-bezier(0.25, 0.8, 0.25, 1), width 0.6s cubic-bezier(0.25, 0.8, 0.25, 1);
+    padding: 68px 36px 34px; width: calc(100% - var(--sidebar-width));
     min-height: 100vh; display: flex;
-    flex-direction: column; gap: 28px;
+    flex-direction: column; gap: 18px;
     animation: anim_fade_in 1.0s ease;
 }
 .container .title {
-    font-size: 2rem; font-weight: 650;
-    letter-spacing: -0.02em; opacity: 0.95;
+    font-size: clamp(1.65rem, 2.2vw, 2.1rem);
+    font-weight: 700;
+    letter-spacing: -0.025em;
+    line-height: 1.1;
+    opacity: 0.98;
 }
 .container-grid { width: 100%; }
 
@@ -185,26 +292,251 @@ body { background: var(--clr-surface-tonal-a10); min-height: 100vh; color: var(-
 /* ---------------- GRID STAT CARD ---------------- */
 .stat-card {
     background: var(--clr-surface-tonal-a0);
-    border-radius: 16px; padding: 22px;
-    border: 1px solid rgba(255,255,255,0.1);
-    box-shadow: 0 6px 14px rgba(0,0,0,0.28), inset 0 1px 0 rgba(255,255,255,0.03);
-    display: flex; flex-direction: column; gap: 14px;
-    overflow-y: scroll; scrollbar-width: thin; scrollbar-color: rgba(255,255,255,0.0) transparent;
-    height: calc(100% - 50px);
+    border-radius: var(--dash-radius);
+    padding: clamp(14px, 1.8vw, 20px);
+    border: var(--dash-border);
+    box-shadow: var(--dash-shadow);
+    display: flex; flex-direction: column; gap: 10px;
+    overflow: hidden;
+    min-height: clamp(96px, 11vw, 120px);
+    height: 100%;
+    justify-content: space-between;
+    transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
+    content-visibility: auto;
+}
+.stat-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 22px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.03);
+    border-color: rgba(255,255,255,0.2);
 }
 .stat-card .stat-left {
     display: flex;
     flex-direction: column;
-    gap: 2px;
+    gap: 5px;
     min-width: 0;
 }
 .stat-card .stat-title {
-    font-size: 1rem; font-weight: 600;
-    letter-spacing: 0.2px;
+    font-size: clamp(0.68rem, 0.82vw, 0.8rem);
+    font-weight: 700;
+    letter-spacing: 0.48px;
+    text-transform: uppercase;
+    opacity: 0.7;
+    text-wrap: balance;
+    overflow-wrap: anywhere;
 }
 .stat-card .stat-value {
-    font-size: 0.9rem; opacity: 0.85;
-    line-height: 1.5;
+    font-size: clamp(1.4rem, 2.1vw, 1.9rem);
+    line-height: 1.95;
+    font-weight: 700;
+    opacity: 0.97;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: -0.02em;
+    overflow-wrap: anywhere;
+}
+
+.stat-card.span-2 {
+    padding: 12px 12px 10px;
+    gap: 8px;
+    min-height: 98px;
+}
+
+.stat-card.span-2 .stat-left {
+    gap: 3px;
+}
+
+.stat-card.span-2 .stat-title {
+    font-size: 0.63rem;
+    line-height: 1.15;
+    letter-spacing: 0.38px;
+    white-space: normal;
+    overflow-wrap: anywhere;
+}
+
+.stat-card.span-2 .stat-value {
+    font-size: clamp(1.1rem, 1.65vw, 1.5rem);
+}
+
+/* ---------------- DASHBOARD DATA CARD ---------------- */
+.dashboard-data-card {
+    padding: 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    min-height: auto;
+    height: auto;
+}
+
+.dashboard-section-meta {
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.4px;
+    text-transform: uppercase;
+    opacity: 0.7;
+}
+
+.dashboard-data-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+}
+
+.dashboard-data-item {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 12px;
+    padding: 12px 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    min-width: 0;
+}
+
+.dashboard-data-item-wide {
+    grid-column: span 2;
+}
+
+.dashboard-data-label {
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.45px;
+    text-transform: uppercase;
+    opacity: 0.68;
+}
+
+.dashboard-data-value {
+    font-size: clamp(1rem, 1.6vw, 1.35rem);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    line-height: 1.05;
+    overflow-wrap: anywhere;
+}
+
+/* ---------------- DASHBOARD SIDE LAYOUT ---------------- */
+.dashboard-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) clamp(280px, 24vw, 330px);
+    gap: var(--dash-gap);
+    width: 100%;
+    align-items: start;
+}
+
+.dashboard-main {
+    min-width: 0;
+}
+
+.dashboard-main .grid {
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    grid-auto-rows: minmax(110px, auto);
+    gap: var(--dash-gap);
+}
+
+/* ---------------- ADDITIONAL INFO PANEL ---------------- */
+.dashboard-info-panel {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: stretch;
+    width: clamp(280px, 24vw, 330px);
+    justify-self: end;
+    align-self: start;
+    padding-top: 0;
+    border: var(--dash-border);
+    background: var(--clr-surface-tonal-a0);
+    box-shadow: 0 10px 22px rgba(0,0,0,0.25), inset 0 1px 0 rgba(255,255,255,0.03);
+    overflow: clip;
+    padding: 12px;
+    border-radius: 10px;
+}
+
+.discord-panel {
+    width: 100%;
+    padding: 8px;
+    background: transparent;
+    box-shadow: none;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    overflow: hidden;
+    animation: discord_panel_fade 0.35s ease;
+}
+
+.discord-panel-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+.discord-panel-title {
+    font-size: 0.92rem;
+    font-weight: 700;
+    letter-spacing: 0.2px;
+    opacity: 0.95;
+}
+
+.discord-panel-subtitle {
+    font-size: 0.78rem;
+    line-height: 1.45;
+    opacity: 0.72;
+}
+
+.discord-iframe {
+    border: 0;
+    display: block;
+    width: 100%;
+    height: clamp(340px, 50vh, 420px);
+    max-width: 100%;
+}
+
+.discord-right {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    padding: 4px;
+    border-radius: 10px;
+    border: 1px solid rgba(255,255,255,0.08);
+    background: rgba(255,255,255,0.02);
+}
+
+.discord-panel-actions {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+.btn-discord {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 36px;
+    padding: 8px 14px;
+    border-radius: 10px;
+    color: white;
+    text-decoration: none;
+    font-size: 0.82rem;
+    font-weight: 650;
+    letter-spacing: 0.2px;
+}
+
+
+.discord-join-btn:focus-visible,
+.nav-link:focus-visible,
+.nav-dropdown-header:focus-visible,
+.dashboard-info-panel a:focus-visible {
+    outline: 2px solid rgba(255,255,255,0.5);
+    outline-offset: 2px;
+}
+
+@keyframes discord_panel_fade {
+    from {
+        opacity: 0;
+        transform: translateY(6px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 /* ---------------- PROMPT BACKDROP ---------------- */
@@ -389,8 +721,19 @@ body { background: var(--clr-surface-tonal-a10); min-height: 100vh; color: var(-
 
 /* ---------------- RESPONSIVE / MOBILE MEDIA ---------------- */
 @media (max-width: 1200px) {
-    .sidebar { display: none; }
-    .container { margin-left: 0; width: 100%; padding: 20px 24px; }
+    .sidebar {
+        display: flex;
+        transform: translateX(-100%);
+    }
+    body.sidebar-open .sidebar {
+        transform: translateX(0);
+    }
+    .sidebar-open-btn {
+        left: 12px;
+        top: 1px;
+    }
+
+    .container { margin-left: 0; width: 100%; padding: 18px 22px; gap: 16px; }
     .announcement { margin-left: 0; width: 100%; }
     .announcement .message { font-size: 0.5rem; }
     .stat-card {
@@ -399,6 +742,54 @@ body { background: var(--clr-surface-tonal-a10); min-height: 100vh; color: var(-
     .grid {
         grid-template-columns: 1fr;
         grid-auto-rows: auto;
+    }
+    .dashboard-layout {
+        grid-template-columns: 1fr;
+        gap: 14px;
+    }
+    .dashboard-main .grid {
+        grid-template-columns: 1fr;
+    }
+    .dashboard-main .grid > * {
+        grid-column: 1 / -1 !important;
+    }
+    .dashboard-info-panel {
+        position: static;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        align-items: stretch;
+        margin-right: 0;
+        border-radius: 14px;
+        padding: 10px;
+        min-height: auto;
+    }
+    .discord-right {
+        width: 100%;
+        justify-content: center;
+    }
+    .discord-panel-actions {
+        justify-content: center;
+    }
+    .discord-join-btn {
+        width: 100%;
+        max-width: 220px;
+    }
+    .discord-panel {
+        width: min(100%, 460px);
+        margin-left: auto;
+        margin-right: auto;
+    }
+    .discord-iframe {
+        width: min(100%, 420px);
+        height: clamp(320px, 52vh, 420px);
+    }
+    .dashboard-data-grid {
+        grid-template-columns: 1fr;
+    }
+    .dashboard-data-item-wide {
+        grid-column: span 1;
     }
     .span-3, .span-4, .span-6, .span-8, .span-9, .span-12 {
         grid-column: span 1 !important;
@@ -414,5 +805,35 @@ body { background: var(--clr-surface-tonal-a10); min-height: 100vh; color: var(-
     .prompt-actions {
         padding-left: 14px;
         padding-right: 14px;
+    }
+}
+
+@media (max-width: 780px) {
+    .container {
+        padding: 16px 14px;
+        gap: 12px;
+    }
+    .container .title {
+        font-size: 1.6rem;
+    }
+    .dashboard-main .grid {
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+    .dashboard-main .grid > * {
+        grid-column: 1 / -1 !important;
+    }
+    .dashboard-data-grid {
+        grid-template-columns: 1fr;
+    }
+    .dashboard-data-item-wide {
+        grid-column: span 1;
+    }
+    .stat-card {
+        min-height: 96px;
+        border-radius: 12px;
+    }
+    .stat-card .stat-value {
+        font-size: 1.62rem;
     }
 }

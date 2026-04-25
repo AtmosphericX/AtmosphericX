@@ -1,5 +1,28 @@
 # Changelogs
 
+## Apr 25th, 2026 - 8.0.0.4
+
+**Features**
+- frontend(dashboard): Dashboard redirect now actually goes to a proper dashboard landing page. (In Developement)
+- dashboard(boilerplate): Handles the primary dashboard user experince design.
+- widgets(cards): Added `nosleep.js` (local) to prevent iOS and other mobile devices from sleeping.
+- dashboard(scripts): Ability to dynamically create notification pop ups.
+- dashboard(storage): `session_username` and other important settings are now dynamically created upon loading the dashboard.
+
+**Updating**
+- dict(strings): Changed dashboard direction for both dev and home routes.
+- frontend(login): Upon a successful login, the `session_username` storage key is set to the username used.
+- frontend(dashboard): Updated dashboard navigation logic.
+
+**To Do**
+- dashboard(global): Work on other dashboard sections and use a similar design style for all.
+- dashboard(scripts): Improve script performance and maintainability.
+- dashboard(scripts): Ability to dynamically create data and stat cards through JS
+- backend(cameras): Add support for getting camera feeds from `scriptkitty.cafe` instead of `RO`
+- backend(tempest): Add the ability to monitor multiple tempest stations at once.
+
+------------------------------------------------------------------------------------------------------------------------
+
 ## Apr 20th, 2026 - 8.0.0.3
 
 **Features**

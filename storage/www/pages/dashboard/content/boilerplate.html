@@ -29,15 +29,61 @@
         <div class="announcement" id="announcement">
             <p class="message text-primary text-neutral" id="message"></p>
         </div>
+        <button class="sidebar-open-btn" id="sidebar-open-btn" type="button">
+            <i class="fas fa-bars"></i>
+        </button>
         <aside class="sidebar">
             <img class="logo" src="/assets/images/logo.png" alt="AtmosphericX" />
             <small class="version text-primary text-neutral" id="sidebar-version"></small>
             <div class="nav">
                 <a href="#home" class="nav-link text-neutral hover-light" onclick="dashboard.onUpdate()">Home</a>
-                <div class="nav-dropdown active">
-                    <div class="nav-dropdown-header text-neutral hover-light">TBD <i class="fas fa-chevron-down"></i></div>
-                    <div class="nav-dropdown-content">
-                        <a href="#TBD" class="nav-link text-neutral hover-light" onclick="dashboard.onUpdate()">TBD</a>
+                <div class="nav-dropdown">
+                    <button class="nav-dropdown-header text-neutral hover-light" type="button" aria-expanded="true" aria-controls="nav-dropdown">
+                        <span>Monitoring</span>
+                        <i class="fas fa-chevron-down" aria-hidden="true"></i>
+                    </button>
+                    <div class="nav-dropdown-content" id="nav-dropdown">
+                        <a href="#events" class="nav-link text-neutral hover-light" onclick="dashboard.onUpdate()">Active Events</a>
+                        <a href="#lsr" class="nav-link text-neutral hover-light" onclick="dashboard.onUpdate()">Local Storm Reports</a>
+                        <a href="#discussions" class="nav-link text-neutral hover-light" onclick="dashboard.onUpdate()">Discussions</a>
+                        <a href="#cimss" class="nav-link text-neutral hover-light" onclick="dashboard.onUpdate()">CIMSS ProbSevere</a>  
+                        <a href="#spotters" class="nav-link text-neutral hover-light" onclick="dashboard.onUpdate()">Spotter Network</a>
+                        <a href="#streams" class="nav-link text-neutral hover-light" onclick="dashboard.onUpdate()">Streams (Live)</a>
+                        <a href="#streams" class="nav-link text-neutral hover-light" onclick="dashboard.onUpdate()">NOAA Weather Radios (Live)</a>
+                    </div>
+                </div>
+                <div class="nav-dropdown">
+                    <button class="nav-dropdown-header text-neutral hover-light" type="button" aria-expanded="true" aria-controls="nav-dropdown">
+                        <span>Forecasting</span>
+                        <i class="fas fa-chevron-down" aria-hidden="true"></i>
+                    </button>
+                    <div class="nav-dropdown-content" id="nav-dropdown">
+                        <a href="#forecasting-tools" class="nav-link text-neutral hover-light" onclick="dashboard.onUpdate()">External Forecasting Tools</a>
+                        <a href="#spc-outlooks" class="nav-link text-neutral hover-light" onclick="dashboard.onUpdate()">SPC Outlooks</a>
+                    </div>
+                </div>
+                <div class="nav-dropdown">
+                    <button class="nav-dropdown-header text-neutral hover-light" type="button" aria-expanded="true" aria-controls="nav-dropdown">
+                        <span>Settings</span>
+                        <i class="fas fa-chevron-down" aria-hidden="true"></i>
+                    </button>
+                    <div class="nav-dropdown-content" id="nav-dropdown">
+                        <a href="#widget-control" class="nav-link text-neutral hover-light" onclick="dashboard.onUpdate()">Event Controller</a>
+                        <a href="#system-metrics" class="nav-link text-neutral hover-light" onclick="dashboard.onUpdate()">System Metrics</a>
+                        <a href="#" class="nav-link text-neutral hover-light" onclick="dashboard.onUpdate()">Toggle Event Alerts</a>
+                        <a href="#" class="nav-link text-neutral hover-light" onclick="dashboard.onUpdate()">Toggle Event Notifications</a>
+                        <a href="#" class="nav-link text-neutral hover-light" onclick="dashboard.onUpdate()">Logout</a>
+                    </div>
+                </div>
+                <div class="nav-dropdown">
+                    <button class="nav-dropdown-header text-neutral hover-light" type="button" aria-expanded="true" aria-controls="nav-dropdown">
+                        <span>Resources</span>
+                        <i class="fas fa-chevron-down" aria-hidden="true"></i>
+                    </button>
+                    <div class="nav-dropdown-content" id="nav-dropdown">
+                        <a href="/docs" class="nav-link text-neutral hover-light" onclick="dashboard.onUpdate()">Documentation</a>
+                        <a href="https://github.com/AtmosphericX" class="nav-link text-neutral hover-light" onclick="dashboard.onUpdate()">Github</a>
+                        <a href="https://ko-fi.com/k3yomi" class="nav-link text-neutral hover-light" onclick="dashboard.onUpdate()">Donate</a>
                     </div>
                 </div>
             </div>

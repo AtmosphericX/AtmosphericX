@@ -38,6 +38,7 @@
         <script src="/assets/js/classes/widgets.js" defer></script> 
         <script src="/assets/js/static/parameters.js" defer></script>
         <script src="/assets/js/static/subscriptions.js" defer></script>
+        <script src="/assets/js/scripts/nosleep.js" defer></script>
     </head>
     <style>
         * {
@@ -101,7 +102,9 @@
             settings.setWx = get(aSearch, `setWx`) ?? true;
             settings.setPulsePoint = get(aSearch, `setPulsePoint`) ?? false;
 
+            const sleep = new NoSleep();
             utils.getMobileDevice()
+            sleep.enable();
             utils.socket([SUB.CONFIGURATIONS, ...iEventSubscriptions()]).then(() => {
                 document.addEventListener('onUpdate', async (event) => {
                     try { 

@@ -1,27 +1,95 @@
 <h1 id="welcome-title" class="title text-primary text-neutral">Welcome to AtmosphericX</h1>
-<div class="grid span-4">
-    <div class="stat-card span-3">
-        <div class="stat-left">
-            <div class="stat-title">Active Warnings</div>
-            <div id="total-warnings" class="stat-value">0</div>
+<div class="dashboard-layout">
+    <div class="dashboard-main">
+        <div class="grid">
+            <div class="stat-card span-3">
+                <div class="stat-left">
+                    <div class="stat-title">Active Warnings</div>
+                    <div id="total-warnings" class="stat-value">0</div>
+                </div>
+            </div>
+            <div class="stat-card span-3">
+                <div class="stat-left">
+                    <div class="stat-title">Active Watches</div>
+                    <div id="total-watches" class="stat-value">0</div>
+                </div>
+            </div>
+            <div class="stat-card span-3">
+                <div class="stat-left">
+                    <div class="stat-title">Active Statements</div>
+                    <div id="total-statements" class="stat-value">0</div>
+                </div>
+            </div>
+            <div class="stat-card span-3">
+                <div class="stat-left">
+                    <div class="stat-title">Active Advisories</div>
+                    <div id="total-advisories" class="stat-value">0</div>
+                </div>
+            </div>
+            <div class="stat-card span-12">
+                <div class="stat-left">
+                    <div class="stat-title">Highest Priorty Event</div>
+                    <div id="highest-priority-event" class="stat-value">---</div>
+                </div>
+            </div>
+            <section class="card dashboard-data-card span-12">
+                <div class="card-header">
+                    <div>
+                        <div class="card-title">Nodes & Mesonet Data</div>
+                    </div>
+                    <span id="current-tracking-node" class="dashboard-section-meta">---</span>
+                </div>
+                <div class="dashboard-data-grid">
+                    <div class="dashboard-data-item dashboard-data-item-wide">
+                        <span class="dashboard-data-label">Current Location</span>
+                        <strong id="current-location" class="dashboard-data-value">---</strong>
+                    </div>
+                    <div class="dashboard-data-item dashboard-data-item-wide">
+                        <span class="dashboard-data-label">Current Conditions</span>
+                        <strong id="current-conditions" class="dashboard-data-value">---</strong>
+                    </div>
+                    <div class="dashboard-data-item">
+                        <span class="dashboard-data-label">Wind Speed (MPH)</span>
+                        <strong id="current-wind-speed" class="dashboard-data-value">---</strong>
+                    </div>
+                    <div class="dashboard-data-item">
+                        <span class="dashboard-data-label">Temperature (F)</span>
+                        <strong id="current-temperature" class="dashboard-data-value">---</strong>
+                    </div>
+                    <div class="dashboard-data-item">
+                        <span class="dashboard-data-label">Dew Point (F)</span>
+                        <strong id="current-dew-point" class="dashboard-data-value">---</strong>
+                    </div>
+                    <div class="dashboard-data-item">
+                        <span class="dashboard-data-label">Humidity (%)</span>
+                        <strong id="current-humidity" class="dashboard-data-value">---</strong>
+                    </div>
+                </div>
+            </section>
         </div>
     </div>
-    <div class="stat-card span-3">
-        <div class="stat-left">
-            <div class="stat-title">Active Watches</div>
-            <div id="total-watches" class="stat-value">0</div>
-        </div>
-    </div>
-    <div class="stat-card span-3">
-        <div class="stat-left">
-            <div class="stat-title">Active Statements</div>
-            <div id="total-statements" class="stat-value">0</div>
-        </div>
-    </div>
-    <div class="stat-card span-3">
-        <div class="stat-left">
-            <div class="stat-title">Active Advisories</div>
-            <div id="total-advisories" class="stat-value">0</div>
-        </div>
-    </div>
+    
+    <aside class="dashboard-info-panel">
+        <section class="discord-panel">
+            <div class="discord-panel-header">
+                <h3 class="discord-panel-title">Project AtmosphericX Discord</h3>
+            </div>
+            <p class="discord-panel-subtitle">Join the AtmosphericX server for updates and support.</p>
+            <div class="discord-right">
+                <iframe
+                    src="https://discord.com/widget?id=1358154190437744730&theme=dark"
+                    class="discord-iframe"
+                    title="AtmosphericX Discord Server"
+                    referrerpolicy="strict-origin-when-cross-origin"
+                    loading="lazy"
+                    sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts"
+                ></iframe>
+            </div>
+            <div class="discord-panel-actions">
+                <a class="btn-discord btn-primary bg-info hover" href="https://atmosphericx-discord.scriptkitty.cafe" target="_blank" rel="noopener noreferrer" >
+                    Join Discord
+                </a>
+            </div>
+        </section>
+    </aside>
 </div>

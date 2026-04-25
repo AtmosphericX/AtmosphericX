@@ -2,7 +2,7 @@
 layout: home
 hero:
   name: "AtmosphericX"
-  tagline: "8.0.0.3"
+  tagline: "8.0.0.4"
   image:
     src: /logo.png
     alt: AtmosphericX Logo
