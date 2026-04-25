@@ -137,7 +137,6 @@ export class Init {
             const configurations = loader.modules.utilities.cfg();
             const options = configurations.websocket_settings;
             const currentTime = Date.now();
-            let isDataAwaiting = false;
             if (!Array.isArray(data)) { return; }
             if (!client.hasSubscribed) { return; }
             if (data[0] == `*`) {
@@ -154,13 +153,12 @@ export class Init {
                     ? options.secondary_sockets.timeout : this.default_timeout_ms / 1_000;
                 const ms = timeout * 1_000;
                 if (currentTime - client.requests[request].unix < ms) {
-                    return 
+                    return;
                 }
                 if (client.hashes[request] === hash) {
                     return;
                 }
                 client.hashes[request] = hash;
-                isDataAwaiting = true;
                 client.requests[request].unix = currentTime;
                 try { 
                     socket.send(JSON.stringify({ type: this.types.onSubscription, message: cache, value: request }));
@@ -168,7 +166,6 @@ export class Init {
                     loader.modules.utilities.exception(error, this.name_space + `.onClientRequest`);
                 }
             });
-            if (!isDataAwaiting) { return; }
             socket.send(JSON.stringify({ type: this.types.onFinished, message: getMessages.websocket_update_success }));
         } catch (error) {
             loader.modules.utilities.exception(error, this.name_space + `.onClientRequest`);
