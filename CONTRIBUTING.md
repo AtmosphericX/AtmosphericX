@@ -11,6 +11,8 @@ At this time, contributions are limited to:
 - **Clarity Improvements** – Improve explanations in plain English.  
 - **Documentation** – Add helpful content to the documentation.
 
+> Please keep in mind this project uses TypeScript version `v5.9.3`
+
 ## What Will Not Be Accepted
 
 - Content that introduces new packages.  
