@@ -38,7 +38,7 @@ export class Init {
                 const { username, password } = await loader.modules.routing.getRequestBody(request);
                 const isProtected = loader.modules.routing.isAccountProtectionActivated(username);
                 const isValidRequest = await loader.modules.routing.isAccountRequestValid(username, password);
-                if (username && password == `guest`) { 
+                if (username && password == `Guest`) { 
                     const alias = `Guest-${hex.substring(0, 8)}`;
                     if (!options.is_guest_access_allowed) {
                         return response.status(403).json({ message: getMessages.response_guest_access_disabled });

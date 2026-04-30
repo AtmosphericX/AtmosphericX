@@ -42,8 +42,8 @@ window.addEventListener('DOMContentLoaded', () => {
             let data = {};
             switch (id) { 
                 case 'login': 
-                    data.username = inputs[0].value != "" ? inputs[0].value : "guest";
-                    data.password = inputs[1].value != "" ? inputs[1].value : "guest";
+                    data.username = inputs[0].value != "" ? inputs[0].value : "Guest";
+                    data.password = inputs[1].value != "" ? inputs[1].value : "Guest";
                     break;
                 case 'signup':
                     data.username = inputs[0].value;
@@ -72,6 +72,7 @@ window.addEventListener('DOMContentLoaded', () => {
                     body: JSON.stringify(data)
                 });
                 const result = await response.json();
+                console.log(result)
                 if (!response.ok) {
                     return utils.notify({
                         type: 'error',
@@ -84,7 +85,8 @@ window.addEventListener('DOMContentLoaded', () => {
                     title: "Authentication Success",
                     message: result.message || 'Operation successful! Redirecting...'
                 });
-                window.localStorage.setItem("session_username", data.username);
+                window.localStorage.setItem("dashboard.username", result.username);
+                window.localStorage.setItem("dashboard.role", result.role);
                 setTimeout(() => { window.location.reload(); }, 100);
             } catch (error) {
                 utils.notify({

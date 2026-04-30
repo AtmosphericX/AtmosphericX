@@ -54,10 +54,10 @@ export function cb() {
 
 export function init() {
     const storage = utils?.storage;
-    const getUsername = window.localStorage.getItem("session_username");
+    const getUsername = window.localStorage.getItem("dashboard.username");
     const sessionPrompt = window.localStorage.getItem("dashboard.cached");
     const elements = cd()
-    elements.welcome.innerText = `Welcome to AtmosphericX, ${getUsername}!`;
+    elements.welcome.innerText = `Welcome to AtmosphericX, ${getUsername ?? `Guest`}!`;
     if (!sessionPrompt) {
         PromptsRenderer.CreatePrompt({
             title: `AtmosphericX Dashboard Notice`,

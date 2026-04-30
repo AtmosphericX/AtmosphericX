@@ -4,24 +4,27 @@
 
 **Features**
 - frontend(dashboard): Dashboard redirect now actually goes to a proper dashboard landing page. (In Developement)
-- dashboard(boilerplate): Handles the primary dashboard user experince design.
+- frontend(dashboard): Handles the primary dashboard user experince design.
 - widgets(cards): Added `nosleep.js` (local) to prevent iOS and other mobile devices from sleeping.
-- dashboard(scripts): Ability to dynamically create notification pop ups.
-- dashboard(storage): `session_username` and other important settings are now dynamically created upon loading the dashboard.
-- dashboard(core): Enhance dashboard event handling and UI updates with new features and styles
+- frontend(dashboard): Ability to dynamically create notification pop ups.
+- frontend(dashboard): `dashboard.username` and other important settings are now dynamically created upon loading the dashboard.
+- frontend(dashboard): Enhance dashboard event handling and UI updates with new features and styles
 
 **Updating**
 - dict(strings): Changed dashboard direction for both dev and home routes.
-- frontend(login): Upon a successful login, the `session_username` storage key is set to the username used.
+- frontend(login): Upon a successful login, the `dashboard.username` storage key is set to the username used.
 - frontend(dashboard): Updated dashboard navigation logic.
 - frontend(styles): `app.css` now includes additional `span` and `row` values
 - frontend(utils): `getEventColor` now includes the event name in the table.
 - widgets(cards): Added setPolywarnTTS parameter values to announce polywarn updates.
+- backend(login): Added result username and role to the login response.
+- backend(login): Changed `guest` -> `Guest`
+- frontend(dashboard): If no name is found within `dashboard.username` default to Guest
 
 **To Do**
-- dashboard(global): Work on other dashboard sections and use a similar design style for all.
-- dashboard(scripts): Improve script performance and maintainability.
-- dashboard(scripts): Ability to dynamically create data and stat cards through JS
+- frontend(dashboard): Work on other dashboard sections and use a similar design style for all.
+- frontend(dashboard): Improve script performance and maintainability.
+- frontend(dashboard): Ability to dynamically create data and stat cards through JS
 - backend(cameras): Add support for getting camera feeds from `scriptkitty.cafe` instead of `RO`
 - backend(tempest): Add the ability to monitor multiple tempest stations at once.
 

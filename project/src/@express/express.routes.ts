@@ -263,7 +263,7 @@ export class Routes {
             if (loader.cache.internal.login_attempts[username]) {
                 delete loader.cache.internal.login_attempts[username];
             }
-            return response.status(200).json({ message: getMessages.response_login_success });
+            return response.status(200).json({ message: getMessages.response_login_success, role, username})
         } catch (error) {
             loader.modules.utilities.exception(error, this.name_space + `.createUserSession`)
             return response.status(500).json({ message: getMessages.response_generic_error });
