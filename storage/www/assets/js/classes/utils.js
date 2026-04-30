@@ -129,7 +129,8 @@ class Utils {
         try {
             const { title = 'Alert', message = 'Notification', type = 'info', duration = 5000 } = options;
             if (!message) return;
-            this.log(`[${type.toUpperCase()}] ${message}`);
+            const normalizedMessage = `${message}`.replace(/\\n/g, '\n');
+            this.log(`[${type.toUpperCase()}] ${normalizedMessage}`);
             const container = document.querySelector('.notifications');
             if (!container) return;
             if (container.children.length >= 4) {
@@ -145,7 +146,7 @@ class Utils {
                 notify.appendChild(notifyTitle);
             const notifyMessage = document.createElement('p');
                 notifyMessage.classList.add('notification-message');
-                notifyMessage.textContent = message;
+                notifyMessage.textContent = normalizedMessage;
                 notify.appendChild(notifyMessage);
                 container.appendChild(notify);
             const removeNotify = () => {
@@ -434,42 +435,48 @@ class Utils {
      * 
      * @return {void}
      */
-    getMobileDevice = function() {
-        try {
-            const UAs = [/Android/i, /webOS/i, /iPhone/i, /iPad/i, /iPod/i, /BlackBerry/i, /Windows Phone/i];
-            const isMobileUA = UAs.some(ua => navigator.userAgent.match(ua));
-            if (isMobileUA) {
-                this.notify({ 
-                    type: 'info',
-                    title: "Permissions", 
-                    message: 'Mobile device detected. Please enable audio playback. If this prompt appeared in OBS, please increase the browser size.', 
-                    duration: 10000 
-                });
-                this.isMobile = true;
-                const forceInt = document.createElement('button');
-                const data = `data:audio/mpeg;base64,SUQzBAAAAAAAI1RTU0UAAAAPAAADTGF2ZjU4Ljc2LjEwMAAAAAAAAAAAAAAA/+M4wAAAAAAAAAAAAEluZm8AAAAPAAAAAwAAAbAAqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV////////////////////////////////////////////AAAAAExhdmM1OC4xMwAAAAAAAAAAAAAAACQDkAAAAAAAAAGw9wrNaQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/+MYxAAAAANIAAAAAExBTUUzLjEwMFVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV/+MYxDsAAANIAAAAAFVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV/+MYxHYAAANIAAAAAFVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV`;
-                forceInt.classList.add('mobile-confirm');
-                forceInt.innerText = 'Enable playback';
-                document.body.appendChild(forceInt);
-                forceInt.addEventListener('click', async () => {
-                    this.audioChannels = [];
-                    this.isAudioPlayable = true;
-                    for (let i = 0; i < 6; i++) {
-                        const audioChannel = new Audio();
-                        audioChannel.src = data;
-                        audioChannel.volume = 0.5;
-                        audioChannel.play();
-                        this.audioChannels.push(audioChannel);
-                    }
-                    this.getSilentChannel();
-                    this.log(`Initialized ${this.audioChannels.length} audio channels for mobile`);
-                    this.tts('', 0.8);
-                    forceInt.remove();
-                });
+    getMobileDevice = async function() {
+        return new Promise((resolve) => {
+            try {
+                const UAs = [/Android/i, /webOS/i, /iPhone/i, /iPad/i, /iPod/i, /BlackBerry/i, /Windows Phone/i];
+                const isMobileUA = UAs.some(ua => navigator.userAgent.match(ua));
+                if (isMobileUA) {
+                    this.notify({ 
+                        type: 'info',
+                        title: "Permissions", 
+                        message: 'Mobile device detected. Please enable audio playback. If this prompt appeared in OBS, please increase the browser size.', 
+                        duration: 10000 
+                    });
+                    this.isMobile = true;
+                    const forceInt = document.createElement('button');
+                    const data = `data:audio/mpeg;base64,SUQzBAAAAAAAI1RTU0UAAAAPAAADTGF2ZjU4Ljc2LjEwMAAAAAAAAAAAAAAA/+M4wAAAAAAAAAAAAEluZm8AAAAPAAAAAwAAAbAAqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV////////////////////////////////////////////AAAAAExhdmM1OC4xMwAAAAAAAAAAAAAAACQDkAAAAAAAAAGw9wrNaQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/+MYxAAAAANIAAAAAExBTUUzLjEwMFVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV/+MYxDsAAANIAAAAAFVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV/+MYxHYAAANIAAAAAFVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV`;
+                    forceInt.classList.add('mobile-confirm');
+                    forceInt.innerText = 'Enable playback';
+                    document.body.appendChild(forceInt);
+                    forceInt.addEventListener('click', async () => {
+                        this.audioChannels = [];
+                        this.isAudioPlayable = true;
+                        for (let i = 0; i < 6; i++) {
+                            const audioChannel = new Audio();
+                            audioChannel.src = data;
+                            audioChannel.volume = 0.5;
+                            audioChannel.play();
+                            this.audioChannels.push(audioChannel);
+                        }
+                        this.getSilentChannel();
+                        this.log(`Initialized ${this.audioChannels.length} audio channels for mobile`);
+                        this.tts('', 0.8);
+                        forceInt.remove();
+                        resolve()
+                    });
+                    return;
+                }
+                resolve()
+            } catch (error) {
+                this.exception(error, `${this.name_space}:getMobileDevice`);
+                resolve();
             }
-        } catch (error) {
-            this.exception(error, `${this.name_space}:getMobileDevice`);
-        }
+        })
     }
   
     /**
@@ -712,6 +719,33 @@ class Utils {
         } catch (error) {
             this.exception(error, `${this.name_space}:tts`);
         }
+    }
+
+    /**
+     * @production
+     * @function stopsounds
+     * @description
+     *      Stops all currently playing sounds and clears the audio queue.
+     * 
+     * @return {void}
+     */
+    stopsounds = function() {
+        if (window.speechSynthesis) {
+            window.speechSynthesis.cancel();
+        }
+        const activeAudio = [...new Set([...(this?.audioQueue || []), ...(this?.audioChannels || [])])];
+        activeAudio.forEach((audio) => {
+            try {
+                audio.onended = null;
+                audio.pause?.();
+                audio.currentTime = 0;
+                audio.removeAttribute?.('src');
+                audio.load?.();
+            } catch (error) {
+                this.exception(error, `${this.name_space}:stopsounds`);
+            }
+        });
+        this.audioQueue = [];
     }
 
     /**

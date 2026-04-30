@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <!-- Metadata -->
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="yes">
+        <link rel="icon" href="/assets/images/favicon.ico" type="image/x-icon"/>
+        <link rel="manifest" href="/assets/static/manifest.json">
+        <link rel="apple-touch-icon" href="/assets/images/manifest.png">
+        <title>AtmosphericX - Dashboard</title>
+
+        <!-- CSS -->
+        <link rel="stylesheet" href="/assets/styles/global.css" />
+        <link rel="stylesheet" href="/assets/styles/notification.css"/>
+        <link rel="stylesheet" href="/assets/styles/app.css" />
+        <link rel="stylesheet" href="/dashboard/styles/dashboard.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"/>
+
+        <!-- JS -->
+        <script src="/assets/js/classes/utils.js"></script>
+        <script src="/assets/js/classes/events.js"></script>
+        
+        <!-- Dashboard Core Functions -->
+        <script src="/dashboard/scripts/core.js" defer></script>
+       
+    </head>
+    <body>
+        <div class="graph-bg"></div>
+        <div class="notifications"></div>
+        <div class="announcement" id="announcement">
+            <p class="message text-primary text-neutral" id="message"></p>
+        </div>
+        <button class="sidebar-open-btn" id="sidebar-open-btn" type="button">
+            <i class="fas fa-bars"></i>
+        </button>
+        <aside class="sidebar">
+            <img class="logo" src="/assets/images/logo.png" alt="AtmosphericX" />
+            <small class="version text-primary text-neutral" id="sidebar-version"></small>
+            <div class="nav" id="nav-render"></div>
+            <small class="footer text-primary text-neutral" id="sidebar-footer">Created with ❤️ by the AtmosphericX Team</small>
+        </aside>
+        <main class="container" id="container"></main>
+    </body>
+    <script>
+        const utils = new Utils();
+        const handler = new Events(utils);
+    </script>
+</html>

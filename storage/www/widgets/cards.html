@@ -86,7 +86,7 @@
     </body>
     <script>
         window.addEventListener('DOMContentLoaded', () => {
-            let cache = {};
+            let cache = { hashes: [] };
             const settings = {global: aGlobalElementSettings};
             const utils = new Utils();
             const widgets = new Widgets(utils);
@@ -101,6 +101,8 @@
             settings.setSfxVolume = get(aSearch, `setSfxVolume`) ?? 0.5;
             settings.setWx = get(aSearch, `setWx`) ?? true;
             settings.setPulsePoint = get(aSearch, `setPulsePoint`) ?? false;
+            settings.setPolywarnTTS = get(aSearch, `setPolywarnTTS`) ?? true;
+            settings.setSearch = get(aSearch, `setSearch`) ?? null;
 
             const sleep = new NoSleep();
             utils.getMobileDevice()
@@ -119,23 +121,28 @@
                         features.sort((a, b) => new Date(a?.properties?.issued) - new Date(b?.properties?.issued));
                         for (const feature of features) {
                             const properties = feature?.properties;
-                            const getMyDistance = properties.imported?.spotters?.[0]?.metadata?.distance;
                             const gTRI = utils.getTimeRelative(new Date(properties?.issued))
                             const gTRE = utils.getTimeRelative(new Date(properties?.expires))
+                            const getHash = properties?.hash ?? JSON.stringify(event)
+                            const getQuery = properties?.imported?.spotters?.find(tracker => tracker.name?.toLowerCase().includes(String(settings.setSearch)?.toLowerCase()));
+                            const getTracker = getQuery ?? properties?.imported?.spotters?.[0];
+                            const getDist = getTracker?.metadata?.distance;
+                            const getUnit = getTracker?.metadata?.unit;
+                            const getInside = getTracking?.metadata?.inside;
                             const card = document.createElement("div");
-                            card.className = "widget-card";
-                            card.innerHTML = `
-                                <div class="widget-card-event">${properties?.event ?? `--`} (${properties?.action_type ?? ``})</div>
-                                <div class="widget-card-meta"><b>Issued:</b> ${new Date(properties?.issued).toLocaleString() ?? `--`} (${gTRI ?? `--`})</div>
-                                <div class="widget-card-meta"><b>Expires:</b> ${new Date(properties?.expires).toLocaleString() ?? `--`} (${gTRE ?? `--`})</div>
-                                <div class="widget-card-meta"><b>Hail:</b> ${properties?.parameters?.max_hail_size ?? `--`}</div>
-                                <div class="widget-card-meta"><b>Wind:</b> ${properties?.parameters?.max_wind_gust ?? `--`}</div>
-                                <div class="widget-card-meta"><b>Tornado:</b> ${properties?.parameters?.tornado_detection ?? `--`}</div>
-                                <div class="widget-card-meta"><b>Damage:</b> ${properties?.parameters?.damage_threat ?? `--`}</div>
-                                <div class="widget-card-meta"><b>Flood:</b> ${properties?.parameters?.flood_detection ?? `--`}</div>
-                                <div class="widget-card-meta"><b>Locations:</b> ${properties?.locations ?? `--`}</div>
-                                <div class="widget-card-meta"><b>Distance:</b> ${properties?.imported?.spotters?.[0]?.metadata?.distance ?? `--`} ${properties?.imported?.spotters?.[0]?.metadata?.unit ?? ``}</div>
-                            `;
+                                card.className = "widget-card";
+                                card.innerHTML = `
+                                    <div class="widget-card-event">${properties?.event ?? `--`} (${properties?.action_type ?? ``})</div>
+                                    <div class="widget-card-meta"><b>Issued:</b> ${new Date(properties?.issued).toLocaleString() ?? `--`} (${gTRI ?? `--`})</div>
+                                    <div class="widget-card-meta"><b>Expires:</b> ${new Date(properties?.expires).toLocaleString() ?? `--`} (${gTRE ?? `--`})</div>
+                                    <div class="widget-card-meta"><b>Hail:</b> ${properties?.parameters?.max_hail_size ?? `--`}</div>
+                                    <div class="widget-card-meta"><b>Wind:</b> ${properties?.parameters?.max_wind_gust ?? `--`}</div>
+                                    <div class="widget-card-meta"><b>Tornado:</b> ${properties?.parameters?.tornado_detection ?? `--`}</div>
+                                    <div class="widget-card-meta"><b>Damage:</b> ${properties?.parameters?.damage_threat ?? `--`}</div>
+                                    <div class="widget-card-meta"><b>Flood:</b> ${properties?.parameters?.flood_detection ?? `--`}</div>
+                                    <div class="widget-card-meta"><b>Locations:</b> ${properties?.locations ?? `--`}</div>
+                                    <div class="widget-card-meta"><b>Distance:</b> ${getDist ?? `--`} ${getUnit ?? ``}</div>
+                                `;
                             container.prepend(card);
                             card.addEventListener('dblclick', () => {
                                 const { lon, lat } = feature?.properties?.imported?.polygon_center;
@@ -150,6 +157,10 @@
                                 const url = `https://www.google.com/maps/dir/?api=1&origin=current+location&destination=${lat},${lon}`;
                                 window.location.href = url;
                             });
+                            if (settings.setPolywarnTTS && getInside && !cache.hashes.includes(getHash)) {
+                                cache.hashes.push(getHash);
+                                utils.tts(`Warning, tracking node has entered a ${properties?.event ?? `Unknown Event`}`)
+                            }
                         }
                         await handler.hSyncQueue(settings);
                     } catch (error) { 

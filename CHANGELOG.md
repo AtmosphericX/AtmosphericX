@@ -8,6 +8,7 @@
 - widgets(cards): Added `nosleep.js` (local) to prevent iOS and other mobile devices from sleeping.
 - dashboard(scripts): Ability to dynamically create notification pop ups.
 - dashboard(storage): `session_username` and other important settings are now dynamically created upon loading the dashboard.
+- dashboard(core): Enhance dashboard event handling and UI updates with new features and styles
 
 **Updating**
 - dict(strings): Changed dashboard direction for both dev and home routes.
@@ -15,6 +16,7 @@
 - frontend(dashboard): Updated dashboard navigation logic.
 - frontend(styles): `app.css` now includes additional `span` and `row` values
 - frontend(utils): `getEventColor` now includes the event name in the table.
+- widgets(cards): Added setPolywarnTTS parameter values to announce polywarn updates.
 
 **To Do**
 - dashboard(global): Work on other dashboard sections and use a similar design style for all.

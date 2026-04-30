@@ -15,6 +15,7 @@
 
 */
 
+
 export function cd() {
     return {
         welcome: document.getElementById(`welcome-title`),
@@ -54,31 +55,32 @@ export function cb() {
 export function init() {
     const storage = utils?.storage;
     const getUsername = window.localStorage.getItem("session_username");
-    const sessionPrompt = window.localStorage.getItem("was_prompted");
+    const sessionPrompt = window.localStorage.getItem("dashboard.cached");
     const elements = cd()
     elements.welcome.innerText = `Welcome to AtmosphericX, ${getUsername}!`;
-
     if (!sessionPrompt) {
-        dashboard.createPrompt({
+        PromptsRenderer.CreatePrompt({
             title: `AtmosphericX Dashboard Notice`,
             message: `The dashboard is currently under development. Not all features may be available at this time.`,
             onSubmit: () => {
-                window.localStorage.setItem("event_alerts", true)
-                window.localStorage.setItem("event_notifications", true)
-                window.localStorage.setItem("was_prompted", true);
-                dashboard.createPrompt({
+                window.localStorage.setItem("dashboard.events.sfx", true)
+                window.localStorage.setItem("dashboard.events.notifications", true)
+                PromptsRenderer.CreatePrompt({
                     title: `Welcome to AtmosphericX v${storage?.version}`,
                     message: `Hello ${getUsername}, thank you for using AtmosphericX! Your feedback and ideas help make this project better with every update. If you’d like to support our work, donations are greatly appreciated and go directly toward streaming, hardware, and software costs that power our storm chasing and future high-quality live streams. If you are not able to donate, feel free to provide feedback and share the project with others!`,        
                     submitText: "Continue",
                     checkboxes: [
-                        { label: "Toggle Event Alerts", checked: true, onChange: (v) => {window.localStorage.setItem("event_alerts", v)} },
-                        { label: "Toggle Event Notifications", checked: true, onChange: (v) => {window.localStorage.setItem("event_notifications", v)} }
+                        { label: "Toggle Event Alerts", checked: true, onChange: (v) => {window.localStorage.setItem("dashboard.events.sfx", v)} },
+                        { label: "Toggle Event Notifications", checked: true, onChange: (v) => {window.localStorage.setItem("dashboard.events.notifications", v)} }
                     ],
                     buttons: [
                         { text: "Documentation", className: "bg-info", onClick: () => {window.open("/documentation", "_blank");}},
                         { text: "Discord", className: "bg-info", onClick: () => {window.open("https://atmosphericx-discord.scriptkitty.cafe", "_blank");}},
                         { text: "Donate", className: "bg-info", onClick: () => {window.open("https://ko-fi.com/k3yomi", "_blank");}},
                     ],
+                    onSubmit: () => {
+                        window.localStorage.setItem("dashboard.cached", true);
+                    }
                 });
             }
         })
