@@ -21,9 +21,10 @@ export const getConfigurations = () => {
     const configurations = loader.modules.utilities.cfg();
     const settings = configurations.streamer_bot_settings;
     if (!settings?.enabled) { return null;}
-    return { 
-        address: settings?.address,
+    return {
+        host: settings?.address,
         port: settings?.port,
+        endpoint: "/",
         password: settings?.password,
         is_bot: settings?.use_bot_account,
         events: settings?.events

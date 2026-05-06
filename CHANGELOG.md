@@ -1,6 +1,6 @@
 # Changelogs
 
-## Apr 25th, 2026 - 8.0.0.4
+## May 6th, 2026 - 8.0.0.4
 
 **Features**
 - frontend(dashboard): Dashboard redirect now actually goes to a proper dashboard landing page. (In Developement)
@@ -20,6 +20,9 @@
 - backend(login): Added result username and role to the login response.
 - backend(login): Changed `guest` -> `Guest`
 - frontend(dashboard): If no name is found within `dashboard.username` default to Guest
+
+**Fixes**
+- issue(74): Fixed `project/src/@dictionaries/@configurations/streamer-bot.ts` (See: https://github.com/AtmosphericX/AtmosphericX/issues/74)
 
 **To Do**
 - frontend(dashboard): Work on other dashboard sections and use a similar design style for all.
