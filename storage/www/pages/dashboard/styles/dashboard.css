@@ -24,10 +24,10 @@
 :root { 
     --sidebar-width: 280px;
     --dash-gap: 16px;
-    --dash-radius: 14px;
-    --dash-radius-lg: 18px;
+    --dash-radius: 5px;
+    --dash-radius-lg: 6px;
     --dash-border: 1px solid rgba(255,255,255,0.1);
-    --dash-shadow: 0 6px 16px rgba(0,0,0,0.24), inset 0 1px 0 rgba(255,255,255,0.03);
+    --dash-shadow: 0 8px 20px rgba(0,0,0,0.32), inset 0 1px 0 rgba(255,255,255,0.03);
 }
 
 /* ---------------- GLOBAL / GENERIC PROPERTIES  ---------------- */
@@ -101,7 +101,7 @@ body::-webkit-scrollbar-corner {
     background: var(--clr-surface-tonal-a0);
     padding: 32px 20px; display: flex;
     flex-direction: column; align-items: center;
-    box-shadow: 4px 0 20px rgba(0,0,0,0.25);
+    box-shadow: 6px 0 24px rgba(0,0,0,0.32);
     border-right: 1px solid rgba(255,255,255,0.1);
     z-index: 1300;
     transition: transform 0.6s cubic-bezier(0.25, 0.8, 0.25, 1);
@@ -114,7 +114,6 @@ body::-webkit-scrollbar-corner {
     border: none;
     background: transparent;
     height: 35px;
-    border-radius: 10px;
     color: var(--clr-neutral-a20);
     cursor: pointer;
     position: fixed;
@@ -158,7 +157,7 @@ body.sidebar-collapsed .container {
 .input-search {
     outline: none;
     border: 1px solid rgba(255,255,255,0.1);
-    border-radius: 25px;
+    border-radius: var(--dash-radius);
 }
 
 .form-input:focus {
@@ -180,7 +179,7 @@ body.sidebar-collapsed .container {
     width: 100%;
     text-decoration: none;
     color: inherit;
-    border-radius: 6px;
+    border-radius: 3px;
     font-size: 0.9rem;
     transition: background 0.2s ease;
 }
@@ -200,7 +199,7 @@ body.sidebar-collapsed .container {
     color: inherit;
     text-align: left;
     cursor: pointer;
-    border-radius: 6px;
+    border-radius: 3px;
     font-size: 0.9rem;
     transition: background 0.2s ease;
 }
@@ -231,7 +230,7 @@ body.sidebar-collapsed .container {
 --webkit-scrollbar { width: 2px; }
 .nav::-webkit-scrollbar { width: 2px; }
 .nav::-webkit-scrollbar-track { background: transparent; }
-.nav::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 4px; }
+.nav::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 2px; }
 .nav::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.2); }
 
 /* ---------------- CONATINER PROPERTIES ---------------- */
@@ -262,9 +261,10 @@ body.sidebar-collapsed .container {
 /* ---------------- CARD PROPERTIES ---------------- */
 .card {
     background: var(--clr-surface-tonal-a0);
-    border-radius: 16px; padding: 22px;
+    border-radius: 6px;
+    padding: 22px;
     border: 1px solid rgba(255,255,255,0.1);
-    box-shadow: 0 6px 14px rgba(0,0,0,0.28), inset 0 1px 0 rgba(255,255,255,0.03);
+    box-shadow: 0 12px 28px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.03);
     display: flex; flex-direction: column; gap: 14px;
     overflow-y: scroll; scrollbar-width: thin; scrollbar-color: rgba(255,255,255,0.0) transparent;
     height: auto;
@@ -279,7 +279,7 @@ body.sidebar-collapsed .container {
 }
 .card-icon {
     width: 34px; height: 34px;
-    border-radius: 10px; display: flex;
+    display: flex;
     align-items: center; justify-content: center;
     background: var(--clr-surface-a20);
     font-size: 0.9rem;
@@ -292,10 +292,10 @@ body.sidebar-collapsed .container {
 /* ---------------- GRID STAT CARD ---------------- */
 .stat-card {
     background: var(--clr-surface-tonal-a0);
-    border-radius: var(--dash-radius);
+    border-radius: 6px;
     padding: clamp(14px, 1.8vw, 20px);
     border: var(--dash-border);
-    box-shadow: var(--dash-shadow);
+    box-shadow: 0 10px 24px rgba(0,0,0,0.38), inset 0 1px 0 rgba(255,255,255,0.03);
     display: flex; flex-direction: column; gap: 10px;
     overflow: hidden;
     min-height: clamp(96px, 11vw, 120px);
@@ -306,7 +306,7 @@ body.sidebar-collapsed .container {
 }
 .stat-card:hover {
     transform: translateY(-3px);
-    box-shadow: 0 10px 22px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.03);
+    box-shadow: 0 14px 32px rgba(0,0,0,0.48), inset 0 1px 0 rgba(255,255,255,0.03);
     border-color: rgba(255,255,255,0.2);
 }
 .stat-card .stat-left {
@@ -383,7 +383,7 @@ body.sidebar-collapsed .container {
 .dashboard-data-item {
     background: rgba(255,255,255,0.03);
     border: 1px solid rgba(255,255,255,0.08);
-    border-radius: 12px;
+    border-radius: 2px;
     padding: 12px 14px;
     display: flex;
     flex-direction: column;
@@ -443,10 +443,10 @@ body.sidebar-collapsed .container {
     padding-top: 0;
     border: var(--dash-border);
     background: var(--clr-surface-tonal-a0);
-    box-shadow: 0 10px 22px rgba(0,0,0,0.25), inset 0 1px 0 rgba(255,255,255,0.03);
+    box-shadow: 0 12px 28px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.03);
     overflow: clip;
     padding: 12px;
-    border-radius: 10px;
+    border-radius: 6px;
 }
 
 .discord-panel {
@@ -494,7 +494,7 @@ body.sidebar-collapsed .container {
     justify-content: center;
     width: 100%;
     padding: 4px;
-    border-radius: 10px;
+    border-radius: 5px;
     border: 1px solid rgba(255,255,255,0.08);
     background: rgba(255,255,255,0.02);
 }
@@ -511,12 +511,13 @@ body.sidebar-collapsed .container {
     justify-content: center;
     min-height: 36px;
     padding: 8px 14px;
-    border-radius: 10px;
+    border-radius: 8px;
     color: white;
     text-decoration: none;
     font-size: 0.82rem;
     font-weight: 650;
     letter-spacing: 0.2px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
 }
 
 
@@ -558,11 +559,11 @@ body.sidebar-collapsed .container {
     flex-direction: column;
     max-height: min(90vh, 720px);
     overflow: hidden;
-    background: linear-gradient(180deg, rgba(28, 28, 32, 0.96), rgba(18, 18, 22, 0.96));
+    background: var(--clr-surface-tonal-a0);
     backdrop-filter: blur(2px);
-    border: 1px solid rgba(255, 255, 255, 0.12);
-    border-radius: 10px;
-    box-shadow: 0 28px 70px rgba(0, 0, 0, 0.72);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 5px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
     flex: 0 1 auto;
     animation: prompt_fade_in 0.18s ease-out;
 }
@@ -591,22 +592,7 @@ body.sidebar-collapsed .container {
     color: rgba(255, 255, 255, 0.9);
 }
 .prompt-close {
-    width: 32px;
-    height: 32px;
-    display: grid;
-    place-items: center;
-    border-radius: 10px;
-    background: rgba(255, 255, 255, 0.04);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    color: rgba(255, 255, 255, 0.88);
-    appearance: none;
-    padding: 0;
-    cursor: pointer;
-    transition: 0.2s ease;
-}
-.prompt-close:hover {
-    background: rgba(255, 255, 255, 0.1);
-    border-color: rgba(255, 255, 255, 0.14);
+    display: none;
 }
 
 /* ---------------- BODY ---------------- */
@@ -628,7 +614,7 @@ body.sidebar-collapsed .container {
     flex-direction: column;
     gap: 8px;
     padding: 12px 14px;
-    border-radius: 12px;
+    border-radius: 6px;
     background: rgba(255, 255, 255, 0.04);
     border: 1px solid rgba(255, 255, 255, 0.08);
     box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.03);
@@ -661,7 +647,7 @@ body.sidebar-collapsed .container {
     align-items: flex-start;
     gap: 10px;
     padding: 10px 12px;
-    border-radius: 12px;
+    border-radius: 2px;
     background: rgba(255, 255, 255, 0.03);
     border: 1px solid rgba(255, 255, 255, 0.06);
 }
@@ -682,7 +668,7 @@ body.sidebar-collapsed .container {
 }
 .prompt-toggle-content {
     padding: 12px;
-    border-radius: 12px;
+    border-radius: 2px;
     background: rgba(255, 255, 255, 0.03);
     border: 1px solid rgba(255, 255, 255, 0.06);
 }
@@ -696,7 +682,7 @@ body.sidebar-collapsed .container {
 .prompt-input input {
     width: 100%;
     padding: 10px 12px;
-    border-radius: 10px;
+    border-radius: 2px;
     border: 1px solid rgba(255, 255, 255, 0.08);
     background: rgba(255, 255, 255, 0.04);
     color: white;
@@ -718,7 +704,7 @@ body.sidebar-collapsed .container {
 }
 .prompt-btn {
     padding: 9px 14px;
-    border-radius: 10px;
+    border-radius: 8px;
     border: 1px solid rgba(255, 255, 255, 0.12);
     background: var(--clr-neutral-a0-t60);
     color: rgba(255, 255, 255, 0.9);
@@ -726,10 +712,11 @@ body.sidebar-collapsed .container {
     cursor: pointer;
     appearance: none;
     transition: 0.15s ease;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
 }
 .prompt-btn:hover {
-    background: rgba(255, 255, 255, 0.1);
     transform: translateY(-1px);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.35);
 }
 
 
@@ -789,7 +776,7 @@ body.sidebar-collapsed .container {
         gap: 12px;
         align-items: stretch;
         margin-right: 0;
-        border-radius: 14px;
+        border-radius: var(--dash-radius);
         padding: 10px;
         min-height: auto;
     }
@@ -828,7 +815,6 @@ body.sidebar-collapsed .container {
     .prompt-window {
         width: min(100vw - 16px, 520px);
         max-height: calc(100dvh - 16px);
-        border-radius: 12px;
     }
     .prompt-header {
         padding: 12px 14px;
@@ -877,7 +863,6 @@ body.sidebar-collapsed .container {
     }
     .stat-card {
         min-height: 96px;
-        border-radius: 12px;
     }
     .prompt-window {
         zoom: 0.8;

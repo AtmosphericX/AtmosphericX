@@ -26,7 +26,7 @@
 .notification {
     position: relative; max-width: 400px;
     width: 400px; padding: 16px 20px;
-    border-radius: 8px; background-color: var(--clr-surface-a10);
+    border-radius: 5px; background-color: var(--clr-surface-a10);
     color: var(--clr-light-a0);
     box-shadow: 0 6px 18px rgba(0,0,0,0.35);
     overflow: hidden; opacity: 0;

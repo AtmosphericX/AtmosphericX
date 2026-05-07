@@ -39,7 +39,6 @@ class Prompts {
         const windowEl = el("div", "prompt-window");
         const header = el("div", "prompt-header");
         const titleEl = el("div", "prompt-title");
-        const closeBtn = document.createElement("button");
         const inputWrap = el("div", "prompt-input");
         const contentWrap = el("div", "prompt-content");
         const checkboxWrap = el("div", "prompt-checkboxes");
@@ -51,11 +50,7 @@ class Prompts {
         const getResult = () => ({ value: input ? input.value : null, checkboxes: checkboxState });
         const submit = () => { const result = getResult(); onSubmit?.(result); close(result); };
             titleEl.textContent = title;
-            closeBtn.textContent = "✕";
-            closeBtn.type = "button";
-            closeBtn.className = "prompt-close";
             header.appendChild(titleEl);
-            header.appendChild(closeBtn);
             const messagesArray = Array.isArray(message) ? message : [message];
             messagesArray.forEach((msg) => {
                 const messageData = typeof msg === "object" && msg !== null ? msg : { message: msg };
@@ -139,7 +134,6 @@ class Prompts {
         windowEl.appendChild(actionsWrap);
         backdrop.appendChild(windowEl);
         document.body.appendChild(backdrop);
-        closeBtn.addEventListener("click", () => close(null));
         backdrop.addEventListener("click", (e) => {
             if (e.target === backdrop) close(null);
         });
