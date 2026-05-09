@@ -40,7 +40,7 @@ footer: MIT Licensed | Copyright © 2022-present Alex Wei | Powered by VitePress
 			]
 		},
 		{
-			avatar: 'https://pbs.twimg.com/profile_images/1787879680558743554/RMFWOj1T_400x400.jpg',
+			avatar: 'https://avatars.githubusercontent.com/u/90998864?v=4',
 			name: 'StarflightWx',
 			title: 'Co-Developer & Vice President @ ATMSX Storm Chasing',
 			links: [
