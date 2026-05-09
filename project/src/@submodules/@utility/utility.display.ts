@@ -16,6 +16,10 @@
 */
 
 import * as loader from '../..';
+import { totalmem, freemem } from 'os'
+import { screen, box } from 'blessed'
+import { env } from 'process'
+import { randomInt } from 'crypto';
 
 interface ElementModifyOptions { 
     key: string; 
@@ -30,7 +34,6 @@ export class Display {
     name_space: string = `Utility.Display`;
     ansi_colors = loader.modules.utilities.ansi_colors;
     unsupported_terminals: string[] = ['dumb', 'cons25', 'emacs', 'cygwin', `mingw`, `xterm`];
-    pkg = loader.packages.gui
     mgr = null;
     private elements: ElementType = {};
     constructor() {
@@ -40,12 +43,12 @@ export class Display {
                 message: `Successfully initialized`
             });
             if (!loader.modules.utilities.isFancyDisplay()) { return; }
-            const getTerminal = loader.packages.process.env.TERM ?? loader.packages.process.env.MSYSTEM ?? null;
+            const getTerminal = env.TERM ?? env.MSYSTEM ?? null;
             if (getTerminal && this.unsupported_terminals.includes(getTerminal.toLowerCase())) {
                 console.log(loader.strings.display_unsupported_terminal);
                 return;
             }
-            this.mgr = this.pkg.screen({
+            this.mgr = screen({
                 smartCSR: true,
                 title: `AtmosphericX v${loader.modules.utilities.version()}`,
             })
@@ -71,8 +74,8 @@ export class Display {
     private async intro(delay?: number): Promise<void> {
         try {
             const configurations = loader.modules.utilities.cfg();
-            const randomTooltip = loader.packages.crypto.randomInt(0, loader.strings.tooltips.length);
-            const logoBox = this.pkg.box({
+            const randomTooltip = randomInt(0, loader.strings.tooltips.length);
+            const logoBox = box({
                 ...configurations.display_settings.intro_screen,
                 content: `${loader.modules.utilities.logo()}\n{center}\n${this.ansi_colors.GREEN}Tip: ${loader.strings.tooltips[randomTooltip]}${this.ansi_colors.RESET}{/center}`,
             })
@@ -103,10 +106,10 @@ export class Display {
             const configurations = loader.modules.utilities.cfg();
             const settings = configurations.display_settings;
             this.elements = {
-                logs: this.pkg.box({ ...settings.logging_window, label: ` AtmosphericX v${loader.modules.utilities.version()} ` }),
-                system: this.pkg.box({ ...settings.system_info_window }),
-                sessions: this.pkg.box({ ...settings.sessions_window }),
-                events: this.pkg.box({ ...settings.events_window })
+                logs: box({ ...settings.logging_window, label: ` AtmosphericX v${loader.modules.utilities.version()} ` }),
+                system: box({ ...settings.system_info_window }),
+                sessions: box({ ...settings.sessions_window }),
+                events: box({ ...settings.events_window })
             }
             for (const key in this.elements) { this.mgr.append(this.elements[key]); }
             this.mgr.render();
@@ -148,7 +151,7 @@ export class Display {
                 content: loader.strings.fancy_display_system_info
                     .replace('{UPTIME}', loader.modules.calculations.formatTime(Date.now() - loader.cache.internal.metrics.start_time))
                     .replace('{HEAP}', (process.memoryUsage().heapUsed / (1024 * 1024)).toFixed(2))
-                    .replace('{MEMORY}', `${((loader.packages.os.totalmem() - loader.packages.os.freemem()) / 1024 / 1024 / 1024).toFixed(2)} / ${(loader.packages.os.totalmem() / 1024 / 1024 / 1024).toFixed(2)}`)
+                    .replace('{MEMORY}', `${((totalmem() - freemem()) / 1024 / 1024 / 1024).toFixed(2)} / ${(totalmem() / 1024 / 1024 / 1024).toFixed(2)}`)
                     .replace('{TOTAL_PROCESSED}', `${loader.cache.internal.metrics.total_events} Processed Events`)
                     .replace('{TOTAL_REQUESTS}', `${loader.cache.internal.metrics.total_requests} HTTP Requests (Cache)`),
                 title: ' System Information '

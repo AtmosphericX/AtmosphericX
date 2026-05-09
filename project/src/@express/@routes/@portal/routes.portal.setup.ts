@@ -16,7 +16,8 @@
 */
 
 import * as loader from '../../..'
-import * as types from '../../../@dictionaries/types';
+import express from 'express';
+import { randomBytes } from 'crypto';
 
 export class Init { 
     name_space: string = `Routes.Portal.Setup`;
@@ -29,10 +30,10 @@ export class Init {
         });
         const getMessages = loader.strings.route_messages;
         const getRoutes = loader.strings.route_locations;
-        this.server.post(getRoutes.post_setup_endpoint, async (request: types.ExpressRequest, response: types.ExpressResponse) => {
+        this.server.post(getRoutes.post_setup_endpoint, async (request: express.Request, response: express.Response) => {
             try {
                 const isSetupFinished = loader.cache.external.setup == 0 ? false : true;
-                const hex = loader.packages.crypto.randomBytes(32).toString('hex');
+                const hex = randomBytes(32).toString('hex');
                 const { address, useragent } = loader.modules.routing.getUserSession(request);
                 const { auth } = await loader.modules.routing.getRequestBody(request);
                 if (isSetupFinished) { 

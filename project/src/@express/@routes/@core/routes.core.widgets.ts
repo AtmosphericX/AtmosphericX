@@ -16,7 +16,9 @@
 */
 
 import * as loader from '../../..'
-import * as types from '../../../@dictionaries/types';
+import { existsSync } from 'fs';
+import { resolve } from 'path';
+import express from 'express';
 
 export class Init { 
     name_space: string = `Routes.Core.Widgets`;
@@ -28,11 +30,11 @@ export class Init {
             message: `Successfully initialized`
         });
         const getRoutes = loader.strings.route_locations;
-        const storage = loader.packages.path.resolve(`..`, `storage`);
-        this.server.get(getRoutes.get_widgets_endpoint, async (request: types.ExpressRequest, response: types.ExpressResponse) => {
+        const storage = resolve(`..`, `storage`);
+        this.server.get(getRoutes.get_widgets_endpoint, async (request: express.Request, response: express.Response) => {
             try {
                 const getEndpoint  = request.params.endpoint ?? null;
-                if (!getEndpoint || !loader.packages.fs.existsSync(`${storage}${getRoutes.widgets_direct_path}${getEndpoint}.html`)) {
+                if (!getEndpoint || !existsSync(`${storage}${getRoutes.widgets_direct_path}${getEndpoint}.html`)) {
                     return response.status(404).sendFile(`${storage}${getRoutes.unknown_direct_path}`);
                 }
                 return response.sendFile(`${storage}${getRoutes.widgets_direct_path}${getEndpoint}.html`);

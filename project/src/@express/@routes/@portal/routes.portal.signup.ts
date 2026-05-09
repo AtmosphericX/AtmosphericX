@@ -16,7 +16,8 @@
 */
 
 import * as loader from '../../..'
-import * as types from '../../../@dictionaries/types';
+import argon2 from "argon2";
+import express from 'express';
 
 export class Init { 
     name_space: string = `Routes.Portal.Signup`;
@@ -29,7 +30,7 @@ export class Init {
         });
         const getMessages = loader.strings.route_messages;
         const getRoutes = loader.strings.route_locations;
-        this.server.post(getRoutes.post_signup_endpoint, async (request: types.ExpressRequest, response: types.ExpressResponse) => {
+        this.server.post(getRoutes.post_signup_endpoint, async (request: express.Request, response: express.Response) => {
             try {
                 const isSetupFinished = loader.cache.external.setup == 0 ? false : true;
                 const isAdminRoute = request.params.admin == "admin" ? true : false;
@@ -67,8 +68,8 @@ export class Init {
                 if (getAccount != null) { 
                     return response.status(409).json({ message: getMessages.response_account_exists }); 
                 }
-                const hash = await loader.packages.argon2.hash(password, {
-                    type: loader.packages.argon2.argon2id, memoryCost: 2 ** 16,
+                const hash = await argon2.hash(password, {
+                    type: argon2.argon2id, memoryCost: 2 ** 16,
                     timeCost: 3, parallelism: 1
                 });
                 loader.modules.database.query(`INSERT INTO accounts (username, hash, activated, role) VALUES (?, ?, ?, ?)`, [

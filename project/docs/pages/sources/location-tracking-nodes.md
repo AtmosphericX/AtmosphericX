@@ -10,7 +10,6 @@ prev:
 
 <img src="/logo.png" alt="AtmosphericX Logo" width="200" style="display: block; margin: 0 auto;" />
 <small class="page-author">Written By: <b>KiyoWx</b></small><br/>
-<small class="last-updated">Last Updated: <b>Mar 23rd, 2026</b></small><br><br><br>
 
 # Location Tracking Nodes
 ---
@@ -19,12 +18,23 @@ prev:
 AtmosphericX supports integrations with services such as `SpotterNetwork` and `RealTimeIRL`, enabling live location updates from certain platforms. These integrations allow users to display and track positions in realtime, This also gives you the ability to use features like [Polywarn](../widgets/polywarn) and use [TempestWx Stations](#tempestwx-stations) with `located based` tracking.
 
 ## RealtimeIRL Settings
-A `pull_key` is required to use RealTimeIRL. You can obtain one by creating an account at [realtimeirl.com](https://realtimeirl.com/). After signing up, download the RealTimeIRL mobile app and configure it with your `push_key` to begin sending your longitude and latitude coordinates.
+A `pull key` is required to use RealTimeIRL. You can obtain one by creating an account at [realtimeirl.com](https://realtimeirl.com/). After signing up, download the RealTimeIRL mobile app and configure it with your `push key` to begin sending your longitude and latitude coordinates.
 
-Once your device is actively transmitting location data through the app, AtmosphericX can retrieve those coordinates using your `pull_key`, enabling realtime GPS tracking.
+Once your device is actively transmitting location data through the app, AtmosphericX can retrieve those coordinates using your `pull key`, enabling realtime GPS tracking.
 
 ::: tip RealtimeIRL Nickname
-When using RealTimeIRL, you can set a `nickname` in the configuration. This nickname will be displayed in the UI instead of your actual name, allowing for a more personalized and user friendly experience while maintaining privacy if you are streaming or sharing your location data.
+When using RealTimeIRL, you can set a `name` in the configurations. This nickname will be displayed in the UI instead of your actual name, allowing for a more personalized and user friendly experience while maintaining privacy if you are streaming or sharing your location data.
+
+
+```jsonc
+"realtime_irl": { // RealtimeIRL GPS tracking implementation (See: https://rtirl.com/)
+    "enabled": true,
+    "pins": [
+        {"key": "KEY_HERE", "name": "EXAMPLE_NAME_HERE"}
+    ],
+    "contradictions": [] // Ignore
+}
+```
 :::
 
 ## Spotter Network Settings

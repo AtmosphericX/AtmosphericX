@@ -16,7 +16,8 @@
 */
 
 import * as loader from '../../..'
-import * as types from '../../../@dictionaries/types';
+import argon2 from "argon2";
+import express from 'express';
 
 export class Init { 
     name_space: string = `Routes.Portal.Reset`;
@@ -29,7 +30,7 @@ export class Init {
         });
         const getMessages = loader.strings.route_messages;
         const getRoutes = loader.strings.route_locations;
-        this.server.post(getRoutes.post_reset_endpoint, async (request: types.ExpressRequest, response: types.ExpressResponse) => {
+        this.server.post(getRoutes.post_reset_endpoint, async (request: express.Request, response: express.Response) => {
             try {
                 const { address } = loader.modules.routing.getUserSession(request);
                 const { username, password, confirmed } = await loader.modules.routing.getRequestBody(request);
@@ -54,7 +55,7 @@ export class Init {
                     });
                     return response.status(401).json({ message: getMessages.response_incorrect_credentials }); 
                 }
-                if (!await loader.packages.argon2.verify(getAccount.hash, password)) { 
+                if (!await argon2.verify(getAccount.hash, password)) { 
                     loader.modules.utilities.log({
                         title: `${this.ansi_colors.YELLOW}${this.name_space}${this.ansi_colors.RESET}`,
                         message: `Incorrect credentials reset attempt for ${this.ansi_colors.CYAN}${username}${this.ansi_colors.RESET} from ${this.ansi_colors.CYAN}${address}${this.ansi_colors.RESET}`,
@@ -68,8 +69,8 @@ export class Init {
                     settings: { file: true }
                 });
                 loader.modules.database.query(`UPDATE accounts SET hash = ? WHERE username = ?`, [
-                    await loader.packages.argon2.hash(confirmed, {
-                        type: loader.packages.argon2.argon2id, memoryCost: 2 ** 16,
+                    await argon2.hash(confirmed, {
+                        type: argon2.argon2id, memoryCost: 2 ** 16,
                         timeCost: 3, parallelism: 1
                     }),
                     username

@@ -16,15 +16,15 @@
 */
 
 import * as loader from '../..'
-import * as types from '../../@dictionaries/types';
+import express from 'express';
+import { resolve } from 'path';
+import rateLimit from 'express-rate-limit';
 
 
 export class Init { 
     name_space: string = `Middleware.Authority`;
     ansi_colors = loader.modules.utilities.ansi_colors;
-    pkg = loader.packages.express;
     server = loader.cache.handlers.express;
-    ratelimit = loader.packages.rateLimit;
     constructor() {
         loader.modules.utilities.log({ 
             title: `${this.ansi_colors.GREEN}${this.name_space}${this.ansi_colors.RESET}`, 
@@ -32,12 +32,12 @@ export class Init {
         });
         const getMessages = loader.strings.route_messages;
         const getRoutes = loader.strings.route_locations;
-        const storage = loader.packages.path.resolve(`..`, `storage`);
+        const storage = resolve(`..`, `storage`);
         const configurations = loader.modules.utilities.cfg();
         const optionsRatelimit = configurations?.web_hosting_settings?.settings?.ratelimiting;
         const optionsCache = configurations?.web_hosting_settings?.settings?.enable_cache;
         if (optionsRatelimit?.enabled) { 
-            const settings = this.ratelimit({
+            const settings = rateLimit({
                 windowMs: optionsRatelimit?.window_ms ?? 30_000,
                 max: optionsRatelimit?.max_requests ?? 125,
                 handler: (__, response) => {
@@ -47,7 +47,7 @@ export class Init {
             this.server.use(settings); 
         }
         this.server.set(`trust proxy`, 1);
-        this.server.use((___: types.ExpressRequest, response: types.ExpressResponse, next: types.ExpressNext) => {
+        this.server.use((___: express.Request, response: express.Response, next: express.NextFunction) => {
             if (!optionsCache) {
                 for (const key in getMessages.headers) { 
                     response.setHeader(key, getMessages.headers[key]); 
@@ -55,11 +55,11 @@ export class Init {
             }
             next();
         })
-        this.server.use(`/documentation`, this.pkg.static(`${storage}/../storage/www/documentation/`));
-        this.server.use(`/docs`, this.pkg.static(`${storage}/../storage/www/documentation/`));
-        this.server.use(`/assets`, this.pkg.static(`${storage}/www/assets`));
-        this.server.use(`/dashboard`, this.pkg.static(`${storage}/www/pages/dashboard`));
-        this.server.use(`/eas`, this.pkg.static(`${storage}/temporary/eas/output`));
+        this.server.use(`/documentation`, express.static(`${storage}/../storage/www/documentation/`));
+        this.server.use(`/docs`, express.static(`${storage}/../storage/www/documentation/`));
+        this.server.use(`/assets`, express.static(`${storage}/www/assets`));
+        this.server.use(`/dashboard`, express.static(`${storage}/www/pages/dashboard`));
+        this.server.use(`/eas`, express.static(`${storage}/temporary/eas/output`));
         this.server.all(/.*/, (___, response) => {
             return response.status(404).sendFile(`${storage}${getRoutes.unknown_direct_path}`);
         })

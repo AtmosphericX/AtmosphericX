@@ -16,7 +16,9 @@
 */
 
 import * as loader from '../../..'
-import * as types from '../../../@dictionaries/types';
+import argon2 from "argon2";
+import express from 'express';
+import { randomBytes } from 'crypto';
 
 export class Init { 
     name_space: string = `Routes.Portal.Login`;
@@ -29,11 +31,11 @@ export class Init {
         });
         const getMessages = loader.strings.route_messages;
         const getRoutes = loader.strings.route_locations;
-        this.server.post(getRoutes.post_login_endpoint, async (request: types.ExpressRequest, response: types.ExpressResponse) => {
+        this.server.post(getRoutes.post_login_endpoint, async (request: express.Request, response: express.Response) => {
             try {
                 const configurations = loader.modules.utilities.cfg();
                 const options = configurations.web_hosting_settings;
-                const hex = loader.packages.crypto.randomBytes(32).toString('hex');
+                const hex = randomBytes(32).toString('hex');
                 const { address, useragent } = loader.modules.routing.getUserSession(request);
                 const { username, password } = await loader.modules.routing.getRequestBody(request);
                 const isProtected = loader.modules.routing.isAccountProtectionActivated(username);
@@ -64,7 +66,7 @@ export class Init {
                     });
                     return response.status(400).json({ message: getMessages.response_incorrect_credentials });
                 }
-                if (!await loader.packages.argon2.verify(getAccount.hash, password)) { 
+                if (!await argon2.verify(getAccount.hash, password)) { 
                     loader.modules.utilities.log({
                         title: `${this.ansi_colors.YELLOW}${this.name_space}${this.ansi_colors.RESET}`,
                         message: `Failed login attempt for ${this.ansi_colors.CYAN}${username}${this.ansi_colors.RESET} from ${this.ansi_colors.CYAN}${address}${this.ansi_colors.RESET}`,

@@ -19,12 +19,12 @@
 import * as loader from '../..';
 import * as types from '../../@dictionaries/types';
 import { getConfigurations } from '../../@dictionaries/@configurations/atmsx-pulsepoint';
+import { PulsePoint } from '@atmosx/pulse-point-wrapper';
 
 
 export class ATMSXPulsePoint {
     name_space: string = `Internal.Atmsx.PulsePoint`;
     ansi_colors = loader.modules.utilities.ansi_colors;
-    pkg = loader.packages.PulsePoint;
     mgr = null;
     constructor() {
         loader.modules.utilities.log({ 
@@ -86,7 +86,7 @@ export class ATMSXPulsePoint {
         try {
             const settings = getConfigurations()
             if (settings == null) { return; }
-            this.mgr = new this.pkg(settings)
+            this.mgr = new PulsePoint(settings)
             this.mgr.on(`onIncidentUpdate`, async (event) => {
                 const ev = JSON.parse(JSON.stringify(event))
                 const pulse = loader.cache.external.pulsepoint;

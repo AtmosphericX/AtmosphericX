@@ -16,30 +16,26 @@
 */
 
 import * as loader from '../..';
+import { initializeApp } from '@firebase/app'
+import { getDatabase, child, ref, onValue} from '@firebase/database'
 
 export class RtIrlSocket {
     name_space: string = `Misc.RtIrlSocket`;
     ansi_colors = loader.modules.utilities.ansi_colors;
-    last_rt_update: number = 0;
-    pkg = loader.packages.firebase_app;
-    pkg2 = loader.packages.firebase_database;
-    mgr = null;
+    socket: ReturnType<typeof initializeApp>;
+    nodes: Record<string, unknown> = {};
     constructor() {
         loader.modules.utilities.log({ 
             title: `${this.ansi_colors.GREEN}${this.name_space}${this.ansi_colors.RESET}`, 
             message: `Successfully initialized`
         });
-        const configurations = loader.modules.utilities.cfg();
-        const settings = configurations?.sources?.location_settings?.realtime_irl;
-        if (settings?.enabled) { 
-            this.mgr = loader.cache.handlers.rt_socket = new this.pkg.initializeApp({
-                databaseURL: `https://rtirl-a1d7f-default-rtdb.firebaseio.com`,
-                projectId: `rtirl-a1d7f`,
-                appId: `1:684852107701:web:d77a8ed0ee5095279a61fc`,
-                measurementId: `G-TR97D81LT3`,
-            }, `rtirl-api`);
-            this.listener();
-        }
+        this.socket = loader.cache.handlers.rt_socket = initializeApp({
+            databaseURL: `https://rtirl-a1d7f-default-rtdb.firebaseio.com`,
+            projectId: `rtirl-a1d7f`,
+            appId: `1:684852107701:web:d77a8ed0ee5095279a61fc`,
+            measurementId: `G-TR97D81LT3`,
+        }, `rtirl-api`);
+        this.listener();
     }
 
     /**
@@ -57,24 +53,30 @@ export class RtIrlSocket {
         try {
             const configurations = loader.modules.utilities.cfg();
             const settings = configurations?.sources?.location_settings?.realtime_irl;
-            const db = this.pkg2.getDatabase(this.mgr);
-            const ref = this.pkg2.child(
-                this.pkg2.ref(db, `pullables`),
-                settings.pull_key
-            );
-            const listen = (snapshot) => {
-                const snap = snapshot.val();
-                if (snap == null) return;
-                if (snap.updatedAt !== this.last_rt_update) {
-                    this.last_rt_update = snap.updatedAt;
-                    const coords = { 
-                        latitude: snap.location.latitude, 
-                        longitude: snap.location.longitude
-                    };
-                    loader.modules.tracking.setCurrentCoordinates(settings.display_name, coords, `RTIRL`);
+            const pins = settings?.pins;
+            for (const pin of pins) {
+                if (!this.nodes[pin?.key]) { 
+                    this.nodes[pin?.key] = { updated: null }
                 }
-            };
-            this.pkg2.onValue(ref, listen);
+                const key = pin?.key;
+                const name = pin?.name;
+                const node = this.nodes[pin?.key] as { updated: string | null };
+                const db = getDatabase(this.socket);
+                const reference = child(ref(db, `pullables`), key);
+                const listen = (snapshot) => {
+                    const snap = snapshot.val();
+                    if (snap == null) return;
+                    if (snap.updatedAt !== node.updated) {
+                        node.updated = snap.updatedAt;
+                        const coords = { 
+                            latitude: snap.location.latitude, 
+                            longitude: snap.location.longitude
+                        };
+                        loader.modules.tracking.setCurrentCoordinates(name, coords, `RTIRL`);
+                    }
+                };
+                onValue(reference, listen);
+            }
         } catch (error) {
             loader.modules.utilities.exception(error, this.name_space + `.listener`);
         }

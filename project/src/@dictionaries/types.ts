@@ -137,6 +137,4 @@ export type Configurations = Record<string, any>;
 export type LocalCoordinates = number[] | number[][] | number[][][] | number[][][][] ;
 export type LocalGeometry = { type: string; coordinates: LocalCoordinates };
 export type GeoJSONPolygonCoordinates = number[][] | number[][][] | number[][][][];
-export type ExpressRequest = Record<string, any>;
-export type ExpressResponse = Record<string, any>;
 export type ExpressNext = () => void; 

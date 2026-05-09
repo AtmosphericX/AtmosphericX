@@ -26,7 +26,6 @@ import * as sds_o_parser from '../../@parsing/parsing.sds.outages';
 import * as sds_s_parser from '../../@parsing/parsing.sds.streams';
 import * as meso_d_parser from '../../@parsing/parsing.events.mesoscale';
 import * as trop_d_parser from '../../@parsing/parsing.events.tropical_storms';
-import * as sonde_parser from '../../@parsing/parsing.data.sonde-rise26';
 import * as nwr_parser from '../../@parsing/parsing.data.weather_radio';
 import * as cimss_parser from '../../@parsing/parsing.data.cimss';
 import * as wsr_parser from '../../@parsing/parsing.data.icao_locations';
@@ -41,7 +40,6 @@ const cache_keys = [
     { key: 'mesoscale_discussions', cache: 'discussions', parser: meso_d_parser },
     { key: 'tropical_storms', cache: 'tropical_storms', parser: trop_d_parser },
     { key: 'cimss_psv3', cache: 'cimss', parser: cimss_parser },
-    { key: 'sonde_rise26', cache: 'sonde', parser: sonde_parser },
     { key: 'icao_locations', cache: 'icao_locations', parser: wsr_parser },
     { key: 'weather_radio', cache: 'weather_radio', parser: nwr_parser },
 ];

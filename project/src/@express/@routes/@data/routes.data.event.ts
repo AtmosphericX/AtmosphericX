@@ -17,6 +17,8 @@
 
 import * as loader from '../../..'
 import * as types from '../../../@dictionaries/types';
+import { resolve, basename } from 'path';
+import express from 'express';
 
 export class Init { 
     name_space: string = `Routes.Data.Events`;
@@ -29,8 +31,8 @@ export class Init {
         });
         const getMessages = loader.strings.route_messages;
         const getRoutes = loader.strings.route_locations;
-        const storage = loader.packages.path.resolve(`..`, `storage`);
-        this.server.get(getRoutes.get_event_action_endpoint, async (request: types.ExpressRequest, response: types.ExpressResponse) => {
+        const storage = resolve(`..`, `storage`);
+        this.server.get(getRoutes.get_event_action_endpoint, async (request: express.Request, response: express.Response) => {
             try {
                 const getTracking = request.params.tracking ?? null;
                 const getAction = request.params.action ?? null;
@@ -39,7 +41,7 @@ export class Init {
                     switch (getAction) { 
                         case 'audio': {
                             const audio = await loader.cache.handlers.parser_client.createEasAudio(getEvent.properties.description, getEvent.properties.details?.header);
-                            const wavFile = loader.packages.path.basename(audio);
+                            const wavFile = basename(audio);
                             return response.json({ file: `/eas/${wavFile}` });
                         }
                         case 'polygon': {

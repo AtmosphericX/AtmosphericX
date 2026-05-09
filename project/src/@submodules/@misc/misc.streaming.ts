@@ -17,12 +17,12 @@
 
 import * as loader from '../..';
 import { getConfigurations } from '../../@dictionaries/@configurations/streamer-bot';
+import { StreamerbotClient } from '@streamerbot/client';
+
 
 export class Streaming {
     name_space: string = `Misc.Streaming`;
     ansi_colors = loader.modules.utilities.ansi_colors;
-    pkg = loader.packages.StreamerbotClient;
-    mgr = null;
     is_bot_account: boolean = false;
     max_threshold: number = 1;
     max_threshold_time: number = 5_000;
@@ -79,7 +79,7 @@ export class Streaming {
         try {
             const settings = getConfigurations()
             if (settings == null) { return; }
-            loader.cache.handlers.bot_client = await new this.pkg({...settings,
+            loader.cache.handlers.bot_client = await new StreamerbotClient({...settings,
                 onConnect: async () => {
                     const broadcaster = await loader.cache.handlers.bot_client.getBroadcaster();
                     this.service = broadcaster?.connected?.find(service => service.toLowerCase() === 'youtube') ?? null;

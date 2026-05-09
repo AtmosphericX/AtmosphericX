@@ -10,8 +10,7 @@ prev:
 
 <img src="/logo.png" alt="AtmosphericX Logo" width="200" style="display: block; margin: 0 auto;" />
 <small class="page-author">Written By: <b>KiyoWx</b></small><br/>
-<small class="last-updated">Last Updated: <b>Mar 25th, 2026</b></small><br>
-<small class="version-made">Version: <b>8.0.0.4</b></small><br><br><br>
+<small class="version-made">Version: <b>8.0.0.5</b></small><br><br><br>
 
 # AtmosphericX
 ---
@@ -34,7 +33,6 @@ AtmosphericX currently doesn't have a fully featured dashboard like v7 and other
 - Mesoscale Discussions ([WeatherWise](https://weatherwise.app)) *(Fallbacks Supported)*
 - Tropical Discussions / Events ([WeatherWise](https://weatherwise.app)) *(Fallbacks Supported)*
 - ProbSevere Version 3 ([CIMSS](https://cimss.ssec.wisc.edu/))
-- Rise-26 Sonde (Credits: [Vince Waelti](https://www.youtube.com/channel/UCqSk-ojoH2rgAuYadPLJgJA))
 - Nexrad Locations
 - NOAA Weather Radio (Community Feeds) ([WeatherUSA](https://api.weatherusa.net))
 - Power Outage Statistics (US and US-Territories) ([SDSWeather](https://www.sdsweather.com/))

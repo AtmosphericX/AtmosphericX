@@ -16,6 +16,8 @@
 */
 
 import * as loader from '../..'
+import { WebSocketServer } from 'ws'
+import { createHash } from 'crypto';
 
 interface WebSocketClient {  
     client: any; 
@@ -33,7 +35,6 @@ export class Init {
     name_space: string = `Websockets.Authority`;
     ansi_colors = loader.modules.utilities.ansi_colors;
     clients: WebSocketClient[] = [];
-    pkg = loader.packages.ws;
     default_timeout_ms: number = 5_000;
     types = {
         onSubscription: 'subscribe',
@@ -50,7 +51,7 @@ export class Init {
         const configurations = loader.modules.utilities.cfg();
         const options = configurations.websocket_settings
         const maxConnections = options.maximum_connections_per_ip ?? 3;
-        const server = loader.cache.handlers.websocket_server = new this.pkg.WebSocketServer({
+        const server = loader.cache.handlers.websocket_server = new WebSocketServer({
             server: loader.cache.handlers.http_server,
             path: `/stream`,
         })
@@ -145,7 +146,7 @@ export class Init {
             data.forEach((request: string) => {
                 if (!client.requests[request]) client.requests[request] = { unix: 0 };
                 const cache = loader.cache.external[request as keyof typeof loader.cache.external] || null;
-                const hash = loader.packages.crypto.createHash('md5').update(JSON.stringify(cache)).digest('hex');
+                const hash = createHash('md5').update(JSON.stringify(cache)).digest('hex');
                 const isPriority = options.priority_sockets.sockets.includes(request);
                 const isSecondary = options.secondary_sockets.sockets.includes(request);
                 const timeout = isPriority

@@ -17,6 +17,10 @@
 
 import * as loader from '../../..'
 import * as types from '../../../@dictionaries/types';
+import { resolve } from 'path';
+import { PlacefileManager } from '@atmosx/placefile-parser';
+import express from 'express';
+
 
 interface RequestQuery {
     lat?: string;
@@ -109,8 +113,8 @@ export class Init {
         });
         const getRoutes = loader.strings.route_locations;
         const getMessages = loader.strings.route_messages;
-        const storage = loader.packages.path.resolve(`..`, `storage`);
-        this.server.get(getRoutes.get_placefile_endpoint, async (request: types.ExpressRequest, response: types.ExpressResponse) => {
+        const storage = resolve(`..`, `storage`);
+        this.server.get(getRoutes.get_placefile_endpoint, async (request: express.Request, response: express.Response) => {
             try {
                 const { address } = await loader.modules.routing.getUserSession(request);
                 const getType = request.params.type ?? null;
@@ -202,7 +206,7 @@ export class Init {
             }
         });
         const results = (await Promise.all(getTrackers)).filter(Boolean) as Exclude<PlacefileEntry, null>[];
-        const placefile = await loader.packages.PlacefileManager.createPlacefile({
+        const placefile = await PlacefileManager.createPlacefile({
             refresh: 1, threshold: 99999, title: `AtmosphericX - Trackers`, settings: this.settings,
             type: `point`, data: results
         });
@@ -247,7 +251,7 @@ export class Init {
             }
         });
         const results = (await Promise.all(getTrackers)).filter(Boolean) as Exclude<PlacefileEntry, null>[];
-        const placefile = await loader.packages.PlacefileManager.createPlacefile({
+        const placefile = await PlacefileManager.createPlacefile({
             refresh: 1, threshold: 99999, title: `AtmosphericX - Streams`, settings: this.settings,
             type: `point`, data: results
         });
@@ -310,7 +314,7 @@ export class Init {
             }
         });
         const results = (await Promise.all(getEvents)).filter(Boolean) as Exclude<PlacefileEntry, null>[];
-        const placefile = await loader.packages.PlacefileManager.createPlacefile({
+        const placefile = await PlacefileManager.createPlacefile({
             refresh: 1, threshold: 99999, title: `AtmosphericX - Events`, settings: this.settings,
             type: `polygon`, data: results
         });
@@ -366,7 +370,7 @@ export class Init {
             }
         });
         const results = (await Promise.all(getDiscussions)).filter(Boolean) as Exclude<PlacefileEntry, null>[];
-        const placefile = await loader.packages.PlacefileManager.createPlacefile({
+        const placefile = await PlacefileManager.createPlacefile({
             refresh: 1, threshold: 99999, title: `AtmosphericX - Discussions`, settings: this.settings,
             type: `polygon`, data: results
         });
@@ -414,7 +418,7 @@ export class Init {
             }
         });
         const results = (await Promise.all(getTrackers)).filter(Boolean) as Exclude<PlacefileEntry, null>[];
-        const placefile = await loader.packages.PlacefileManager.createPlacefile({
+        const placefile = await PlacefileManager.createPlacefile({
             refresh: 1, threshold: 99999, title: `AtmosphericX - PulsePoint`, settings: this.settings,
             type: `point`, data: results
         });

@@ -16,6 +16,7 @@
 */
 
 import * as types from '../@dictionaries/types';
+import { PlacefileManager } from '@atmosx/placefile-parser';
 import * as loader from '..';
 
 
@@ -24,7 +25,7 @@ export const parse = async (body: string) => {
         type: 'FeatureCollection',
         features: []
     };
-    const parsed = await loader.packages.PlacefileManager.parsePlacefile(body) as types.DefaultPlacefileParsingTypes[];
+    const parsed = await PlacefileManager.parsePlacefile(body) as types.DefaultPlacefileParsingTypes[];
     const configurations = loader.modules.utilities.cfg();
     const settings = configurations?.sources?.miscellaneous_settings?.cimss_psv3;
     for (const feature of parsed) {

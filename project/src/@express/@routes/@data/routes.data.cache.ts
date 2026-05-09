@@ -16,7 +16,8 @@
 */
 
 import * as loader from '../../..'
-import * as types from '../../../@dictionaries/types';
+import { resolve } from 'path';
+import express from 'express';
 
 export class Init { 
     name_space: string = `Routes.Data.Cache`;
@@ -28,8 +29,8 @@ export class Init {
             message: `Successfully initialized`
         });
         const getRoutes = loader.strings.route_locations;
-        const storage = loader.packages.path.resolve(`..`, `storage`);
-        this.server.get(getRoutes.get_data_endpoint, async (request: types.ExpressRequest, response: types.ExpressResponse) => {
+        const storage = resolve(`..`, `storage`);
+        this.server.get(getRoutes.get_data_endpoint, async (request: express.Request, response: express.Response) => {
             try {
                 const getEndpoint = request.params.endpoint ?? null;
                 if (!loader.cache.external[getEndpoint]) { return response.status(404).sendFile(`${storage}${getRoutes.unknown_direct_path}`); }

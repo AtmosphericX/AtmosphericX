@@ -33,7 +33,6 @@ export const h_cache: Record<string, any> = {
         announcement: null,
         version: null,
         hashes: [],
-        sonde: [],
         outages: [],
         cimss: {type: "FeatureCollection", features: []},
         streams: {type: "FeatureCollection", features: []},

@@ -16,7 +16,8 @@
 */
 
 import * as loader from '../../..'
-import * as types from '../../../@dictionaries/types';
+import { resolve } from 'path';
+import express from 'express';
 
 type StanzaType = { 
     id: string; 
@@ -34,8 +35,8 @@ export class Init {
         });
         const getMessages = loader.strings.route_messages;
         const getRoutes = loader.strings.route_locations;
-        const storage = loader.packages.path.resolve(`..`, `storage`);
-        this.server.get(getRoutes.get_query_endpoint, async (request: types.ExpressRequest, response: types.ExpressResponse) => {
+        const storage = resolve(`..`, `storage`);
+        this.server.get(getRoutes.get_query_endpoint, async (request: express.Request, response: express.Response) => {
             try {
                 const getType = request.params.type ?? null;
                 const getQuery = request.query.q ?? null;

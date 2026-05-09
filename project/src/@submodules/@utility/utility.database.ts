@@ -16,36 +16,39 @@
 */
 
 import * as loader from '../..';
+import { existsSync, mkdirSync } from 'fs';
+import { resolve } from 'path';
+import Database from 'better-sqlite3';
 
 
-export class Database {
-    name_space: string = `Utility.Database`;
+export class DatabaseManager {
+    name_space: string = `Utility.DatabaseManager`;
     ansi_colors = loader.modules.utilities.ansi_colors;
-    DB: typeof loader.packages.sqlite3.Database;
+    database: Database;
     constructor() {
         loader.modules.utilities.log({ 
             title: `${this.ansi_colors.GREEN}${this.name_space}${this.ansi_colors.RESET}`, 
             message: `Successfully initialized`
         });
-        if (!loader.packages.fs.existsSync(loader.packages.path.resolve(`..`, `storage/databases`))) {
-            loader.packages.fs.mkdirSync(loader.packages.path.resolve(`..`, `storage/databases`));
+        if (!existsSync(resolve(`..`, `storage/databases`))) {
+            mkdirSync(resolve(`..`, `storage/databases`));
             loader.modules.utilities.log({ 
                 title: `${this.ansi_colors.YELLOW}${this.name_space}${this.ansi_colors.RESET}`, 
                 message: `Created missing database storage directory.`
             });
         }
-        const databasePath = loader.packages.path.resolve(`..`, `storage/databases`, `accounts.db`);
-        if (loader.packages.fs.existsSync(databasePath)) {
-            this.DB = new loader.packages.sqlite3(databasePath);
+        const databasePath = resolve(`..`, `storage/databases`, `accounts.db`);
+        if (existsSync(databasePath)) {
+            this.database = new Database(databasePath);
             loader.modules.utilities.log({ 
                 title: `${this.ansi_colors.GREEN}${this.name_space}${this.ansi_colors.RESET}`, 
                 message: `Connected to accounts database successfully.`
             });
-            loader.cache.external.setup = this.DB.prepare(`SELECT COUNT(*) as count FROM accounts WHERE role = 1`).get().count as number > 0 ? 1 : 0;
+            loader.cache.external.setup = this.database.prepare(`SELECT COUNT(*) as count FROM accounts WHERE role = 1`).get().count as number > 0 ? 1 : 0;
         } else {
-            this.DB = new loader.packages.sqlite3(databasePath);
+            this.database = new Database(databasePath);
             try { 
-                this.DB.prepare(`
+                this.database.prepare(`
                     CREATE TABLE IF NOT EXISTS accounts (
                         id INTEGER PRIMARY KEY AUTOINCREMENT,
                         username TEXT NOT NULL UNIQUE,
@@ -60,7 +63,7 @@ export class Database {
                     title: `${this.ansi_colors.GREEN}${this.name_space}${this.ansi_colors.RESET}`, 
                     message: `Created accounts database and table successfully.`
                 });
-                loader.cache.external.setup = this.DB.prepare(`SELECT COUNT(*) as count FROM accounts WHERE role = 1`).get().count as number > 0 ? 1 : 0;
+                loader.cache.external.setup = this.database.prepare(`SELECT COUNT(*) as count FROM accounts WHERE role = 1`).get().count as number > 0 ? 1 : 0;
             } catch (error) {
                 loader.modules.utilities.exception(error, this.name_space + `.constructor`);
             }
@@ -81,7 +84,7 @@ export class Database {
     public query(sql: string, params: string[] = []): string[] {
         try {
             params = Array.isArray(params) ? params : [];
-            let stmt = this.DB.prepare(sql);
+            let stmt = this.database.prepare(sql);
             return /^\s*select/i.test(sql) ? stmt.all(...params) : stmt.run(...params);
         } catch (error) {
             loader.modules.utilities.exception(error, this.name_space + `.query`);
@@ -91,4 +94,4 @@ export class Database {
 }
 
 
-export default Database;
+export default DatabaseManager;

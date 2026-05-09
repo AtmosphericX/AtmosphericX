@@ -1,5 +1,28 @@
 # Changelogs
 
+## May 9th, 2026 - 8.0.0.5
+
+**Updating**
+- backend(parsing): Replaced deprecated parsing methods with updated PlacefileManager methods in CIMSS and GibsonX report parsing.
+- backend(sonde): Removed unused sonde-rise26 parsing module.
+- backend(imports): Enhanced mesoscale event parsing with new TextParser and PlacefileManager imports.
+- backend(rtirl): Ability to have more than `one` RTIRL subscription through firebase.
+
+**Refactoring**
+- backend(global): Refactored `imports` for packages.
+- backend(imports): Removed unused `packages` and `imports`
+
+
+**To Do**
+- ~~frontend(dashboard): Work on other dashboard sections and use a similar design style for all.~~
+- ~~frontend(dashboard): Improve script performance and maintainability.~~
+- frontend(dashboard): Ability to dynamically create data and stat cards through JS
+- backend(cameras): Add support for getting camera feeds from `scriptkitty.cafe` instead of `RO`
+- backend(tempest): Add the ability to monitor multiple tempest stations at once.
+- backend(global): Refactor backend into modules that can be imported into other modules. (Maintainability)
+
+------------------------------------------------------------------------------------------------------------------------
+
 ## May 6th, 2026 - 8.0.0.4
 
 **Features**

@@ -85,7 +85,6 @@ export default defineConfig({
 					{ text: "Location Tracking Nodes", link: "/pages/sources/location-tracking-nodes" },
 					{ text: "Local Storm Reports", link: "/pages/sources/local-storm-reports" },
 					{ text: "Discussions", link: "/pages/sources/discussions" },
-					{ text: "Sonde (Rise26)", link: "/pages/sources/sonde" },
 					{ text: "CIMSS Probabilitiy", link: "/pages/sources/cimss" },
 					{ text: "ICAO Locations", link: "/pages/sources/icao" },
 					{ text: "NOAA Weather Radio (NWR)", link: "/pages/sources/nwr" },

@@ -17,6 +17,13 @@
 
 import * as loader from '../..';
 import * as types from '../../@dictionaries/types';
+import { resolve } from 'path';
+import { parse } from 'jsonc-parser';
+import { Agent } from 'https';
+import { stdout } from 'process'
+import { createHash } from 'crypto';
+import { existsSync, mkdirSync, appendFileSync, statSync, readFileSync, readdirSync } from 'fs';
+import axios from 'axios';
 
 interface LogOptions {  
     title?: string; 
@@ -65,9 +72,9 @@ export class Utility {
     config_hash: string = null;
     constructor() {
         this.absolute_paths.forEach(path => {
-            const resolvedPath = loader.packages.path.resolve(process.cwd(), path);
-            if (!loader.packages.fs.existsSync(resolvedPath)) { 
-                loader.packages.fs.mkdirSync(resolvedPath, { recursive: true });
+            const resolvedPath = resolve(process.cwd(), path as string);
+            if (!existsSync(resolvedPath)) { 
+                mkdirSync(resolvedPath, { recursive: true });
             }
         });
         this.configurations();
@@ -105,7 +112,7 @@ export class Utility {
      * @return {number} - The maximum number of log lines.
      */
     public getMaxLogLines(): number {
-        const getTerminalHeight = loader.packages.process.stdout.rows ?? 24;
+        const getTerminalHeight = stdout.rows ?? 24;
         return Math.max(1, (getTerminalHeight / 2) - 2);
     }
 
@@ -138,15 +145,15 @@ export class Utility {
             if (!this.isFancyDisplay()) { console.log(`[${timestamp}]: [${title}] ${message}`); }
         }
         if (isFile) {
-            const logDirectoryPath = loader.packages.path.resolve(process.cwd(), this.logs_directory);
-            const logFilePath = loader.packages.path.join(logDirectoryPath, `${logFileName}.log`);
+            const logDirectoryPath = resolve(process.cwd(), this.logs_directory);
+            const logFilePath = resolve(logDirectoryPath, `${logFileName}.log`);
             const stripAnsi = (str: string) => str.replace(/\x1b\[[0-9;]*m/g, '');
             const logEntry = `[${timestamp}]: [${stripAnsi(title)}] ${stripAnsi(message)}\n`;
             if (this.isLimited(`log_file:${logFileName}`, 5, 15000)) return;
-            if (!loader.packages.fs.existsSync(logDirectoryPath)) { 
-                loader.packages.fs.mkdirSync(logDirectoryPath, { recursive: true });
+            if (!existsSync(logDirectoryPath)) { 
+                mkdirSync(logDirectoryPath, { recursive: true });
             }
-            loader.packages.fs.appendFileSync(logFilePath, logEntry);
+            appendFileSync(logFilePath, logEntry);
         }
     }
 
@@ -183,8 +190,8 @@ export class Utility {
     public async validateConfigurations(): Promise<void> {
         try {
             const configurations = this.cfg() ?? {};
-            const getHashMap = loader.packages.fs.existsSync(this.hashmap_path) 
-                ? JSON.parse(loader.packages.fs.readFileSync(this.hashmap_path, 'utf-8')) as Record<string, string>
+            const getHashMap = existsSync(this.hashmap_path) 
+                ? JSON.parse(readFileSync(this.hashmap_path, 'utf-8')) as Record<string, string>
                 : {};
             const getObKeys = Object.keys(configurations).filter((key: string) => key.endsWith(`:hash`));
             const getHashKeysValues = getObKeys.map((key: string) => {
@@ -226,12 +233,12 @@ export class Utility {
      */
     public configurations(): void {
         try {
-            const configurations = loader.packages.fs.existsSync(this.config_directory)
-                ? loader.packages.fs.readdirSync(this.config_directory).reduce((acc: Record<string, string>, file: string) => {
+            const configurations = existsSync(this.config_directory)
+                ? readdirSync(this.config_directory).reduce((acc: Record<string, string | any>, file: string) => {
                 const filePath = `${this.config_directory}/${file}`;
-                if (loader.packages.fs.statSync(filePath).isFile()) {
+                if (statSync(filePath).isFile()) {
                     try {
-                        const fileContent = loader.packages.jsonc.parse(loader.packages.fs.readFileSync(filePath, 'utf-8'));
+                        const fileContent = parse(readFileSync(filePath, 'utf-8'));
                         acc = {...acc, ...fileContent};
                     } catch (e) { 
                         this.log({ title: this.name_space, message: `Error parsing configuration file ${file}: ${e.message}`});
@@ -253,7 +260,7 @@ export class Utility {
                 forecasting: configurations?.forecasting ?? {},
                 dynamic_widgets: configurations?.dynamic_widgets ?? {}
             }
-            const hash = loader.packages.crypto.createHash('md5').update(JSON.stringify(configurations)).digest('hex');
+            const hash = createHash('md5').update(JSON.stringify(configurations)).digest('hex');
             if (this.config_hash && this.config_hash !== hash) {
                 this.log({ title: `${this.ansi_colors.RED}Config${this.ansi_colors.RESET}`, message: loader.strings.configuration_changed, settings: { file: true } });
             }
@@ -278,8 +285,8 @@ export class Utility {
             const isFancyDisplay = this.isFancyDisplay();
             const getType = isFancyDisplay 
                 ? this.logo_path : this.logo_legacy_path;
-            const getFileContent = loader.packages.fs.existsSync(getType) 
-                ? loader.packages.fs.readFileSync(getType, 'utf-8').replace(/\{VERSION\}/g, this.version()) : null;
+            const getFileContent = existsSync(getType) 
+                ? readFileSync(getType, 'utf-8').replace(/\{VERSION\}/g, this.version()) : null;
             if (isFancyDisplay) { return getFileContent;  }
             console.clear();
             console.log(getFileContent);
@@ -302,7 +309,7 @@ export class Utility {
      */
     public version(): string { 
         try { 
-            const getVersion = loader.packages.fs.existsSync(this.version_path) ? loader.packages.fs.readFileSync(this.version_path, 'utf-8')
+            const getVersion = existsSync(this.version_path) ? readFileSync(this.version_path, 'utf-8')
                 : `vUnknown`;
             return getVersion;
         } catch (error) {
@@ -387,7 +394,7 @@ export class Utility {
      * @return {Promise<void>} - A promise that resolves after the specified duration.
      */
     public sleep(ms: number): Promise<void> {
-        return new Promise(resolve => setTimeout(resolve, ms));
+        return new Promise(promise => setTimeout(promise, ms));
     }
 
     /**
@@ -481,14 +488,14 @@ export class Utility {
                 method: options?.method ?? "GET",
                 body: options?.body ?? null
             };
-            const response = await loader.packages.axios({
+            const response = await axios({
                 url,
                 method: finalOptions.method,
                 data: finalOptions.body,
                 headers: finalOptions.headers,
                 timeout: finalOptions.timeout,
                 maxRedirects: 0,
-                httpsAgent: new loader.packages.https.Agent({ rejectUnauthorized: false }),
+                httpsAgent: new Agent({ rejectUnauthorized: false }),
                 validateStatus: (status: number) => status === 200
             });
             return { message: response.data, error: false };
@@ -529,7 +536,7 @@ export class Utility {
                 timestamp: new Date().toISOString(),
                 footer: { text: title }
             };
-            await loader.packages.axios.post(settings?.discord_webhook, {
+            await axios.post(settings?.discord_webhook, {
                 username: settings.webhook_display ?? "AtmosphericX Alerts",
                 content: settings.content ?? "",
                 embeds: [embed],

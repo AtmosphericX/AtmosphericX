@@ -18,6 +18,7 @@
 import * as loader from '../..';
 import * as types from '../../@dictionaries/types';
 import { getConfigurations } from '../../@dictionaries/@configurations/atmsx-parser';
+import { Manager, TextParser } from '@atmosx/event-product-parser';
 
 interface onMessage { 
     awipsType: { type: string };
@@ -40,7 +41,6 @@ type polygonMetadata = {
 export class ATMSXParser {
     name_space: string = `Internal.Atmsx.Parser`;
     ansi_colors = loader.modules.utilities.ansi_colors;
-    pkg = loader.packages.Manager;
     mgr = null;
     cache_events: types.EventType[] = [];
     event_queue: types.EventType[] = [];
@@ -468,7 +468,7 @@ export class ATMSXParser {
                 return;
             }
             loader.cache.internal.source = (settings.is_wire ? `NWWS` : `NWS`);
-            this.mgr = loader.cache.handlers.parser_client = new this.pkg(settings)
+            this.mgr = loader.cache.handlers.parser_client = new Manager(settings)
             
             for (const [event, name] of Object.entries(scanning)) {
                 this.mgr.on(event, async (data: any) => {

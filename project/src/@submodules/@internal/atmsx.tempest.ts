@@ -18,11 +18,11 @@
 import * as loader from '../..';
 import { getConfigurations } from '../../@dictionaries/@configurations/atmsx-tempest';
 import { parse } from '../../@parsing/parsing.data.mesonet';
+import { TempestStation } from '@atmosx/tempest-station-wrapper';
 
 export class ATMSXTempest {
     name_space: string = `Internal.Atmsx.Tempest`;
     ansi_colors = loader.modules.utilities.ansi_colors;
-    pkg = loader.packages.TempestStation;
     mgr = null;
     DATA: Record<string, any> = {
         forecast: null,
@@ -54,7 +54,7 @@ export class ATMSXTempest {
         try {
             const settings = getConfigurations()
             if (settings == null) { return; }
-            this.mgr = loader.cache.handlers.tempest_client = new this.pkg(settings)
+            this.mgr = loader.cache.handlers.tempest_client = new TempestStation(settings)
             this.mgr.on(`onObservation`, async (event: Record<string, string[]>) => {
                 this.DATA.observation = event;
                 const forecast = this.DATA?.forecast?.features?.[0];

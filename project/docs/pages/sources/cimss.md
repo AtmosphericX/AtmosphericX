@@ -4,13 +4,12 @@ next:
     text: 'ICAO Locations'
     link: /pages/sources/icao
 prev:
-    text: 'Sonde Rise26'
-    link: /pages/sources/sonde
+    text: 'Dicussions (Mesoscale / Tropical)'
+    link: /pages/sources/discussions
 ---
 
 <img src="/logo.png" alt="AtmosphericX Logo" width="200" style="display: block; margin: 0 auto;" />
 <small class="page-author">Written By: <b>KiyoWx</b></small><br/>
-<small class="last-updated">Last Updated: <b>Mar 23rd, 2026</b></small><br><br><br>
 
 # CIMSS Probability (PSv3)
 ---

@@ -16,7 +16,7 @@
 */
 
 import * as loader from '../../..'
-import * as types from '../../../@dictionaries/types';
+import express from 'express';
 
 export class Init { 
     name_space: string = `Routes.Portal.Logout`;
@@ -29,7 +29,7 @@ export class Init {
         });
         const getMessages = loader.strings.route_messages;
         const getRoutes = loader.strings.route_locations;
-        this.server.post(getRoutes.post_logout_endpoint, async (request: types.ExpressRequest, response: types.ExpressResponse) => {
+        this.server.post(getRoutes.post_logout_endpoint, async (request: express.Request, response: express.Response) => {
             try {
                 const { session } = loader.modules.routing.getUserSession(request);
                 if (!session) { 

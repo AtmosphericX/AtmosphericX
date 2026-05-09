@@ -16,7 +16,10 @@
 */
 
 import * as loader from '..'
-import * as types from '../@dictionaries/types';
+import { createServer } from 'http';
+import { existsSync, readFileSync } from 'fs';
+import express from 'express';
+
 
 type AccountDatabaseRecord = { 
     id: number;
@@ -43,7 +46,6 @@ type UserSession = {
 export class Routes { 
     name_space: string = `Express.Routing`;
     ansi_colors = loader.modules.utilities.ansi_colors;
-    pkg = loader.packages.express;
     mgr = null;
     constructor() {
         loader.modules.utilities.log({ 
@@ -66,7 +68,7 @@ export class Routes {
      */
     private initialize(): void {
         try  {
-            this.mgr = loader.cache.handlers.express = this.pkg();
+            this.mgr = loader.cache.handlers.express = express();
             const configurations = loader.modules.utilities.cfg();
             const options = configurations?.web_hosting_settings;
             const isHttps = options?.settings?.is_https;
@@ -81,8 +83,8 @@ export class Routes {
             }
             switch (isHttps) { 
                 case true: 
-                    const certificates = this.getCertificates();
-                    loader.cache.handlers.http_server = loader.packages.https.createServer(certificates, this.mgr).listen(getPort, () => {
+                    const certificates = this.getCertificates() as any;
+                    loader.cache.handlers.http_server = createServer(certificates, this.mgr).listen(getPort, () => {
                         loader.modules.utilities.log({ 
                             title: `${this.ansi_colors.GREEN}Express.Server${this.ansi_colors.RESET}`, 
                             message: `HTTPS Server listening on port ${this.ansi_colors.CYAN}${getPort}${this.ansi_colors.RESET}` 
@@ -92,7 +94,7 @@ export class Routes {
                     });
                     break;
                 case false:
-                    loader.cache.handlers.http_server = loader.packages.http.createServer(this.mgr).listen(getPort, () => {
+                    loader.cache.handlers.http_server = createServer(this.mgr).listen(getPort, () => {
                     loader.modules.utilities.log({ 
                         title: `${this.ansi_colors.GREEN}Express.Server${this.ansi_colors.RESET}`, 
                         message: `HTTP Server listening on port ${this.ansi_colors.CYAN}${getPort}${this.ansi_colors.RESET}` 
@@ -161,12 +163,12 @@ export class Routes {
             const options = configurations?.web_hosting_settings;
             const getKey = options?.settings?.certification_paths.private_key_path;
             const getCert = options?.settings?.certification_paths.certificate_path;
-            if (!loader.packages.fs.existsSync(getKey) || !loader.packages.fs.existsSync(getCert)) {
+            if (!existsSync(getKey) || !existsSync(getCert)) {
                 throw new Error(`SSL/TLS certificate files not found at specified paths.`);
             }
             return {
-                key: loader.packages.fs.readFileSync(getKey, 'utf8'),
-                certificate: loader.packages.fs.readFileSync(getCert, 'utf8')
+                key: readFileSync(getKey, 'utf8'),
+                certificate: readFileSync(getCert, 'utf8')
             }
         } catch (error) {
             loader.modules.utilities.exception(error, this.name_space + `.getCertificates`)
@@ -189,7 +191,7 @@ export class Routes {
      * @param {string} [kickMessage] - Optional custom message to include in the response.
      * @return {Object} A JSON response indicating success or failure of the session invalidation.
      */
-    public invalidateUserSession(response: types.ExpressRequest, session: string, kickMessage?: string): Record<string, string | number> {
+    public invalidateUserSession(response: express.Request, session: string, kickMessage?: string): Record<string, string | number> {
         const getMessages = loader?.strings?.route_messages;
         try { 
             loader.cache.internal.http_sessions = loader.cache.internal.http_sessions
@@ -230,7 +232,7 @@ export class Routes {
      * @param {string} session - The session identifier to create.
      * @return {Object} A JSON response indicating successful session creation.
      */
-    public createUserSession(response: types.ExpressResponse, username: string, role: number, address: string, useragent: string, session: string): string {
+    public createUserSession(response: express.Response, username: string, role: number, address: string, useragent: string, session: string): string {
         const getMessages = loader.strings.route_messages;
         try {
             const configurations = loader.modules.utilities.cfg();
@@ -280,7 +282,7 @@ export class Routes {
      * @param {Object} request - The Express request object containing headers.
      * @return {string | null} The session identifier if found, otherwise null.
      */
-    public getUserSession(request: types.ExpressRequest): UserSession {
+    public getUserSession(request: express.Request): UserSession {
         const sessionCookie = request.headers.cookie?.split(';').find((a: string) => a.trim().startsWith('session='))?.split('=')[1];
         const sessionData = loader.cache.internal.http_sessions.find(a => a.session == sessionCookie);
         return {
@@ -392,7 +394,7 @@ export class Routes {
      * @param {Object} request - The Express request object.
      * @return {Promise<Object>} A promise that resolves to the parsed request body.
      */
-    public async getRequestBody(request: types.ExpressRequest): Promise<Record<string, string>> {
+    public async getRequestBody(request: express.Request): Promise<Record<string, string>> {
         if (parseInt(request.headers['content-length'] || '0') > 5_000) {
             throw new Error('Request body too large');
         }

@@ -16,7 +16,8 @@
 */
 
 import * as loader from '../../..'
-import * as types from '../../../@dictionaries/types';
+import { resolve } from 'path';
+import express from 'express';
 
 export class Init { 
     name_space: string = `Routes.Core.Dashboard`;
@@ -28,8 +29,8 @@ export class Init {
             message: `Successfully initialized`
         });
         const getRoutes = loader.strings.route_locations;
-        const storage = loader.packages.path.resolve(`..`, `storage`);
-        this.server.get(`/dev`, async (___: types.ExpressRequest, response: types.ExpressResponse) => {
+        const storage = resolve(`..`, `storage`);
+        this.server.get(`/dev`, async (___: express.Request, response: express.Response) => {
             const tick = performance.now();
             const configurations = loader.modules.utilities.cfg();
             const documentation = configurations.web_hosting_settings?.documentation_mode ?? false;
@@ -50,7 +51,7 @@ export class Init {
             });
         })
 
-        this.server.get(getRoutes.get_dashboard_endpoint, async (request: types.ExpressRequest, response: types.ExpressResponse) => {
+        this.server.get(getRoutes.get_dashboard_endpoint, async (request: express.Request, response: express.Response) => {
             try {
                 const tick = performance.now();
                 let setPath = `${storage}${getRoutes.dashboard_direct_path}`;

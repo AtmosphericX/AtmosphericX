@@ -17,6 +17,7 @@
 
 import * as types from '../@dictionaries/types';
 import * as loader from '..';
+import { PlacefileManager } from '@atmosx/placefile-parser';
 
 interface GibsonRidgeReportTypes { 
     lat?: string; 
@@ -39,7 +40,7 @@ export const parse = (body: string) => {
         type: 'FeatureCollection',
         features: []
     };
-    loader.packages.PlacefileManager.parseTable(body).then(parsed=> {
+    PlacefileManager.parseTable(body).then(parsed=> {
         parsed as GibsonRidgeReportTypes[];
         for (const feature of parsed) {
             const longitude = parseFloat(feature.lon);
