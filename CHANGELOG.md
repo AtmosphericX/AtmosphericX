@@ -20,6 +20,8 @@
 - backend(cameras): Add support for getting camera feeds from `scriptkitty.cafe` instead of `RO`
 - backend(tempest): Add the ability to monitor multiple tempest stations at once.
 - backend(global): Refactor backend into modules that can be imported into other modules. (Maintainability)
+- backend(streaming): Implement `WeatherFront` streaming urls through `scriptkitty.cafe`
+- backend(spotter-network): Ability to POST `location` and `reports` through AtmosphericX.
 
 ------------------------------------------------------------------------------------------------------------------------
 
