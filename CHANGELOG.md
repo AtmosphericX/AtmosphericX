@@ -22,6 +22,7 @@
 - backend(global): Refactor backend into modules that can be imported into other modules. (Maintainability)
 - backend(streaming): Implement `WeatherFront` streaming urls through `scriptkitty.cafe`
 - backend(spotter-network): Ability to POST `location` and `reports` through AtmosphericX.
+- packages(axios): Remove `axios` dependency and replace with `fetch` with the ability to use `proxies` configured within `core.jsonc`
 
 ------------------------------------------------------------------------------------------------------------------------
 
