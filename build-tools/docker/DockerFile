@@ -1,0 +1,48 @@
+# syntax=docker/dockerfile:1
+
+FROM ubuntu:24.04
+
+ARG REPO=https://github.com/AtmosphericX/AtmosphericX.git
+ARG BRANCH=main
+
+ENV DEBIAN_FRONTEND=noninteractive
+
+# -----------------------------
+# System dependencies
+# -----------------------------
+RUN apt-get update && apt-get install -y \
+    git \
+    curl \
+    wget \
+    bash \
+    ca-certificates \
+    nodejs \
+    npm \
+    build-essential \
+ && rm -rf /var/lib/apt/lists/*
+
+# -----------------------------
+# App setup
+# -----------------------------
+WORKDIR /app
+
+RUN git clone --depth 1 --branch ${BRANCH} ${REPO} .
+
+WORKDIR /app/build-tools/docker
+
+RUN chmod +x docker-install.sh docker-start.sh docker-update.sh || true
+
+# -----------------------------
+# Install at build time (only once)
+# -----------------------------
+RUN bash ./docker-install.sh
+
+# -----------------------------
+# Runtime config
+# -----------------------------
+WORKDIR /app/build-tools/docker
+
+EXPOSE 80
+
+# Clean JSON CMD (no Docker warnings)
+CMD ["bash", "./docker-start.sh"]
