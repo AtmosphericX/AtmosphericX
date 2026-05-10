@@ -49,31 +49,12 @@ The Raspberry Pi is supported but please make sure to have the Model 4 version a
 ## Installation Process
 Installing AtmosphericX is a straightforward process as long as you **CAREFULLY** read and follow the introductions and meet the mentioned [system specifications](#system-requirements-specifications). Down below are installation steps for each OS including a limited easy install script for users that are not familiar with these applications.
 
-###
-::: details [Easy Installation] Simple Windows Installation Script
+::: details [Easy Installation] Docker Container
+Please install docker if you haven't done so already:
 ```sh
-# This script is designed for Windows 10 and later. If you wish to install manually, please refer to the manual installation steps below.
-curl -L -o Git-2.50.0.2-64-bit.exe https://github.com/git-for-windows/git/releases/download/v2.50.0.windows.2/Git-2.50.0.2-64-bit.exe
-curl -L -o node-v22.17.0-x64.msi https://nodejs.org/dist/v22.17.0/node-v22.17.0-x64.msi
-start /wait Git-2.50.0.2-64-bit.exe
-start /wait node-v22.17.0-x64.msi
-
-set "PATH=%ProgramFiles%\Git\cmd;%PATH%"
-set "PATH=%ProgramFiles%\nodejs;%PATH%"
-npm --version
-
-del Git-2.50.0.2-64-bit.exe & 
-del node-v22.17.0-x64.msi
-
-git --version
-git clone https://github.com/AtmosphericX/AtmosphericX.git
-cd AtmosphericX
-cd build-tools
-start /wait install.sh &
-start /wait start.sh
+curl -Ls https://scriptkitty.cafe/share/atmosx-docker/install.sh | bash
 ```
 :::
-
 
 ###
 ::: details [Manual] Windows (10/11) Installation Steps
@@ -214,11 +195,8 @@ cd build-tools
 ```
 
 :::
-
 ###
-::: details [COMING SOON] Docker Container Installation
-> Feature not yet implemented.
-:::
+
 
 ## Post Installation
 Congratulations, you have most likely successfully completed the installation process of AtmosphericX. If you are still facing issues, please refer to [the troubleshooting guide](./troubleshooting). You may continue to the next section for [post installation](./post-installation)
