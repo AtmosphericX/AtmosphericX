@@ -7,6 +7,8 @@
 - backend(sonde): Removed unused sonde-rise26 parsing module.
 - backend(imports): Enhanced mesoscale event parsing with new TextParser and PlacefileManager imports.
 - backend(rtirl): Ability to have more than `one` RTIRL subscription through firebase.
+- package(express-rate-limit): Update express-rate-limit dependency to version 8.5.1 (Vuln)
+- package(axios): Remove and use `fetch` on all packages relating to @atmosx
 
 **Refactoring**
 - backend(global): Refactored `imports` for packages.
