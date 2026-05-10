@@ -23,7 +23,6 @@ import { Agent } from 'https';
 import { stdout } from 'process'
 import { createHash } from 'crypto';
 import { existsSync, mkdirSync, appendFileSync, statSync, readFileSync, readdirSync } from 'fs';
-import axios from 'axios';
 
 interface LogOptions {  
     title?: string; 
@@ -488,19 +487,29 @@ export class Utility {
                 method: options?.method ?? "GET",
                 body: options?.body ?? null
             };
-            const response = await axios({
-                url,
+            const controller = new AbortController();
+            const timeoutId = setTimeout(() => { controller.abort(); }, finalOptions.timeout);
+            const response = await fetch(url, {
                 method: finalOptions.method,
-                data: finalOptions.body,
-                headers: finalOptions.headers,
-                timeout: finalOptions.timeout,
-                maxRedirects: 0,
-                httpsAgent: new Agent({ rejectUnauthorized: false }),
-                validateStatus: (status: number) => status === 200
+                headers: finalOptions.headers as HeadersInit,
+                body: finalOptions.body as BodyInit | null,
+                redirect: "manual",
+                signal: controller.signal
             });
-            return { message: response.data, error: false };
+            clearTimeout(timeoutId);
+            if (response.status !== 200) {
+                return { message: `Request failed with status ${response.status}`, error: true };
+            }
+            const contentType = response.headers.get("content-type") || "";
+            let message: any;
+            if (contentType.includes("application/json")) {
+                message = await response.json();
+            } else {
+                message = await response.text();
+            }
+            return { message, error: false };
         } catch (error) {
-            const message = error instanceof Error ? error.message : JSON.stringify(error);
+            const message = error instanceof Error ? error.message: JSON.stringify(error);
             return { message, error: true };
         }
     }
@@ -536,12 +545,14 @@ export class Utility {
                 timestamp: new Date().toISOString(),
                 footer: { text: title }
             };
-            await axios.post(settings?.discord_webhook, {
-                username: settings.webhook_display ?? "AtmosphericX Alerts",
-                content: settings.content ?? "",
-                embeds: [embed],
-                timeout: 2000
-            });
+            await this.httpRequest(
+                settings.discord_webhook, 
+                { 
+                    method: "POST", 
+                    timeout: 2000, 
+                    headers: { "Content-Type": "application/json" }, 
+                    body: JSON.stringify({username: settings.webhook_display ?? "AtmosphericX Alerts", content: settings.content ?? "", embeds: [embed]})
+                });
         } catch (error) {
             this.exception(error, this.name_space + `.sendWebhook`);
         }

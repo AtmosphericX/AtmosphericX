@@ -43,7 +43,6 @@
     "@firebase/database": "1.1.0",
     "@streamerbot/client": "1.12.2",
     "argon2": "0.44.0",
-    "axios": "1.13.5",
     "better-sqlite3": "12.6.2",
     "blessed": "0.1.81",
     "croner": "10.0.1",

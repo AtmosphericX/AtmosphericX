@@ -1,6 +1,6 @@
 # Changelogs
 
-## May 9th, 2026 - 8.0.0.5
+## May 10th, 2026 - 8.0.0.5
 
 **Updating**
 - backend(parsing): Replaced deprecated parsing methods with updated PlacefileManager methods in CIMSS and GibsonX report parsing.
@@ -22,7 +22,7 @@
 - backend(global): Refactor backend into modules that can be imported into other modules. (Maintainability)
 - backend(streaming): Implement `WeatherFront` streaming urls through `scriptkitty.cafe`
 - backend(spotter-network): Ability to POST `location` and `reports` through AtmosphericX.
-- packages(axios): Remove `axios` dependency and replace with `fetch` with the ability to use `proxies` configured within `core.jsonc`
+- ~~packages(axios): Remove `axios` dependency and replace with `fetch`~~ with the ability to use `proxies` configured within `core.jsonc`
 
 ------------------------------------------------------------------------------------------------------------------------
 
