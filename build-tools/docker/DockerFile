@@ -36,7 +36,7 @@ RUN chmod +x build-tools/docker/*.sh || true
 # -----------------------------
 # Install dependencies (safe phase)
 # -----------------------------
-RUN bash build-tools/docker/docker-install.sh || true
+RUN bash build-tools/docker/docker-install.sh
 
 # -----------------------------
 # Runtime

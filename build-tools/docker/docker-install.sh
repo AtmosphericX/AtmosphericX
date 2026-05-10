@@ -1,7 +1,7 @@
 #!/bin/bash
 
 set -e
-cd ../../project
+cd ../../../project
 echo "Cleaning previous install..."
 rm -rf node_modules package-lock.json
 echo "Installing dependencies..."
