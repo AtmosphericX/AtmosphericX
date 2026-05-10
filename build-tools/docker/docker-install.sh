@@ -1,7 +1,10 @@
 #!/bin/bash
 
 set -e
-cd ../../../project
+
+PROJECT_DIR="$(cd "$(dirname "$0")/../../project" && pwd)"
+cd "$PROJECT_DIR"
+
 echo "Cleaning previous install..."
 rm -rf node_modules package-lock.json
 echo "Installing dependencies..."

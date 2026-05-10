@@ -1,12 +1,11 @@
 #!/bin/bash
 set -e
 
-configurations_directory="../../../configurations"
+project_root="$(cd "$(dirname "$0")/../../../" && pwd)"
+configurations_directory="$project_root/configurations"
 repository="AtmosphericX/AtmosphericX"
 branch="main"
 git_hub_token="$1"
-
-project_root="$(cd "$(dirname "$0")/../../../" && pwd)"
 
 echo "=== AtmosphericX AUTO UPDATE MODE ==="
 
