@@ -502,7 +502,7 @@ export class Utility {
             }
             const contentType = response.headers.get("content-type") || "";
             let message: any;
-            if (contentType.includes("application/json")) {
+            if (contentType.includes("application/json") || contentType.includes(`application/geo+json`)) {
                 message = await response.json();
             } else {
                 message = await response.text();
