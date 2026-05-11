@@ -81,6 +81,7 @@ export class Tracking {
                         county: null,
                         state: null,
                         address: null,
+                        city: null,
                         icao,
                         last_updated: new Date()
                     }
@@ -190,10 +191,12 @@ export class Tracking {
             const address = getAddress?.message?.address ?? {};
             const county = address.county ?? "";
             const state = address.state ?? "";
+            const city = address.city ?? ""
             const addr = address.road ?? "";
             target.properties.county = (`${county}`).trim().replace(/^,|,$/g, "");
             target.properties.state = (`${state}`).trim().replace(/^,|,$/g, "");
             target.properties.address = (`${addr}`).trim().replace(/^,|,$/g, "");
+            target.properties.city = (`${city}`).trim().replace(/^,|,$/g, "");
             target.properties.icao = this.getNearestICAO({ latitude: lat, longitude: lon });
             if (cfg?.sources?.location_settings?.fetch_mesonet_data) {
                 if (!cfg?.sources?.miscellaneous_settings?.tempest_station?.enabled) {

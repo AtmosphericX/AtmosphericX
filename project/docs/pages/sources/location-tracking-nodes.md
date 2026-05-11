@@ -94,6 +94,7 @@ Data can be requested at `/data/tracking` and is returned in the following GeoJS
         "source": "RealTimeIRL",
         "county": "Some County",
         "state": "Some State",
+        "city": "Some City",
         "address": "Some Address",
         "icao": "KXYZ",
         "last_updated": "2026-03-23T18:45:00Z

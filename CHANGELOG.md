@@ -9,6 +9,7 @@
 - backend(rtirl): Ability to have more than `one` RTIRL subscription through firebase.
 - package(express-rate-limit): Update express-rate-limit dependency to version 8.5.1 (Vuln)
 - package(axios): Remove and use `fetch` on all packages relating to @atmosx
+- tracking(node): Added city property to tracking nodes
 
 **Refactoring**
 - backend(global): Refactored `imports` for packages.
