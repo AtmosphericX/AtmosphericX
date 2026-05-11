@@ -49,12 +49,6 @@ The Raspberry Pi is supported but please make sure to have the Model 4 version a
 ## Installation Process
 Installing AtmosphericX is a straightforward process as long as you **CAREFULLY** read and follow the introductions and meet the mentioned [system specifications](#system-requirements-specifications). Down below are installation steps for each OS including a limited easy install script for users that are not familiar with these applications.
 
-::: details [Easy Installation] Docker Container
-Please install docker if you haven't done so already:
-```sh
-curl -Ls https://scriptkitty.cafe/share/atmosx-docker/install.sh | bash
-```
-:::
 
 ###
 ::: details [Manual] Windows (10/11) Installation Steps
@@ -196,6 +190,13 @@ cd build-tools
 
 :::
 ###
+
+::: details [Semi-Automatic] Docker Container
+Please install docker if you haven't done so already:
+```sh
+curl -Ls https://scriptkitty.cafe/share/atmosx-docker/install.sh | bash
+```
+:::
 
 
 ## Post Installation
