@@ -161,10 +161,10 @@
                 "endpoint": "https://api.weatherusa.net/v1/wxradio",
                 "contradictions": [] // Ignore
             },
-            "power_outages": { // Power outage statistics from SDSweather (Relayed)
+            "power_outages": { // Power outage statistics from SDSweather
                 "enabled": true,
                 "cache_time": 600,
-                "endpoint": "https://scriptkitty.cafe/relay/atmosx/outages",
+                "endpoint": "https://www.sdsweather.com/poweroutage/states.php",
                 "contradictions": [] // Ignore
             },
             "camera_streams": { // Live Cameras (Relayed + Multiple Sources)

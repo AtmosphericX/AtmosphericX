@@ -14,6 +14,51 @@
 
 */
 
+type OutageTypes = { 
+    summary: {
+        priority: string;
+        tracked_customers: number;
+        outaged_customers: number;
+    },
+    data: {
+        fips: string; 
+        state: string; 
+        tracked: number; 
+        outaged: number 
+    }[]
+}
+
+type OutageFeature = {
+    US_State_FIPS: string;
+    StateName: string;
+    CustomersTracked: number;
+    CustomersOut: number;
+}
+
 export const parse = (body: Record<string, string>) => {
-     return body; // It's already in the required structure
+    const structure: OutageTypes['data'] = [];
+    let totalTracked = 0;
+    let totalOut = 0;
+    let stateWithMostOutages = '';
+    let maxOutages = 0;
+    for (const feature of (body.states as unknown) as OutageFeature[]) {
+        structure.push({
+            fips: feature.US_State_FIPS ?? null,
+            state: feature.StateName ?? null,
+            tracked: feature.CustomersTracked ?? null,
+            outaged: feature.CustomersOut ?? null,
+        });
+        totalTracked += feature.CustomersTracked;
+        totalOut += feature.CustomersOut;
+        if (feature.CustomersOut > maxOutages) {
+            maxOutages = feature.CustomersOut;
+            stateWithMostOutages = feature.StateName;
+        }
+    }
+    const summary = {
+        total_customers: totalTracked ?? null,
+        total_outages: totalOut ?? null,
+        priority: stateWithMostOutages ?? null,
+    };
+    return { summary, data: structure };
 };

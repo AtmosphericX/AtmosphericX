@@ -35,7 +35,7 @@ AtmosphericX currently doesn't have a fully featured dashboard like v7 and other
 - ProbSevere Version 3 ([CIMSS](https://cimss.ssec.wisc.edu/))
 - Nexrad Locations
 - NOAA Weather Radio (Community Feeds) ([WeatherUSA](https://api.weatherusa.net))
-- Power Outage Statistics (US and US-Territories)
+- Power Outage Statistics (US and US-Territories) ([SDSWeather](https://www.sdsweather.com/))
 - Camera Streams / IoT Devices (*Not for Broadcast*)
 - Tempest Station Integration ([WeatherFlow-Tempest, Inc.](https://tempest.earth/tempest-home-weather-system/))
 - Built-in Placefiles for GibsonRidge Software, [SupercellWx](https://supercellwx.net/), and more!

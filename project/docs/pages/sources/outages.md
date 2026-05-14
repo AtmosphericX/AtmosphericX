@@ -15,7 +15,7 @@ prev:
 ---
 > Configurations: `sources.miscellaneous_settings.power_outages`
 
-Powered by `sdsweather` and relayed through the `AtmosphericX` relay service, this feature retrieves power outage information across the United States and US Territories.
+Powered by `sdsweather`, this feature retrieves power outage information across the United States and US Territories.
 
 ## Data Structure
 Data can be requested at `/data/outages` and is returned in the following JSON format:

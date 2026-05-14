@@ -4,11 +4,11 @@
 
 **Updating**
 - backend(cameras): Updated camera feed integration to use `scriptkitty.cafe` instead of `SDS`
-- backend(outages): Updated outages integration to use `scriptkitty.cafe` instead of `SDS`
+- ~~backend(outages): Updated outages integration to use `scriptkitty.cafe` instead of `SDS`~~
 
 **To Do**
 - frontend(dashboard): Ability to dynamically create data and stat cards through JS
-- backend(cameras): Add support for getting camera feeds from `scriptkitty.cafe` instead of `RO`
+- ~~backend(cameras): Add support for getting camera feeds from `scriptkitty.cafe` instead of `RO`~~
 - backend(tempest): Add the ability to monitor multiple tempest stations at once.
 - backend(global): Refactor backend into modules that can be imported into other modules. (Maintainability)
 - backend(streaming): Implement `WeatherFront` streaming urls through `scriptkitty.cafe`
