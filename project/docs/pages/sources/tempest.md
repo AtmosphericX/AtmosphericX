@@ -4,7 +4,7 @@ next:
     text: 'PulsePoint Respond'
     link: /pages/sources/pulsepoint
 prev:
-    text: 'RadarOmega Streams'
+    text: 'Camera Streams'
     link: /pages/sources/streams
 ---
 

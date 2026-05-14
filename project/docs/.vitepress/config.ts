@@ -89,7 +89,7 @@ export default defineConfig({
 					{ text: "ICAO Locations", link: "/pages/sources/icao" },
 					{ text: "NOAA Weather Radio (NWR)", link: "/pages/sources/nwr" },
 					{ text: "Power Outages", link: "/pages/sources/outages" },
-					{ text: "RadarOmega Streams", link: "/pages/sources/streams" },
+					{ text: "Camera Streams", link: "/pages/sources/streams" },
 					{ text: "Tempest Weather Station", link: "/pages/sources/tempest" },
 					{ text: "PulsePoint Respond", link: "/pages/sources/pulsepoint" },
 				],

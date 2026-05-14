@@ -33,7 +33,7 @@
 
     */
 {
-    "sources:hash": "6e5626ddb2a6595b463d9f6271d1c75ed49ac509afdd1720a451e500bbc9ab26", // DO NOT MODIFY THIS VALUE. THIS IS USED FOR CONFIGURATION INTEGRITY CHECKS.
+    "sources:hash": "d1b5e453dc2b87bc48e8617b7d6fdc54144a2161d42ed2238589f4808d4a50e7", // DO NOT MODIFY THIS VALUE. THIS IS USED FOR CONFIGURATION INTEGRITY CHECKS.
     "sources": {
         "atmosx_parser_settings": { // AtmosphericX event parser settings
             "noaa_weather_wire_service": false, // If you want to use NOAA Weather Wire Service, set this to true.
@@ -161,16 +161,16 @@
                 "endpoint": "https://api.weatherusa.net/v1/wxradio",
                 "contradictions": [] // Ignore
             },
-            "sds_outages": { // Power outage statistics from SDSweather
+            "power_outages": { // Power outage statistics from SDSweather (Relayed)
                 "enabled": true,
-                "cache_time": 3600,
-                "endpoint": "https://www.sdsweather.com/poweroutage/states.php",
+                "cache_time": 600,
+                "endpoint": "https://scriptkitty.cafe/relay/atmosx/outages",
                 "contradictions": [] // Ignore
             },
-            "sds_streams": { // Live Radar Omega / SDSWeather Streams (IoT)
+            "camera_streams": { // Live Cameras (Relayed + Multiple Sources)
                 "enabled": true,
-                "cache_time": 120,
-                "endpoint": "https://www.sdsweather.com/php/iot/device/devices.php",
+                "cache_time": 600,
+                "endpoint": "https://scriptkitty.cafe/relay/atmosx/cameras",
                 "contradictions": [] // Ignore
             },
             "tempest_station": { // Tempest Weather Station Integration (See: https://tempestwx.com/)

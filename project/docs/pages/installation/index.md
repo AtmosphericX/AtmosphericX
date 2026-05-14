@@ -10,7 +10,7 @@ prev:
 
 <img src="/logo.png" alt="AtmosphericX Logo" width="200" style="display: block; margin: 0 auto;" />
 <small class="page-author">Written By: <b>KiyoWx</b></small><br/>
-<small class="version-made">Version: <b>8.0.0.5</b></small><br><br><br>
+<small class="version-made">Version: <b>8.0.0.6</b></small><br><br><br>
 
 # AtmosphericX
 ---
@@ -35,13 +35,13 @@ AtmosphericX currently doesn't have a fully featured dashboard like v7 and other
 - ProbSevere Version 3 ([CIMSS](https://cimss.ssec.wisc.edu/))
 - Nexrad Locations
 - NOAA Weather Radio (Community Feeds) ([WeatherUSA](https://api.weatherusa.net))
-- Power Outage Statistics (US and US-Territories) ([SDSWeather](https://www.sdsweather.com/))
-- Radar Omega Streams (*Not for Broadcast*) ([SDSWeather](https://www.sdsweather.com/))
+- Power Outage Statistics (US and US-Territories)
+- Camera Streams / IoT Devices (*Not for Broadcast*)
 - Tempest Station Integration ([WeatherFlow-Tempest, Inc.](https://tempest.earth/tempest-home-weather-system/))
 - Built-in Placefiles for GibsonRidge Software, [SupercellWx](https://supercellwx.net/), and more!
 - Event Customization (Sounds, Themes, Filtering)
 - Event Mock EAS Audios
-- ~~Dashboard~~ (`SOON`)
+- Dashboard
 - Cache Control and HTTP(S) Security
 - Account Protection (argon2, sessions, and lockout)
 - RESTful API Ratelimiting

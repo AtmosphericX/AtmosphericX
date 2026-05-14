@@ -22,8 +22,8 @@ import * as loader from '../..';
 import * as sn_s_parser from '../../@parsing/parsing.sn.spotters';
 import * as sn_r_parser from '../../@parsing/parsing.sn.reports';
 import * as gibx_r_parser from '../../@parsing/parsing.gibsonx.reports';
-import * as sds_o_parser from '../../@parsing/parsing.sds.outages';
-import * as sds_s_parser from '../../@parsing/parsing.sds.streams';
+import * as outages from '../../@parsing/parsing.data.outages';
+import * as streams from '../../@parsing/parsing.data.streams';
 import * as meso_d_parser from '../../@parsing/parsing.events.mesoscale';
 import * as trop_d_parser from '../../@parsing/parsing.events.tropical_storms';
 import * as nwr_parser from '../../@parsing/parsing.data.weather_radio';
@@ -35,8 +35,8 @@ const cache_keys = [
     { key: 'spotter_network', cache: 'spotters', parser: sn_s_parser },
     { key: 'spotter_reports', cache: 'reports', parser: sn_r_parser },
     { key: 'grlevelx_reports', cache: 'reports', parser: gibx_r_parser },
-    { key: 'sds_outages', cache: 'outages', parser: sds_o_parser },
-    { key: 'sds_streams', cache: 'streams', parser: sds_s_parser },
+    { key: 'power_outages', cache: 'outages', parser: outages },
+    { key: 'camera_streams', cache: 'streams', parser: streams },
     { key: 'mesoscale_discussions', cache: 'discussions', parser: meso_d_parser },
     { key: 'tropical_storms', cache: 'tropical_storms', parser: trop_d_parser },
     { key: 'cimss_psv3', cache: 'cimss', parser: cimss_parser },

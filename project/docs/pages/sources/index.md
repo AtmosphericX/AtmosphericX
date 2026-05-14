@@ -47,8 +47,8 @@ sources.jsonc
         ├── cimss_psv3
         ├── icao_locations
         ├── weather_radio
-        ├── sds_outages
-        ├── sds_streams
+        ├── power_outages
+        ├── camera_streams
         ├── tempest_station
         └── pulse_point
 ```

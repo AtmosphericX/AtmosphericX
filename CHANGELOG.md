@@ -1,5 +1,21 @@
 # Changelogs
 
+## May 14th, 2026 - 8.0.0.6
+
+**Updating**
+- backend(cameras): Updated camera feed integration to use `scriptkitty.cafe` instead of `SDS`
+- backend(outages): Updated outages integration to use `scriptkitty.cafe` instead of `SDS`
+
+**To Do**
+- frontend(dashboard): Ability to dynamically create data and stat cards through JS
+- backend(cameras): Add support for getting camera feeds from `scriptkitty.cafe` instead of `RO`
+- backend(tempest): Add the ability to monitor multiple tempest stations at once.
+- backend(global): Refactor backend into modules that can be imported into other modules. (Maintainability)
+- backend(streaming): Implement `WeatherFront` streaming urls through `scriptkitty.cafe`
+- backend(spotter-network): Ability to POST `location` and `reports` through AtmosphericX.
+
+------------------------------------------------------------------------------------------------------------------------
+
 ## May 10th, 2026 - 8.0.0.5
 
 **Updating**
@@ -19,12 +35,6 @@
 **To Do**
 - ~~frontend(dashboard): Work on other dashboard sections and use a similar design style for all.~~
 - ~~frontend(dashboard): Improve script performance and maintainability.~~
-- frontend(dashboard): Ability to dynamically create data and stat cards through JS
-- backend(cameras): Add support for getting camera feeds from `scriptkitty.cafe` instead of `RO`
-- backend(tempest): Add the ability to monitor multiple tempest stations at once.
-- backend(global): Refactor backend into modules that can be imported into other modules. (Maintainability)
-- backend(streaming): Implement `WeatherFront` streaming urls through `scriptkitty.cafe`
-- backend(spotter-network): Ability to POST `location` and `reports` through AtmosphericX.
 - ~~packages(axios): Remove `axios` dependency and replace with `fetch`~~ with the ability to use `proxies` configured within `core.jsonc`
 
 ------------------------------------------------------------------------------------------------------------------------
