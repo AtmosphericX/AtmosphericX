@@ -125,9 +125,9 @@
                             const gTRE = utils.getTimeRelative(new Date(properties?.expires))
                             const getHash = properties?.hash ?? JSON.stringify(event)
                             const getQuery = properties?.imported?.spotters?.find(tracker => tracker.name?.toLowerCase().includes(String(settings.setSearch)?.toLowerCase()));
-                            const getTracker = getQuery ?? properties?.imported?.spotters?.[0];
-                            const getDist = getTracker?.metadata?.distance;
-                            const getUnit = getTracker?.metadata?.unit;
+                            const getTracking = getQuery ?? properties?.imported?.spotters?.[0];
+                            const getDist = getTracking?.metadata?.distance;
+                            const getUnit = getTracking?.metadata?.unit;
                             const getInside = getTracking?.metadata?.inside;
                             const card = document.createElement("div");
                                 card.className = "widget-card";

@@ -34,9 +34,10 @@ class Core {
         document.addEventListener('onUpdate', (event) => {
             const getSfx = window.localStorage.getItem("dashboard.events.sfx") === "true";
             const getNotifications = window.localStorage.getItem("dashboard.events.notifications") === "true";
+            const getEventPrompt = window.localStorage.getItem("dashboard.events.prompt") === "true";
             const getPrompted = window.localStorage.getItem("dashboard.cached") === "true"
             
-            if (getNotifications && getPrompted) {
+            if (getPrompted) {
                 const getFeatures = [
                     ...Object.values(utils?.storage?.events?.features || {}),
                     ...Object.values(utils?.storage?.manual?.features || {}),
@@ -52,7 +53,7 @@ class Core {
                     const gTRE = utils.getTimeRelative(new Date(getLatestEvent?.properties?.expires))
                     const historyEntries = Array.isArray(getLatestEvent?.properties?.details?.history) ? [...getLatestEvent.properties.details.history].sort((left, right) => new Date(right?.time) - new Date(left?.time)) : [];
                     const historyMessages = historyEntries.length ? historyEntries.map((entry) => {
-                        const entryTime = entry?.time ? new Date(entry.time).toLocaleString() : `--`;
+                        const entryTime = entry?.issued ? new Date(entry.issued).toLocaleString() : `--`;
                         const entryAction = entry?.action ?? `Update`;
                         return {
                             title: `${entryAction} @ ${entryTime}`,
@@ -62,11 +63,11 @@ class Core {
                     const metadata = [
                         `Issued: ${new Date(getLatestEvent?.properties?.issued).toLocaleString() ?? `--`} (${gTRI ?? `--`})`,
                         `Expires: ${new Date(getLatestEvent?.properties?.expires).toLocaleString() ?? `--`} (${gTRE ?? `--`})`,
-                        `Hail: ${getLatestEvent?.properties?.parameters?.max_hail_size ?? `--`}`,
-                        `Wind: ${getLatestEvent?.properties?.parameters?.max_wind_gust ?? `--`}`,
-                        `Tornado: ${getLatestEvent?.properties?.parameters?.tornado_detection ?? `--`}`,
-                        `Damage: ${getLatestEvent?.properties?.parameters?.damage_threat ?? `--`}`,
-                        `Flood: ${getLatestEvent?.properties?.parameters?.flood_detection ?? `--`}`,
+                        `Hail Threat: ${getLatestEvent?.properties?.parameters?.max_hail_size ?? `--`}`,
+                        `Wind Threat: ${getLatestEvent?.properties?.parameters?.max_wind_gust ?? `--`}`,
+                        `Tornado Threat: ${getLatestEvent?.properties?.parameters?.tornado_detection ?? `--`}`,
+                        `Damage Threat: ${getLatestEvent?.properties?.parameters?.damage_threat ?? `--`}`,
+                        `Flood Threat: ${getLatestEvent?.properties?.parameters?.flood_detection ?? `--`}`,
                         `Locations: ${getLatestEvent?.properties?.locations ?? `--`}`,
                         `Distance: ${getLatestEvent?.properties?.distance ?? `--`} ${getLatestEvent?.properties?.distance_unit ?? ``}`.trim(),
                     ];
@@ -79,54 +80,58 @@ class Core {
                         feature: getLatestEvent,
                         queued: false
                     });
-                    utils.sound(`/sfx/eas_sfx/uniden-eas.mp3`);
                     handler.hSyncQueue({setPlayback: getSfx})
-                    PromptsRenderer.CreatePrompt({
-                        title: `${getLatestEvent?.properties?.event} - ${getLatestEvent?.properties?.action_type}`,
-                        buttons: [
-                             { 
-                                text: "Play Event (TTS)",
-                                className: "bg-info",
-                                onClick: () => {
-                                    utils.stopsounds();
-                                    utils.tts(`Information regarding ${getLatestEvent?.properties?.event ?? `--`}: ${getLatestEvent?.properties?.description ?? `--`}`);
-                                    PromptsRenderer.ClosePrompts();
-                                }
-                            },
-                            { 
-                                text: "Copy Description",
-                                className: "bg-info", 
-                                onClick: () => {
-                                    try {
-                                        navigator.clipboard.writeText(getLatestEvent?.properties?.description ?? `--`);
-                                        utils.notify({
-                                            type: 'success',
-                                            title: `Clipboard`,
-                                            message: `Latest description copied to clipboard.`,
-                                            duration: 5000
-                                        });
-                                    } catch (error) {
-                                        utils.notify({
-                                            type: 'error',
-                                            title: `Clipboard`,
-                                            message: `Failed to copy description to clipboard.`,
-                                            duration: 5000
-                                        });
+                    if (getEventPrompt) {
+                        utils.sound(`/sfx/eas_sfx/uniden-eas.mp3`);
+                        PromptsRenderer.CreatePrompt({
+                            title: `${getLatestEvent?.properties?.event} - ${getLatestEvent?.properties?.action_type}`,
+                            buttons: [
+                                { 
+                                    text: "Play Event (TTS)",
+                                    className: "bg-info",
+                                    onClick: () => {
+                                        utils.stopsounds();
+                                        utils.tts(`Information regarding ${getLatestEvent?.properties?.event ?? `--`}: ${getLatestEvent?.properties?.description ?? `--`}`);
+                                        PromptsRenderer.ClosePrompts();
+                                    }
+                                },
+                                { 
+                                    text: "Copy Description",
+                                    className: "bg-info", 
+                                    onClick: () => {
+                                        try {
+                                            navigator.clipboard.writeText(getLatestEvent?.properties?.description ?? `--`);
+                                            utils.notify({
+                                                type: 'success',
+                                                title: `Clipboard`,
+                                                message: `Latest description copied to clipboard.`,
+                                                duration: 5000
+                                            });
+                                        } catch (error) {
+                                            utils.notify({
+                                                type: 'error',
+                                                title: `Clipboard`,
+                                                message: `Failed to copy description to clipboard.`,
+                                                duration: 5000
+                                            });
+                                        }
                                     }
                                 }
-                            }
-                        ],
-                        message: [
-                            { message: metadata.join("\n"), title: "Information" },
-                            ...historyMessages,
-                        ]
-                    })
-                    utils.notify({
-                        type: 'error',
-                        title: `${getLatestEvent?.properties?.event} - ${getLatestEvent?.properties?.action_type}`,
-                        message: metadata.join('\\n'),
-                        duration: 30000
-                    });
+                            ],
+                            message: [
+                                { message: metadata.join("\n"), title: "Information" },
+                                ...historyMessages,
+                            ]
+                        })
+                    }
+                    if (getNotifications) {
+                        utils.notify({
+                            type: 'error',
+                            title: `${getLatestEvent?.properties?.event} - ${getLatestEvent?.properties?.action_type}`,
+                            message: metadata.join('\\n'),
+                            duration: 30000
+                        });
+                    }
                 }
             }
         })

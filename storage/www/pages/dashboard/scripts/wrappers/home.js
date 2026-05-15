@@ -58,20 +58,31 @@ export function init() {
     const sessionPrompt = window.localStorage.getItem("dashboard.cached");
     const elements = cd()
     elements.welcome.innerText = `Welcome to AtmosphericX, ${getUsername ?? `Guest`}!`;
+
+    utils.notify({
+        type: 'info',
+        title: `Dashboard`,
+        message: `Welcome ${sessionPrompt ? 'back to' : 'to'} AtmosphericX ${getUsername ?? 'Guest'}!`,
+        duration: 30000
+    });
+
+
     if (!sessionPrompt) {
         PromptsRenderer.CreatePrompt({
             title: `AtmosphericX Dashboard Notice`,
             message: `The dashboard is currently under development. Not all features may be available at this time.`,
             onSubmit: () => {
-                window.localStorage.setItem("dashboard.events.sfx", true)
-                window.localStorage.setItem("dashboard.events.notifications", true)
+                window.localStorage.setItem("dashboard.events.sfx", false)
+                window.localStorage.setItem("dashboard.events.notifications", false)
+                window.localStorage.setItem("dashboard.events.prompt", false)
                 PromptsRenderer.CreatePrompt({
                     title: `Welcome to AtmosphericX v${storage?.version}`,
                     message: `Hello ${getUsername}, thank you for using AtmosphericX! Your feedback and ideas help make this project better with every update. If you’d like to support our work, donations are greatly appreciated and go directly toward streaming, hardware, and software costs that power our storm chasing and future high-quality live streams. If you are not able to donate, feel free to provide feedback and share the project with others!`,        
                     submitText: "Continue",
                     checkboxes: [
-                        { label: "Toggle Event Alerts", checked: true, onChange: (v) => {window.localStorage.setItem("dashboard.events.sfx", v)} },
-                        { label: "Toggle Event Notifications", checked: true, onChange: (v) => {window.localStorage.setItem("dashboard.events.notifications", v)} }
+                        { label: "Toggle Event Alerts", checked: false, onChange: (v) => {window.localStorage.setItem("dashboard.events.sfx", v)} },
+                        { label: "Toggle Event Notifications", checked: false, onChange: (v) => {window.localStorage.setItem("dashboard.events.notifications", v)} },
+                        { label: "Toggle Event Prompts", checked: false, onChange: (v) => {window.localStorage.setItem("dashboard.events.prompt", v)} }
                     ],
                     buttons: [
                         { text: "Documentation", className: "bg-info", onClick: () => {window.open("/documentation", "_blank");}},

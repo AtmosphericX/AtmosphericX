@@ -43,7 +43,7 @@
             "enable_cache": true, // If you want to enable caching of static assets on browsers. (RECOMMENDED)
             "port_number": 80, // What port you would like to host ATMOSX.
             "account_protection": {
-                "duplicate_session_prevention": true, // Prevent multiple active sessions for the same account.
+                "duplicate_session_prevention": false, // Prevent multiple active sessions for the same account.
                 "max_login_attempts": 5, // Max login attempts before temporary lockout.
                 "lockout_duration_minutes": 5 // Lockout duration in minutes. (This will reset after successful login / restart of AtmosphericX)
             },

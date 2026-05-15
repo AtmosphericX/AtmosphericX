@@ -5,10 +5,12 @@
 **Features**
 - backend(discord-rpc): Ability to connect to Discord's rich pressence through the publicly available bot id.
 - backend(packages): Added `discord-rpc` npm package.
+- frontend(dashboard): Added an additional toggle under `toggles` for notifications.
 
 **Updating**
 - backend(cameras): Updated camera feed integration to use `scriptkitty.cafe` instead of `SDS`
 - ~~backend(outages): Updated outages integration to use `scriptkitty.cafe` instead of `SDS`~~
+- frontend(notifications): Better stylying and removed sidebar.
 
 **To Do**
 - frontend(dashboard): Ability to dynamically create data and stat cards through JS

@@ -34,9 +34,12 @@ const NAV_DIR = [
         {role: 1, text: "Event Controller", type: "link", href: "#widget-control"},
         {role: 1, text: "System Metrics", type: "link", href: "#system-metrics"},
         {role: 1, text: "Account Manager", type: "link", href: "#account-manager"},
-        {role: 0, text: "Toggle Sfx (Events)", type: "link", href: "#", onclick: 'toggleSfx'},
-        {role: 0, text: "Toggle Notifications (Events)", type: "link", href: "#", onclick: 'toggleNotifications'},
         {role: 0, text: "Logout", type: "link", href: "#", onclick: 'logout'}
+    ]},
+    {text: "Toggles", type: "dropdown", dropdowns: [
+        {role: 0, text: "Toggle Sfx", type: "link", href: "#", onclick: 'toggleSfx'},
+        {role: 0, text: "Toggle Notifications", type: "link", href: "#", onclick: 'toggleNotifications'},
+        {role: 0, text: "Toggle Prompts", type: "link", href: "#", onclick: 'togglePrompts'},
     ]},
     {text: "Resources", type: "dropdown", dropdowns: [
         {role: 0, text: "Documentation", type: "link", href: "/docs"},
@@ -56,6 +59,15 @@ class Bindings {
         });
         window.localStorage.setItem("dashboard.events.notifications", getVal ? "false" : "true"); 
     }
+    togglePrompts() {
+        const getVal = window.localStorage.getItem("dashboard.events.prompt") === "true";
+        utils.notify({
+            type: getVal ? "error" : "success",
+            title: `Event Prompts ${getVal ? "Disabled" : "Enabled"}`,
+            duration: 30000
+        });
+        window.localStorage.setItem("dashboard.events.prompt", getVal ? "false" : "true");
+    }
     toggleSfx() { 
         const getVal = window.localStorage.getItem("dashboard.events.sfx") === "true";
         utils.notify({
@@ -69,8 +81,9 @@ class Bindings {
         fetch('/api/portal/logout', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' }
-        })
-        window.location.reload();
+        }).then(() => {
+            window.location.reload();
+        });
     }
 }
 
@@ -102,7 +115,7 @@ class Render {
                     this.page = `home`; 
                     window.location.hash = `#home`;
                     this.RenderPage();
-                    return utils.exception(`The ${getTarget} page could not be loaded defaulting to home.`);
+                    return utils.exception(`The ${getTarget} page could not be loaded defaulting to home.`, `Dashboard (Feature not availble)`);
                 }
                 getContainer.innerHTML = getContent;
                 await import(`/dashboard/scripts/wrappers/${getTarget}.js`).then(m => m.init?.());
@@ -168,7 +181,12 @@ class Render {
             getVersionText.innerText = `AtmosphericX v${utils?.storage?.version ?? `Invalid Version`}`; 
         }
         if (getHeaderText){ 
-            getHeaderText.innerText = utils?.storage?.announcement ?? `There are currently no announcements.`
+            utils.notify({
+                type: 'info',
+                title: `Announcement`,
+                message: utils?.storage?.announcement ?? `There are currently no announcements.`,
+                duration: 30000
+            });
         }
         if (!dropdowns.length) { 
             return; 
