@@ -28,7 +28,7 @@ class Utils {
 
     /**
      * @production
-     * @function notify
+     * @function log
      * @description 
      *       Displays a notification message to the user.
      * 
@@ -127,7 +127,7 @@ class Utils {
      */
     notify = function(options = {}) {
         try {
-            const { title = 'Alert', message = 'Notification', type = 'info', duration = 5000 } = options;
+            const { title = 'Alert', message = 'Notification', type = 'info', color, duration = 5000 } = options;
             if (!message) return;
             const normalizedMessage = `${message}`.replace(/\\n/g, '\n');
             this.log(`[${type.toUpperCase()}] ${normalizedMessage}`);
@@ -140,6 +140,9 @@ class Utils {
             }
             const notify = document.createElement('div');
                 notify.classList.add('notification', 'enter', type);
+            if (color) {
+                notify.style.background = color;
+            }
             const notifyTitle = document.createElement('div');
                 notifyTitle.classList.add('notification-title');
                 notifyTitle.textContent = title;

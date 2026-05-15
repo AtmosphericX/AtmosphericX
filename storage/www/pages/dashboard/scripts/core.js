@@ -125,8 +125,9 @@ class Core {
                         })
                     }
                     if (getNotifications) {
+                        const priority = utils.getEventColor(getLatestEvent.properties.event);
                         utils.notify({
-                            type: 'error',
+                            color: priority.secondary,
                             title: `${getLatestEvent?.properties?.event} - ${getLatestEvent?.properties?.action_type}`,
                             message: metadata.join('\\n'),
                             duration: 30000
