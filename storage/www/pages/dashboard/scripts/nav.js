@@ -54,8 +54,9 @@ class Bindings {
         const getVal = window.localStorage.getItem("dashboard.events.notifications") === "true";
         utils.notify({
             type: getVal ? "error" : "success",
-            title: `Notifications ${getVal ? "Disabled" : "Enabled"}`,
-            duration: 30000
+            title: `Toggle ${getVal ? "Disabled" : "Enabled"}`,
+            message: `Notifications have been ${getVal ? "disabled" : "enabled"}.`,
+            duration: 5000
         });
         window.localStorage.setItem("dashboard.events.notifications", getVal ? "false" : "true"); 
     }
@@ -63,8 +64,9 @@ class Bindings {
         const getVal = window.localStorage.getItem("dashboard.events.prompt") === "true";
         utils.notify({
             type: getVal ? "error" : "success",
-            title: `Event Prompts ${getVal ? "Disabled" : "Enabled"}`,
-            duration: 30000
+            title: `Toggle ${getVal ? "Disabled" : "Enabled"}`,
+            message: `Event prompts have been ${getVal ? "disabled" : "enabled"}.`,
+            duration: 5000
         });
         window.localStorage.setItem("dashboard.events.prompt", getVal ? "false" : "true");
     }
@@ -72,12 +74,19 @@ class Bindings {
         const getVal = window.localStorage.getItem("dashboard.events.sfx") === "true";
         utils.notify({
             type: getVal ? "error" : "success",
-            title: `SFX ${getVal ? "Disabled" : "Enabled"}`,
-            duration: 30000
+            title: `Toggle ${getVal ? "Disabled" : "Enabled"}`,
+            message: `SFX have been ${getVal ? "disabled" : "enabled"}.`,
+            duration: 5000
         });
         window.localStorage.setItem("dashboard.events.sfx", getVal ? "false" : "true"); 
     }
     logout() {
+        utils.notify({
+            type: "info",
+            title: "Dashboard",
+            message: "You are being logged out.",
+            duration: 30000
+        });
         fetch('/api/portal/logout', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' }
