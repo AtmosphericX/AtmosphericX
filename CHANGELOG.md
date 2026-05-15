@@ -1,6 +1,10 @@
 # Changelogs
 
-## May 14th, 2026 - 8.0.0.6
+## May 14th, 2026 - 8.0.0.6 (.1)
+
+**Features**
+- backend(discord-rpc): Ability to connect to Discord's rich pressence through the publicly available bot id.
+- backend(packages): Added `discord-rpc` npm package.
 
 **Updating**
 - backend(cameras): Updated camera feed integration to use `scriptkitty.cafe` instead of `SDS`
