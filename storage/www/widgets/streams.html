@@ -107,6 +107,7 @@
             settings.setRefreshTime = get(aSearch, `setRefreshTime`) ?? 15;
             settings.setTextComponenets = get(aSearch, `setTextComponenets`) ?? true;
             settings.setStreamSource = get(aSearch, `setStreamSource`) ?? `*`;
+            settings.setStreamModel = get(aSearch, `setStreamModel`) ?? null;
             settings.setStreamBufferDelay = get(aSearch, `setStreamBufferDelay`) ?? 2;
             settings.setStreamMuted = get(aSearch, `setStreamMuted`) ?? true;
             settings.setSearch = get(aSearch, `setSearch`) ?? null;
@@ -114,7 +115,7 @@
             settings.setLongitude = get(aSearch, `setLongitude`) ?? null;
             settings.setRadius = get(aSearch, `setRadius`) ?? 125;
             settings.global.setTextPlaceholder = get(aSearch, `setTextPlaceholder`) ?? `No streams available`;
-            settings.global.setValuePath = get(aSearch, `setValuePath`) ??  `%properties.name% (%properties.location ?? properties.source%)`
+            settings.global.setValuePath = get(aSearch, `setValuePath`) ??  `%properties.name% (%properties.source%)`
             
             if (!settings.setTextComponenets) { 
                 settings.setElementTitle.style.display = `none`;
@@ -133,6 +134,9 @@
                             const getStreams = utils?.storage?.streams?.features ?? [];
                             let getFilteredStreams = getStreams.filter(stream => {
                                 if (settings.setStreamSource !== `*` && stream.properties.source?.toLowerCase() !== settings.setStreamSource.toLowerCase()) {
+                                    return false
+                                }
+                                if (settings.setStreamModel && stream.properties.model !== settings.setStreamModel) {
                                     return false
                                 }
                                 return true

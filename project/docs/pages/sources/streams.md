@@ -43,8 +43,8 @@ Data can be requested at `/data/streams` and is returned in the following GeoJSO
         "stream_url": "....",
         "stream_viewers": 0,
         "icon_url": "....",
-        "model": "Model Name",
-        "source": "DEVICE"
+        "model": "DEVICE",
+        "source": "WEATHER_FRONT"
     }
 },
 ```

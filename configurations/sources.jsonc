@@ -163,13 +163,13 @@
             },
             "power_outages": { // Power outage statistics from SDSweather
                 "enabled": true,
-                "cache_time": 600,
+                "cache_time": 350,
                 "endpoint": "https://www.sdsweather.com/poweroutage/states.php",
                 "contradictions": [] // Ignore
             },
             "camera_streams": { // Live Cameras (Relayed + Multiple Sources)
                 "enabled": true,
-                "cache_time": 250,
+                "cache_time": 350,
                 "endpoint": "https://scriptkitty.cafe/relay/atmosx/cameras",
                 "contradictions": [] // Ignore
             },
