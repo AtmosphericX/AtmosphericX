@@ -106,7 +106,7 @@ Below are default / optional parameters you can use with the `streams` widget. P
 
 ## Examples
 ::: details Example 1
-Create a feed that specifically looks for all `USER (Storm Chasing) feeds` within `WEATHER FRONT`, `and `disable feed data`.
+Create a feed that specifically looks for all `USER (Storm Chasing) feeds` within `WEATHER FRONT`, and `disable feed data`.
 ```
 /widgets/streams?setStreamSource=WEATHER_FRONT&setStreamModel=USER&setTextComponents=false
 ```
