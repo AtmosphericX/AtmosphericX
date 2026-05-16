@@ -169,7 +169,7 @@
             },
             "camera_streams": { // Live Cameras (Relayed + Multiple Sources)
                 "enabled": true,
-                "cache_time": 600,
+                "cache_time": 250,
                 "endpoint": "https://scriptkitty.cafe/relay/atmosx/cameras",
                 "contradictions": [] // Ignore
             },
