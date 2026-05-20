@@ -1,6 +1,6 @@
 # Changelogs
 
-## May 14th, 2026 - 8.0.0.6 (.1)
+## May 20th, 2026 - 8.0.0.6 (.1)
 
 **Features**
 - backend(discord-rpc): Ability to connect to Discord's rich pressence through the publicly available bot id.
@@ -11,6 +11,8 @@
 - backend(cameras): Updated camera feed integration to use `scriptkitty.cafe` instead of `SDS`
 - ~~backend(outages): Updated outages integration to use `scriptkitty.cafe` instead of `SDS`~~
 - frontend(notifications): Better stylying and removed sidebar.
+- config(events): Fix order for dashboard priority
+- frontend(dashboard): Fixed distance retrieval for event popups.
 
 **To Do**
 - frontend(dashboard): Ability to dynamically create data and stat cards through JS

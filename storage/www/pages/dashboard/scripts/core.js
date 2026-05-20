@@ -52,6 +52,11 @@ class Core {
                     const gTRI = utils.getTimeRelative(new Date(getLatestEvent?.properties?.issued))
                     const gTRE = utils.getTimeRelative(new Date(getLatestEvent?.properties?.expires))
                     const historyEntries = Array.isArray(getLatestEvent?.properties?.details?.history) ? [...getLatestEvent.properties.details.history].sort((left, right) => new Date(right?.time) - new Date(left?.time)) : [];
+                    const getQuery = properties?.imported?.spotters?.find(tracker => tracker.name?.toLowerCase().includes(String(settings.setSearch)?.toLowerCase()));
+                    const getTracking = getQuery ?? properties?.imported?.spotters?.[0];
+                    const getDist = getTracking?.metadata?.distance;
+                    const getUnit = getTracking?.metadata?.unit;
+                    const getInside = getTracking?.metadata?.inside;
                     const historyMessages = historyEntries.length ? historyEntries.map((entry) => {
                         const entryTime = entry?.issued ? new Date(entry.issued).toLocaleString() : `--`;
                         const entryAction = entry?.action ?? `Update`;
@@ -69,7 +74,7 @@ class Core {
                         `Damage Threat: ${getLatestEvent?.properties?.parameters?.damage_threat ?? `--`}`,
                         `Flood Threat: ${getLatestEvent?.properties?.parameters?.flood_detection ?? `--`}`,
                         `Locations: ${getLatestEvent?.properties?.locations ?? `--`}`,
-                        `Distance: ${getLatestEvent?.properties?.distance ?? `--`} ${getLatestEvent?.properties?.distance_unit ?? ``}`.trim(),
+                        `Distance: ${getDist ?? `--`} ${getUnit ?? ``}`.trim()
                     ];
 
                     handler.eventQueue?.push({
