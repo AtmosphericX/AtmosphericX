@@ -189,10 +189,10 @@ export class Tracking {
                 .replace("${Y}", lon);
             const getAddress = await loader.modules.utilities.httpRequest(locationUrl);
             const address = getAddress?.message?.address ?? {};
-            const county = address.county ?? "";
-            const state = address.state ?? "";
-            const city = address.city ?? ""
-            const addr = address.road ?? "";
+            const county = address.county ?? "---"
+            const state = address.state ?? "---"
+            const city = address.city ?? address.municipality ?? "---"
+            const addr = address.road ?? "---"
             target.properties.county = (`${county}`).trim().replace(/^,|,$/g, "");
             target.properties.state = (`${state}`).trim().replace(/^,|,$/g, "");
             target.properties.address = (`${addr}`).trim().replace(/^,|,$/g, "");
