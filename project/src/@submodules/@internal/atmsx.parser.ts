@@ -480,7 +480,7 @@ export class ATMSXParser {
             }
             
             this.mgr.on(`onExpired`, async (event: types.EventType) => {
-                const getEvent = loader.cache.external.events.features.find(f => f?.properties?.tracking === event?.properties?.details?.tracking);
+                const getEvent = loader.cache.external.events.features.find(f => f?.properties?.details?.tracking === event?.properties?.details?.tracking);
                 if (getEvent) {
                     event.properties.action_type = `Expired`
                     loader.modules.utilities.log({ 

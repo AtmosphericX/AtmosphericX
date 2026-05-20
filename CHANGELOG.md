@@ -1,6 +1,6 @@
 # Changelogs
 
-## May 20th, 2026 - 8.0.0.6 (.1)
+## May 20th, 2026 - 8.0.0.6 (.1, .2)
 
 **Features**
 - backend(discord-rpc): Ability to connect to Discord's rich pressence through the publicly available bot id.
@@ -13,6 +13,9 @@
 - frontend(notifications): Better stylying and removed sidebar.
 - config(events): Fix order for dashboard priority
 - frontend(dashboard): Fixed distance retrieval for event popups.
+
+**Fixes**
+- atmosx(parser): Fixed an issue where events were not being expired.
 
 **To Do**
 - frontend(dashboard): Ability to dynamically create data and stat cards through JS
