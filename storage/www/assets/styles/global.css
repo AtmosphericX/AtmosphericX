@@ -166,3 +166,11 @@
 @keyframes anim_fade_out { 0% { opacity: 1; } 100% {  opacity: 0; } }
 @keyframes anim_fade_in { 0% { opacity: 0; } 100% { opacity: 1; } }
 @keyframes pulse { 0% { opacity: 1; transform: scale(1);} 50% { opacity: 0.7; transform: scale(1.05);} 100% { opacity: 1; transform: scale(1);} }
+@keyframes anim_notify_slide_in {
+    from { opacity: 0; transform: translateY(20px) scale(0.95); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+}
+@keyframes anim_notify_slide_out {
+    from { opacity: 1; transform: translateY(0) scale(1); }
+    to { opacity: 0; transform: translateX(50px) scale(0.9); }
+}
