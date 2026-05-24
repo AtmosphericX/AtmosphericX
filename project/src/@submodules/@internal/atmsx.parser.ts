@@ -260,9 +260,8 @@ export class ATMSXParser {
         const { tracking, history } = properties?.details;
         const isEntry = loader?.cache?.external?.hashes?.find(log => log?.tracking === tracking);
         const isHashed = isEntry?.hashes?.includes(properties?.hash) ?? false;
-        const isIgnored = register?.properties?.imported?.ignored;
-
-        if (isHashed || isIgnored || properties?.is_cancelled) return;
+        
+        if (isHashed || properties?.is_cancelled) return;
 
         this.setHashes(properties, isEntry);
         const getDetails = await this.getPolygonMetadata(event, configurations, spotters);
