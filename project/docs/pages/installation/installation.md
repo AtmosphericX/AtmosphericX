@@ -28,7 +28,7 @@ AtmosphericX requires a modern web browser and a mostly stable internet connecti
 
 | Type | Version | Purpose |
 |------|------|------|
-| [Node.js](https://nodejs.org/en/download/) | `Node 20.14.0+` | Primary Language & Backend |
+| [Node.js](https://nodejs.org/en/download/) | `Node v20.14.0 <-> v22.0.0` | Primary Language & Backend, Newer versions break `sqlite3` packages
 | [Python](https://www.python.org/downloads/) | `Python 3.8+` | Required for building native modules |
 | [VS C++ Redistributable](https://learn.microsoft.com/en-us/cpp/windows/latest-supported-vc-redist?view=msvc-170) | `2015+` | Required for native modules on Windows |
 | [Git](https://git-scm.com/downloads) | `Latest` | For cloning and updating the project |
