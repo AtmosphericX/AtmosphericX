@@ -356,7 +356,7 @@ export class ATMSXParser {
                     `**Damage Threat:** ${register?.properties?.parameters?.damage_threat ?? `--`}`,
                     `**Tornado Threat:** ${register?.properties?.parameters?.tornado_detection ?? `--`}`,
                     `**Flood Threat:** ${register?.properties?.parameters?.flood_detection ?? `--`}`,
-                    `**Tags:** ${register?.properties?.tags ? register?.properties?.tags.join(', ') : 'N/A'}`,
+                    `**Tags:** ${register?.properties?.tags?.join(', ') ?? `--`}`,
                     `**Sender:** ${register?.properties?.sender_name ?? `--`}`,
                     `**Tracking ID:** ${register?.properties?.details?.tracking ?? `--`}`,
                     '```',
