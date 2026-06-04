@@ -16,6 +16,7 @@
 
 **Fixes**
 - atmosx(parser): Fixed an issue where events were not being expired.
+- atmosx(webhooks): Fixed tags from showing a blank string instead of `--` if no value is assigned.
 
 **To Do**
 - frontend(dashboard): Ability to dynamically create data and stat cards through JS

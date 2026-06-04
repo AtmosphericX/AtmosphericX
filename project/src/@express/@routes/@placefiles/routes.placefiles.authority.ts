@@ -297,7 +297,7 @@ export class Init {
                 `Damage Threat: ${event?.properties?.parameters?.damage_threat ?? '--'}`,
                 `Tornado Threat: ${event?.properties?.parameters?.tornado_detection ?? '--'}`,
                 `Flooding Threat: ${event?.properties?.parameters?.flood_detection ?? '--'}`,
-                `Tags: ${(event?.properties?.tags?.length ?? 0) > 0 ? event?.properties?.tags?.join(" - ") : '--'}`,
+                `Tags: ${event?.properties?.tags?.length > 0 ? event?.properties?.tags?.join(" - ") : '--'}`,
                 `Tracking: ${event?.properties?.details?.tracking ?? '--'}`,
                 `Source: AtmosphericX (${loader.cache.internal.source})`
             ].join('\\n').replace(/;/g, ' -').replace(/,/g, '');
