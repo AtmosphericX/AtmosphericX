@@ -13,12 +13,17 @@
 - frontend(notifications): Better stylying and removed sidebar.
 - config(events): Fix order for dashboard priority
 - frontend(dashboard): Fixed distance retrieval for event popups.
+- frontend(dashboard): Improve `feature not available` text string for clarity.
 
 **Fixes**
 - atmosx(parser): Fixed an issue where events were not being expired.
 - atmosx(webhooks): Fixed tags from showing a blank string instead of `--` if no value is assigned.
 - buildtools(autobuild): Improved automated build processes.
 - buildtools(dist): Remove dist upon upgrading
+
+**Documentation**
+- docs(location-tracking-nodes): Improve tracking node documentation
+- docs(introduction): Fix version number
 
 **To Do**
 - frontend(dashboard): Ability to dynamically create data and stat cards through JS

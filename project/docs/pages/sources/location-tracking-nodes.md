@@ -17,6 +17,12 @@ prev:
 
 AtmosphericX supports integrations with services such as `SpotterNetwork` and `RealTimeIRL`, enabling live location updates from certain platforms. These integrations allow users to display and track positions in realtime, This also gives you the ability to use features like [Polywarn](../widgets/polywarn) and use [TempestWx Stations](#tempestwx-stations) with `located based` tracking.
 
+::: danger Location Tracking Rules
+When using a widget that relies on `setSearch`, the target tracking node must already be initialized. You cannot select or reference a node unless it exists in the active tracking list. If you're unsure whether a tracking node has been set, refer to:
+`/data/tracking`
+:::
+
+
 ## RealtimeIRL Settings
 A `pull key` is required to use RealTimeIRL. You can obtain one by creating an account at [realtimeirl.com](https://realtimeirl.com/). After signing up, download the RealTimeIRL mobile app and configure it with your `push key` to begin sending your longitude and latitude coordinates.
 

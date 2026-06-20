@@ -124,7 +124,7 @@ class Render {
                     this.page = `home`; 
                     window.location.hash = `#home`;
                     this.RenderPage();
-                    return utils.exception(`The ${getTarget} page could not be loaded defaulting to home.`, `Dashboard (Feature not availble)`);
+                    return utils.exception(`${getTarget} has not been implemented. Please wait for an update.`, `Dashboard (Feature not available)`);
                 }
                 getContainer.innerHTML = getContent;
                 await import(`/dashboard/scripts/wrappers/${getTarget}.js`).then(m => m.init?.());

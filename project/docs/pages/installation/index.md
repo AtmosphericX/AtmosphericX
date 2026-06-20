@@ -10,7 +10,7 @@ prev:
 
 <img src="/logo.png" alt="AtmosphericX Logo" width="200" style="display: block; margin: 0 auto;" />
 <small class="page-author">Written By: <b>KiyoWx</b></small><br/>
-<small class="version-made">Version: <b>8.0.0.61</b></small><br><br><br>
+<small class="version-made">Version: <b>8.0.0.62</b></small><br><br><br>
 
 # AtmosphericX
 ---
