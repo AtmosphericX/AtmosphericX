@@ -80,6 +80,7 @@ get_user_update_confirmation() {
 
     (
         project_root="$(cd "$(dirname "$0")/.." && pwd)"
+        rm -rf "$project_root/project/dist"
 
         if [[ -d "$project_root/.git" ]]; then
             pushd "$project_root" >/dev/null || exit 1

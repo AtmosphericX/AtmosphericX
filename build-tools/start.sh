@@ -1,16 +1,20 @@
 #!/bin/bash
 
-choice=$1
-
-if [ -z "$choice" ]; then
-    echo "1. Run Project"
-    echo "2. Build Project"
-    read -p "Choose an option: " choice
+CHOICE=$1
+PROJECT_DIR="$(cd "$(dirname "$0")/../project" && pwd)"
+cd "$PROJECT_DIR"
+if [ ! -d "$PROJECT_DIR/dist" ]; then
+    echo "Automatically building project..."
+    npm run build
 fi
 
-cd ../project
+if [ -z "$CHOICE" ]; then
+    echo "1. Run Project"
+    echo "2. Build Project"
+    read -p "Choose an option: " CHOICE
+fi
 
-case "$choice" in
+case "$CHOICE" in
     1|run)
         npm run start
         ;;
