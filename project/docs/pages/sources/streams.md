@@ -44,7 +44,7 @@ Data can be requested at `/data/streams` and is returned in the following GeoJSO
         "stream_viewers": 0,
         "icon_url": "....",
         "model": "DEVICE",
-        "source": "WEATHER_FRONT"
+        "source": "RADAR_OMEGA"
     }
 },
 ```

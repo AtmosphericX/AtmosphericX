@@ -72,7 +72,7 @@ Below are default / optional parameters you can use with the `streams` widget. P
 ### setStreamSource
 - Description: The source of the stream to display.
 - Default (`string`): `*`
-- Example: `/widgets/streams?setStreamSource=WEATHER_FRONT/DATABASE/RADAR_OMEGA`
+- Example: `/widgets/streams?setStreamSource=DATABASE/RADAR_OMEGA`
 
 ### setStreamModel
 - Description: The source type (model) to display (USER = chaser, DEVICE = IoT)
@@ -106,9 +106,9 @@ Below are default / optional parameters you can use with the `streams` widget. P
 
 ## Examples
 ::: details Example 1
-Create a feed that specifically looks for all `USER (Storm Chasing) feeds` within `WEATHER FRONT`, and `disable feed data`.
+Create a feed that specifically looks for all `USER (Storm Chasing) feeds` within `RADAR OMEGA`, and `disable feed data`.
 ```
-/widgets/streams?setStreamSource=WEATHER_FRONT&setStreamModel=USER&setTextComponents=false
+/widgets/streams?setStreamSource=RADAR_OMEGA&setStreamModel=USER&setTextComponents=false
 ```
 :::
 
