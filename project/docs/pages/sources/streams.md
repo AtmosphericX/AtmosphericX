@@ -15,7 +15,7 @@ prev:
 ---
 > Configurations: `sources.miscellaneous_settings.camera_streams`
 
-Provided by `RadarOmega`, and `other sources`. This feature offers access to various Internet of Things (IoT) video data streams.
+Provided by `RadarOmega`, `WeatherWise` and `other sources`. This feature offers access to various Internet of Things (IoT) video data streams.
 
 ::: danger Rebroadcasting Policy
 Under applicable copyright law, **explicit permission is required** before rebroadcasting any feeds originating from the streams endpoint.

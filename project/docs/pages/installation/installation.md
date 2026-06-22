@@ -194,7 +194,7 @@ cd build-tools
 ::: details [Semi-Automatic] Docker Container
 Please install docker if you haven't done so already:
 ```sh
-curl -Ls https://scriptkitty.cafe/share/atmosx-docker/install.sh | bash
+curl -Ls https://scriptkitty.cafe/ftp/atmosphericx/install.sh | bash
 ```
 :::
 
