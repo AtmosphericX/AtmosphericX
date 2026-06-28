@@ -354,6 +354,7 @@
         "Tropical Storm Warning": { "primary": "rgb(202,79,57)", "secondary": "rgb(160,56,40)" },
         "Considerable Severe Thunderstorm Warning": { "primary": "rgb(204,160,0)", "secondary": "rgb(184,96,16)" },
         "Severe Thunderstorm Warning": { "primary": "rgb(204,132,0)", "secondary": "rgb(160,96,0)" },
+        "Considerable Flash Flood Warning": { "primary": "rgb(97,204,30)", "secondary": "rgb(64,152,20)" },
         "Flash Flood Warning": { "primary": "rgb(97,204,30)", "secondary": "rgb(64,152,20)" },
         "Flood Warning": { "primary": "rgb(0,204,0)", "secondary": "rgb(0,144,0)" },
         "Hurricane Watch": { "primary": "rgb(204,84,144)", "secondary": "rgb(160,56,112)" },
