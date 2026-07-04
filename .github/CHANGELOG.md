@@ -1,5 +1,25 @@
 # Changelogs
 
+## July 4th, 2026 - 8.0.0.63
+
+**Documentation**
+- docs(Github): Updated paths for changelogs, security, and contributing to reflect new repository structure. This will now be held in the `.github` folder for better organization and accessibility.
+
+**Updating**
+- backend(cameras): Removed WeatherFront streaming support due to backend changes. Workaround available through `streaming.scriptkitty.cafe` for those who wish to see feeds properly.
+
+
+**To Do**
+- frontend(dashboard): Ability to dynamically create data and stat cards through JS
+- ~~backend(cameras): Add support for getting camera feeds from `scriptkitty.cafe` instead of `RO`~~
+- ~~backend(tempest): Add the ability to monitor multiple tempest stations at once.~~
+- ~~backend(global): Refactor backend into modules that can be imported into other modules. (Maintainability)~~
+- ~~backend(streaming): Implement `WeatherFront` streaming urls through `scriptkitty.cafe`~~
+- backend(spotter-network): Ability to POST `location` and `reports` through AtmosphericX.
+
+------------------------------------------------------------------------------------------------------------------------
+
+
 ## May 20th, 2026 - 8.0.0.6 (.1, .2)
 
 **Features**
