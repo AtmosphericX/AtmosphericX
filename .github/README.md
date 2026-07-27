@@ -40,4 +40,4 @@ AtmosphericX is a modern, modular, and powerful weather dashboard and widget pro
 [Contributing](/.github/CONTRIBUTING.md) |
 [License](/.github/LICENSE) | 
 [Security](/.github/SECURITY.md) | 
-[Changelogs](/.github/CHANGELOGS.md) |
+[Changelogs](/.github/CHANGELOG.md) |
