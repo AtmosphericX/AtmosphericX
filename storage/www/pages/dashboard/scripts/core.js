@@ -25,6 +25,7 @@ class Core {
             utils.getMobileDevice().then(async () => {
                 await import(`/dashboard/scripts/nav.js`).then(m => m.init?.());
                 await import(`/dashboard/scripts/prompts.js`).then(m => m.init?.());
+                await import(`/dashboard/scripts/cards.js`).then(m => m.init?.());
                 this.eventListener();
             });
         });

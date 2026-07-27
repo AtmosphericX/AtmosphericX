@@ -17,19 +17,19 @@
 
 const NAV_DIR = [
     {text: "Home", type: "link", href: "#home"},
-    {text: "Monitoring", type: "dropdown", dropdowns: [
+    {text: "Monitoring (Draft)", type: "dropdown", dropdowns: [
         {role: 0, text: "Active Events", type: "link", href: "#events"},
         {role: 0, text: "Local Storm Reports", type: "link", href: "#lsr"},
         {role: 0, text: "Discussions", type: "link", href: "#discussions"},
         {role: 0, text: "CIMSS ProbSevere", type: "link", href: "#cimss"},
         {role: 0, text: "Spotter Network", type: "link", href: "#spotters"},
-        {role: 0, text: "Streams (Live)", type: "link", href: "#streams"},
-        {role: 0, text: "NOAA Weather Radios (Live)", type: "link", href: "#streams"}
+        // {role: 0, text: "Streams (Live)", type: "link", href: "#streams"},
+        //{role: 0, text: "NOAA Weather Radios (Live)", type: "link", href: "#streams"}
     ]},
-    {text: "Forecasting", type: "dropdown", dropdowns: [
-        {role: 0, text: "External Forecasting Tools", type: "link", href: "#forecasting-tools"},
-        {role: 0, text: "SPC Outlooks", type: "link", href: "#spc-outlooks"}
-    ]},
+    //{text: "Forecasting", type: "dropdown", dropdowns: [
+    //    {role: 0, text: "External Forecasting Tools", type: "link", href: "#forecasting-tools"},
+    //    {role: 0, text: "SPC Outlooks", type: "link", href: "#spc-outlooks"}
+    //]},
     {text: "Settings", type: "dropdown", dropdowns: [
         {role: 1, text: "Event Controller", type: "link", href: "#widget-control"},
         {role: 1, text: "System Metrics", type: "link", href: "#system-metrics"},

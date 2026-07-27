@@ -70,7 +70,7 @@ export function init() {
     if (!sessionPrompt) {
         PromptsRenderer.CreatePrompt({
             title: `AtmosphericX Dashboard Notice`,
-            message: `The dashboard is currently under development. Not all features may be available at this time.`,
+            message: `The dashboard is currently under development. All features will be finished as of v8.1.0.`,
             onSubmit: () => {
                 window.localStorage.setItem("dashboard.events.sfx", false)
                 window.localStorage.setItem("dashboard.events.notifications", false)

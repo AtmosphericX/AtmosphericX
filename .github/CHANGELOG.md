@@ -1,5 +1,22 @@
 # Changelogs
 
+## July 27th, 2026 - 8.0.0.64
+
+[DEVELOPER NOTE]: All dashboard features will be revised for `v8.1.0`. As of right now, I have added the bare minimum. So expect bugs with the dashboard.
+
+**Added**:
+dashboard(events): Poorly implemented event page.
+dashboard(lsrs): Poorly implemented local storm reports page.
+dashboard(discussions): Poorly implemented discussions page.
+dashboard(cimss): Poorly implemented CIMSS ProbSevere page.
+
+**To Do**
+- ~~frontend(dashboard): Ability to dynamically create data and stat cards through JS~~
+- backend(spotter-network): Ability to POST `location` and `reports` through AtmosphericX.
+- backend(rewrite): v8.1.0 
+
+------------------------------------------------------------------------------------------------------------------------
+
 ## July 4th, 2026 - 8.0.0.63
 
 **Documentation**

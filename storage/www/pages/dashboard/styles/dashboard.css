@@ -379,7 +379,6 @@ body.sidebar-collapsed .container {
 .dashboard-data-label {
     font-size: 0.7rem;
     font-weight: 700;
-    letter-spacing: 0.45px;
     text-transform: uppercase;
     opacity: 0.68;
 }
