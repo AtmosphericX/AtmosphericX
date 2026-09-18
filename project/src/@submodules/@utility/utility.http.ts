@@ -162,7 +162,6 @@ export class Calling {
                 return Number.isFinite(exp) && exp > clock;
             });
             loader.cache.external.events.features = loader.cache.external.events.features
-                .filter(f => f && !f.properties?.imported?.ignored)
                 .filter(f => {
                     const exp = new Date(f.properties?.expires).getTime();
                     return Number.isFinite(exp) && exp > clock;

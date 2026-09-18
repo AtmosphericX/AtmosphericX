@@ -3,6 +3,7 @@
 ## September 3rd, 2026 - 8.0.0.65
 
 **Fix**: `getNearbyEvents` when picking up the closest event.
+**Fix**: `ignored` events being filtered out completely from the cache.
 
 ------------------------------------------------------------------------------------------------------------------------
 
