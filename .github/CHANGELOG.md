@@ -1,7 +1,8 @@
 # Changelogs
 
-## September 3rd, 2026 - 8.0.0.65
+## September 19th, 2026 - 8.0.0.65
 
+**Add**: New `setBorderByTheme` parameter for widgets
 **Fix**: `getNearbyEvents` when picking up the closest event.
 **Fix**: `ignored` events being filtered out completely from the cache.
 

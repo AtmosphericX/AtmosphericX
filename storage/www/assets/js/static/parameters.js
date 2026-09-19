@@ -50,6 +50,7 @@ const aGlobalElementSettings = {
     setTextCharacterLimit: get(aSearch, `setTextCharacterLimit`) ?? 50, // Sets character limit for text
     setTextAlignment: get(aSearch, `setTextAlignment`) ?? null, // Sets text alignment
     setBorderRadius: get(aSearch, `setBorderRadius`) ?? null, // Sets border radius
+    setBorderByTheme: get(aSearch, `setBorderByTheme`) ?? null, // Sets border color by theme, default background is black.
     setBoxShadow: get(aSearch, `setBoxShadow`) ?? true, // Enables/disables box shadow
     setAnimated: get(aSearch, `setAnimated`) ?? false, // Enables element animation
     setBackgroundAnimated: get(aSearch, `setBackgroundAnimated`) ?? false, // Enables background animation

@@ -96,6 +96,14 @@ class Widgets {
             if (!element) return;
             const theme = this.utils.getEventColor(null, true);
             const type = settings?.global?.setThemeType;
+            const themeBorder = settings?.global?.setBorderByTheme;
+            if (themeBorder) {
+                element.style.borderColor = theme?.[type] ?? theme?.primary;
+                element.style.borderStyle = `solid`;
+                element.style.borderWidth = `5px`;
+                element.style.backgroundColor = `#000000`;
+                return
+            }
             element.style.backgroundColor = theme?.[type] ?? theme?.primary;
         } catch (error) {
             this.utils.exception(error, `${this.name_space}:applyGlobalTheme`);
