@@ -101,7 +101,7 @@ class Widgets {
                 element.style.borderColor = theme?.[type] ?? theme?.primary;
                 element.style.borderStyle = `solid`;
                 element.style.borderWidth = `5px`;
-                element.style.backgroundColor = `#000000`;
+                element.style.backgroundColor = `transparent`;
                 return
             }
             element.style.backgroundColor = theme?.[type] ?? theme?.primary;
