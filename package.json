@@ -1,0 +1,57 @@
+{
+  "name": "atmosphericx",
+  "version": "8.0.1",
+  "description": "Project AtmosphericX is a web based platform and widget manager tailored for amateur weather enthusiasts, storm chasers, and anyone passionate about understanding and tracking severe weather events. It provides near realtime alerts and updates, ensuring users stay informed about critical weather conditions as they unfold.",
+  "main": "dist/index.cjs",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AtmosphericX/AtmosphericX.git",
+    "branch": "main"
+  },
+  "keywords": [
+    "atmosphericx",
+    "atmosx",
+    "cjs",
+    "nodejs",
+    "nws-alerts",
+    "nws-api",
+    "nwws",
+    "nwws-oi",
+    "obs-studio",
+    "weather",
+    "widgets",
+    "wx"
+  ],
+  "author": "KiyoWx, StarflightWx, CJ Ziegler",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/AtmosphericX/AtmosphericX/issues"
+  },
+  "homepage": "https://github.com/AtmosphericX/AtmosphericX#readme",
+  "dependencies": {
+    "@atmosx/event-product-parser": "3.0.75",
+    "@firebase/app": "0.14.7",
+    "@firebase/database": "1.1.0",
+    "@streamerbot/client": "1.12.2",
+    "argon2": "0.44.0",
+    "better-sqlite3": "12.6.2",
+    "croner": "10.0.1",
+    "discord-rpc": "4.0.1",
+    "esbuild": "^0.28.2",
+    "express": "5.2.1",
+    "express-rate-limit": "8.5.1",
+    "express-session": "1.19.0",
+    "express-ws": "5.0.2",
+    "jsonc-parser": "3.3.1",
+    "typescript": "5.9.3"
+  },
+  "scripts": {
+    "start": "node dist/index.cjs",
+    "watch": "node ./tools/build.js --watch",
+    "build": "node ./tools/build.js && node dist/index.cjs"
+  },
+  "devDependencies": {
+    "@types/better-sqlite3": "7.6.13",
+    "@types/node": "25.2.0"
+  }
+}

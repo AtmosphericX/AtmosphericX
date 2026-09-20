@@ -1,0 +1,21 @@
+{
+	"compilerOptions": {
+		"target": "ES6",
+		"module": "ESNext",
+		"moduleResolution": "Node",
+		"outDir": "dist",
+		"declaration": true,
+		"declarationDir": "dist/types",
+		"esModuleInterop": true,
+		"allowSyntheticDefaultImports": true,
+		"skipLibCheck": true,
+		"strict": true,
+        "strictNullChecks": false,
+		"noImplicitAny": true,
+		"paths": {
+			"Types/*": ["./src/types/event/*"],
+			"@Bootstrap": ["./src/bootstrap.ts"],
+		}
+	},
+	"include": ["src"]
+}

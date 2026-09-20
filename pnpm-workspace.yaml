@@ -1,0 +1,11 @@
+allowBuilds:
+  '@firebase/util': true
+  argon2: true
+  better-sqlite3: true
+  bufferutil: true
+  esbuild: true
+  register-scheme@https://codeload.github.com/devsnek/node-register-scheme/tar.gz/e7cc9a63a1f512565da44cb57316d9fb10750e17: true
+minimumReleaseAge: 43830
+blockExoticSubdeps: false
+minimumReleaseAgeExclude:
+  - '@atmosx/event-product-parser@3.0.75'
