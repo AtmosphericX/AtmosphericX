@@ -2,9 +2,12 @@
 
 ## September 19th, 2026 - 8.0.0.65
 
-**Add**: New `setBorderByTheme` parameter for widgets
-**Fix**: `getNearbyEvents` when picking up the closest event.
-**Fix**: `ignored` events being filtered out completely from the cache.
+**Adding**
+- Widgets(paramters): New `setBorderByTheme` parameter for widgets
+
+**Fixes**
+- Widgets(strings): `getNearbyEvents` now correctly picks up the closest event.
+- Backend(events): `ignored` events are no longer filtered out completely from the cache.
 
 ------------------------------------------------------------------------------------------------------------------------
 
