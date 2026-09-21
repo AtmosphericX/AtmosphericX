@@ -176,7 +176,7 @@
         "50": "SEVERE",
         "60": "EXTREME"
     },
-    "color_intensity": { // Color Intensity Levels for temps, dbz, etc, basically the higher the warmer and the lower the colrder
+    "color_intensity": { // Color Intensity Levels for temps, dbz, etc, basically the higher the warmer and the lower the colder
         "0": "#ffffff",
         "10": "#ffeaea",
         "20": "#ffd4c4",
