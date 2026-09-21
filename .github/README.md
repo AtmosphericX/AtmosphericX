@@ -41,3 +41,4 @@
 **Features**
 - node(pnpm): Added new `pnpm` package manager supported for the retirment of `npm` and `yarn` package installation.
 - github(docs): Added new `README.md` documentation for the `.github` folder and its contents.
+- github(docs): Added new `SECURITY.md`, `CONTRIBUTING.md`, and `CODE_OF_CONDUCT.md` documentation for the `.github` folder and its contents.
