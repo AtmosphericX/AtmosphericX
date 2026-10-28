@@ -52,7 +52,7 @@ type PlacefileCache = {
 };
 
 type TrackingType = { 
-    geometry: Record<string, number>; 
+    geometry: Record<string, number[]>; 
     properties: { 
         name: string;
         county: string;
@@ -62,18 +62,8 @@ type TrackingType = {
     };
 }
 
-type PulsePointType = {
-    geometry: Record<string, number>;
-    properties: {
-        event: string;
-        address: string;
-        issued: string;
-        units: { id: string }[];
-    };
-}
-
 type DiscussionType = { 
-    geometry: Record<string, number>; 
+    geometry: Record<string, number[]>; 
     properties: { 
         name: string; location: string;
         issued: string; mesoscale_id: string;
@@ -86,7 +76,7 @@ type DiscussionType = {
 }
 
 type StreamType = {
-    geometry: Record<string, number>;
+    geometry: Record<string, number[]>;
     properties: {
         name: string;
         location: string;
@@ -132,8 +122,6 @@ export class Init {
                     tracking: this.getTrackingPlacefile.bind(this),
                     discussions: this.getDiscussionsPlacefile.bind(this),
                     streams: this.getStreamPlacefiles.bind(this),
-                    pulsepoint: this.getPulsePointPlacefiles.bind(this),
-
                 };
                 if (placefileMethods[getType]) {
                     if (cacheEntry && (Date.now() - cacheEntry.sent < cacheDuration)) {
@@ -373,54 +361,6 @@ export class Init {
         const placefile = await PlacefileManager.createPlacefile({
             refresh: 1, threshold: 99999, title: `AtmosphericX - Discussions`, settings: this.settings,
             type: `polygon`, data: results
-        });
-        return placefile;
-    }
-
-    /**
-     * @private
-     * @production
-     * @function getPulsePointPlacefiles
-     * @description
-     *     Generates a placefile for PulsePoint events based on query parameters and settings.
-     * 
-     * @param {RequestQuery} query - The query parameters from the request.
-     * @param {PlacefileSettings} settings - The placefile settings from the configuration.
-     * @return {void}
-     */
-    private async getPulsePointPlacefiles(query: RequestQuery, settings: PlacefileSettings): Promise<string> {
-        const qLatitude = Number(query.lat ?? 0);
-        const qLongitude = Number(query.lon ?? 0);
-        const getTrackers = loader.cache.external.pulsepoint.features.map((pulsepoint: PulsePointType) => {
-            const cLongitude = Number(pulsepoint.geometry.coordinates[0]);
-            const cLatitude = Number(pulsepoint.geometry.coordinates[1]);
-            if (settings?.filters?.enabled) {
-                const distance = loader.modules.calculations.distanceBetweenPoints(
-                    { lon: qLongitude, lat: qLatitude }, { lon: cLongitude, lat: cLatitude },
-                    settings?.filters?.filter_units ?? `miles`
-                )
-                if (distance > (settings?.filters?.filter_by_radius ?? 0)) { return null; }
-            }
-            const gTR = loader.modules.utilities.getTimeRelative(new Date(pulsepoint?.properties?.issued ?? '').getTime());
-            let description = [
-                `Type: ${pulsepoint?.properties?.event ?? `Unknown Event`}`,
-                `Address: ${pulsepoint?.properties?.address ?? `Unknown Address`}`,
-                `Last Updated: ${new Date(pulsepoint?.properties?.issued ?? '').toISOString()} (${gTR})`,
-                `Responding Units: ${pulsepoint?.properties?.units?.map(u => u.id).join(", ") ?? `N/A`}`,
-            ]
-            description.push(`Source: PulsePoint (AtmosphericX)`);
-            return { 
-                title: pulsepoint?.properties?.event ?? 'Unknown', 
-                description: description.join('\\n').replace(/;/g, ' -').replace(/,/g, ''),
-                point: [cLongitude, cLatitude], 
-                rgb: '255,0,0,255', 
-                icon: '0,0,000,1,11'
-            }
-        });
-        const results = (await Promise.all(getTrackers)).filter(Boolean) as Exclude<PlacefileEntry, null>[];
-        const placefile = await PlacefileManager.createPlacefile({
-            refresh: 1, threshold: 99999, title: `AtmosphericX - PulsePoint`, settings: this.settings,
-            type: `point`, data: results
         });
         return placefile;
     }

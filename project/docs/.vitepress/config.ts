@@ -90,8 +90,6 @@ export default defineConfig({
 					{ text: "NOAA Weather Radio (NWR)", link: "/pages/sources/nwr" },
 					{ text: "Power Outages", link: "/pages/sources/outages" },
 					{ text: "Camera Streams", link: "/pages/sources/streams" },
-					{ text: "Tempest Weather Station", link: "/pages/sources/tempest" },
-					{ text: "PulsePoint Respond", link: "/pages/sources/pulsepoint" },
 				],
 			},
 			{
@@ -165,9 +163,7 @@ export default defineConfig({
 				items: [
 					{ text: "Introduction", link: "/pages/packages/index"},
 					{ text: "event-product-parser", link: "/pages/packages/event-parser"},
-					{ text: "pulse-point-wrapper", link: "/pages/packages/pulse-point"},
 					{ text: "placefile-parser", link: "/pages/packages/placefile-parser"},
-					{ text: "tempest-station-wrapper", link: "/pages/packages/tempest-station"},
 				]
 			},
 		],

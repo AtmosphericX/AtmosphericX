@@ -19,19 +19,17 @@ const SUB = {
     GLOBAL: `*`,
     TRACKING: 'tracking',
     RNG_EVENT: `random_event`,
-    RNG_PULSE: `random_pulsepoint`,
     CONFIGURATIONS: `configurations`,
     OUTAGES: `outages`,
     MESONET: `mesonet`,
     STREAMS: `streams`,
     EVENTS: `events`,
     MANUAL: `manual`,
-    PULSEPOINT: `pulsepoint`,
     SPOTTERS: `spotters`,
     CIMSS: `cimss`,
 }
 
 function iEventSubscriptions() {
-    return [SUB.EVENTS, SUB.MANUAL, SUB.PULSEPOINT]
+    return [SUB.EVENTS, SUB.MANUAL]
 }
 

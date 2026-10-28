@@ -77,7 +77,6 @@
                 getClock: [SUB.CONFIGURATIONS], 
                 getCIMSS: [SUB.CONFIGURATIONS, SUB.CIMSS, SUB.TRACKING],
                 getWatchdog: [SUB.CONFIGURATIONS, SUB.EVENTS],
-                getRandomPulsePoint: [SUB.CONFIGURATIONS, SUB.RNG_PULSEPOINT],
                 getTracking: [SUB.CONFIGURATIONS, SUB.TRACKING], 
                 getOutages: [SUB.CONFIGURATIONS, SUB.OUTAGES],
                 getNearbySpotters: [SUB.CONFIGURATIONS, SUB.TRACKING, SUB.SPOTTERS], 
@@ -114,7 +113,6 @@
                         case `getClock`: cb(`cb.time`); break;
                         case `getMesonet`: cb(`cb.string`, utils?.storage?.mesonet?.features?.[0]); break;
                         case `getRandomEvent`: cb(`cb.string`, utils?.storage?.random_event?.features?.[0]); break;
-                        case `getRandomPulsePoint`: cb(`cb.string`, utils?.storage?.random_pulsepoint?.features?.[0]); break;
                         case `getOutages`: cb(`cb.string`, utils?.storage?.outages); break;
                         case `getTracking`: cb(`cb.string`, utils?.storage?.tracking?.features?.[0]); break;
                         default: cb(`cb.special`); break;

@@ -556,11 +556,9 @@ class Utils {
             if (!scheme) return defColors;
             if (getCurrentTheme) {
                 const events = this.storage?.events?.features ?? [];
-                const pulsepoint = this.storage?.pulsepoint?.features ?? [];
                 const manual = this.storage?.manual?.features ?? [];
                 const themes = Object.keys(scheme).filter(name =>
                     events.some(f => f?.properties?.event?.trim().toLowerCase() === name?.trim().toLowerCase()) ||
-                    pulsepoint.some(f => f?.properties?.event?.trim().toLowerCase() === name?.trim().toLowerCase()) ||
                     manual.some(f => f?.properties?.event?.trim().toLowerCase() === name?.trim().toLowerCase())
                 );
                 if (themes.length) {
@@ -628,8 +626,8 @@ class Utils {
             const dictionary = configurations.dictionary?.[eventType] ??
                 configurations.dictionary?.[parentType] ??
                 (hash == null 
-                    ? configurations.dictionary?.['Pulse Point'] 
-                    : configurations.dictionary?.['Special Event']);
+                    ? configurations.dictionary?.['Special Event']
+                    : null);
             if (!dictionary) return defFallback;
             let sfx;
             if (event?.properties?.is_issued) sfx = dictionary.sfx_issued;

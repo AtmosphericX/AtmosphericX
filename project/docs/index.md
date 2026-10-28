@@ -2,7 +2,7 @@
 layout: home
 hero:
   name: "AtmosphericX"
-  tagline: "8.0.0.65"
+  tagline: "8.0.0.7"
   image:
     src: /logo.png
     alt: AtmosphericX Logo
@@ -48,7 +48,7 @@ hero:
 			]
 		},
 		{
-			avatar: 'https://pbs.twimg.com/profile_images/1614731133714825223/LoGNRgOp_400x400.jpg',
+			avatar: 'https://pbs.twimg.com/profile_images/2093517364889341952/lsOQPLXa_400x400.jpg',
 			name: 'CJ Ziegler',
 			title: 'Beta Tester & Storm Chaser @ CJZiegler Media',
 			links: [

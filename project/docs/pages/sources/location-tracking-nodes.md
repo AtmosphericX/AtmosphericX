@@ -15,7 +15,7 @@ prev:
 ---
 > Configurations: `sources.location_settings`
 
-AtmosphericX supports integrations with services such as `SpotterNetwork` and `RealTimeIRL`, enabling live location updates from certain platforms. These integrations allow users to display and track positions in realtime, This also gives you the ability to use features like [Polywarn](../widgets/polywarn) and use [TempestWx Stations](#tempestwx-stations) with `located based` tracking.
+AtmosphericX supports integrations with services such as `SpotterNetwork` and `RealTimeIRL`, enabling live location updates from certain platforms. These integrations allow users to display and track positions in realtime, This also gives you the ability to use features like [Polywarn](../widgets/polywarn) with `located based` tracking.
 
 ::: danger Location Tracking Rules
 When using a widget that relies on `setSearch`, the target tracking node must already be initialized. You cannot select or reference a node unless it exists in the active tracking list. If you're unsure whether a tracking node has been set, refer to:
@@ -52,9 +52,6 @@ When multiple location tracking nodes are configured, AtmosphericX will prioriti
 - 1. `RealTimeIRL` (if configured and active)
 - 2. `SpotterNetwork` (if configured and active)
 
-This is done to prioritize fetching mesonet and or tempest station data from the most important node, which is typically RealTimeIRL. If neither node is active, the system will not display any location data. 
-
-
 ## Mesonet Data
 When using location tracking nodes, AtmosphericX will allow you to fetch mesonet data for the nearest station to the tracked location. This allows you to have more accurate and localized weather information based on your current position, enhancing the overall user experience and providing more relevant weather updates. This can be enabled or disabled in `location_settings.fetch_mesonet_data`.
 Data can be requested at `/data/mesonet` and is returned in the following GeoJSON format:
@@ -82,9 +79,6 @@ By default, if a node has not received location updates for `500 seconds`, it wi
 
 ## Polygon Updating and Construction
 When using tracking nodes, AtmosphericX will automatically get polygon data for events and track how close you are from the closest point of the polygon. This allows you to have a more accurate representation of your proximity to the event, which can be used for features like `Polywarn` and other location-based alerts. The system will continuously update the polygon data every `60 seconds` unless modified in `location_settings.polygon_update_time`.
-
-## TempestWx Stations
-When using location tracking nodes, AtmosphericX can prioritize data from the nearest or primary Tempest weather station for improved accuracy in your coverage area. This allows you to receive more relevant and localized weather information based on your current location, enhancing the overall user experience and providing more accurate weather updates.
 
 ## Data Structure
 Data can be requested at `/data/tracking` and is returned in the following GeoJSON format:

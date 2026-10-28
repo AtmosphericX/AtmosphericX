@@ -44,10 +44,8 @@ export const h_cache: Record<string, any> = {
         discussions: {type: "FeatureCollection", features: []},
         weather_radio: {type: "FeatureCollection", features: []},
         tropical_storms: {type: "FeatureCollection", features: []},
-        pulsepoint: {type: "FeatureCollection", features: []},
         mesonet: {type: "FeatureCollection", features: []},
         random_event: {type: "FeatureCollection", features: []},
-        random_pulsepoint: {type: "FeatureCollection", features: []},
         tracking: {type: "FeatureCollection", features: []},
     },
     internal: {
@@ -71,7 +69,6 @@ export const h_cache: Record<string, any> = {
         express: null,
         parser_client: null,
         bot_client: null,
-        tempest_client: null,
         rt_socket: null,
         websocket_server: null,
         http_server: null,

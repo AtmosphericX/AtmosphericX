@@ -1,8 +1,8 @@
 ---
 layout: doc
 next: 
-    text: 'Tempest Weather Station'
-    link: /pages/sources/tempest
+    text: 'Event Configurations'
+    link: /pages/events/index
 prev:
     text: 'Power Outages'
     link: /pages/sources/outages

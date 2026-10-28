@@ -16,7 +16,7 @@ prev:
 The `placefiles.jsonc` configuration file defines how AtmosphericX generates, caches, and distributes dynamic **GRLevelX compatible placefile layers** for radar and mapping software. This includes:
 
 - The `placefile_settings` section controls a **global cache duration**, which determines how long placefiles are stored before being regenerated, balancing **performance** with **near realtime accuracy**.  
-- Each data layer including **events, tracking, discussions, live streams, and PulsePoint**. This can be individually enabled or disabled, allowing you to control which endpoints are publicly exposed.  
+- Each data layer including **events, tracking, discussions, and live streams**. This can be individually enabled or disabled, allowing you to control which endpoints are publicly exposed.  
 - Every layer also includes optional **geographic filtering settings**, which can restrict output by radius using configurable units (miles or kilometers), ensuring that only data within a defined distance is included in the generated placefile.
 
 
@@ -47,14 +47,7 @@ placefiles.jsonc
     │       ├── filter_units
     │       └── filter_by_radius
     │
-    ├── streams
-    │   ├── enabled
-    │   └── filters
-    │       ├── enabled
-    │       ├── filter_units
-    │       └── filter_by_radius
-    │
-    └── pulsepoint
+    └── streams
         ├── enabled
         └── filters
             ├── enabled

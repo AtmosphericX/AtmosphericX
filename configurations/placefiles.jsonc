@@ -33,7 +33,7 @@
 
     */
 {
-    "placefiles:hash": "534360f22e42148dd25aed75092e9ae03ea6e279627c1d44f05cc196e7047643", // DO NOT MODIFY THIS VALUE. THIS IS USED FOR CONFIGURATION INTEGRITY CHECKS.
+    "placefiles:hash": "b3816f39c897960391ef308003f569bebc25ce6fd8a66d025ed8debc4e371b4a", // DO NOT MODIFY THIS VALUE. THIS IS USED FOR CONFIGURATION INTEGRITY CHECKS.
     "placefile_settings": { // This will handle placefile settings for various placefile endpoints
         "cache_duration": 60, // Duration in secodns to cache placefiles before regenerating them
         "events": {
@@ -62,14 +62,6 @@
         },
         "streams": {
             "enabled": true, // Will enable or disable the streams placefile endpoint
-            "filters": {
-                "enabled": false, // Enable filtering of streams based on location (Default: false)
-                "filter_units": "miles", // Units for filtering (Options: "km" or "miles") (Default: "miles")
-                "filter_by_radius": 250 // Default: 500 units (KM / MI)
-            }
-        },
-        "pulsepoint": {
-            "enabled": true, // Will enable or disable the pulsepoint placefile endpoint
             "filters": {
                 "enabled": false, // Enable filtering of streams based on location (Default: false)
                 "filter_units": "miles", // Units for filtering (Options: "km" or "miles") (Default: "miles")

@@ -33,7 +33,7 @@
 
     */
 {
-    "events:hash": "8fca237f270beb1d7aea60f15969f5312305de7774afe7ba64edba86eb03be3d", // DO NOT MODIFY THIS VALUE. THIS IS USED FOR CONFIGURATION INTEGRITY CHECKS.
+    "events:hash": "2d07080b74cc97468aca7a65555836da41e044ad2079e8abbd4e1e7b4940cf89", // DO NOT MODIFY THIS VALUE. THIS IS USED FOR CONFIGURATION INTEGRITY CHECKS.
     "filters": {
         "listening_events": [ // Events you wish to listen to (ex. Tornado Warnings, Severe Thunderstorm Warnings, etc.)
             "Tornado Emergency", "PDS Tornado Warning",
@@ -324,14 +324,6 @@
             "sfx_cancel": "/sfx/eas_sfx/beep-sfx.mp3",
             "sfx_tts": false,
             "sfx_tts_format": "Attention, %properties.event% has been {STATUS}",
-            "metadata": { "siren": false, "wail": false, "urgent": false, "iphone": false, "uniden": false}
-        },
-        "Pulse Point": {
-            "sfx_issued": "",
-            "sfx_update": "",
-            "sfx_cancel": "",
-            "sfx_tts": true,
-            "sfx_tts_format": "CAD UPDATE: %properties.agency% has been {STATUS} for a %properties.event%",
             "metadata": { "siren": false, "wail": false, "urgent": false, "iphone": false, "uniden": false}
         }
     },

@@ -35,7 +35,6 @@ class Events {
      * 
      * @param {Object} settings - Configuration options for syncing events.
      * @param {boolean} settings.setWx - Whether to sync weather events.
-     * @param {boolean} settings.setPulsePoint - Whether to sync PulsePoint events.
      * @param {number} settings.setMaxHistory - Retention time in minutes for events.
      * @return {Promise<Array>} - A promise that resolves to the updated queue of events.
      */
@@ -45,7 +44,6 @@ class Events {
                 const now = Date.now()
                 const events = this.storage?.events?.features ?? [];
                 const manual = this.storage?.manual?.features ?? [];
-                const pulsepoint = this.storage?.pulsepoint?.features ?? [];
                 if (manual.length > 0 && settings?.setWx) {
                     for (let feature of manual) {
                         const duplicate = this.eventQueue?.some(e => e?.hash === JSON.stringify(feature));
@@ -75,23 +73,6 @@ class Events {
                                 hash: feature?.properties?.hash,
                                 issued: issuedTime,
                                 expires: expiresTime,
-                                feature,
-                                queued: !inRange
-                            });
-                        }
-                    }
-                }
-                if (pulsepoint.length > 0 && settings?.setPulsePoint) {
-                    for (let feature of pulsepoint) {
-                        const duplicate = this.eventQueue?.some(e => e?.hash === JSON.stringify(feature));
-                        const issuedTime = new Date(feature?.properties?.issued).getTime();
-                        const inRange = (now - issuedTime) < (settings?.setMaxHistory ?? 0) * 60 * 1000;
-                        if (!duplicate) {
-                            this.eventQueue?.push({
-                                type: 'pulsepoint',
-                                hash: JSON.stringify(feature),
-                                issued: issuedTime,
-                                expires: issuedTime + 60_000_60,
                                 feature,
                                 queued: !inRange
                             });
@@ -131,14 +112,7 @@ class Events {
             const metadata = this.utils.getEventMetadata(event);
             this.isQueuing = true;
             next.queued = true;
-            switch (next?.type) {
-                case 'event':
-                    if (settings?.setStreaming) this.aWeatherCard(event, theme, settings);
-                    break;
-                case 'pulsepoint':
-                    if (settings?.setStreaming) this.aPulsePointCard(event, theme, settings);
-                    break;
-            }
+            this.aWeatherCard(event, theme, settings)
             this.utils.sleep((settings?.setPauseTime ?? 3) * 1000).then(() => {
                 this.isQueuing = false;
             });
@@ -151,9 +125,7 @@ class Events {
                     }
                     if (metadata?.sfx_tts) {
                         const output = this.utils.getTextFromDirectory(event, metadata?.sfx_tts_format ?? 'Unknown');
-                        const status = next.type === 'pulsepoint'
-                            ? (event?.properties?.is_updated ? 'updated' : 'dispatched')
-                            : (event?.properties?.is_updated ? 'updated' : event?.properties?.is_issued ? 'issued' : 'cancelled');
+                        const status = (event?.properties?.is_updated ? 'updated' : event?.properties?.is_issued ? 'issued' : 'cancelled');
                         this.utils.tts(output.replace('{STATUS}', status));
                     }
                     await this.utils.sleep(3800);
@@ -247,70 +219,6 @@ class Events {
                             title: "Tags", 
                             value: (event?.properties?.tags?.length ?? 0) > 0 ? event.properties.tags.join(", ").substring(0, 40) : "--", 
                             align: "right" 
-                        }
-                    ]
-                ],
-                duration: settings?.setPauseTime,
-                theme: theme,
-                parent: settings?.setElement,
-                options: settings
-            });
-        } catch (error) {
-            this.utils.exception(error, `${this.name_space}:play`);
-        }
-    }
-
-    /**
-     * @production
-     * @error_handling
-     * @function aPulsePointCard
-     * @description
-     *      Creates and displays a PulsePoint event card using the provided event data and theme.
-     * 
-     * @param {Object} event - The PulsePoint event data.
-     * @param {string} theme - The theme to apply to the PulsePoint card.
-     * @param {Object} settings - Additional settings for the PulsePoint card.
-     * @param {number} settings.setPauseTime - Duration to display the card.
-     * @param {HTMLElement} settings.setElement - Parent element to attach the card to.
-     * @return {Object} - The created PulsePoint card widget.
-     */
-    aPulsePointCard = function(event, theme, settings) {
-        try {
-            return this.aCreateCard({
-                title: this.utils.getTextFromDirectory(event, settings?.global?.setValuePath),
-                fields: [
-                    [
-                        { 
-                            title: "Address", 
-                            value: event?.properties?.address?.substring(0, 70) ?? "--", 
-                            align: "left" 
-                        },
-                        { 
-                            title: "Received", 
-                            value: new Date(event?.properties?.issued)?.toLocaleString()?.substring(0, 25) ?? "--",  
-                            align: "right" 
-                        }
-                    ],
-                    [
-                        { 
-                            title: "Units Responding", 
-                            value: event?.properties?.units?.length > 0 
-                                ? event.properties.units.map(u => u?.id).join(", ").substring(0, 40) : "No Responding Units", 
-                            align: "left" 
-                        }
-                    ],
-                    [
-                        { 
-                            title: "", 
-                            value: "", 
-                            align: "left" 
-                        }
-                    ],
-                    [
-                        { 
-                            title: "", 
-                            value: "", 
-                            align: "left" 
                         }
                     ]
                 ],

@@ -62,16 +62,6 @@ Below are default / optional parameters you can use with the `alert` widget. Ple
 - Default (`boolean`): `true`
 - Example: `/widgets/alerts?setWx=true/false`
 
-### setPulsePoint
-- Description: Whether to display `PulsePoint Respond` emergency events in the queue
-- Default (`boolean`): `false`
-- Example: `/widgets/alerts?setPulsePoint=true/false`
-
-::: details PulsePoint Availability
-This setting requires an `API key` to use, so setting this to `true` won't automatically give you `911` CAD events.
-You can enable this feature in the [Sources.jsonc](../configurations/sources) with the path `sources.miscellaneous_settings.pulse_point`.
-:::
-
 ### setPauseTime
 - Description: The time in `seconds` to display an event for. It's **RECOMMENDED** to set this value between `8-15` seconds.
 - Default (`int`): `8`

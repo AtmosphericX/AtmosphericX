@@ -27,7 +27,6 @@ export const h_strings: Record<string, any> = {
     streamer_bot_mesonet_update: `Mesonet Update: {CONDITIONS}, Temp: {TEMPERATURE}°F, Dew Point: {DEW_POINT}°F, Humidity: {HUMIDITY}%, Wind: {WIND} mph`,
     configuration_validation_failed: `{FILE}'s hash doesn't match the expected value. Please use the correct configuration for this version!`,
     configuration_validation_incomplete: `Configuration validation incomplete. Some configuration files may be missing or not validated. Please ensure all configuration files are present and valid.`,
-    streamber_bot_pulsepoint: `{ACTION} {EVENT} at {LOCATION}`,
     event_output: `{EVENT} {STATUS} [{TRACKING}] ({ISSUED})`,
     username_chars: /^[a-zA-Z0-9_\-\.!]{3,20}$/,
     password_chars : /^[a-zA-Z0-9_\-\.!@#$%^&*()]{4,50}$/,

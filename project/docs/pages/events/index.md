@@ -3,9 +3,6 @@ layout: doc
 next: 
     text: 'Display Configurations'
     link: /pages/display/index
-prev:
-    text: 'PulsePoint Respond'
-    link: /pages/sources/pulsepoint
 ---
 
 <img src="/logo.png" alt="AtmosphericX Logo" width="200" style="display: block; margin: 0 auto;" />

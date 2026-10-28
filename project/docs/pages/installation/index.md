@@ -10,7 +10,7 @@ prev:
 
 <img src="/logo.png" alt="AtmosphericX Logo" width="200" style="display: block; margin: 0 auto;" />
 <small class="page-author">Written By: <b>KiyoWx</b></small><br/>
-<small class="version-made">Version: <b>8.0.0.65</b></small><br><br><br>
+<small class="version-made">Version: <b>8.0.0.7</b></small><br><br><br>
 
 # AtmosphericX
 ---
@@ -28,7 +28,6 @@ AtmosphericX currently doesn't have a fully featured dashboard like v7 and other
 - [National Weather Service API](https://www.weather.gov/documentation/services-web-api) (Parser)
     - Supports all VTEC, HVTEC, UGC, offshore, and plain text products
 - [SpotterNetwork](https://www.spotternetwork.org/) or [RealtimeIRL](https://rtirl.com/) GPS Tracking
-- [PulsePoint (Respond)](https://web.pulsepoint.org) Wrapper
 - Local Storm Reports (SpotterNetwork or [GibsonRidge](https://grlevelx.com/))
 - Mesoscale Discussions ([WeatherWise](https://weatherwise.app)) *(Fallbacks Supported)*
 - Tropical Discussions / Events ([WeatherWise](https://weatherwise.app)) *(Fallbacks Supported)*
@@ -37,7 +36,6 @@ AtmosphericX currently doesn't have a fully featured dashboard like v7 and other
 - NOAA Weather Radio (Community Feeds) ([WeatherUSA](https://api.weatherusa.net))
 - Power Outage Statistics (US and US-Territories) ([SDSWeather](https://www.sdsweather.com/))
 - Camera Streams / IoT Devices (*Not for Broadcast*)
-- Tempest Station Integration ([WeatherFlow-Tempest, Inc.](https://tempest.earth/tempest-home-weather-system/))
 - Built-in Placefiles for GibsonRidge Software, [SupercellWx](https://supercellwx.net/), and more!
 - Event Customization (Sounds, Themes, Filtering)
 - Event Mock EAS Audios

@@ -14,7 +14,7 @@ prev:
 
 # Strings Widget
 ---
-The `strings` widget is the most versatile widget for displaying text based information in a dynamic and customizable manner. This includes anything from `event`, `mesonet data`, `clock and time information`, `PulsePoint`, `tracking nodes`, `dBZ intensity`, `nearby spotters`, `nearby events`, `outages`, and **way more**.
+The `strings` widget is the most versatile widget for displaying text based information in a dynamic and customizable manner. This includes anything from `event`, `mesonet data`, `clock and time information`, `tracking nodes`, `dBZ intensity`, `nearby spotters`, `nearby events`, `outages`, and **way more**.
 
 
 ::: info Parameter Rules
@@ -64,7 +64,6 @@ Below are default / optional parameters you can use with the `strings` widget. P
 - Available Types:
     - text
     - getRandomEvent
-    - getRandomPulsePoint
     - getTracking
     - getNearbySpotters
     - getDbzIntensity

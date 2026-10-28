@@ -121,18 +121,6 @@ export type LocalEventProperties = {
     }
 }
 
-export type PulsePointFeatures = {
-    type: string;
-    properties: {
-        ID: string;
-        event: string;
-        address: string;
-        [key: string]: string | number | null;
-    };
-    geometry: { type: string; coordinates: number[]; };
-    [key: string]: string | number | object | null;
-}
-
 export type Configurations = Record<string, any>;
 export type LocalCoordinates = number[] | number[][] | number[][][] | number[][][][] ;
 export type LocalGeometry = { type: string; coordinates: LocalCoordinates };

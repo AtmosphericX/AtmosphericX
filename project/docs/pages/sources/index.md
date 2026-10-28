@@ -48,7 +48,5 @@ sources.jsonc
         ├── icao_locations
         ├── weather_radio
         ├── power_outages
-        ├── camera_streams
-        ├── tempest_station
-        └── pulse_point
+        └── camera_streams
 ```

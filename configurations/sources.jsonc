@@ -33,7 +33,7 @@
 
     */
 {
-    "sources:hash": "c09cd16dfbe772c2b1274329353aca25325377678d1064d3f5534c8e7b9966e9", // DO NOT MODIFY THIS VALUE. THIS IS USED FOR CONFIGURATION INTEGRITY CHECKS.
+    "sources:hash": "1a847334e7c52f2ec5426b8d930990bb509a13c98bb3773534eb20b9e3f8d7a8", // DO NOT MODIFY THIS VALUE. THIS IS USED FOR CONFIGURATION INTEGRITY CHECKS.
     "sources": {
         "atmosx_parser_settings": { // AtmosphericX event parser settings
             "noaa_weather_wire_service": false, // If you want to use NOAA Weather Wire Service, set this to true.
@@ -172,33 +172,6 @@
                 "cache_time": 120,
                 "endpoint": "https://scriptkitty.cafe/relay/atmosx/cameras",
                 "contradictions": [] // Ignore
-            },
-            "tempest_station": { // Tempest Weather Station Integration (See: https://tempestwx.com/)
-                "enabled": false,
-                "api": "api_key_here",
-                "location_based": true, // If you want to use a chasers location by lon/lat instead of station/device ID.
-                "station": 0, // Your Tempest Station ID (MUST BE CONNECTED TO THE INTERNET) (Default: 0, ignored if location_based is true)
-                "device": 0 // Your Tempest Device ID (MUST BE CONNECTED TO THE INTERNET) (Default: 0, ignored if location_based is true)
-            },
-            "pulse_point": { // PulsePoint Integration (See: https://www.pulsepoint.org/)
-                "enabled": false,
-                "key": "private_key_here", // Private key - you will not be able to access data without this. (Developer permissions needed)
-                "interval": 30, // How often to pull PulsePoint data (in seconds, Default: 30 seconds)
-                "events": [ // Event types to pull (Ex. ["Resedential Structure Fire", "Flood", "Severe Weather"])
-                    "Traffic Collision", "Auto Aid", "Mutual Aid", "Aircraft Crash", "Aircraft Emergency",
-                    "Aircraft Emergency Standby", "Fire Alarm", "Waterflow Alarm", "Police Assist", "Public Service", 
-                    "Sheared Hydrant", "Explosion", "Pipeline Emergency", "Transformer Explosion", "Appliance Fire", 
-                    "Chimney Fire", "Commercial Fire", "Confirmed Structure Fire", "Confirmed Vegetation Fire", "Electrical Fire", 
-                    "Fire", "Illegal Fire", "Marine Fire", "Outside Fire", "Pole Fire", "Refuse/Garbage Fire", "Residential Fire",
-                    "Structure Fire", "Tank Fire", "Vegetation Fire", "Vehicle Fire", "Confirmed Fire", "Working Commercial Fire",
-                    "Working Residential Fire", "Bomb Threat", "Electrical Emergency", "Emergency", "Emergency Response", "Hazardous Condition", 
-                    "Hazardous Response", "Tree Down", "Water Emergency", "Arson Investigation", "Hazmat Investigation", "Smoke Investigation",
-                    "Multi Casualty", "Weather Incident", "Cliff Rescue", "Confined Space Rescue", "Ice Rescue", "Industrial Accident", "Rescue", 
-                    "Rope Rescue", "Structural Collapse", "Technical Rescue", "Trench Rescue", "Urban Search and Rescue", "Vessel Sinking",
-                    "Water Rescue", "Collision Involving Pedestrian", "Collision Involving Structure", "Collision Involving Train", 
-                    "Expanded Traffic Collision", "Railroad/Train Emergency", "Powerline Emergency", "Wires Arching", "Wires Down", "Wires Down/Arcing"
-                ],
-                "agencies": [] // Agency IDs to pull data from (Ex. [1234, 5678])
             }
         }
     }

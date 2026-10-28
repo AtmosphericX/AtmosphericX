@@ -139,12 +139,8 @@ export class Structure {
                 await loader.modules.utilities.sleep(500);
             }
             const randomEvent = loader.cache.external.random_event;
-            const randomPulsePoint = loader.cache.external.random_pulsepoint;
             if (!randomEvent?.features || randomEvent.features.length === 0) {
                 loader.modules.atmsxparser.initRandomService();
-            }
-            if (randomPulsePoint?.features == null || randomPulsePoint.features.length === 0) {
-                loader.modules.atmsxpulsepoint.initRandomService();
             }
             loader.modules.atmsxparser.listener(true);
             loader.modules.websockets.sendUpdateToClients();

@@ -26,13 +26,10 @@ import streaming from '../@submodules/@misc/misc.streaming';
 import rtsocket from '../@submodules/@misc/misc.rtsocket';
 import richpressence from '../@submodules/@misc/misc.richpressence';
 import atmsxparser from '../@submodules/@internal/atmsx.parser';
-import atmsxpulsepoint from '../@submodules/@internal/atmsx.pulsepoint';
-import atmsxtempest from '../@submodules/@internal/atmsx.tempest';
 import routing from '../@express/express.routes';
     
 export const h_modules = { 
     utilities, display, rtsocket,
-    atmsxparser, atmsxpulsepoint, atmsxtempest,
-    calculations, database, tracking, 
+    atmsxparser, calculations, database, tracking, 
     networking, structure, streaming, routing, richpressence
 };

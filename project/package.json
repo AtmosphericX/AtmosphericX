@@ -1,6 +1,6 @@
 {
   "name": "atmosphericx",
-  "version": "8.0.0.65",
+  "version": "8.0.0.7",
   "description": "Project AtmosphericX is a web based platform and widget manager tailored for amateur weather enthusiasts, storm chasers, and anyone passionate about understanding and tracking severe weather events. It provides near realtime alerts and updates, ensuring users stay informed about critical weather conditions as they unfold.",
   "main": "dist/index.cjs",
   "type": "module",
@@ -37,8 +37,6 @@
   "dependencies": {
     "@atmosx/event-product-parser": "latest",
     "@atmosx/placefile-parser": "latest",
-    "@atmosx/pulse-point-wrapper": "latest",
-    "@atmosx/tempest-station-wrapper": "latest",
     "@firebase/app": "0.14.7",
     "@firebase/database": "1.1.0",
     "@streamerbot/client": "1.12.2",

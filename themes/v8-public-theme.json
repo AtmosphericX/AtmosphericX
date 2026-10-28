@@ -1383,7 +1383,7 @@
             "id": "browser_source",
             "versioned_id": "browser_source",
             "settings": {
-                "url": "http://localhost/widgets/alerts?setElementZoomLevel=1.5&setMaxHistory=2&setPulsePoint=false&setWx=true",
+                "url": "http://localhost/widgets/alerts?setElementZoomLevel=1.5&setMaxHistory=2&setWx=true",
                 "width": 1920,
                 "height": 1080,
                 "fps": 30,

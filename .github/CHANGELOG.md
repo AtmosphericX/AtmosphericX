@@ -1,5 +1,15 @@
 # Changelogs
 
+## October 28th, 2026 - 8.0.0.7
+
+**Removed**
+- Backend(pulsepoint): Removed ingestion for pulsepoint.
+- Backend(tempest): Removed ingestion for tempestwx stations. (Fallback to METAR data)
+- Configurations(placefiles): Removed support for pulsepoint
+- Widgets(alerts): Removed `setPulsePoint` parameter and related functionality.
+
+------------------------------------------------------------------------------------------------------------------------
+
 ## September 19th, 2026 - 8.0.0.65
 
 **Adding**
