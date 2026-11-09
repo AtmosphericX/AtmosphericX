@@ -32,7 +32,7 @@ hero:
 		{
 			avatar: 'https://avatars.githubusercontent.com/u/54733885?v=4',
 			name: 'KiyoWx',
-			title: 'Project Developer & President @ ATMSX Storm Chasing',
+			title: 'Project Developer & President @ AtmosphericX Storm Chasing',
 			links: [
 				{ icon: 'github', link: 'https://github.com/k3yomi' },
 				{ icon: 'twitter', link: 'https://twitter.com/atmosx_wx' }
@@ -41,7 +41,7 @@ hero:
 		{
 			avatar: 'https://avatars.githubusercontent.com/u/90998864?v=4',
 			name: 'StarflightWx',
-			title: 'Co-Developer & Vice President @ ATMSX Storm Chasing',
+			title: 'Co-Developer & Vice President @ AtmosphericX Storm Chasing',
 			links: [
 				{ icon: 'github', link: 'https://github.com/Starflight24' },
 				{ icon: 'twitter', link: 'https://x.com/starflightVR' }
