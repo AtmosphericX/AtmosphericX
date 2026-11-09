@@ -117,18 +117,16 @@ class Events {
                 this.isQueuing = false;
             });
             if (settings?.setPlayback) {
-                this.utils.sound(settings?.setSfx ?? configurations?.tones?.sfx_beep, settings?.setSfxVolume);
+                await this.utils.sound(settings?.setSfx ?? configurations?.tones?.sfx_beep, settings?.setSfxVolume);
                 if (!event?.properties?.beep_only) {
-                    await this.utils.sleep(1300);
                     if (configurations?.tones?.sfx_beep !== metadata?.sfx && !metadata?.sfx_tts) {
-                        this.utils.sound(metadata?.sfx);
+                        await this.utils.sound(metadata?.sfx);
                     }
                     if (metadata?.sfx_tts) {
                         const output = this.utils.getTextFromDirectory(event, metadata?.sfx_tts_format ?? 'Unknown');
                         const status = (event?.properties?.is_updated ? 'updated' : event?.properties?.is_issued ? 'issued' : 'cancelled');
                         this.utils.tts(output.replace('{STATUS}', status));
                     }
-                    await this.utils.sleep(3800);
                     if (metadata?.metadata) {
                         for (const key in metadata.metadata) {
                             if (metadata.metadata[key] === true) {

@@ -83,8 +83,8 @@ Below are default / optional parameters you can use with the `polywarn` widget. 
 
 ### setSfx
 - Description: The sound that is played during the event.
-- Default (`string/path/null`): `/sfx/dash_sfx/boom3.mp3`
-- Example: `/widgets/polywarn?setSfx=/sfx/dash_sfx/boom2.mp3`
+- Default (`string/path/null`): `/sfx/sequences/[SEQ] 3.mp3`
+- Example: `/widgets/polywarn?setSfx=/sfx/sequences/[SEQ] 2.mp3`
 
 ### setAwaitPeriod
 - Description: How long after the last polywarn event playback you should wait in seconds for the next one to play.
@@ -101,7 +101,7 @@ Below are default / optional parameters you can use with the `polywarn` widget. 
 ::: details Example 1
 Use the theme color for the `event text color` and use the `boom2` sfx sound effect.
 ```
-/widgets/polywarn?setSfx=/sfx/dash_sfx/boom2.mp3&setTextThemed=true
+/widgets/polywarn?setSfx=/sfx/sequences/[SEQ] 2.mp3&setTextThemed=true
 ```
 :::
 

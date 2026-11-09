@@ -1,5 +1,28 @@
 # Changelogs
 
+## November 9th, 2026 - 8.0.0.8
+
+**Features**
+- feat(sfx): SFX pack has been completely revamped for `8.1` including and not limited to multiple TTS voiceovers, new intro/outro sounds, sequencies, and more. You can see pack [here](https://scriptkitty.cafe/files/atmosx/sfx). Pack includes:
+    - Fire Weather Warnings (Including PDS Tags)
+    - Flash Flood (Emergency, Considerable, and Standard + Watches)
+    - Marine & Costal (Huricane, Special Marine + Waterspout, Storm Surge, Tropical, Tsunami)
+    - Servere Thunderstorm (EDS, Destructive, Considerable, Torprob, Standard)
+    - Special Events (Fallback Audio)
+    - Special Weather Statements (Convective + Non Convective Statements)
+    - Storm Prediction Center (SPC DAY 1-3 Outlooks, Discussions, TOR/SVR Watches (PDS), WOPC Precip Discussions)
+    - Tornado (Emergency, PDS, Confirmed, Radar Indicated)
+    - Winter Weather (Lake Effect, Advisory, Blizzard + SIG, Ice Storm + SIG, Snow Squall + SIG)
+
+**Fixes**
+- fix(sound): Now has `await` for SFX playback (Optional)
+
+**Documentation**
+- docs(logo): Updated logo to reflect new branding and design for `8.1` release.
+
+------------------------------------------------------------------------------------------------------------------------
+
+
 ## November 5th, 2026 - 8.0.0.7-a
 
 **Documentation**

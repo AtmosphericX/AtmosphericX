@@ -33,7 +33,7 @@
 
     */
 {
-    "display:hash": "a4aad2d74ab2ba06d3a12dbe617d237fa7256c2160198a5c645e8de3f3ee30a7", // DO NOT MODIFY THIS VALUE. THIS IS USED FOR CONFIGURATION INTEGRITY CHECKS.
+    "display:hash": "4dd8b18c82a93e569173018925e5d69ec8861f6963217103aa70dd947a8caf77", // DO NOT MODIFY THIS VALUE. THIS IS USED FOR CONFIGURATION INTEGRITY CHECKS.
     "display_settings": {
         "fancy_interface": false, // If you want to enable the fancy interface (true/false)
         "intro_screen": {

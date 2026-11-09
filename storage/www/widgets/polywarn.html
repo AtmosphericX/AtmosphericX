@@ -84,7 +84,7 @@
             settings.setElement = document.getElementById('widget-container-isolated')
             settings.setElementTitle = document.getElementById('widget-child-1');
             settings.setElementSubtitle = document.getElementById('widget-child-2');
-            settings.setSfx = get(aSearch, `setSfx`) ??  `/sfx/dash_sfx/boom3.mp3`;
+            settings.setSfx = get(aSearch, `setSfx`) ??  `/sfx/sequences/[SEQ] 3.mp3`;
             settings.setAwaitPeriod = get(aSearch, `setAwaitPeriod`) ?? 20;
             settings.setSearch = get(aSearch, `setSearch`) ?? null;
             settings.global.setAnimationStartDuration = get(aSearch, `setAnimationStartDuration`) ?? 3;
@@ -109,7 +109,7 @@
                             const getEventName = event?.properties?.event;
                             if (!getTracker) { return false }
                             if (cache.hashes.includes(getHash)) { return false }
-                            if (getTracker.metadata.inside && !cache.running) {
+                            if (!getTracker.metadata.inside && !cache.running) {
                                 cache.running = true;
                                 cache.hashes.push(getHash);
                                 const getTheme = utils.getEventColor(getEventName)

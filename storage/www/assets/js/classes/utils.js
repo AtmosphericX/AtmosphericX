@@ -612,13 +612,13 @@ class Utils {
      * @return {table}
      */
     getEventMetadata = function(event) {
+        const configurations = this.storage?.configurations;
         const defFallback = {
-            sfx: '',
+            sfx: event?.properties?.is_issued ? configurations.dictionary?.['Special Event']?.sfx_issued : configurations.dictionary?.['Special Event']?.sfx_update,
             theme: { background: '#000000', border: '#FFFFFF', text: '#FFFFFF' },
             metadata: { priority: 0, description: 'No description available.' }
         };
         try {
-            const configurations = this.storage?.configurations;
             if (!configurations) return defFallback;
             const eventType = event?.properties?.event;
             const parentType = event?.properties?.parent;
@@ -658,40 +658,44 @@ class Utils {
      * @return {void}
      */
     sound = function(url, volume = 1.0) {
-        try {
-            const audioUrl = `../assets${url}`;
-            if (!this?.isMobile) { 
-                let audio = new Audio()
-                    audio.src = audioUrl
+        return new Promise((resolve, reject) => {
+            try {
+                const audioUrl = `../assets${url}`;
+                const finish = (audio, remove = false) => {
+                    if (remove) audio.remove();
+                    let index = this?.audioQueue?.indexOf(audio);
+                    if (index > -1) { this?.audioQueue?.splice(index, 1); }
+                    resolve();
+                };
+                if (!this?.isMobile) {
+                    let audio = new Audio();
+                    audio.src = audioUrl;
                     audio.volume = isNaN(volume) ? 1.0 : volume;
-                    audio.autoplay = true
-                    audio.play()
-                    audio.onended = () => {
-                        audio.remove()
-                        let index = this?.audioQueue?.indexOf(audio);
-                        if (index > -1) {  this?.audioQueue?.splice(index, 1); }
-                    }  
-                this?.audioQueue?.push(audio)
-            } else { 
-                for (let channel of this?.audioChannels) {
-                    if (channel.ended || channel.paused) {
-                        channel.src = audioUrl;
-                        channel.autoplay = true;
-                        channel.volume = isNaN(volume) ? 1.0 : volume;
-                        channel.play();
-                        if (!this?.audioQueue) { this.audioQueue = [] }
-                        this?.audioQueue?.push(channel);
-                        channel.onended = () => {
-                            let index = this?.audioQueue?.indexOf(channel);
-                            if (index > -1) { this?.audioQueue?.splice(index, 1); }
-                        };
-                        break;
+                    audio.onended = () => finish(audio, true);
+                    audio.onerror = reject;
+                    if (!this?.audioQueue) { this.audioQueue = []; }
+                    this.audioQueue.push(audio);
+                    audio.play().catch(reject);
+                } else {
+                    for (let channel of this?.audioChannels || []) {
+                        if (channel.ended || channel.paused) {
+                            channel.src = audioUrl;
+                            channel.volume = isNaN(volume) ? 1.0 : volume;
+                            channel.onended = () => finish(channel);
+                            channel.onerror = reject;
+                            if (!this?.audioQueue) { this.audioQueue = []; }
+                            this.audioQueue.push(channel);
+                            channel.play().catch(reject);
+                            return;
+                        }
                     }
-                }    
+                    resolve();
+                }
+            } catch (error) {
+                this.exception(error, `${this.name_space}:play`);
+                reject(error);
             }
-        } catch (error) {
-            this.exception(error, `${this.name_space}:play`);
-        }
+        });
     }
 
     /**

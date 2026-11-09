@@ -85,7 +85,7 @@ Below are default / optional parameters you can use with the `alert` widget. Ple
 ### setSfx
 - Description: An optional way to override the default `beep` sfx sound effect with a predefined one. This is useful if you want to have a different sfx sound for a specific scene while having the backend still manage the default one.
 - Default (`string/path/null`): `null`
-- Example: `/widgets/alerts?setSfx=/sfx/eas_sfx/siren-eas.mp3`
+- Example: `/widgets/alerts?setSfx=/sfx/critical/[CRIT] SIREN.mp3`
 
 ::: details Available Sfx / Custom Sfx
 Sound effects and other related files can be found under `/www/assets/sfx` in the `storage` directory.
@@ -112,7 +112,7 @@ Make an `alert` that holds the event for `15` seconds, has a max event history o
 ::: details Example 2
 Make an `alert` widget that has `no box shadow`, sets a `custom sfx to a siren` instead of the default beep, and has a `longer animation start duration of 3 seconds`
 ```
-/widgets/alerts?setAnimationStartDuration=3.0&setSfx=/sfx/eas_sfx/siren-eas.mp3&setBoxShadow=false
+/widgets/alerts?setAnimationStartDuration=3.0&setSfx=/sfx/critical/[CRIT] SIREN.mp3&setBoxShadow=false
 ```
 :::
 

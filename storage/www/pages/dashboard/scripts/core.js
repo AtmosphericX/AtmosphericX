@@ -87,7 +87,7 @@ class Core {
                     });
                     handler.hSyncQueue({setPlayback: getSfx})
                     if (getEventPrompt) {
-                        utils.sound(`/sfx/eas_sfx/uniden-eas.mp3`);
+                        utils.sound(`/sfx/intro/[INTRO] IOS.mp3`);
                         PromptsRenderer.CreatePrompt({
                             title: `${getLatestEvent?.properties?.event} - ${getLatestEvent?.properties?.action_type}`,
                             buttons: [
