@@ -55,6 +55,14 @@ hero:
 				{ icon: 'youtube', link: 'https://www.youtube.com/@CJZiegler' },
 				{ icon: 'twitter', link: 'https://x.com/StormChaser_CJ' }
 			]
+		},
+		{
+			avatar: 'https://pbs.twimg.com/profile_images/2095761509888749568/xs_L_YQT_400x400.jpg',
+			name: 'TylersWXcorner',
+			title: '22 | Storm Chaser | Manual Transmission Enthusiast | WX/ES Student | Urban Exploring',
+			links: [
+				{ icon: 'twitter', link: 'https://x.com/TylersWXcorner' }
+			]
 		}
 	]
 	const gallery = [
