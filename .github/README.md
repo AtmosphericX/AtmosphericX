@@ -15,6 +15,7 @@
 		<a href="https://nodei.co/npm/@atmosx/placefile-parser/"><img src="https://nodei.co/npm/@atmosx/placefile-parser.svg?style=flat&data=n,v,s"></a>
 		<a href="https://nodei.co/npm/@atmosx/event-product-parser/"><img src="https://nodei.co/npm/@atmosx/event-product-parser.svg?style=flat&data=n,v,s"></a>
 	</div>
+	<small>This project is being rewritten due to significant codebase changes and styles. </small>
 </div>
 <br>
 AtmosphericX is a modern, modular, and powerful weather dashboard and widget project designed to be self hosted for live streaming, storm spotting, storm chasing, meteorologists, first responders, or curious individuals who are concerned about weather conditions and safety.
