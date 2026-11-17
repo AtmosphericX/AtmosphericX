@@ -302,9 +302,17 @@
             "sfx_tts_format": "Attention, This %properties.event% has been {STATUS}",
             "metadata": { "siren": false, "wail": false, "urgent": false, "iphone": false, "uniden": false}
         },
-        "Winter Storm Warning": {
+        "Snow Squall Warning": {
             "sfx_issued": "/sfx/products/Winter Weather/[SNOW] ISSUED.mp3",
             "sfx_update": "/sfx/products/Winter Weather/[SNOW] UPDATED.mp3",
+            "sfx_cancel": "/sfx/intro/[INTRO] ATMOSX_3.mp3",
+            "sfx_tts": false,
+            "sfx_tts_format": "Attention, This %properties.event% has been {STATUS}",
+            "metadata": { "siren": false, "wail": true, "urgent": false, "iphone": false, "uniden": false}
+        },
+        "Winter Storm Warning": {
+            "sfx_issued": "/sfx/products/Winter Weather/[SNOW-W] ISSUED.mp3",
+            "sfx_update": "/sfx/products/Winter Weather/[SNOW-W] UPDATED.mp3",
             "sfx_cancel": "/sfx/intro/[INTRO] ATMOSX_3.mp3",
             "sfx_tts": false,
             "sfx_tts_format": "Attention, This %properties.event% has been {STATUS}",
